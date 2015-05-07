@@ -5,6 +5,8 @@ package com.stxnext.intranet2.middle.model;
  */
 public interface User {
 
+    String getId();
+
     String getFirstName();
 
     String getLastName();
