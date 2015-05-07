@@ -1,16 +1,20 @@
 package com.stxnext.intranet2.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.stxnext.intranet2.backend.api.UserApi;
+import com.stxnext.intranet2.backend.api.UserApiImpl;
+import com.stxnext.intranet2.backend.callback.UserApiCallback;
+import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.R;
-import com.stxnext.intranet2.api.request.UserApi;
+
 
 /**
  * Created by Tomasz Konieczny on 2015-04-22.
  */
-public class ProfileActivity extends ActionBarActivity {
+public class ProfileActivity extends AppCompatActivity implements UserApiCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +23,12 @@ public class ProfileActivity extends ActionBarActivity {
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
-        UserApi userApi;
+        UserApi userApi = new UserApiImpl(this);
     }
 
 
+    @Override
+    public void onUserReceived(User user) {
+
+    }
 }

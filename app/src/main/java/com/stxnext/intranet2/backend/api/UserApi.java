@@ -1,6 +1,6 @@
-package com.stxnext.intranet2.api.request;
+package com.stxnext.intranet2.backend.api;
 
-import com.stxnext.intranet2.api.callback.UserApiCallback;
+import com.stxnext.intranet2.backend.callback.UserApiCallback;
 
 /**
  * Created by Tomasz Konieczny on 2015-05-07.
