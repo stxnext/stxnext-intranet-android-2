@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.stxnext.intranet2.view.ProfileView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.stxnext.intranet2.view.ProfileView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
@@ -52,21 +53,39 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/first_name_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Example" />
+                            android:textColor="@color/stxnext_green"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:text="Tomasz Konieczny" />
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:text="Example" />
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:text="Example" />
+                            <TextView
+                                android:id="@+id/role_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:text="Programmer" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="4dp"
+                                android:layout_marginRight="4dp"
+                                android:text="in" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Mobile Team" />
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"

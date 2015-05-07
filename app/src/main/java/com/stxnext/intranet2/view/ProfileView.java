@@ -16,8 +16,6 @@ import com.stxnext.intranet2.R;
 public class ProfileView extends FrameLayout {
 
     private ImageView imageView;
-    private ScrollView scrollView;
-    private View toolbar;
 
     public ProfileView(Context context) {
         super(context);
@@ -40,13 +38,12 @@ public class ProfileView extends FrameLayout {
             throw new RuntimeException("ImageView with id profile_image_view not found in ProfileView");
         }
 
-        scrollView = (ScrollView) findViewById(R.id.scroll_view);
+        final ScrollView scrollView = (ScrollView) findViewById(R.id.scroll_view);
         if (scrollView == null) {
             throw new RuntimeException("ScrollView with id scroll_view not found in ProfileView");
         }
 
-        toolbar = findViewById(R.id.toolbar);
-
+        final View toolbar = findViewById(R.id.toolbar);
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
 
             private int imageViewHeight = imageView.getHeight();
