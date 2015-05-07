@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">STX Next Intranet 2.0</string>
+    <string name="login">Zaloguj się</string>
 </resources>
