@@ -2,6 +2,7 @@ package com.stxnext.intranet2.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.stxnext.intranet2.R;
 
@@ -14,5 +15,7 @@ public class ProfileActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivty_profile);
+
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
     }
 }

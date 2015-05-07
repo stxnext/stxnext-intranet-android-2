@@ -7,12 +7,12 @@ import com.stxnext.intranet2.middle.api.callback.UserApiCallback;
  */
 public abstract class UserApi {
 
-    private final UserApiCallback apiCallback;
+    protected final UserApiCallback apiCallback;
 
     public UserApi(UserApiCallback callback) {
         this.apiCallback = callback;
     }
 
-    abstract void requestForUser(String userId);
+    public abstract void requestForUser(String userId);
 
 }

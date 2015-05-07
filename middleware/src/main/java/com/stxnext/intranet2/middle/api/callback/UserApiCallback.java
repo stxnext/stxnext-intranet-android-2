@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface UserApiCallback {
 
-    User onUserReceived();
+    void onUserReceived(User user);
 
 }
