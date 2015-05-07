@@ -2,4 +2,5 @@
 <resources>
     <color name="background">#F1F1F1</color>
     <color name="stxnext_green">#2e9f99</color>
+    <color name="dark_gray">#ff7e7e7e</color>
 </resources>

@@ -24,6 +24,7 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         UserApi userApi = new UserApiImpl(this);
+        userApi.requestForUser(null);
     }
 
 

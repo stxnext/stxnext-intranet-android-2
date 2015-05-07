@@ -1,4 +1,4 @@
-package intranet2.stxnext.com.stxnextintranet20;
+package intranet2.stxnext.com.test;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
