@@ -5,4 +5,6 @@
     <color name="stxnext_green_dark">#ff195b55</color>
     <color name="dark_gray">#ff7e7e7e</color>
     <color name="text_dark">#ff333333</color>
+    <color name="floating_button">#B71C1C</color>
+    <color name="floating_button_light">#fffb3c35</color>
 </resources>

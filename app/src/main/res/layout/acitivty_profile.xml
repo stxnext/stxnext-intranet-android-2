@@ -388,4 +388,28 @@
 
     </ScrollView>
 
+    <FrameLayout
+        android:id="@+id/floating_button"
+        android:layout_width="@dimen/floating_button_radius"
+        android:layout_height="@dimen/floating_button_radius"
+        android:layout_gravity="right"
+        android:layout_marginRight="32dp"
+        android:gravity="center"
+        android:textSize="28sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/selector_floating_button"
+        android:layout_marginTop="@dimen/profile_floating_button_position">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="+"
+            android:layout_marginBottom="2dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="24dp"/>
+
+    </FrameLayout>
+
 </com.stxnext.intranet2.view.ProfileView>

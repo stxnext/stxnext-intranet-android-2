@@ -43,31 +43,29 @@ public class ProfileView extends FrameLayout {
             throw new RuntimeException("ScrollView with id scroll_view not found in ProfileView");
         }
 
+        final View floatingButton = findViewById(R.id.floating_button);
+        final int maxFloatingButtonPosition = getContext().getResources().getDimensionPixelSize(R.dimen.max_floating_button_position);
+        final int floatinButtonPosition = getContext().getResources().getDimensionPixelSize(R.dimen.profile_floating_button_position);
+        final int fbDiff = floatinButtonPosition - maxFloatingButtonPosition;
+
         final View toolbar = findViewById(R.id.toolbar);
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-
-            private int imageViewHeight = imageView.getHeight();
 
             @Override
             public void onScrollChanged() {
                 int translationY = scrollView.getScrollY();
                 imageView.setTranslationY(-translationY / 4);
+                toolbar.setTranslationY(-translationY / 4);
 
-                if (imageViewHeight > 0) {
-
-                    if (toolbar != null) {
-                        toolbar.setTranslationY(-translationY / 4);
+                if (floatingButton != null) {
+                    if (translationY < fbDiff) {
+                        floatingButton.setTranslationY(-translationY);
                     }
-                } else {
-                    imageViewHeight = imageView.getHeight();
+
                 }
             }
         });
 
-    }
-
-    public ImageView getProfileView() {
-        return imageView;
     }
 
 }
