@@ -1,0 +1,14 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorPrimary">@color/stxnext_green</item>
+        <item name="android:colorAccent">@color/stxnext_green</item>
+        <item name="android:colorPrimaryDark">@color/stxnext_green_dark</item>
+        <item name="android:buttonStyle">@style/Button.Material</item>
+    </style>
+
+    <style name="Button.Material" parent="Button">
+        <item name="android:elevation">1dp</item>
+    </style>
+
+</resources>
