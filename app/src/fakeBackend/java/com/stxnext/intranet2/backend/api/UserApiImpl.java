@@ -15,8 +15,8 @@ public class UserApiImpl extends UserApi {
 
     @Override
     public void requestForUser(String userId) {
-        User user = new UserImpl("Marian", "Kowalski", "mariano.kowalsky", "+48 600 211 321",
+        User user = new UserImpl(null, "Marian", "Kowalski", "mariano.kowalsky", "+48 600 211 321",
                 "Poznań", "Programista", "marian.kowalski@stxnext.pl", "marianno", "Team Mobilny", null);
-        apiCallback.onUserReceived(null);
+        apiCallback.onUserReceived(user);
     }
 }

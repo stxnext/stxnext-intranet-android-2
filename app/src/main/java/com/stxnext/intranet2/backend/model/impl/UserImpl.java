@@ -21,9 +21,10 @@ public class UserImpl implements User {
 
     public UserImpl() {}
 
-    public UserImpl(String firstName, String lastName, String skype, String phoneNumber,
+    public UserImpl(String id, String firstName, String lastName, String skype, String phoneNumber,
                     String localization, String role, String email,
                     String irc, String team, String photo) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.skype = skype;

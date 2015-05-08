@@ -1,7 +1,17 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:buttonStyle">@style/Button</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:background">@drawable/selector_default_button</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_dark</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
 </resources>
