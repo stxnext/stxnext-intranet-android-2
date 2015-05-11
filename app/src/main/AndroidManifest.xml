@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.stxnext.intranet2">
+    package="com.stxnext.intranet2" >
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".activity.ProfileActivity"
             android:label="@string/stxnext"
-            android:screenOrientation="portrait">
-            <intent-filter android:label="@string/app_name">
+            android:screenOrientation="portrait" >
+            <intent-filter android:label="@string/app_name" >
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".activity.Employees"
+            android:label="@string/title_activity_employees_list" >
+        </activity>
     </application>
 
 </manifest>

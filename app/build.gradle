@@ -11,10 +11,22 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        debug {
+            storeFile file("keystore/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+    }
+
+
     buildTypes {
 
         debug {
             minifyEnabled false
+            signingConfig signingConfigs.debug
         }
 
         release {
@@ -27,6 +39,10 @@ android {
     productFlavors {
 
         fakeBackend {
+
+        }
+
+        htmlBackend {
 
         }
 
