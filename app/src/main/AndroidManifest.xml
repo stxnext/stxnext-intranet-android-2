@@ -22,7 +22,7 @@
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.Employees"
+            android:name=".activity.EmployeesActivity"
             android:label="@string/title_activity_employees_list" >
         </activity>
     </application>

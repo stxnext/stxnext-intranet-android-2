@@ -45,7 +45,6 @@ public class ProfileActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
-//        getSupportActionBar().setTitle("bLA BAL BA");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         configureDrawer(toolbar);
@@ -168,15 +167,9 @@ public class ProfileActivity extends AppCompatActivity
 
     }
 
-    /**
-     * When using the ActionBarDrawerToggle, you must call it during
-     * onPostCreate() and onConfigurationChanged()...
-     */
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState();
     }
 
