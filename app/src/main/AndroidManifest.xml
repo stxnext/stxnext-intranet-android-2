@@ -23,7 +23,7 @@
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.EmployeesActivity"
+            android:name=".activity.AbsenceActivity"
             android:label="@string/employees_list" >
         </activity>
     </application>

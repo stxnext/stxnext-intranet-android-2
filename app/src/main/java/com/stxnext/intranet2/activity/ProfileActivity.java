@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.stxnext.intranet2.R;
@@ -75,9 +74,9 @@ public class ProfileActivity extends AppCompatActivity
                 DrawerMenuItems option = drawerAdapter.getItem(position);
                 switch (option) {
                     case ABSENCES:
+                        startActivity(new Intent(ProfileActivity.this, AbsenceActivity.class));
                         break;
                     case EMPLOYEES:
-                        startActivity(new Intent(ProfileActivity.this, EmployeesActivity.class));
                         break;
                     case SETTINGS:
                         break;

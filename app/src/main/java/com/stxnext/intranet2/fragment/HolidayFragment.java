@@ -1,7 +1,5 @@
 package com.stxnext.intranet2.fragment;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,16 +8,7 @@ import android.view.ViewGroup;
 
 import com.stxnext.intranet2.R;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AbsenceFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AbsenceFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class AbsenceFragment extends Fragment {
+public class HolidayFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,11 +24,11 @@ public class AbsenceFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AbsenceFragment.
+     * @return A new instance of fragment HolidayFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AbsenceFragment newInstance(String param1, String param2) {
-        AbsenceFragment fragment = new AbsenceFragment();
+    public static HolidayFragment newInstance(String param1, String param2) {
+        HolidayFragment fragment = new HolidayFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -47,7 +36,7 @@ public class AbsenceFragment extends Fragment {
         return fragment;
     }
 
-    public AbsenceFragment() {
+    public HolidayFragment() {
         // Required empty public constructor
     }
 
