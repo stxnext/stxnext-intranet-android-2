@@ -23,7 +23,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.EmployeesActivity"
-            android:label="@string/title_activity_employees_list" >
+            android:label="@string/employees_list" >
         </activity>
     </application>
 
