@@ -14,15 +14,18 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.stxnext.intranet2.R;
+import com.stxnext.intranet2.adapter.DrawerAdapter;
 import com.stxnext.intranet2.backend.api.UserApi;
 import com.stxnext.intranet2.backend.api.UserApiImpl;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.fragment.FloatingMenuFragment;
+import com.stxnext.intranet2.model.DrawerMenuItems;
 
 
 /**
@@ -63,10 +66,23 @@ public class ProfileActivity extends AppCompatActivity
     private void configureDrawer() {
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ListView drawerList = (ListView) findViewById(R.id.left_drawer);
-        //TODO: Trzeba to wyrzucić to jakiegoś enuma albo jako osobne opcje w adaptarze
-        String[] drawerElements = {"Nieobecności", "Lista pracowników", "Settingsy"};
-        ArrayAdapter<String> drawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, drawerElements);
+        final DrawerAdapter drawerAdapter = new DrawerAdapter(this);
         drawerList.setAdapter(drawerAdapter);
+        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DrawerMenuItems option = drawerAdapter.getItem(position);
+                switch (option) {
+                    case ABSENCES:
+                        break;
+                    case EMPLOYEES:
+                        startActivity(new Intent(ProfileActivity.this, EmployeesActivity.class));
+                        break;
+                    case SETTINGS:
+                        break;
+                }
+            }
+        });
 
         drawerToggle = new ActionBarDrawerToggle(this,
                 drawerLayout,
@@ -92,10 +108,7 @@ public class ProfileActivity extends AppCompatActivity
                             if (fragment == null || !fragment.isAdded()) {
                                 getFragmentManager()
                                         .beginTransaction()
-                                        .replace(R.id.floating_menu_container, new FloatingMenuFragment(), "Asdasd")
-                                        .setCustomAnimations(
-                                                android.R.animator.fade_in, android.R.animator.fade_out,
-                                                android.R.animator.fade_in, android.R.animator.fade_out)
+                                        .replace(R.id.floating_menu_container, new FloatingMenuFragment(), "floating_menu")
                                         .addToBackStack(null)
                                         .commit();
                             } else {
