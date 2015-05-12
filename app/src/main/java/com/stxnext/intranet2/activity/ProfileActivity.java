@@ -11,11 +11,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.view.ViewGroup;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.api.UserApi;
@@ -34,25 +34,19 @@ public class ProfileActivity extends AppCompatActivity
     private static final String TAG = "ProfileActivity";
     private static final int LOGIN_REQUEST = 1;
 
-    private DrawerLayout drawerLayout;
-    private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_root);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-//        getSupportActionBar().setTitle("bLA BAL BA");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        configureDrawer(toolbar);
-        setContentView(R.layout.acitivty_profile);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
-        prepareFloatinButton();
+        configureDrawer();
+        prepareFloatingButton();
 
         UserApi userApi = new UserApiImpl(this);
         userApi.requestForUser(null);
@@ -66,36 +60,24 @@ public class ProfileActivity extends AppCompatActivity
 
     }
 
-    private void configureDrawer(final Toolbar toolbar) {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerList = (ListView) findViewById(R.id.left_drawer);
+    private void configureDrawer() {
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ListView drawerList = (ListView) findViewById(R.id.left_drawer);
+        //TODO: Trzeba to wyrzucić to jakiegoś enuma albo jako osobne opcje w adaptarze
         String[] drawerElements = {"Nieobecności", "Lista pracowników", "Settingsy"};
-        ArrayAdapter<String> drawerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, drawerElements);
+        ArrayAdapter<String> drawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, drawerElements);
         drawerList.setAdapter(drawerAdapter);
 
-        // ActionBarDrawerToggle ties together the the proper interactions
-        // between the sliding drawer and the action bar app icon
-        drawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
-                drawerLayout, /* DrawerLayout object */
-                toolbar, /* we use our own toolbar */
-                R.string.drawer_open, /* "open drawer" description for accessibility */
-                R.string.drawer_close /* "close drawer" description for accessibility */) {
+        drawerToggle = new ActionBarDrawerToggle(this,
+                drawerLayout,
+                toolbar,
+                R.string.drawer_open,
+                R.string.drawer_close);
 
-            public void onDrawerClosed(View view) {
-                // getActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to
-                // onPrepareOptionsMenu()
-            }
-
-            public void onDrawerOpened(View drawerView) {
-                // getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call to
-                // onPrepareOptionsMenu()
-            }
-        };
         drawerLayout.setDrawerListener(drawerToggle);
     }
-    private void prepareFloatinButton() {
+
+    private void prepareFloatingButton() {
         ViewGroup viewGroup = (ViewGroup) findViewById(R.id.floating_button);
         final View plusView = viewGroup.getChildAt(0);
         if (plusView != null) {
@@ -157,35 +139,17 @@ public class ProfileActivity extends AppCompatActivity
 
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position);
-        }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return drawerToggle.onOptionsItemSelected(item);
     }
-
-    private void selectItem(int position) {
-
-    }
-
-    /**
-     * When using the ActionBarDrawerToggle, you must call it during
-     * onPostCreate() and onConfigurationChanged()...
-     */
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState();
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggls
-        drawerToggle.onConfigurationChanged(newConfig);
-    }
     @Override
     public void onFloatingMenuItemClick(int option) {
 

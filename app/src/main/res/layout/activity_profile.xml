@@ -11,11 +11,6 @@
         android:scaleType="fitCenter"
         android:src="@drawable/mr_superhero_profile" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize" />
-
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
@@ -413,5 +408,10 @@
             android:src="@drawable/plus" />
 
     </FrameLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" />
 
 </com.stxnext.intranet2.view.ProfileView>
