@@ -1,17 +1,20 @@
 <resources>
 
-    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/stxnext_green</item>
         <item name="colorAccent">@color/stxnext_green</item>
         <item name="colorPrimaryDark">@color/stxnext_green</item>
         <item name="android:buttonStyle">@style/Button</item>
     </style>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/stxnext_green</item>
         <item name="colorAccent">@color/stxnext_green</item>
         <item name="colorPrimaryDark">@color/stxnext_green</item>
         <item name="android:buttonStyle">@style/Button</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Button">
@@ -22,6 +25,20 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="PagerTabStrip">
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:textAppearance">@style/PagerTabStripText</item>
+    </style>
+
+    <style name="PagerTabStripText">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textColor">@color/stxnext_green</item>
     </style>
 
 </resources>
