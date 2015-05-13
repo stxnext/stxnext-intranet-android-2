@@ -1,7 +1,6 @@
 package com.stxnext.intranet2.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.stxnext.intranet2.R;
-import com.stxnext.intranet2.adapter.FragmentAdapter;
-import com.stxnext.intranet2.fragment.HolidayFragment;
-import com.stxnext.intranet2.fragment.OutOfOfficeFragment;
-import com.stxnext.intranet2.fragment.WorkFromHomeFragment;
+import com.stxnext.intranet2.adapter.AbsencesFragmentPagerAdapter;
+import com.stxnext.intranet2.fragment.AbsencesListFragment;
+import com.stxnext.intranet2.model.AbsencesTypes;
 
 import java.util.ArrayList;
 
@@ -29,11 +27,11 @@ public class AbsenceActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        ArrayList<Fragment> viewPagerFragments = new ArrayList<Fragment>();
-        viewPagerFragments.add(new HolidayFragment());
-        viewPagerFragments.add(new WorkFromHomeFragment());
-        viewPagerFragments.add(new OutOfOfficeFragment());
-        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), viewPagerFragments);
+        ArrayList<AbsencesListFragment> viewPagerFragments = new ArrayList<>();
+        viewPagerFragments.add(AbsencesListFragment.newInstance(AbsencesTypes.OUT_OF_OFFICE));
+        viewPagerFragments.add(AbsencesListFragment.newInstance(AbsencesTypes.WORK_FROM_HOME));
+        viewPagerFragments.add(AbsencesListFragment.newInstance(AbsencesTypes.HOLIDAY));
+        AbsencesFragmentPagerAdapter fragmentAdapter = new AbsencesFragmentPagerAdapter(this, getSupportFragmentManager(), viewPagerFragments);
         viewPager.setAdapter(fragmentAdapter);
 
         PagerTabStrip tabStrip = (PagerTabStrip) findViewById(R.id.sliding_tabs);
