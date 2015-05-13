@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="horizontal"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/mr_superhero"
+        android:id="@+id/imageView" />
+
+    <LinearLayout
+        android:id="@+id/user_information_linear_layout"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="right"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Imię nazwisko"
+            android:textSize="21sp"
+            android:textColor="@color/stxnext_green"
+            android:textStyle="bold"
+            android:id="@+id/name_text_view" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Programmer"
+            android:id="@+id/role_text_view"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -77,6 +77,7 @@ public class ProfileActivity extends AppCompatActivity
                         startActivity(new Intent(ProfileActivity.this, AbsenceActivity.class));
                         break;
                     case EMPLOYEES:
+                        startActivity(new Intent(ProfileActivity.this, EmployeesActivity.class));
                         break;
                     case SETTINGS:
                         break;
