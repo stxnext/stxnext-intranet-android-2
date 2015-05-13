@@ -24,4 +24,18 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
+    <style name="PagerTabStrip">
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:textAppearance">@style/PagerTabStripText</item>
+    </style>
+
+    <style name="PagerTabStripText">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textColor">@color/stxnext_green</item>
+    </style>
+
 </resources>
