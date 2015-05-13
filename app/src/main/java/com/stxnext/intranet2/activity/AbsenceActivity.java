@@ -6,6 +6,7 @@ import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.FragmentAdapter;
@@ -25,6 +26,7 @@ public class AbsenceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_absence);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         ArrayList<Fragment> viewPagerFragments = new ArrayList<Fragment>();
@@ -37,5 +39,15 @@ public class AbsenceActivity extends AppCompatActivity {
         PagerTabStrip tabStrip = (PagerTabStrip) findViewById(R.id.sliding_tabs);
         tabStrip.setTabIndicatorColor(getResources().getColor(R.color.stxnext_green));
         tabStrip.setTextColor(getResources().getColor(R.color.stxnext_green_dark));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return false;
     }
 }
