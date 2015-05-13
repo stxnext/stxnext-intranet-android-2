@@ -12,7 +12,6 @@ import com.stxnext.intranet2.R;
 
 public class OutOfOfficeFragment extends Fragment {
 
-
     public OutOfOfficeFragment() {
         // Required empty public constructor
     }

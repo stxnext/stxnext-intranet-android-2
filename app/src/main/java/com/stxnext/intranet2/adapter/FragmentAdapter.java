@@ -8,35 +8,48 @@ import com.stxnext.intranet2.fragment.HolidayFragment;
 import com.stxnext.intranet2.fragment.OutOfOfficeFragment;
 import com.stxnext.intranet2.fragment.WorkFromHomeFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Lukasz Ciupa on 2015-05-12.
  */
 public class FragmentAdapter extends FragmentPagerAdapter {
-    private static int NUM_ITEMS = 3;
-    public static int HOLIDAY_FRAGMENT_POSITION = 0;
-    public static int WORK_FROM_HOME_FRAGMENT_POSITION = 1;
-    public static int OUT_OF_OFFICE_FRAGMENT_POSITION = 2;
+    //TODO change to resources string
+    private static final String WORK_FROM_HOME_FRAGMENT_TITLE = "Work from home";
+    private static final String HOLIDAY_FRAGMENT_TITLE = "Holiday";
+    private static final String OUT_OF_OFFICE_FRAGMENT_TITLE = "Out of office";
 
-    public FragmentAdapter(FragmentManager fm) {
+    List<Fragment> fragments = new ArrayList<Fragment>();
+
+    public FragmentAdapter(FragmentManager fm, List<Fragment> fragments) {
         super(fm);
+        this.fragments = fragments;
     }
 
     @Override
     public int getCount() {
-        return NUM_ITEMS;
+        return fragments.size();
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return new HolidayFragment();
-            case 1:
-                return new WorkFromHomeFragment();
-            case 2:
-                return new OutOfOfficeFragment();
-            default:
-                return null;
-        }
+        return fragments.get(position);
+    }
+
+    //TODO maybe change to have titles inside fragments
+    /**
+     * Return the title of the item at {@code position}. This is important as what this method
+     * returns is what is displayed in the {@link SlidingTabLayout}.
+     */
+    @Override
+    public CharSequence getPageTitle(int position) {
+        if (fragments.get(position) instanceof HolidayFragment)
+                return HOLIDAY_FRAGMENT_TITLE;
+        else if (fragments.get(position) instanceof WorkFromHomeFragment)
+                return WORK_FROM_HOME_FRAGMENT_TITLE;
+        else if (fragments.get(position) instanceof OutOfOfficeFragment)
+                return OUT_OF_OFFICE_FRAGMENT_TITLE;
+        else return null;
     }
 }
