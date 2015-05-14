@@ -7,38 +7,70 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.stxnext.intranet2.R;
+import com.stxnext.intranet2.backend.model.User;
+
+import java.util.List;
 
 /**
  * Created by OGIT on 2015-05-13.
  */
 public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdapter.ViewHolder> {
 
-    public EmployeesListAdapter() {
+    private final List<User> users;
+    private OnItemClickListener listener;
 
+    public EmployeesListAdapter(List<User> users, OnItemClickListener listener) {
+        this.users = users;
+        this.listener = listener;
     }
 
     @Override
     public EmployeesListAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.employees_list_item, viewGroup, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+
+        return new ViewHolder(view);
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return users.size();
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        final User user = users.get(position);
 
+        holder.container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(user.getId());
+            }
+        });
+
+        holder.nameTextView.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
+        holder.roleTextView.setText(user.getRole());
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name;
-        public ViewHolder(View v) {
-            super(v);
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        public View container;
+        public TextView nameTextView;
+        public TextView roleTextView;
+
+        public ViewHolder(View view) {
+            super(view);
+            this.container = view.findViewById(R.id.user_info_container);
+            this.nameTextView = (TextView) view.findViewById(R.id.user_name_text_view);
+            this.roleTextView = (TextView) view.findViewById(R.id.user_role_text_view);
         }
+
     }
+
+    public interface OnItemClickListener {
+
+        void onItemClick(String userId);
+
+    }
+
 }

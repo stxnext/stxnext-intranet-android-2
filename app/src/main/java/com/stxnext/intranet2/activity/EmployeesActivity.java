@@ -9,9 +9,16 @@ import android.view.MenuItem;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.EmployeesListAdapter;
+import com.stxnext.intranet2.backend.api.EmployeesApi;
+import com.stxnext.intranet2.backend.api.EmployeesApiImpl;
+import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
+import com.stxnext.intranet2.backend.model.User;
 
-public class EmployeesActivity extends AppCompatActivity {
+import java.util.List;
 
+public class EmployeesActivity extends AppCompatActivity implements EmployeesApiCallback, EmployeesListAdapter.OnItemClickListener {
+
+    private RecyclerView recycleView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +28,13 @@ public class EmployeesActivity extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        RecyclerView recycleView = (RecyclerView) findViewById(R.id.recycler_view);
+        recycleView = (RecyclerView) findViewById(R.id.recycler_view);
         recycleView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recycleView.setLayoutManager(layoutManager);
-        EmployeesListAdapter employeesAdapter = new EmployeesListAdapter();
-        recycleView.setAdapter(employeesAdapter);
+
+        EmployeesApi api = new EmployeesApiImpl(this);
+        api.requestForEmployees();
     }
 
     @Override
@@ -37,5 +45,15 @@ public class EmployeesActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    @Override
+    public void onEmployeesListReceived(List<User> employees) {
+        recycleView.setAdapter(new EmployeesListAdapter(employees, this));
+    }
+
+    @Override
+    public void onItemClick(String userId) {
+
     }
 }
