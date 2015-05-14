@@ -3,11 +3,14 @@ package com.stxnext.intranet2.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.stxnext.intranet2.R;
+import com.stxnext.intranet2.adapter.AbsencesListAdapter;
 import com.stxnext.intranet2.model.AbsencesTypes;
 
 public class AbsencesListFragment extends Fragment {
@@ -15,6 +18,7 @@ public class AbsencesListFragment extends Fragment {
     public static final String TYPE_ARG = "type";
 
     private AbsencesTypes type;
+    private View view;
 
     public static AbsencesListFragment newInstance(AbsencesTypes type) {
         AbsencesListFragment fragment = new AbsencesListFragment();
@@ -37,6 +41,13 @@ public class AbsencesListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_absence, container, false);
+        view = inflater.inflate(R.layout.fragment_absence, container, false);
+        RecyclerView recycleView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recycleView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recycleView.setLayoutManager(layoutManager);
+        AbsencesListAdapter absencesListAdapter = new AbsencesListAdapter();
+        recycleView.setAdapter(absencesListAdapter);
+        return view;
     }
 }

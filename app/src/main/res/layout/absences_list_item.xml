@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:paddingLeft="18dp"
+    android:paddingRight="32dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@drawable/list_selector">
+
+    <com.stxnext.intranet2.view.RoundedImageView
+        android:id="@+id/settings_user_avatar"
+        xmlns:round="http://schemas.android.com/apk/res-auto"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:src="@drawable/avatar_placeholder"
+        round:borderColor="@color/gray_light"
+        round:borderSize="@dimen/default_rounded_image_border"/>
+
+    <LinearLayout
+        android:id="@+id/user_information_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:gravity="right"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Imię nazwisko"
+            android:textColor="@color/stxnext_green"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/role_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Programmer"
+            android:textColor="@color/gray_dark"
+            android:layout_marginTop="-4dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>
+
