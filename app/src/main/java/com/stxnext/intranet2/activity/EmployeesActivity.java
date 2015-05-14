@@ -1,5 +1,6 @@
 package com.stxnext.intranet2.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -54,6 +55,6 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
 
     @Override
     public void onItemClick(String userId) {
-
+        startActivity(new Intent(this, ProfileActivity.class));
     }
 }

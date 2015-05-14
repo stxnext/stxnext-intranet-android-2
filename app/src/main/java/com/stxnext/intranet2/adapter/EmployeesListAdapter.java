@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stxnext.intranet2.R;
@@ -55,12 +56,14 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public View container;
+        public ImageView avatarImageView;
         public TextView nameTextView;
         public TextView roleTextView;
 
         public ViewHolder(View view) {
             super(view);
-            this.container = view.findViewById(R.id.user_info_container);
+            this.container = view.findViewById(R.id.item_container);
+            this.avatarImageView = (ImageView) view.findViewById(R.id.user_avatar);
             this.nameTextView = (TextView) view.findViewById(R.id.user_name_text_view);
             this.roleTextView = (TextView) view.findViewById(R.id.user_role_text_view);
         }
