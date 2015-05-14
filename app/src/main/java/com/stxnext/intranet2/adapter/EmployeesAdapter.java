@@ -27,7 +27,7 @@ public class EmployeesAdapter extends RecyclerView.Adapter<EmployeesAdapter.View
 
     @Override
     public int getItemCount() {
-        return 20;
+        return 5;
     }
 
     @Override
