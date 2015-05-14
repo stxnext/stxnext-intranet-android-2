@@ -8,14 +8,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="employees_list">Employees</string>
+    <string name="holiday">Holiday</string>
     <string name="work_from_home">Work From Home</string>
     <string name="out_of_office">Out Of Office</string>
     <string name="absence">Absence</string>
     <string name="absences">Absences</string>
     <string name="settings">Settings</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_employees">EmployeesActivity</string>
-    <string name="holiday">Holiday</string>
 </resources>
