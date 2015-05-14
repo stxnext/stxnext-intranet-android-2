@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.stxnext.intranet2.R;
-import com.stxnext.intranet2.adapter.EmployeesAdapter;
+import com.stxnext.intranet2.adapter.EmployeesListAdapter;
 
 public class EmployeesActivity extends AppCompatActivity {
 
@@ -25,7 +25,7 @@ public class EmployeesActivity extends AppCompatActivity {
         recycleView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recycleView.setLayoutManager(layoutManager);
-        EmployeesAdapter employeesAdapter = new EmployeesAdapter();
+        EmployeesListAdapter employeesAdapter = new EmployeesListAdapter();
         recycleView.setAdapter(employeesAdapter);
     }
 
