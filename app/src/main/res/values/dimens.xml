@@ -9,5 +9,5 @@
     <dimen name="profile_floating_button_position">190dp</dimen>
     <dimen name="max_floating_button_position">32dp</dimen>
 
-    <dimen name="default_rounded_image_border">4dp</dimen>
+    <dimen name="default_rounded_image_border">6dp</dimen>
 </resources>

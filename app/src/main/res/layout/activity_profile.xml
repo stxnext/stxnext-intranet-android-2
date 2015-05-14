@@ -253,7 +253,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Biuro:"
-                                android:textColor="@color/dark_gray" />
+                                android:textColor="@color/gray_dark" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -278,7 +278,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="E-mail:"
-                                android:textColor="@color/dark_gray" />
+                                android:textColor="@color/gray_dark" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -303,7 +303,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Tel:"
-                                android:textColor="@color/dark_gray" />
+                                android:textColor="@color/gray_dark" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -328,7 +328,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Skype:"
-                                android:textColor="@color/dark_gray" />
+                                android:textColor="@color/gray_dark" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -353,7 +353,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="IRC:"
-                                android:textColor="@color/dark_gray" />
+                                android:textColor="@color/gray_dark" />
 
                             <TextView
                                 android:layout_width="0dp"
