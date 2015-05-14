@@ -13,6 +13,7 @@ import com.stxnext.intranet2.adapter.EmployeesListAdapter;
 import com.stxnext.intranet2.backend.api.EmployeesApi;
 import com.stxnext.intranet2.backend.api.EmployeesApiImpl;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
+import com.stxnext.intranet2.backend.model.Absence;
 import com.stxnext.intranet2.backend.model.User;
 
 import java.util.List;
@@ -52,6 +53,9 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
     public void onEmployeesListReceived(List<User> employees) {
         recycleView.setAdapter(new EmployeesListAdapter(employees, this));
     }
+
+    @Override
+    public void onAbsenceEmployeesListReceived(List<Absence> absenceEmployees) {}
 
     @Override
     public void onItemClick(String userId) {

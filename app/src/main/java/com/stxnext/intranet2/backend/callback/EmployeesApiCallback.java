@@ -1,5 +1,6 @@
 package com.stxnext.intranet2.backend.callback;
 
+import com.stxnext.intranet2.backend.model.Absence;
 import com.stxnext.intranet2.backend.model.User;
 
 import java.util.List;
@@ -10,5 +11,7 @@ import java.util.List;
 public interface EmployeesApiCallback {
 
     void onEmployeesListReceived(List<User> employees);
+
+    void onAbsenceEmployeesListReceived(List<Absence> absenceEmployees);
 
 }
