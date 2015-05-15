@@ -48,4 +48,8 @@ public class AbsencesFragmentPagerAdapter extends FragmentPagerAdapter {
 
         return "";
     }
+
+    public int getEmployeesCount(int position) {
+        return fragments.get(position).getCount();
+    }
 }

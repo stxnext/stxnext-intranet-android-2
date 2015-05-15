@@ -86,4 +86,9 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
     public void onItemClick(String userId) {
         startActivity(new Intent(getActivity(), ProfileActivity.class));
     }
+
+    public int getCount() {
+        return recycleView.getAdapter().getItemCount();
+    }
+
 }
