@@ -33,9 +33,7 @@ public class MyProfileActivity extends AppCompatActivity
         implements UserApiCallback, FloatingMenuFragment.OnFlotingMenuItemClickListener {
 
     private static final String TAG = "MyProfileActivity";
-    private static final int LOGIN_REQUEST = 1;
-    private static final int DRAWER_ABSENCE_POSITION = 0;
-    private static final int DRAWER_EMPLOYESS_POSITION = 1;
+    private static final int LOGIN_REQUEST = 1;;
 
     private ActionBarDrawerToggle drawerToggle;
     private Toolbar toolbar;

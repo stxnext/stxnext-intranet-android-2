@@ -10,4 +10,5 @@ public interface Absence {
     User getUser();
     Date getAbsenceFrom();
     Date getAbsenceTo();
+    String getDescription();
 }

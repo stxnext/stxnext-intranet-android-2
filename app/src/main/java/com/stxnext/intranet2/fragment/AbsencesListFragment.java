@@ -73,6 +73,7 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
 
     @Override
     public void onEmployeesListReceived(List<User> employees) {
+        //nothing to do
     }
 
     @Override

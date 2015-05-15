@@ -51,21 +51,21 @@ public class AbsencesListAdapter extends RecyclerView.Adapter<AbsencesListAdapte
         });
 
         holder.nameTextView.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
-        holder.roleTextView.setText(user.getRole());
+        holder.descriptionTextView.setText(absence.getDescription());
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View container;
         public ImageView avatarImageView;
         public TextView nameTextView;
-        public TextView roleTextView;
+        public TextView descriptionTextView;
 
         public ViewHolder(View view) {
             super(view);
             this.container = view.findViewById(R.id.item_container);
             this.avatarImageView = (ImageView) view.findViewById(R.id.user_avatar);
             this.nameTextView = (TextView) view.findViewById(R.id.user_name_text_view);
-            this.roleTextView = (TextView) view.findViewById(R.id.user_role_text_view);
+            this.descriptionTextView = (TextView) view.findViewById(R.id.user_desc_text_view);
         }
     }
 

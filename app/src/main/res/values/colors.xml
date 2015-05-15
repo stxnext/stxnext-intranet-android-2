@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background">#F1F1F1</color>
+    <color name="card_background">#ffffffff</color>
     <color name="white_alpha">#acffffff</color>
     <color name="gray_light">#ffd6d7d7</color>
     <color name="stxnext_green_selected">#2d49fff9</color>
