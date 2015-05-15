@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,7 +31,7 @@ import com.stxnext.intranet2.model.DrawerMenuItems;
  * Created by Tomasz Konieczny on 2015-04-22.
  */
 public class MyProfileActivity extends AppCompatActivity
-        implements UserApiCallback, FloatingMenuFragment.OnFlotingMenuItemClickListener {
+        implements UserApiCallback, FloatingMenuFragment.OnFloatingMenuItemClickListener {
 
     private static final String TAG = "MyProfileActivity";
     private static final int LOGIN_REQUEST = 1;;
@@ -97,24 +98,32 @@ public class MyProfileActivity extends AppCompatActivity
         final View plusView = viewGroup.getChildAt(0);
         if (plusView != null) {
             viewGroup.setOnClickListener(new View.OnClickListener() {
+
+                private String FLOATING_MENU_TAG = "floating_menu";
+
                 @Override
                 public void onClick(View v) {
-                    plusView.animate().rotationBy(135).setDuration(200).setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            Fragment fragment = getFragmentManager().findFragmentByTag("Asdasd");
+                    plusView.animate()
+                            .rotationBy(225)
+                            .setDuration(200)
+                            .setInterpolator((new LinearOutSlowInInterpolator()))
+                            .setListener(new AnimatorListenerAdapter() {
 
-                            if (fragment == null || !fragment.isAdded()) {
-                                getFragmentManager()
-                                        .beginTransaction()
-                                        .replace(R.id.floating_menu_container, new FloatingMenuFragment(), "floating_menu")
-                                        .addToBackStack(null)
-                                        .commit();
-                            } else {
-                                getFragmentManager().popBackStackImmediate();
-                            }
-                        }
-                    });
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    Fragment fragment = getFragmentManager().findFragmentByTag(FLOATING_MENU_TAG);
+
+                                    if (fragment == null || !fragment.isAdded()) {
+                                        getFragmentManager()
+                                                .beginTransaction()
+                                                .replace(R.id.floating_menu_container, new FloatingMenuFragment(), FLOATING_MENU_TAG)
+                                                .addToBackStack(null)
+                                                .commit();
+                                    } else {
+                                        getFragmentManager().popBackStackImmediate();
+                                    }
+                                }
+                            });
                 }
             });
         }

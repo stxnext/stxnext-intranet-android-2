@@ -1,5 +1,7 @@
 package com.stxnext.intranet2.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -15,7 +17,7 @@ public class FloatingMenuFragment extends Fragment {
     public static final int HOLIDAY = 1;
     public static final int OUT_OF_OFFICE = 2;
 
-    private OnFlotingMenuItemClickListener mListener;
+    private OnFloatingMenuItemClickListener mListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,10 +28,21 @@ public class FloatingMenuFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFlotingMenuItemClickListener) activity;
+            mListener = (OnFloatingMenuItemClickListener) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnFlotingMenuItemClickListener");
+            throw new ClassCastException(activity.toString() + " must implement OnFloatingMenuItemClickListener");
         }
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        view.findViewById(R.id.floating_view_container).animate().alpha(1f).setDuration(300);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     @Override
@@ -38,9 +51,20 @@ public class FloatingMenuFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnFlotingMenuItemClickListener {
+    public void close() {
+        getView().findViewById(R.id.floating_view_container).animate().alpha(1f).setDuration(300).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mListener.onFloatingMenuClosed();
+            }
+        });
+    }
+
+    public interface OnFloatingMenuItemClickListener {
 
         void onFloatingMenuItemClick(int option);
+
+        void onFloatingMenuClosed();
 
     }
 

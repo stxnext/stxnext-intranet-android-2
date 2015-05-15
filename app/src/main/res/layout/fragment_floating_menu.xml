@@ -1,15 +1,52 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/floating_view_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_alpha"
+    android:alpha="0"
     tools:context="com.stxnext.intranet2.fragment.FloatingMenuFragment">
 
-
-    <TextView
+    <LinearLayout
+        android:id="@+id/floating_buttons_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/name"
-        android:layout_gravity="left|top" />
+        android:layout_margin="20dp"
+        android:layout_marginRight="32dp"
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/floating_option_selector"
+            android:text="Report out of office"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-condensed"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:layout_marginTop="246dp"
+            android:textColor="@color/stxnext_green"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/floating_option_selector"
+            android:text="Submit absence/holiday"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-condensed"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/stxnext_green"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
 </FrameLayout>
