@@ -176,4 +176,9 @@ public class MyProfileActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public void onFloatingMenuClosed() {
+
+    }
+
 }
