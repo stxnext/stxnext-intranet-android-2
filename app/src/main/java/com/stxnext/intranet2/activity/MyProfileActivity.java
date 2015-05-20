@@ -50,9 +50,6 @@ public class MyProfileActivity extends AppCompatActivity
         configureDrawer();
         prepareFloatingButton();
 
-        UserApi userApi = new UserApiImpl(this);
-        userApi.requestForUser(null);
-
         if (isLogged()) {
             loadProfile();
         } else {
@@ -130,7 +127,7 @@ public class MyProfileActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case LOGIN_REQUEST:
@@ -148,6 +145,8 @@ public class MyProfileActivity extends AppCompatActivity
     //TODO
     private void loadProfile() {
         Log.d(TAG, "loadProfile()");
+        UserApi userApi = new UserApiImpl(this);
+        userApi.requestForUser(null);
     }
 
     //TODO
