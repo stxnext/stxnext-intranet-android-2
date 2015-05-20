@@ -19,6 +19,12 @@ android {
             keyAlias "androiddebugkey"
             keyPassword "android"
         }
+        release {
+            storeFile file("keystore/release.keystore")
+            storePassword "qcwxezads"
+            keyAlias "intranet"
+            keyPassword "qcwxezads"
+        }
     }
 
 
@@ -27,13 +33,14 @@ android {
         debug {
             debuggable true
             minifyEnabled false
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
 
         release {
             debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
 
     }
@@ -41,11 +48,11 @@ android {
     productFlavors {
 
         fakeBackend {
-
+            applicationId "com.stxnext.management.android"
         }
 
         htmlBackend {
-
+            applicationId "com.stxnext.management.android"
         }
 
     }
