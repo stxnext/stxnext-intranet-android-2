@@ -52,10 +52,14 @@ public class FloatingMenuFragment extends Fragment {
     }
 
     public void close() {
-        getView().findViewById(R.id.floating_view_container).animate().alpha(1f).setDuration(300).setListener(new AnimatorListenerAdapter() {
+        getView().findViewById(R.id.floating_view_container)
+                .animate()
+                .alpha(0f)
+                .setDuration(300)
+                .setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                mListener.onFloatingMenuClosed();
+                mListener.onFloatingMenuClose();
             }
         });
     }
@@ -64,7 +68,7 @@ public class FloatingMenuFragment extends Fragment {
 
         void onFloatingMenuItemClick(int option);
 
-        void onFloatingMenuClosed();
+        void onFloatingMenuClose();
 
     }
 

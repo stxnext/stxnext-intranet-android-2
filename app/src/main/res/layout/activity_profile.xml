@@ -385,6 +385,11 @@
 
     </ScrollView>
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" />
+
     <FrameLayout
         android:id="@+id/floating_menu_container"
         android:layout_width="match_parent"
@@ -411,9 +416,5 @@
 
     </FrameLayout>
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize" />
 
 </com.stxnext.intranet2.view.ProfileView>
