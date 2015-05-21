@@ -3,21 +3,19 @@ package com.stxnext.intranet2.activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.stxnext.intranet2.R;
+import com.stxnext.intranet2.utils.Config;
 
-public class LoginActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks,
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
-
-    private static final String TAG = "Intranet2";
 
     public static final int LOGIN_OK = 1;
     public static final int LOGIN_FAILED = 2;
@@ -32,19 +30,10 @@ public class LoginActivity extends ActionBarActivity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        Button signInButton = (Button) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(this);
 
         googleApiClient = buildGoogleApiClient();
-
-        Button buttonLogin = (Button) findViewById(R.id.button_login);
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginActivity.this.setResult(LOGIN_OK);
-                LoginActivity.this.finish();
-            }
-        });
     }
 
     private GoogleApiClient buildGoogleApiClient() {
@@ -59,9 +48,8 @@ public class LoginActivity extends ActionBarActivity implements GoogleApiClient.
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.d(TAG, "Connection with Google API established.");
-        LoginActivity.this.setResult(LOGIN_OK);
-        LoginActivity.this.finish();
+        setResult(LOGIN_OK);
+        finish();
     }
 
     @Override
@@ -71,18 +59,18 @@ public class LoginActivity extends ActionBarActivity implements GoogleApiClient.
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.i(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
+        Log.i(Config.TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
                 + connectionResult.getErrorCode());
 
         if (connectionResult.getErrorCode() == ConnectionResult.API_UNAVAILABLE) {
-            Log.w(TAG, "API Unavailable.");
+            Log.w(Config.TAG, "API Unavailable.");
         } else if (!signingIntentInProgress && connectionResult.hasResolution()) {
             try {
                 startIntentSenderForResult(connectionResult.getResolution().getIntentSender(),
                         RC_SIGN_IN, null, 0, 0, 0);
                 signingIntentInProgress = true;
             } catch (IntentSender.SendIntentException e) {
-                Log.i(TAG, "Sign in intent could not be sent: "
+                Log.i(Config.TAG, "Sign in intent could not be sent: "
                         + e.getLocalizedMessage());
                 signingIntentInProgress = false;
                 googleApiClient.connect();
@@ -110,7 +98,7 @@ public class LoginActivity extends ActionBarActivity implements GoogleApiClient.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult()");
+        Log.d(Config.TAG, "onActivityResult()");
         switch (requestCode) {
             case RC_SIGN_IN:
                 signingIntentInProgress = false;

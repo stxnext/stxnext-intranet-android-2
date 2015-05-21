@@ -25,6 +25,7 @@ import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.fragment.FloatingMenuFragment;
 import com.stxnext.intranet2.model.DrawerMenuItems;
+import com.stxnext.intranet2.utils.Config;
 
 
 /**
@@ -33,7 +34,6 @@ import com.stxnext.intranet2.model.DrawerMenuItems;
 public class MyProfileActivity extends AppCompatActivity
         implements UserApiCallback, FloatingMenuFragment.OnFloatingMenuItemClickListener {
 
-    private static final String TAG = "MyProfileActivity";
     private static final int LOGIN_REQUEST = 1;;
 
     private ActionBarDrawerToggle drawerToggle;
@@ -144,7 +144,7 @@ public class MyProfileActivity extends AppCompatActivity
 
     //TODO
     private void loadProfile() {
-        Log.d(TAG, "loadProfile()");
+        Log.d(Config.TAG, "loadProfile()");
         UserApi userApi = new UserApiImpl(this);
         userApi.requestForUser(null);
     }
