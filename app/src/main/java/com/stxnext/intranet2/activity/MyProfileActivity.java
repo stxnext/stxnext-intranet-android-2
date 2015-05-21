@@ -34,10 +34,13 @@ import com.stxnext.intranet2.utils.Config;
 public class MyProfileActivity extends AppCompatActivity
         implements UserApiCallback, FloatingMenuFragment.OnFloatingMenuItemClickListener {
 
-    private static final int LOGIN_REQUEST = 1;;
+    private static String FLOATING_MENU_TAG = "floating_menu";
+
+    private static final int LOGIN_REQUEST = 1;
 
     private ActionBarDrawerToggle drawerToggle;
     private Toolbar toolbar;
+    private View plusView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,37 +95,33 @@ public class MyProfileActivity extends AppCompatActivity
 
     private void prepareFloatingButton() {
         ViewGroup viewGroup = (ViewGroup) findViewById(R.id.floating_button);
-        final View plusView = viewGroup.getChildAt(0);
+        plusView = viewGroup.getChildAt(0);
         if (plusView != null) {
             viewGroup.setOnClickListener(new View.OnClickListener() {
 
-                private String FLOATING_MENU_TAG = "floating_menu";
-
                 @Override
                 public void onClick(View v) {
-                    plusView.animate()
-                            .rotationBy(225)
-                            .setDuration(200)
-                            .setInterpolator((new LinearOutSlowInInterpolator()))
-                            .setListener(new AnimatorListenerAdapter() {
-
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    Fragment fragment = getFragmentManager().findFragmentByTag(FLOATING_MENU_TAG);
-
-                                    if (fragment == null || !fragment.isAdded()) {
-                                        getFragmentManager()
-                                                .beginTransaction()
-                                                .replace(R.id.floating_menu_container, new FloatingMenuFragment(), FLOATING_MENU_TAG)
-                                                .addToBackStack(null)
-                                                .commit();
-                                    } else {
-                                        getFragmentManager().popBackStackImmediate();
-                                    }
-                                }
-                            });
+                    toggleFloatingMenu();
                 }
             });
+        }
+    }
+
+    private void toggleFloatingMenu() {
+        FloatingMenuFragment fragment = (FloatingMenuFragment) getFragmentManager().findFragmentByTag(FLOATING_MENU_TAG);
+        if (fragment == null || !fragment.isAdded()) {
+            plusView.animate()
+                    .rotationBy(225)
+                    .setDuration(200)
+                    .setInterpolator((new LinearOutSlowInInterpolator()));
+
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.floating_menu_container, new FloatingMenuFragment(), FLOATING_MENU_TAG)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            fragment.close();
         }
     }
 
@@ -165,7 +164,7 @@ public class MyProfileActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState){
+    protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
     }
@@ -176,8 +175,23 @@ public class MyProfileActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFloatingMenuClosed() {
-
+    public void onFloatingMenuClose() {
+        plusView.animate()
+                .rotationBy(225)
+                .setDuration(200)
+                .setInterpolator((new LinearOutSlowInInterpolator()));
+        getFragmentManager().popBackStackImmediate();
     }
 
+    @Override
+    public void onBackPressed() {
+        FloatingMenuFragment fragment = (FloatingMenuFragment) getFragmentManager().findFragmentByTag(FLOATING_MENU_TAG);
+        if (fragment != null && fragment.isAdded()) {
+            fragment.close();
+            return;
+        }
+
+        super.onBackPressed();
+
+    }
 }

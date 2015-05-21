@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_alpha"
+    android:clickable="true"
+    android:focusable="true"
     android:alpha="0"
     tools:context="com.stxnext.intranet2.fragment.FloatingMenuFragment">
 
@@ -11,8 +13,7 @@
         android:id="@+id/floating_buttons_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginRight="38dp"
         android:layout_gravity="right"
         android:gravity="right"
         android:orientation="vertical">
@@ -21,15 +22,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/floating_option_selector"
+            android:text="I'll be late!"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-condensed"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:paddingRight="12dp"
+            android:paddingLeft="12dp"
+            android:layout_marginTop="266dp"
+            android:textColor="@color/stxnext_green"
+            android:clickable="true"
+            android:focusable="true"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/floating_option_selector"
             android:text="Report out of office"
             android:textSize="16sp"
             android:fontFamily="sans-serif-condensed"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:paddingRight="8dp"
-            android:paddingLeft="8dp"
-            android:layout_marginTop="246dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:paddingRight="12dp"
+            android:paddingLeft="12dp"
+            android:layout_marginTop="16dp"
             android:textColor="@color/stxnext_green"
+            android:clickable="true"
+            android:focusable="true"
             android:textStyle="bold"/>
 
         <TextView
@@ -39,12 +59,14 @@
             android:text="Submit absence/holiday"
             android:textSize="16sp"
             android:fontFamily="sans-serif-condensed"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:paddingRight="8dp"
-            android:paddingLeft="8dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:paddingRight="12dp"
+            android:paddingLeft="12dp"
             android:layout_marginTop="16dp"
             android:textColor="@color/stxnext_green"
+            android:clickable="true"
+            android:focusable="true"
             android:textStyle="bold"/>
 
     </LinearLayout>
