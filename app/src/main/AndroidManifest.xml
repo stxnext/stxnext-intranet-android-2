@@ -33,11 +33,13 @@
         <activity
             android:name=".activity.AbsenceActivity"
             android:label="@string/absences"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name=".activity.EmployeesActivity"
             android:label="@string/employees_list"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
         </activity>
     </application>

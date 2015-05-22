@@ -180,7 +180,6 @@ public class MyProfileActivity extends AppCompatActivity
                 .rotationBy(225)
                 .setDuration(200)
                 .setInterpolator((new LinearOutSlowInInterpolator()));
-        getFragmentManager().popBackStackImmediate();
     }
 
     @Override

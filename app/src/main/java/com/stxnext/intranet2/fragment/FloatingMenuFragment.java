@@ -52,16 +52,21 @@ public class FloatingMenuFragment extends Fragment {
     }
 
     public void close() {
-        getView().findViewById(R.id.floating_view_container)
-                .animate()
-                .alpha(0f)
-                .setDuration(300)
-                .setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mListener.onFloatingMenuClose();
-            }
-        });
+        mListener.onFloatingMenuClose();
+        if (getView() != null) {
+            getView().findViewById(R.id.floating_view_container)
+                    .animate()
+                    .alpha(0f)
+                    .setDuration(300)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            if (getFragmentManager() != null) {
+                                getFragmentManager().popBackStackImmediate();
+                            }
+                        }
+                    });
+        }
     }
 
     public interface OnFloatingMenuItemClickListener {
