@@ -12,35 +12,37 @@
     <LinearLayout
         android:id="@+id/floating_buttons_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginRight="38dp"
         android:layout_gravity="right"
         android:gravity="right"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/floating_late_option"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/floating_option_selector"
-            android:text="I'll be late!"
-            android:textSize="16sp"
+            android:text="@string/late"
+            android:textSize="17sp"
             android:fontFamily="sans-serif-condensed"
             android:paddingTop="6dp"
             android:paddingBottom="6dp"
             android:paddingRight="12dp"
             android:paddingLeft="12dp"
-            android:layout_marginTop="266dp"
             android:textColor="@color/stxnext_green"
             android:clickable="true"
             android:focusable="true"
+            android:alpha="0"
             android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/floating_out_of_office_option"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/floating_option_selector"
-            android:text="Report out of office"
-            android:textSize="16sp"
+            android:text="@string/report_out_office"
+            android:textSize="17sp"
             android:fontFamily="sans-serif-condensed"
             android:paddingTop="6dp"
             android:paddingBottom="6dp"
@@ -50,14 +52,16 @@
             android:textColor="@color/stxnext_green"
             android:clickable="true"
             android:focusable="true"
+            android:alpha="0"
             android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/floating_absence_option"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/floating_option_selector"
-            android:text="Submit absence/holiday"
-            android:textSize="16sp"
+            android:text="@string/submit_absence"
+            android:textSize="17sp"
             android:fontFamily="sans-serif-condensed"
             android:paddingTop="6dp"
             android:paddingBottom="6dp"
@@ -67,6 +71,7 @@
             android:textColor="@color/stxnext_green"
             android:clickable="true"
             android:focusable="true"
+            android:alpha="0"
             android:textStyle="bold"/>
 
     </LinearLayout>

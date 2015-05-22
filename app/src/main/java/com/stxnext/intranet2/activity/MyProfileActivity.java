@@ -40,6 +40,7 @@ public class MyProfileActivity extends AppCompatActivity
 
     private ActionBarDrawerToggle drawerToggle;
     private Toolbar toolbar;
+    private ViewGroup floatingButton;
     private View plusView;
 
     @Override
@@ -94,10 +95,10 @@ public class MyProfileActivity extends AppCompatActivity
     }
 
     private void prepareFloatingButton() {
-        ViewGroup viewGroup = (ViewGroup) findViewById(R.id.floating_button);
-        plusView = viewGroup.getChildAt(0);
+        floatingButton = (ViewGroup) findViewById(R.id.floating_button);
+        plusView = floatingButton.getChildAt(0);
         if (plusView != null) {
-            viewGroup.setOnClickListener(new View.OnClickListener() {
+            floatingButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
@@ -115,9 +116,12 @@ public class MyProfileActivity extends AppCompatActivity
                     .setDuration(200)
                     .setInterpolator((new LinearOutSlowInInterpolator()));
 
+            int[] floatingButtonPosition = new int[2];
+            floatingButton.getLocationInWindow(floatingButtonPosition);
+            int floatingButtonTransition = floatingButtonPosition[1] + floatingButton.getHeight();
             getFragmentManager()
                     .beginTransaction()
-                    .add(R.id.floating_menu_container, new FloatingMenuFragment(), FLOATING_MENU_TAG)
+                    .add(R.id.floating_menu_container, FloatingMenuFragment.newInstance(floatingButtonTransition), FLOATING_MENU_TAG)
                     .addToBackStack(null)
                     .commit();
         } else {
