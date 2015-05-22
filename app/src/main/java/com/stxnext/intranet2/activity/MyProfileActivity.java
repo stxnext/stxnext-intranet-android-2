@@ -1,8 +1,5 @@
 package com.stxnext.intranet2.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
@@ -16,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.DrawerAdapter;
@@ -26,6 +24,7 @@ import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.fragment.FloatingMenuFragment;
 import com.stxnext.intranet2.model.DrawerMenuItems;
 import com.stxnext.intranet2.utils.Config;
+import com.stxnext.intranet2.utils.Session;
 
 
 /**
@@ -35,7 +34,7 @@ public class MyProfileActivity extends AppCompatActivity
         implements UserApiCallback, FloatingMenuFragment.OnFloatingMenuItemClickListener {
 
     private static String FLOATING_MENU_TAG = "floating_menu";
-
+    
     private static final int LOGIN_REQUEST = 1;
 
     private ActionBarDrawerToggle drawerToggle;
@@ -136,8 +135,8 @@ public class MyProfileActivity extends AppCompatActivity
             case LOGIN_REQUEST:
                 if (resultCode == LoginActivity.LOGIN_OK) {
                     loadProfile();
-                } else {
-
+                } else if (resultCode == LoginActivity.LOGIN_FAILED) {
+                    Toast.makeText(this, R.string.login_failure, Toast.LENGTH_SHORT);
                 }
                 break;
             default:
@@ -154,7 +153,7 @@ public class MyProfileActivity extends AppCompatActivity
 
     //TODO
     private boolean isLogged() {
-        return false;
+        return Session.getInstance().isLogged();
     }
 
     @Override

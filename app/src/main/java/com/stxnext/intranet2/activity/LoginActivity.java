@@ -8,15 +8,25 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
+import com.stxnext.intranet2.App;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.utils.Config;
+import com.stxnext.intranet2.utils.Session;
+
+import java.io.IOException;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
+    private static final String TAG = "Intranet2";
+    
     public static final int LOGIN_OK = 1;
     public static final int LOGIN_FAILED = 2;
 
@@ -48,8 +58,46 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     public void onConnected(Bundle bundle) {
-        setResult(LOGIN_OK);
-        finish();
+        getToken();
+    }
+
+    private void getToken() {
+        final String email = Plus.AccountApi.getAccountName(googleApiClient);
+        String scopes = "oauth2: " + Scopes.PLUS_LOGIN;
+        Thread tokenObtainThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String scopes = "oauth2: " + Scopes.PLUS_LOGIN;
+                    String token = GoogleAuthUtil.getToken(LoginActivity.this, email, scopes);
+                    Session.getInstance().setGooglePlusToken(token);
+                    onGooglePlusTokenSucceeded();
+                } catch (UserRecoverableAuthException e) {
+                    Log.e(App.TAG, "Error: UserRecoverableAuthException G+ Sign in");
+                    Log.w(App.TAG, "Class: " + ((Object) this).getClass().getName() + "; method: onConnected; UserRecoverableAuthException");
+                    onGooglePlusTokenFailure();
+                } catch (GoogleAuthException e) {
+                    Log.e(App.TAG, "Error: GoogleAuthException G+ Sign in");
+                    Log.w(App.TAG, "Class: " + ((Object) this).getClass().getName() + "; method: onConnected; GoogleAuthException");
+                    onGooglePlusTokenFailure();
+                } catch (IOException e) {
+                    Log.e(App.TAG, "Error: IOException G+ Sign in");
+                    Log.w(App.TAG, "Class: " + ((Object) this).getClass().getName() + "; method: onConnected; IOException");
+                    onGooglePlusTokenFailure();
+                }
+            }
+        });
+        tokenObtainThread.start();
+    }
+
+    private void onGooglePlusTokenSucceeded() {
+        LoginActivity.this.setResult(LOGIN_OK);
+        LoginActivity.this.finish();
+    }
+
+    private void onGooglePlusTokenFailure() {
+        LoginActivity.this.setResult(LOGIN_FAILED);
+        LoginActivity.this.finish();
     }
 
     @Override
