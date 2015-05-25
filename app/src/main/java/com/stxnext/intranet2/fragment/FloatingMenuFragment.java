@@ -12,6 +12,7 @@ import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.widget.TextView;
 
 import com.stxnext.intranet2.R;
 
@@ -73,6 +74,31 @@ public class FloatingMenuFragment extends Fragment {
                     .translationY(contentTransition)
                     .setInterpolator(new OvershootInterpolator());
         }
+
+        TextView lateOptionButton = (TextView) view.findViewById(R.id.floating_late_option);
+        TextView outOfOfficeButton = (TextView) view.findViewById(R.id.floating_out_of_office_option);
+        TextView absenceButton = (TextView) view.findViewById(R.id.floating_absence_option);
+
+        lateOptionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onFloatingMenuItemClick(LATE);
+            }
+        });
+
+        outOfOfficeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onFloatingMenuItemClick(OUT_OF_OFFICE);
+            }
+        });
+
+        absenceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onFloatingMenuItemClick(HOLIDAY);
+            }
+        });
     }
 
     @Override
