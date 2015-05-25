@@ -175,7 +175,7 @@ public class MyProfileActivity extends AppCompatActivity
 
     @Override
     public void onFloatingMenuItemClick(int option) {
-
+        toggleFloatingMenu();
     }
 
     @Override
