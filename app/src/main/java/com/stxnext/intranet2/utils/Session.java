@@ -26,6 +26,10 @@ public class Session {
         return instance;
     }
 
+    public void logout() {
+        preferences.edit().clear().apply();
+    }
+
     public void setGooglePlusToken(String googlePlusToken) {
         this.googlePlusToken = googlePlusToken;
         preferences.edit().putString(TOKEN_PREFERENCE, googlePlusToken).commit();
