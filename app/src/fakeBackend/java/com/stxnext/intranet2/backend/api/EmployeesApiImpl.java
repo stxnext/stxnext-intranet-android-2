@@ -1,22 +1,10 @@
 package com.stxnext.intranet2.backend.api;
 
-import android.util.Log;
-
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.stxnext.intranet2.App;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.model.Absence;
 import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.backend.model.impl.AbsenceImpl;
 import com.stxnext.intranet2.backend.model.impl.UserImpl;
-import com.stxnext.intranet2.backend.tasks.EmployeesTask;
-import com.stxnext.intranet2.utils.Session;
-
-import org.apache.http.Header;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
