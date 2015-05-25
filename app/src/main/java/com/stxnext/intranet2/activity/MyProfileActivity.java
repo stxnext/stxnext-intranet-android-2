@@ -31,10 +31,11 @@ import com.stxnext.intranet2.utils.Session;
  * Created by Tomasz Konieczny on 2015-04-22.
  */
 public class MyProfileActivity extends AppCompatActivity
-        implements UserApiCallback, FloatingMenuFragment.OnFloatingMenuItemClickListener {
+        implements UserApiCallback,
+        FloatingMenuFragment.OnFloatingMenuItemClickListener {
 
     private static String FLOATING_MENU_TAG = "floating_menu";
-    
+
     private static final int LOGIN_REQUEST = 1;
 
     private ActionBarDrawerToggle drawerToggle;
@@ -136,7 +137,7 @@ public class MyProfileActivity extends AppCompatActivity
                 if (resultCode == LoginActivity.LOGIN_OK) {
                     loadProfile();
                 } else if (resultCode == LoginActivity.LOGIN_FAILED) {
-                    Toast.makeText(this, R.string.login_failure, Toast.LENGTH_SHORT);
+                    Toast.makeText(this, R.string.login_failure, Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -153,7 +154,7 @@ public class MyProfileActivity extends AppCompatActivity
 
     //TODO
     private boolean isLogged() {
-        return Session.getInstance().isLogged();
+        return Session.getInstance(this).isLogged();
     }
 
     @Override
