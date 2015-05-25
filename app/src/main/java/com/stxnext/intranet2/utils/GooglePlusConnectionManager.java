@@ -36,7 +36,6 @@ public class GooglePlusConnectionManager implements GoogleApiClient.ConnectionCa
                 .addApi(Plus.API, Plus.PlusOptions.builder().build())
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .build();
-        ;
     }
 
     public void signIn() {

@@ -57,7 +57,13 @@ public class LoginActivity extends AppCompatActivity implements GooglePlusConnec
 
     @Override
     public void onLoggedIn() {
-
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -66,12 +72,17 @@ public class LoginActivity extends AppCompatActivity implements GooglePlusConnec
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        try {
-            startIntentSenderForResult(connectionResult.getResolution().getIntentSender(), RC_SIGN_IN, null, 0, 0, 0);
-        } catch (IntentSender.SendIntentException e) {
-            Log.i(Config.TAG, "Sign in intent could not be sent: " + e.getLocalizedMessage());
-            googlePlusConnectionManager.retry();
-        }
+    public void onConnectionFailed(final ConnectionResult connectionResult) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    startIntentSenderForResult(connectionResult.getResolution().getIntentSender(), RC_SIGN_IN, null, 0, 0, 0);
+                } catch (IntentSender.SendIntentException e) {
+                    Log.i(Config.TAG, "Sign in intent could not be sent: " + e.getLocalizedMessage());
+                    googlePlusConnectionManager.retry();
+                }
+            }
+        });
     }
 }
