@@ -1,7 +1,6 @@
 package com.stxnext.intranet2.utils;
 
 import android.content.Context;
-import android.content.IntentSender;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -50,14 +49,17 @@ public class GooglePlusConnectionManager implements GoogleApiClient.ConnectionCa
         }
     }
 
-    public boolean retry() {
-        boolean result = connectionUnresolvable;
-        if (!connectionUnresolvable) {
-            connectionUnresolvable = true;
-            signIn();
-        }
+    public void retry() {
+        connectionUnresolvable = false;
+        googleApiClient.connect();
+    }
 
-        return result;
+    public boolean connect() {
+        connectionUnresolvable = false;
+        if (!googleApiClient.isConnecting()) {
+            googleApiClient.connect();
+        }
+        return connectionUnresolvable;
     }
 
     @Override
@@ -72,10 +74,13 @@ public class GooglePlusConnectionManager implements GoogleApiClient.ConnectionCa
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        if (connectionResult.getErrorCode() == ConnectionResult.API_UNAVAILABLE) {
-            Log.w(Config.TAG, "API Unavailable.");
-        } else {
-            callback.onConnectionFailed(connectionResult);
+        if (!connectionUnresolvable) {
+            if (connectionResult.getErrorCode() == ConnectionResult.API_UNAVAILABLE) {
+                Log.w(Config.TAG, "API Unavailable.");
+            } else if (connectionResult.hasResolution()) {
+                connectionUnresolvable = true;
+                callback.onConnectionFailed(connectionResult);
+            }
         }
     }
 

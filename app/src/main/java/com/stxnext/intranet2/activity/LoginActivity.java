@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements GooglePlusConnec
         Log.d(Config.TAG, "onActivityResult()");
         switch (requestCode) {
             case RC_SIGN_IN:
-                googlePlusConnectionManager.signIn();
+                googlePlusConnectionManager.connect();
                 break;
         }
     }
