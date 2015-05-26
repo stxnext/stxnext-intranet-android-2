@@ -8,7 +8,6 @@ import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 
@@ -90,7 +89,8 @@ public class GooglePlusConnectionManager implements GoogleApiClient.ConnectionCa
             @Override
             public void run() {
                 try {
-                    String scopes = "oauth2: " + Scopes.PLUS_LOGIN;
+                    String scopes = "oauth2: " + "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.readonly";
+
                     String token = GoogleAuthUtil.getToken(context, email, scopes);
                     Session.getInstance(context).setGooglePlusToken(token);
                     callback.onLoggedIn();
