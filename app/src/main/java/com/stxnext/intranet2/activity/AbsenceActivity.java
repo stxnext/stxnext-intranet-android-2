@@ -1,5 +1,7 @@
 package com.stxnext.intranet2.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
@@ -41,6 +43,9 @@ public class AbsenceActivity extends AppCompatActivity {
         final TextView countTextView = (TextView) findViewById(R.id.count_text_view);
         countTextView.setText("7");
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            private boolean pendingAnimation = false;
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -49,7 +54,25 @@ public class AbsenceActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 final int count = fragmentAdapter.getEmployeesCount(position);
-                countTextView.animate().rotationBy(720).setDuration(400).setInterpolator(new LinearOutSlowInInterpolator());
+                if (!pendingAnimation) {
+                    countTextView.animate()
+                            .rotationBy(720)
+                            .setDuration(400)
+                            .setInterpolator(new LinearOutSlowInInterpolator())
+                            .setListener(new AnimatorListenerAdapter() {
+
+                                @Override
+                                public void onAnimationPause(Animator animation) {
+                                    pendingAnimation = true;
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    pendingAnimation = false;
+                                }
+                            });
+                }
+
                 countTextView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
