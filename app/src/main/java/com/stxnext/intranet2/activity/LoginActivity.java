@@ -17,8 +17,10 @@ public class LoginActivity extends AppCompatActivity implements GooglePlusConnec
 
     public static final int LOGIN_OK = 1;
     public static final int LOGIN_FAILED = 2;
+    public static final int LOGIN_CANCELED = 3;
 
     private static final int RC_SIGN_IN = 0;
+    private static final int RC_WEB_SIGN_IN = 1;
 
     private GooglePlusConnectionManager googlePlusConnectionManager;
 
@@ -27,13 +29,16 @@ public class LoginActivity extends AppCompatActivity implements GooglePlusConnec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        googlePlusConnectionManager = new GooglePlusConnectionManager(this, this);
+//        googlePlusConnectionManager = new GooglePlusConnectionManager(this, this);
 
         Button signInButton = (Button) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                googlePlusConnectionManager.signIn();
+//                //Google plus client implementation.
+//                googlePlusConnectionManager.signIn();
+                Intent webLoginIntent = new Intent(LoginActivity.this, LoginWebActivity.class);
+                startActivityForResult(webLoginIntent, RC_WEB_SIGN_IN);
             }
         });
     }
@@ -41,7 +46,7 @@ public class LoginActivity extends AppCompatActivity implements GooglePlusConnec
     @Override
     protected void onStop() {
         super.onStop();
-        googlePlusConnectionManager.signOut();
+//        googlePlusConnectionManager.signOut();
     }
 
     @Override
@@ -50,7 +55,14 @@ public class LoginActivity extends AppCompatActivity implements GooglePlusConnec
         Log.d(Config.TAG, "onActivityResult()");
         switch (requestCode) {
             case RC_SIGN_IN:
+                // There was onConnectionFailed(final ConnectionResult connectionResult)
+                // user has fixed problems with connection, so connect again.
                 googlePlusConnectionManager.connect();
+                break;
+            case RC_WEB_SIGN_IN:
+                // LoginWebActivity has returned
+                setResult(resultCode);
+                finish();
                 break;
         }
     }
@@ -60,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements GooglePlusConnec
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                setResult(RESULT_OK);
+                setResult(LOGIN_OK);
                 finish();
             }
         });

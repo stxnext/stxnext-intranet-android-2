@@ -11,9 +11,11 @@ public class Session {
     private static Session instance = null;
 
     private String googlePlusToken = null;
+    private String authorizationCode = null;
     private SharedPreferences preferences = null;
     private static final String PREFERENCES_NAME = "com.stxnext.intranet2";
     private static final String TOKEN_PREFERENCE = "token";
+    private static final String CODE_PREFERENCE = "code";
 
     private Session(Context context) {
         preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
@@ -30,6 +32,18 @@ public class Session {
         preferences.edit().clear().apply();
     }
 
+    public void setAuthorizationCode(String authorizationCode) {
+        this.authorizationCode = authorizationCode;
+        preferences.edit().putString(CODE_PREFERENCE, authorizationCode).commit();
+    }
+
+    public String getAuthorizationCode() {
+        if (authorizationCode == null) {
+            authorizationCode = preferences.getString(CODE_PREFERENCE, null);
+        }
+        return authorizationCode;
+    }
+
     public void setGooglePlusToken(String googlePlusToken) {
         this.googlePlusToken = googlePlusToken;
         preferences.edit().putString(TOKEN_PREFERENCE, googlePlusToken).commit();
@@ -44,6 +58,6 @@ public class Session {
     }
 
     public boolean isLogged() {
-        return getGooglePlusToken() != null;
+        return getAuthorizationCode() != null;
     }
 }

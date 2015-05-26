@@ -150,14 +150,12 @@ public class MyProfileActivity extends AppCompatActivity
         }
     }
 
-    //TODO
     private void loadProfile() {
         Log.d(Config.TAG, "loadProfile()");
         UserApi userApi = new UserApiImpl(this);
         userApi.requestForUser(null);
     }
 
-    //TODO
     private boolean isLogged() {
         return Session.getInstance(this).isLogged();
     }
