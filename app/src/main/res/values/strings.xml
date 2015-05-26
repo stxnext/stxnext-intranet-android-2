@@ -21,4 +21,8 @@
     <string name="late">I\'ll be late!</string>
     <string name="report_out_office">Report out of office</string>
     <string name="submit_absence">Submit absence/holiday</string>
+    <string name="credits">Credits</string>
+    <string name="development_team">Development</string>
+    <string name="design"><![CDATA[Design & UX]]></string>
+    <string name="logout">logout</string>
 </resources>
