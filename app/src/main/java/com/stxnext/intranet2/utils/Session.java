@@ -27,12 +27,13 @@ public class Session {
     }
 
     public void logout() {
-        preferences.edit().clear().apply();
+        this.googlePlusToken = null;
+        preferences.edit().clear().commit();
     }
 
     public void setGooglePlusToken(String googlePlusToken) {
         this.googlePlusToken = googlePlusToken;
-        preferences.edit().putString(TOKEN_PREFERENCE, googlePlusToken).commit();
+        preferences.edit().putString(TOKEN_PREFERENCE, googlePlusToken).apply();
     }
 
     public String getGooglePlusToken() {
