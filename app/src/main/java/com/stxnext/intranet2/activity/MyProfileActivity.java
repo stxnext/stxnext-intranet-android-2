@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class MyProfileActivity extends AppCompatActivity
     private static final int LOGIN_REQUEST = 1;
 
     private ActionBarDrawerToggle drawerToggle;
+    private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private ViewGroup floatingButton;
     private View plusView;
@@ -64,7 +66,7 @@ public class MyProfileActivity extends AppCompatActivity
     }
 
     private void configureDrawer() {
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ListView drawerList = (ListView) findViewById(R.id.left_drawer);
         final DrawerAdapter drawerAdapter = new DrawerAdapter(this);
         drawerList.setAdapter(drawerAdapter);
@@ -80,8 +82,11 @@ public class MyProfileActivity extends AppCompatActivity
                         startActivity(new Intent(MyProfileActivity.this, EmployeesActivity.class));
                         break;
                     case SETTINGS:
+                        startActivity(new Intent(MyProfileActivity.this, SettingsActivity.class));
                         break;
                 }
+
+                drawerLayout.closeDrawers();
             }
         });
 
@@ -189,12 +194,12 @@ public class MyProfileActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         FloatingMenuFragment fragment = (FloatingMenuFragment) getFragmentManager().findFragmentByTag(FLOATING_MENU_TAG);
-        if (fragment != null && fragment.isAdded()) {
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            drawerLayout.closeDrawers();
+        } else if (fragment != null && fragment.isAdded()) {
             fragment.close();
-            return;
+        } else {
+            super.onBackPressed();
         }
-
-        super.onBackPressed();
-
     }
 }

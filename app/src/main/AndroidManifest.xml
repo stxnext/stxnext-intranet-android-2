@@ -48,6 +48,13 @@
             android:label="@string/employees_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:label="@string/settings"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
     </application>
 
 </manifest>
