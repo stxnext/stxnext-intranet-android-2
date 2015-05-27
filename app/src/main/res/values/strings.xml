@@ -25,4 +25,6 @@
     <string name="development_team">Development</string>
     <string name="design"><![CDATA[Design & UX]]></string>
     <string name="logout">logout</string>
+    <string name="late_title">I\'ll be at work at:</string>
+    <string name="submit">Submit</string>
 </resources>

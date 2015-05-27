@@ -2,6 +2,7 @@ package com.stxnext.intranet2.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -76,7 +77,7 @@ public class MyProfileActivity extends AppCompatActivity
                 DrawerMenuItems option = drawerAdapter.getItem(position);
                 switch (option) {
                     case ABSENCES:
-                        startActivity(new Intent(MyProfileActivity.this, AbsenceActivity.class));
+                        startActivity(new Intent(MyProfileActivity.this, AbsencesActivity.class));
                         break;
                     case EMPLOYEES:
                         startActivity(new Intent(MyProfileActivity.this, EmployeesActivity.class));
@@ -179,8 +180,17 @@ public class MyProfileActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFloatingMenuItemClick(int option) {
+    public void onFloatingMenuItemClick(final int option) {
         toggleFloatingMenu();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(MyProfileActivity.this, RequestLateActivity.class);
+                startActivity(intent);
+            }
+        }, 300);
+
     }
 
     @Override
