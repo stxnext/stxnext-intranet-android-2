@@ -38,7 +38,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.AbsenceActivity"
+            android:name=".activity.AbsencesActivity"
             android:label="@string/absences"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
@@ -52,6 +52,12 @@
         <activity
             android:name=".activity.SettingsActivity"
             android:label="@string/settings"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".activity.RequestLateActivity"
+            android:label="@string/late"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
