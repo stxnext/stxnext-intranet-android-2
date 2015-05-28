@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background">#F1F1F1</color>
+    <color name="card_background">#ffffffff</color>
+    <color name="white_alpha">#c8ffffff</color>
+    <color name="gray_light">#ffd6d7d7</color>
+    <color name="stxnext_green_selected">#2d49fff9</color>
     <color name="stxnext_green">#2e9f99</color>
     <color name="stxnext_green_dark">#ff195b55</color>
-    <color name="dark_gray">#ff7e7e7e</color>
+    <color name="stxnext_green_darkest">#ff184640</color>
+    <color name="gray_dark">#ff7e7e7e</color>
     <color name="text_dark">#ff333333</color>
     <color name="floating_button">#B71C1C</color>
     <color name="floating_button_light">#fffb3c35</color>
-    <color name="white_alpha">#acffffff</color>
 </resources>

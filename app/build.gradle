@@ -19,19 +19,28 @@ android {
             keyAlias "androiddebugkey"
             keyPassword "android"
         }
+        release {
+            storeFile ***REMOVED***
+            storePassword ***REMOVED***
+            keyAlias ***REMOVED***
+            keyPassword ***REMOVED***
+        }
     }
 
 
     buildTypes {
 
         debug {
+            debuggable true
             minifyEnabled false
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
 
         release {
+            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
 
     }
@@ -39,11 +48,11 @@ android {
     productFlavors {
 
         fakeBackend {
-
+            applicationId "com.stxnext.management.android"
         }
 
         htmlBackend {
-
+            applicationId "com.stxnext.management.android"
         }
 
     }
@@ -52,7 +61,10 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    compile 'com.google.android.gms:play-services:7.0.0'
+    compile 'com.google.android.gms:play-services:7.3.0'
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.android.support:cardview-v7:21.0.0'
+    compile 'com.android.support:recyclerview-v7:21.0.0'
+    compile 'com.loopj.android:android-async-http:1.4.5'
+    compile 'com.google.api-client:google-api-client-android:1.20.0'
 }

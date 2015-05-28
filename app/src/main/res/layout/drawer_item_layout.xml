@@ -2,13 +2,12 @@
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_label"
-    android:paddingLeft="18dp"
+    android:paddingLeft="24dp"
     android:paddingRight="12dp"
     android:paddingTop="12dp"
     android:paddingBottom="12dp"
     android:textColor="@android:color/white"
-    android:fontFamily="sans-serif-thin"
-    android:textStyle="bold"
+    android:fontFamily="sans-serif-condensed"
     android:textSize="18sp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" />
