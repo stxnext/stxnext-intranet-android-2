@@ -14,6 +14,9 @@ import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.Session;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,7 +34,6 @@ public class EmployeesApiImpl extends EmployeesApi {
 
     @Override
     public void requestForEmployees() {
-        // TODO To implement.
         AsyncHttpClient httpClient = new AsyncHttpClient();
         httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
 
@@ -40,6 +42,8 @@ public class EmployeesApiImpl extends EmployeesApi {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
                 Log.d(Config.TAG, response);
+                List<User> users = processJsonEmployees(response);
+                apiCallback.onEmployeesListReceived(users);
             }
 
             @Override
@@ -50,40 +54,82 @@ public class EmployeesApiImpl extends EmployeesApi {
 
         httpClient.get("https://intranet.stxnext.pl/api/users?full=1&inactive=0", asyncHttpResponseHandler);
 
-        List<User> list = new ArrayList<>();
-        list.add(new UserImpl("12sad3", "Łukasz", "Ciupa", "", "", "", "Android Developer", "", "", "", ""));
-        list.add(new UserImpl("15saa3", "Tomasz", "Konieczny", "", "", "", "Team Leader", "", "", "", ""));
-        list.add(new UserImpl("13dsa3", "Mariusz", "Krok", "", "", "", "Chemist", "", "", "", ""));
-        list.add(new UserImpl("14das3", "Paweł", "Urbanowicz", "", "", "", "iOS Developer", "", "", "", ""));
-        list.add(new UserImpl("112d33", "Dawid", "Żakowski", "", "", "", "Senior iOS Developer", "", "", "", ""));
-        list.add(new UserImpl("121233", "Mieszko", "Stelmach", "", "", "", "Android Developer", "", "", "", ""));
-        list.add(new UserImpl("1sa243", "Jacek", "Wieczorek", "", "", "", "COO", "", "", "", ""));
+//        List<User> list = new ArrayList<>();
+//        list.add(new UserImpl("12sad3", "Łukasz", "Ciupa", "", "", "", "Android Developer", "", "", "", ""));
+//        list.add(new UserImpl("15saa3", "Tomasz", "Konieczny", "", "", "", "Team Leader", "", "", "", ""));
+//        list.add(new UserImpl("13dsa3", "Mariusz", "Krok", "", "", "", "Chemist", "", "", "", ""));
+//        list.add(new UserImpl("14das3", "Paweł", "Urbanowicz", "", "", "", "iOS Developer", "", "", "", ""));
+//        list.add(new UserImpl("112d33", "Dawid", "Żakowski", "", "", "", "Senior iOS Developer", "", "", "", ""));
+//        list.add(new UserImpl("121233", "Mieszko", "Stelmach", "", "", "", "Android Developer", "", "", "", ""));
+//        list.add(new UserImpl("1sa243", "Jacek", "Wieczorek", "", "", "", "COO", "", "", "", ""));
+//
+//        list.add(new UserImpl("12sad3", "Łukasz", "Ciupa", "", "", "", "Android Developer", "", "", "", ""));
+//        list.add(new UserImpl("15saa3", "Tomasz", "Konieczny", "", "", "", "Team Leader", "", "", "", ""));
+//        list.add(new UserImpl("13dsa3", "Mariusz", "Krok", "", "", "", "Android Developer", "", "", "", ""));
+//        list.add(new UserImpl("14das3", "Paweł", "Urbanowicz", "", "", "", "iOS Developer", "", "", "", ""));
+//        list.add(new UserImpl("112d33", "Dawid", "Żakowski", "", "", "", "Senior iOS Developer", "", "", "", ""));
+//        list.add(new UserImpl("121233", "Mieszko", "Stelmach", "", "", "", "Android Developer", "", "", "", ""));
+//        list.add(new UserImpl("1sa243", "Jacek", "Wieczorek", "", "", "", "COO", "", "", "", ""));
+//
+//        list.add(new UserImpl("12sad3", "Łukasz", "Ciupa", "", "", "", "Android Developer", "", "", "", ""));
+//        list.add(new UserImpl("15saa3", "Tomasz", "Konieczny", "", "", "", "Team Leader", "", "", "", ""));
+//        list.add(new UserImpl("13dsa3", "Mariusz", "Krok", "", "", "", "Android Developer", "", "", "", ""));
+//        list.add(new UserImpl("14das3", "Paweł", "Urbanowicz", "", "", "", "iOS Developer", "", "", "", ""));
+//        list.add(new UserImpl("112d33", "Dawid", "Żakowski", "", "", "", "Senior iOS Developer", "", "", "", ""));
+//        list.add(new UserImpl("121233", "Mieszko", "Stelmach", "", "", "", "Android Developer", "", "", "", ""));
+//        list.add(new UserImpl("1sa243", "Jacek", "Wieczorek", "", "", "", "COO", "", "", "", ""));
+//
+//        list.add(new UserImpl("12sad3", "Łukasz", "Ciupa", "", "", "", "Android Developer", "", "", "", ""));
+//        list.add(new UserImpl("15saa3", "Tomasz", "Konieczny", "", "", "", "Team Leader", "", "", "", ""));
+//        list.add(new UserImpl("13dsa3", "Mariusz", "Krok", "", "", "", "Android Developer", "", "", "", ""));
+//        list.add(new UserImpl("14das3", "Paweł", "Urbanowicz", "", "", "", "iOS Developer", "", "", "", ""));
+//        list.add(new UserImpl("112d33", "Dawid", "Żakowski", "", "", "", "Senior iOS Developer", "", "", "", ""));
+//        list.add(new UserImpl("121233", "Mieszko", "Stelmach", "", "", "", "Android Developer", "", "", "", ""));
+//        list.add(new UserImpl("1sa243", "Jacek", "Wieczorek", "", "", "", "COO", "", "", "", ""));
 
-        list.add(new UserImpl("12sad3", "Łukasz", "Ciupa", "", "", "", "Android Developer", "", "", "", ""));
-        list.add(new UserImpl("15saa3", "Tomasz", "Konieczny", "", "", "", "Team Leader", "", "", "", ""));
-        list.add(new UserImpl("13dsa3", "Mariusz", "Krok", "", "", "", "Android Developer", "", "", "", ""));
-        list.add(new UserImpl("14das3", "Paweł", "Urbanowicz", "", "", "", "iOS Developer", "", "", "", ""));
-        list.add(new UserImpl("112d33", "Dawid", "Żakowski", "", "", "", "Senior iOS Developer", "", "", "", ""));
-        list.add(new UserImpl("121233", "Mieszko", "Stelmach", "", "", "", "Android Developer", "", "", "", ""));
-        list.add(new UserImpl("1sa243", "Jacek", "Wieczorek", "", "", "", "COO", "", "", "", ""));
+//        apiCallback.onEmployeesListReceived(list);
+    }
 
-        list.add(new UserImpl("12sad3", "Łukasz", "Ciupa", "", "", "", "Android Developer", "", "", "", ""));
-        list.add(new UserImpl("15saa3", "Tomasz", "Konieczny", "", "", "", "Team Leader", "", "", "", ""));
-        list.add(new UserImpl("13dsa3", "Mariusz", "Krok", "", "", "", "Android Developer", "", "", "", ""));
-        list.add(new UserImpl("14das3", "Paweł", "Urbanowicz", "", "", "", "iOS Developer", "", "", "", ""));
-        list.add(new UserImpl("112d33", "Dawid", "Żakowski", "", "", "", "Senior iOS Developer", "", "", "", ""));
-        list.add(new UserImpl("121233", "Mieszko", "Stelmach", "", "", "", "Android Developer", "", "", "", ""));
-        list.add(new UserImpl("1sa243", "Jacek", "Wieczorek", "", "", "", "COO", "", "", "", ""));
+    private List<User> processJsonEmployees(String jsonEmployeesString) {
+        List<User> users = new ArrayList<>();
+        try {
+            JSONObject mainObject = new JSONObject(jsonEmployeesString);
+            JSONArray usersJSONArray = mainObject.getJSONArray("users");
+            for (int i = 0; i < usersJSONArray.length(); ++i) {
+                JSONObject userJSONObject = usersJSONArray.getJSONObject(i);
+                if (isEmployee(userJSONObject)) {
+                    User user = parseUser(userJSONObject);
+                    users.add(user);
+                }
 
-        list.add(new UserImpl("12sad3", "Łukasz", "Ciupa", "", "", "", "Android Developer", "", "", "", ""));
-        list.add(new UserImpl("15saa3", "Tomasz", "Konieczny", "", "", "", "Team Leader", "", "", "", ""));
-        list.add(new UserImpl("13dsa3", "Mariusz", "Krok", "", "", "", "Android Developer", "", "", "", ""));
-        list.add(new UserImpl("14das3", "Paweł", "Urbanowicz", "", "", "", "iOS Developer", "", "", "", ""));
-        list.add(new UserImpl("112d33", "Dawid", "Żakowski", "", "", "", "Senior iOS Developer", "", "", "", ""));
-        list.add(new UserImpl("121233", "Mieszko", "Stelmach", "", "", "", "Android Developer", "", "", "", ""));
-        list.add(new UserImpl("1sa243", "Jacek", "Wieczorek", "", "", "", "COO", "", "", "", ""));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
 
-        apiCallback.onEmployeesListReceived(list);
+    private User parseUser(JSONObject userJSONObject) throws JSONException {
+        int id = userJSONObject.getInt("id");
+        String name = userJSONObject.getString("name");
+        String[] nameSplitted = name.split(" ");
+        String firstName;
+        String lastName;
+        if (nameSplitted != null && nameSplitted.length == 2) {
+            firstName = nameSplitted[0];
+            lastName = nameSplitted[1];
+        } else {
+            throw new JSONException("Wrong name value format");
+        }
+        String role = "";
+        JSONArray rolesJSONArray = userJSONObject.getJSONArray("roles");
+        if (rolesJSONArray.length() > 0) role = rolesJSONArray.getString(0);
+        User user = new UserImpl(String.valueOf(id), firstName, lastName, "", "", "", role, "", "", "", "");
+        return user;
+    }
+
+    private boolean isEmployee(JSONObject userJSONObject) throws JSONException {
+        return !userJSONObject.getBoolean("is_client");
     }
 
     @Override
