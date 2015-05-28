@@ -18,10 +18,10 @@ public class ConnectionManager {
 
     private static final String LOGIN_URL = "https://accounts.google.com/o/oauth2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly&redirect_uri=https%3A%2F%2Fintranet.stxnext.pl%2Fauth%2Fcallback&response_type=code&client_id=83120712902.apps.googleusercontent.com&access_type=offline";
 
-    Context context;
-    ConnectionCallback callback;
-    WebView webView;
-    AsyncHttpClient httpClient;
+    private Context context;
+    private ConnectionCallback callback;
+    private WebView webView;
+    private AsyncHttpClient httpClient;
 
     public ConnectionManager(Context context, WebView webView, ConnectionCallback callback) {
 
@@ -79,7 +79,9 @@ public class ConnectionManager {
     public interface ConnectionCallback {
 
         void onLoggedIn();
+
         void onLoginFailed();
+
     }
 
 }
