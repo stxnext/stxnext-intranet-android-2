@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="280dp"
+              android:layout_height="match_parent"
+              android:layout_gravity="start"
+              android:background="@drawable/stx_colors_gradient"
+              android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/underlined_stx_dark">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_margin="32dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/stx_logo_white"/>
+
+    </FrameLayout>
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:choiceMode="singleChoice"
+        android:layout_marginTop="12dp"
+        android:listSelector="@drawable/drawer_list_selector"/>
+
+</LinearLayout>

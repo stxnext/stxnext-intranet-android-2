@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/stxnext_green">
+
+        <TextView
+            android:id="@+id/count_text_view"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="20"
+            android:gravity="center"
+            android:layout_gravity="right"
+            android:layout_marginRight="16dp"
+            android:textColor="@color/white_alpha"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:background="@drawable/toolbar_info_background"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:background="@color/background">
+
+        <android.support.v4.view.PagerTabStrip
+            style="@style/PagerTabStrip"
+            android:id="@+id/sliding_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"/>
+
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

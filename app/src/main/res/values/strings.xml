@@ -8,7 +8,21 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="employees_list">Employees</string>
+    <string name="holiday">Holiday</string>
+    <string name="work_from_home">Work From Home</string>
+    <string name="out_of_office">Out Of Office</string>
     <string name="absence">Absence</string>
     <string name="absences">Absences</string>
     <string name="settings">Settings</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="user">User</string>
+    <string name="password">Password</string>
+    <string name="login_failure">Login failed.</string>
+    <string name="late">I\'ll be late!</string>
+    <string name="report_out_office">Report out of office</string>
+    <string name="submit_absence">Submit absence/holiday</string>
+    <string name="credits">Credits</string>
+    <string name="development_team">Development</string>
+    <string name="design"><![CDATA[Design & UX]]></string>
+    <string name="logout">logout</string>
 </resources>

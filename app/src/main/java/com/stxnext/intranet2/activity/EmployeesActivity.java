@@ -1,86 +1,64 @@
 package com.stxnext.intranet2.activity;
 
-import android.app.Activity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.stxnext.intranet2.R;
-import com.stxnext.intranet2.fragment.AbsenceFragment;
-import com.stxnext.intranet2.fragment.EmployeesListFragment;
+import com.stxnext.intranet2.adapter.EmployeesListAdapter;
+import com.stxnext.intranet2.backend.api.EmployeesApi;
+import com.stxnext.intranet2.backend.api.EmployeesApiImpl;
+import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
+import com.stxnext.intranet2.backend.model.Absence;
+import com.stxnext.intranet2.backend.model.User;
 
-public class EmployeesActivity extends AppCompatActivity {
+import java.util.List;
+
+public class EmployeesActivity extends AppCompatActivity implements EmployeesApiCallback, EmployeesListAdapter.OnItemClickListener {
+
+    private RecyclerView recycleView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employees);
 
-        // setup action bar for tabs
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setDisplayShowTitleEnabled(false);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ActionBar.Tab tab = actionBar.newTab()
-                .setText(R.string.absence)
-                .setTabListener(new TabListener<AbsenceFragment>(
-                        this, "absence", AbsenceFragment.class));
-        actionBar.addTab(tab);
+        recycleView = (RecyclerView) findViewById(R.id.recycler_view);
+        recycleView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recycleView.setLayoutManager(layoutManager);
 
-        tab = actionBar.newTab()
-                .setText(R.string.employees_list)
-                .setTabListener(new TabListener<EmployeesListFragment>(
-                        this, "emplyeesList", EmployeesListFragment.class));
-        actionBar.addTab(tab);
+        EmployeesApi api = new EmployeesApiImpl(this, this);
+        api.requestForEmployees();
     }
 
-    public static class TabListener<T extends Fragment> implements ActionBar.TabListener {
-        private Fragment mFragment;
-        private final Activity mActivity;
-        private final String mTag;
-        private final Class<T> mClass;
-
-        /** Constructor used each time a new tab is created.
-         * @param activity  The host Activity, used to instantiate the fragment
-         * @param tag  The identifier tag for the fragment
-         * @param clz  The fragment's Class, used to instantiate the fragment
-         */
-        public TabListener(Activity activity, String tag, Class<T> clz) {
-            mActivity = activity;
-            mTag = tag;
-            mClass = clz;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
 
-    /* The following are each of the ActionBar.TabListener callbacks */
+        return false;
+    }
 
-        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-            // Check if the fragment is already initialized
-            if (mFragment == null) {
-                // If not, instantiate and add it to the activity
-                mFragment = Fragment.instantiate(mActivity, mClass.getName());
-                ft.add(R.id.content, mFragment, mTag);
-            } else {
-                // If it exists, simply attach it in order to show it
-                ft.attach(mFragment);
-            }
-        }
+    @Override
+    public void onEmployeesListReceived(List<User> employees) {
+        recycleView.setAdapter(new EmployeesListAdapter(employees, this));
+    }
 
-        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-            if (mFragment != null) {
-                // Detach the fragment, because another one is being attached
-                ft.detach(mFragment);
-            }
-        }
+    @Override
+    public void onAbsenceEmployeesListReceived(List<Absence> absenceEmployees) {}
 
-        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-            // User selected the already selected tab. Usually do nothing.
-        }
+    @Override
+    public void onItemClick(String userId) {
+        startActivity(new Intent(this, ProfileActivity.class));
     }
 }
