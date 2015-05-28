@@ -40,4 +40,9 @@
         <item name="android:textColor">@color/stxnext_green</item>
     </style>
 
+    <style name="LateSeekBar" parent="android:Widget.DeviceDefault.SeekBar">
+        <item name="android:progressDrawable">@drawable/seekbar_progress</item>
+        <item name="android:thumb">@null</item>
+    </style>
+
 </resources>
