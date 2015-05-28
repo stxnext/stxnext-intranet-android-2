@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SeekBar;
 import android.widget.TimePicker;
 
 import com.stxnext.intranet2.R;
@@ -28,15 +29,14 @@ public class RequestLateActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        TimePicker timePicker = (TimePicker) findViewById(R.id.time_picker);
-        timePicker.setIs24HourView(true);
-
         findViewById(R.id.submit_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
+        View wtfView = findViewById(R.id.wtf_image);
     }
 
     @Override
