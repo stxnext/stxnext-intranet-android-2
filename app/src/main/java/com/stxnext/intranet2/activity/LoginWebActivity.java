@@ -14,7 +14,6 @@ public class LoginWebActivity extends AppCompatActivity implements ConnectionMan
 
 
     private WebView webView;
-    private ConnectionManager connectionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +24,7 @@ public class LoginWebActivity extends AppCompatActivity implements ConnectionMan
     }
 
     private void logIn() {
-        connectionManager = new ConnectionManager(this, webView, this);
+        ConnectionManager connectionManager = new ConnectionManager(this, webView, this);
         connectionManager.signIn();
     }
 
@@ -53,6 +52,12 @@ public class LoginWebActivity extends AppCompatActivity implements ConnectionMan
 
     @Override
     public void onLoginFailed() {
-
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setResult(LoginActivity.LOGIN_FAILED);
+                finish();
+            }
+        });
     }
 }

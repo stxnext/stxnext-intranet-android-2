@@ -1,5 +1,7 @@
 package com.stxnext.intranet2.backend.api;
 
+import android.content.Context;
+
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.model.Absence;
 import com.stxnext.intranet2.backend.model.User;
@@ -16,8 +18,8 @@ import java.util.List;
  */
 public class EmployeesApiImpl extends EmployeesApi {
 
-    public EmployeesApiImpl(EmployeesApiCallback callback) {
-        super(callback);
+    public EmployeesApiImpl(Context context, EmployeesApiCallback callback) {
+        super(context, callback);
     }
 
     @Override
