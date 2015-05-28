@@ -16,17 +16,11 @@
         <item name="android:buttonStyle">@style/Button.Material</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:timePickerStyle">@style/TimePicker</item>
     </style>
 
     <style name="Button.Material" parent="Button">
         <item name="android:elevation">1dp</item>
         <item name="android:background">@drawable/selector_default_button</item>
-    </style>
-
-    <style name="TimePicker" parent="android:Widget.Material.TimePicker">
-        <item name="android:numbersTextColor">@color/stxnext_green_darkest</item>
-        <item name="android:editTextColor">@color/white_alpha</item>
     </style>
 
 </resources>

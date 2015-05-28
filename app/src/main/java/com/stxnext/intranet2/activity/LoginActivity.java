@@ -1,17 +1,14 @@
 package com.stxnext.intranet2.activity;
 
 import android.content.Intent;
-import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.utils.Config;
-import com.stxnext.intranet2.utils.GooglePlusConnectionManager;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -30,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                findViewById(R.id.login_failed_label).setVisibility(View.INVISIBLE);
                 Intent webLoginIntent = new Intent(LoginActivity.this, LoginWebActivity.class);
                 startActivityForResult(webLoginIntent, RC_WEB_SIGN_IN);
             }
@@ -46,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
                     setResult(resultCode);
                     finish();
                 } else if (resultCode == LOGIN_FAILED) {
-                    //TODO: Show info about failure
+                    findViewById(R.id.login_failed_label).setVisibility(View.VISIBLE);
                 }
                 break;
             }
