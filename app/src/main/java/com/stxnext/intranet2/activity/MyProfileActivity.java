@@ -60,10 +60,14 @@ public class MyProfileActivity extends AppCompatActivity
         if (isLogged()) {
             loadProfile();
         } else {
-            Intent loginIntent = new Intent(this, LoginActivity.class);
-            startActivityForResult(loginIntent, LOGIN_REQUEST);
+            runLoginActivity();
         }
 
+    }
+
+    private void runLoginActivity() {
+        Intent loginIntent = new Intent(this, LoginActivity.class);
+        startActivityForResult(loginIntent, LOGIN_REQUEST);
     }
 
     private void configureDrawer() {
@@ -144,6 +148,8 @@ public class MyProfileActivity extends AppCompatActivity
                     loadProfile();
                 } else if (resultCode == LoginActivity.LOGIN_FAILED) {
                     Toast.makeText(this, R.string.login_failure, Toast.LENGTH_SHORT).show();
+                } else if (resultCode == LoginActivity.LOGIN_CANCELED) {
+                    Toast.makeText(this, "Login canceled.", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -151,14 +157,12 @@ public class MyProfileActivity extends AppCompatActivity
         }
     }
 
-    //TODO
     private void loadProfile() {
         Log.d(Config.TAG, "loadProfile()");
         UserApi userApi = new UserApiImpl(this);
         userApi.requestForUser(null);
     }
 
-    //TODO
     private boolean isLogged() {
         return Session.getInstance(this).isLogged();
     }

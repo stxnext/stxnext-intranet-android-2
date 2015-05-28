@@ -38,7 +38,12 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.AbsencesActivity"
+            android:name=".activity.LoginWebActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/login" />
+
+        <activity
+            android:name=".activity.AbsenceActivity"
             android:label="@string/absences"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>

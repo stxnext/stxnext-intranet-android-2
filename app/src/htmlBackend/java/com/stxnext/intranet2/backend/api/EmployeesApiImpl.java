@@ -1,10 +1,19 @@
 package com.stxnext.intranet2.backend.api;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.model.Absence;
 import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.backend.model.impl.AbsenceImpl;
 import com.stxnext.intranet2.backend.model.impl.UserImpl;
+import com.stxnext.intranet2.utils.Config;
+import com.stxnext.intranet2.utils.Session;
+
+import org.apache.http.Header;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,27 +25,30 @@ import java.util.List;
  */
 public class EmployeesApiImpl extends EmployeesApi {
 
-    public EmployeesApiImpl(EmployeesApiCallback callback) {
-        super(callback);
+    public EmployeesApiImpl(Context context, EmployeesApiCallback callback) {
+        super(context, callback);
     }
 
     @Override
     public void requestForEmployees() {
-//        AsyncHttpClient httpClient = new AsyncHttpClient();
-//
-//        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-//                String response = new String(responseBody);
-//                Log.d(App.TAG, response);
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-//
-//            }
-//        };
-//        httpClient.get("https://intranet.stxnext.pl/api/users?full=1&inactive=0&access_token=" + Session.googlePlusToken, asyncHttpResponseHandler);
+        // TODO To implement.
+        AsyncHttpClient httpClient = new AsyncHttpClient();
+        httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
+
+        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String response = new String(responseBody);
+                Log.d(Config.TAG, response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        };
+
+        httpClient.get("https://intranet.stxnext.pl/api/users?full=1&inactive=0", asyncHttpResponseHandler);
 
         List<User> list = new ArrayList<>();
         list.add(new UserImpl("12sad3", "Łukasz", "Ciupa", "", "", "", "Android Developer", "", "", "", ""));
