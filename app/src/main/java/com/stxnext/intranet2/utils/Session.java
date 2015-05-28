@@ -3,6 +3,8 @@ package com.stxnext.intranet2.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.loopj.android.http.PersistentCookieStore;
+
 /**
  * Created by Lukasz Ciupa on 2015-05-20.
  */
@@ -13,12 +15,16 @@ public class Session {
     private String googlePlusToken = null;
     private String authorizationCode = null;
     private SharedPreferences preferences = null;
+    private PersistentCookieStore cookieStore = null;
+    private Boolean logged = null;
     private static final String PREFERENCES_NAME = "com.stxnext.intranet2";
     private static final String TOKEN_PREFERENCE = "token";
     private static final String CODE_PREFERENCE = "code";
+    private static final String LOGGED_PREFERENCE = "logged";
 
     private Session(Context context) {
         preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        cookieStore = new PersistentCookieStore(context);
     }
 
     public static Session getInstance(Context context) {
@@ -44,6 +50,10 @@ public class Session {
         return authorizationCode;
     }
 
+    public PersistentCookieStore getCookieStore() {
+        return cookieStore;
+    }
+
     public void setGooglePlusToken(String googlePlusToken) {
         this.googlePlusToken = googlePlusToken;
         preferences.edit().putString(TOKEN_PREFERENCE, googlePlusToken).commit();
@@ -57,7 +67,15 @@ public class Session {
         return googlePlusToken;
     }
 
+    public void setLogged(boolean logged) {
+        this.logged = logged;
+        preferences.edit().putBoolean(LOGGED_PREFERENCE, logged).commit();
+    }
+
     public boolean isLogged() {
-        return getAuthorizationCode() != null;
+        if (logged == null) {
+            logged = preferences.getBoolean(LOGGED_PREFERENCE, false);
+        }
+        return logged;
     }
 }

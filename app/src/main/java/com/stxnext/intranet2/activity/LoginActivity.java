@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity implements GooglePlusConnec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //Google client code
 //        googlePlusConnectionManager = new GooglePlusConnectionManager(this, this);
 
         Button signInButton = (Button) findViewById(R.id.sign_in_button);
@@ -55,6 +56,7 @@ public class LoginActivity extends AppCompatActivity implements GooglePlusConnec
         Log.d(Config.TAG, "onActivityResult()");
         switch (requestCode) {
             case RC_SIGN_IN:
+                // Google client code.
                 // There was onConnectionFailed(final ConnectionResult connectionResult)
                 // user has fixed problems with connection, so connect again.
                 googlePlusConnectionManager.connect();

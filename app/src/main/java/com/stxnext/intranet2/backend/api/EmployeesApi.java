@@ -1,5 +1,7 @@
 package com.stxnext.intranet2.backend.api;
 
+import android.content.Context;
+
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 
 /**
@@ -8,9 +10,11 @@ import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 public abstract class EmployeesApi {
 
     protected final EmployeesApiCallback apiCallback;
+    protected Context context;
 
-    public EmployeesApi(EmployeesApiCallback callback) {
+    public EmployeesApi(Context context, EmployeesApiCallback callback) {
         this.apiCallback = callback;
+        this.context = context;
     }
 
     public abstract void requestForEmployees();

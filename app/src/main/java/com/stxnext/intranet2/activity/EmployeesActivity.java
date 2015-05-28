@@ -35,7 +35,7 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recycleView.setLayoutManager(layoutManager);
 
-        EmployeesApi api = new EmployeesApiImpl(this);
+        EmployeesApi api = new EmployeesApiImpl(this, this);
         api.requestForEmployees();
     }
 
