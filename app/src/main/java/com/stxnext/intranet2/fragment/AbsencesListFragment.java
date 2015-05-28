@@ -56,7 +56,7 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
         recycleView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recycleView.setLayoutManager(layoutManager);
-        EmployeesApi employeesApi = new EmployeesApiImpl(this);
+        EmployeesApi employeesApi = new EmployeesApiImpl(getActivity(), this);
         switch (type) {
             case HOLIDAY:
                 employeesApi.requestForHolidayAbsenceEmpolyees();
