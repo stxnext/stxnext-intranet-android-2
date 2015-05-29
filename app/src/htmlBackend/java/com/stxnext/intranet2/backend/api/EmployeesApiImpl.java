@@ -38,26 +38,31 @@ public class EmployeesApiImpl extends EmployeesApi {
 
     @Override
     public void requestForEmployees() {
-        AsyncHttpClient httpClient = new AsyncHttpClient();
-        httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
+        List<User> employees = DBManager.getInstance().getEmployees();
+        if (employees == null) {
+            AsyncHttpClient httpClient = new AsyncHttpClient();
+            httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
 
-        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String response = new String(responseBody);
-                Log.d(Config.TAG, response);
-                List<User> users = processJsonEmployees(response);
-                DBManager.getInstance().persistEmployees(users);
-                apiCallback.onEmployeesListReceived(users);
-            }
+            AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String response = new String(responseBody);
+                    Log.d(Config.TAG, response);
+                    List<User> users = processJsonEmployees(response);
+                    DBManager.getInstance().persistEmployees(users);
+                    apiCallback.onEmployeesListReceived(users);
+                }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
-            }
-        };
+                }
+            };
 
-        httpClient.get("https://intranet.stxnext.pl/api/users?full=1&inactive=0", asyncHttpResponseHandler);
+            httpClient.get("https://intranet.stxnext.pl/api/users?full=1&inactive=0", asyncHttpResponseHandler);
+        } else {
+            apiCallback.onEmployeesListReceived(employees);
+        }
     }
 
     private List<User> processJsonEmployees(String jsonEmployeesString) {
