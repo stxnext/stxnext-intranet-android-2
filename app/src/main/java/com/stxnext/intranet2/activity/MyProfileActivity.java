@@ -190,7 +190,21 @@ public class MyProfileActivity extends AppCompatActivity
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(MyProfileActivity.this, ReportLateActivity.class);
+                Class intentClass = null;
+                switch (option) {
+                    case FloatingMenuFragment.LATE:
+                        intentClass = ReportLateActivity.class;
+                        break;
+                    case FloatingMenuFragment.HOLIDAY:
+                        intentClass = ReportOutOfOfficeActivity.class;
+                        break;
+                    case FloatingMenuFragment.OUT_OF_OFFICE:
+                        intentClass = ReportOutOfOfficeActivity.class;
+                        break;
+
+                }
+
+                Intent intent = new Intent(MyProfileActivity.this, intentClass);
                 startActivity(intent);
             }
         }, 300);
