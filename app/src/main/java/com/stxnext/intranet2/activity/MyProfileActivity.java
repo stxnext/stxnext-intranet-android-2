@@ -159,8 +159,8 @@ public class MyProfileActivity extends AppCompatActivity
 
     private void loadProfile() {
         Log.d(Config.TAG, "loadProfile()");
-        UserApi userApi = new UserApiImpl(this);
-        userApi.requestForUser(null);
+        UserApi userApi = new UserApiImpl(this, this);
+        userApi.requestForUser("346");
     }
 
     private boolean isLogged() {
@@ -169,7 +169,7 @@ public class MyProfileActivity extends AppCompatActivity
 
     @Override
     public void onUserReceived(User user) {
-
+        Log.d(Config.TAG, "User profile for :" + user.getFirstName() + " " + user.getLastName());
     }
 
     @Override
