@@ -2,6 +2,7 @@ package com.stxnext.intranet2.utils;
 
 import com.stxnext.intranet2.backend.model.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,10 @@ public class DBManager {
         for (User user : employees) {
             employeesMap.put(user.getId(), user);
         }
+    }
+
+    public List<User> getEmployees() {
+        return new ArrayList(employeesMap.values());
     }
 
     public User getUser(String userId) {
