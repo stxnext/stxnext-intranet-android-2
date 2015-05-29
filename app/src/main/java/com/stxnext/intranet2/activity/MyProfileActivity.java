@@ -190,7 +190,7 @@ public class MyProfileActivity extends AppCompatActivity
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(MyProfileActivity.this, RequestLateActivity.class);
+                Intent intent = new Intent(MyProfileActivity.this, ReportLateActivity.class);
                 startActivity(intent);
             }
         }, 300);
