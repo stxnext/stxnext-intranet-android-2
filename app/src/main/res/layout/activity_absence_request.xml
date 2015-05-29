@@ -120,6 +120,7 @@
                 android:paddingBottom="12dp"
                 android:layout_margin="3dp"
                 android:elevation="3dp"
+                android:alpha="0"
                 android:text="@string/submit"/>
 
         </LinearLayout>

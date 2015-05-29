@@ -18,8 +18,10 @@ import com.stxnext.intranet2.R;
 /**
  * Created by Tomasz Konieczny on 2015-05-27.
  */
-public class RequestLateActivity extends AppCompatActivity {
+public class ReportLateActivity extends AppCompatActivity {
 
+
+    private View submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +34,6 @@ public class RequestLateActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        findViewById(R.id.submit_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         final TextView hourLabel = (TextView) findViewById(R.id.hour_label);
         final View labelBackground = findViewById(R.id.hour_label_background);
@@ -56,7 +51,7 @@ public class RequestLateActivity extends AppCompatActivity {
                     if (hideTip) {
                         hideTip = false;
                         final View tipView = findViewById(R.id.tip_container);
-                        tipView.animate().alpha(0).scaleX(1.5f).scaleY(1.5f).translationX(300).setDuration(300);
+                        tipView.animate().alpha(0).scaleX(1.2f).scaleY(1.2f).translationX(300).setDuration(300);
                     }
 
                     float percentage = ((float) progress / seekBar.getMax());
@@ -69,6 +64,16 @@ public class RequestLateActivity extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                if (submitButton == null) {
+                    submitButton = findViewById(R.id.submit_button);
+                    submitButton.animate().alpha(1f).setDuration(300);
+                    submitButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                        }
+                    });
+                }
             }
 
             @Override
