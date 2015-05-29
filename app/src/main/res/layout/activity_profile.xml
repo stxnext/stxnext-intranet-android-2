@@ -257,6 +257,7 @@
                                 android:textColor="@color/gray_dark" />
 
                             <TextView
+                                android:id="@+id/office_text_view"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
@@ -282,6 +283,7 @@
                                 android:textColor="@color/gray_dark" />
 
                             <TextView
+                                android:id="@+id/email_text_view"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
@@ -307,6 +309,7 @@
                                 android:textColor="@color/gray_dark" />
 
                             <TextView
+                                android:id="@+id/phone_text_view"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
@@ -332,6 +335,7 @@
                                 android:textColor="@color/gray_dark" />
 
                             <TextView
+                                android:id="@+id/skype_text_view"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
@@ -358,6 +362,7 @@
                                 android:textColor="@color/gray_dark" />
 
                             <TextView
+                                android:id="@+id/irc_text_view"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"

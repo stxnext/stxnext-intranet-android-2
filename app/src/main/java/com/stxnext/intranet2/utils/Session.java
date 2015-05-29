@@ -17,10 +17,12 @@ public class Session {
     private SharedPreferences preferences = null;
     private PersistentCookieStore cookieStore = null;
     private Boolean logged = null;
+    private String userId = null;
     private static final String PREFERENCES_NAME = "com.stxnext.intranet2";
     private static final String TOKEN_PREFERENCE = "token";
     private static final String CODE_PREFERENCE = "code";
     private static final String LOGGED_PREFERENCE = "logged";
+    private static final String USER_ID_PREFERENCE = "id";
 
     private Session(Context context) {
         preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
@@ -73,10 +75,19 @@ public class Session {
         preferences.edit().putBoolean(LOGGED_PREFERENCE, logged).commit();
     }
 
-    public boolean isLogged() {
-        if (logged == null) {
-            logged = preferences.getBoolean(LOGGED_PREFERENCE, false);
+    public void setUserId(String userId) {
+        this.userId = userId;
+        preferences.edit().putString(USER_ID_PREFERENCE, userId).commit();
+    }
+
+    public String getUserId() {
+        if (userId == null) {
+            userId = preferences.getString(USER_ID_PREFERENCE, null);
         }
-        return logged;
+        return userId;
+    }
+
+    public boolean isLogged() {
+        return getUserId() != null;
     }
 }
