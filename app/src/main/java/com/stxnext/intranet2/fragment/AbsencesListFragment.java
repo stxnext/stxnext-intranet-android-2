@@ -1,6 +1,7 @@
 package com.stxnext.intranet2.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,7 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
     private AbsencesTypes type;
     private View view;
     private RecyclerView recycleView;
+    private Context context;
 
     public static AbsencesListFragment newInstance(AbsencesTypes type) {
         AbsencesListFragment fragment = new AbsencesListFragment();
@@ -44,6 +46,7 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        context = activity;
         if (getArguments() != null) {
             this.type = (AbsencesTypes) getArguments().getSerializable(TYPE_ARG);
         }
@@ -78,7 +81,7 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
 
     @Override
     public void onAbsenceEmployeesListReceived(List<Absence> absenceEmployees) {
-        AbsencesListAdapter absencesListAdapter = new AbsencesListAdapter(absenceEmployees, this);
+        AbsencesListAdapter absencesListAdapter = new AbsencesListAdapter(context, absenceEmployees, this);
         recycleView.setAdapter(absencesListAdapter);
     }
 

@@ -1,5 +1,6 @@
 package com.stxnext.intranet2.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.model.Absence;
 import com.stxnext.intranet2.backend.model.User;
@@ -20,10 +22,12 @@ public class AbsencesListAdapter extends RecyclerView.Adapter<AbsencesListAdapte
 
     private final List<Absence> absences;
     private OnItemClickListener listener;
+    private Context context;
 
-    public AbsencesListAdapter(List<Absence> absences, OnItemClickListener listener) {
+    public AbsencesListAdapter(Context context, List<Absence> absences, OnItemClickListener listener) {
         this.absences = absences;
         this.listener = listener;
+        this.context = context;
     }
 
     @Override
@@ -52,6 +56,8 @@ public class AbsencesListAdapter extends RecyclerView.Adapter<AbsencesListAdapte
 
         holder.nameTextView.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
         holder.descriptionTextView.setText(absence.getDescription());
+        String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
+        Picasso.with(context).load(imageAddress).placeholder(R.drawable.avatar_placeholder).into(holder.avatarImageView);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

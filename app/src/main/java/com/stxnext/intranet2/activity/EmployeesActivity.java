@@ -51,7 +51,7 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
 
     @Override
     public void onEmployeesListReceived(List<User> employees) {
-        recycleView.setAdapter(new EmployeesListAdapter(employees, this));
+        recycleView.setAdapter(new EmployeesListAdapter(this, employees, this));
     }
 
     @Override
