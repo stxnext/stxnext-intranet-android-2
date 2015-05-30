@@ -98,8 +98,9 @@ public class EmployeesApiImpl extends EmployeesApi {
         }
         String role = "";
         JSONArray rolesJSONArray = userJSONObject.getJSONArray("roles");
+        String avatarUrl = userJSONObject.getString("avatar_url");
         if (rolesJSONArray.length() > 0) role = rolesJSONArray.getString(0);
-        User user = new UserImpl(String.valueOf(id), firstName, lastName, "", "", "", role, "", "", "", "");
+        User user = new UserImpl(String.valueOf(id), firstName, lastName, "", "", "", role, "", "", "", avatarUrl);
         return user;
     }
 

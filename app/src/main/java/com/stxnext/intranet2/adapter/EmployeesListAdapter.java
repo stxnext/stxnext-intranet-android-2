@@ -1,5 +1,6 @@
 package com.stxnext.intranet2.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.model.User;
 
@@ -19,8 +22,12 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
 
     private final List<User> users;
     private OnItemClickListener listener;
+    private Context context;
+    private OkHttpDownloader downloader;
+    private Picasso picasso;
 
-    public EmployeesListAdapter(List<User> users, OnItemClickListener listener) {
+    public EmployeesListAdapter(Context context, List<User> users, OnItemClickListener listener) {
+        this.context = context;
         this.users = users;
         this.listener = listener;
     }
@@ -51,6 +58,8 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
 
         holder.nameTextView.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
         holder.roleTextView.setText(user.getRole());
+        String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
+        Picasso.with(context).load(imageAddress).placeholder(R.drawable.avatar_placeholder).into(holder.avatarImageView);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

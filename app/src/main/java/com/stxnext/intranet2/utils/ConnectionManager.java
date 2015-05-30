@@ -85,6 +85,7 @@ public class ConnectionManager {
                     String id = response.substring(beginIndex);
                     id = id.substring(0, id.indexOf(","));
                     Session.getInstance(context).setUserId(id);
+                    Session.getInstance(context).initializeOkHttpCookieHandler();
                     callback.onLoggedIn();
                 }
             }

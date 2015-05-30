@@ -111,8 +111,9 @@ public class UserApiImpl extends UserApi {
         if (rolesJSONArray.length() > 0) role = rolesJSONArray.getString(0);
         String email = userJSONObject.getString("email");
         String irc = userJSONObject.getString("irc");
+        String avatarUrl = userJSONObject.getString("avatar_url");
         User user = new UserImpl(String.valueOf(id), firstName, lastName, skype, phone,
-                city, role, email, irc, "Team Mobilny", null);
+                city, role, email, irc, "Team Mobilny", avatarUrl);
         return user;
     }
 
