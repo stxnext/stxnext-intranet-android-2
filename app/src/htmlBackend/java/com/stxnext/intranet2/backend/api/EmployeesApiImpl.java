@@ -400,4 +400,5 @@ public class EmployeesApiImpl extends EmployeesApi {
             absencesJSONObjects.add(absencesJSONArray.getJSONObject(i));
         }
     }
+
 }

@@ -27,4 +27,8 @@
     <string name="logout">logout</string>
     <string name="late_title">I\'ll be at work at:</string>
     <string name="submit">Submit</string>
+    <string name="absence_planned">Planned</string>
+    <string name="absence_leave_at_request">At request</string>
+    <string name="absence_illness">Illness</string>
+    <string name="absence_compassionate">Compassionate</string>
 </resources>
