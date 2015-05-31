@@ -19,4 +19,19 @@ public class UserApiImpl extends UserApi {
                 "Poznań", "Programista", "marian.kowalski@stxnext.pl", "marianno", "Team Mobilny", null);
         apiCallback.onUserReceived(user);
     }
+
+    @Override
+    public void submitOutOfOfficeAbsence(Date submissionDate, Date startHour, Date endHour, String explanation) {
+
+    }
+
+    @Override
+    public void submitWorkFromHomeAbsence(Date submissionDate, Date startHour, Date endHour, String explanation) {
+
+    }
+
+    @Override
+    public void submitHolidayAbsence(HolidayTypes absenceType, Date endDate, Date startDate, String remarks) {
+
+    }
 }

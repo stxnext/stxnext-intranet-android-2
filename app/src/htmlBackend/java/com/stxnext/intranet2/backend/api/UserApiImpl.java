@@ -8,6 +8,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.backend.model.impl.UserImpl;
+import com.stxnext.intranet2.model.HolidayTypes;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
 import com.stxnext.intranet2.utils.Session;
@@ -17,7 +18,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -119,6 +122,39 @@ public class UserApiImpl extends UserApi {
 
     private boolean isEmployee(JSONObject userJSONObject) throws JSONException {
         return !userJSONObject.getBoolean("is_client");
+    }
+
+    //TODO
+    //Need json:
+    // {"lateness":{"late_end":"09:05","popup_explanation":"Test aplikacji.","work_from_home":"false","late_start":"09:00","popup_date":"31/05/2015"}}
+    @Override
+    public void submitOutOfOfficeAbsence(Date submissionDate, Date startHour, Date endHour, String explanation) {
+    }
+    //TODO
+    // {"lateness":{"late_end":"09:05","popup_explanation":"Test aplikacji.","work_from_home":"true","late_start":"09:00","popup_date":"31/05/2015"}}
+    @Override
+    public void submitWorkFromHomeAbsence(Date submissionDate, Date startHour, Date endHour, String explanation) {
+
+    }
+    //TODO
+    // JSON to gain:
+    // {"absence":{"popup_type":"planowany","popup_date_end":"05/06/2015","popup_remarks":"Wolne.","popup_date_start":"05/06/2015"}}
+    @Override
+    public void submitHolidayAbsence(HolidayTypes absenceType, Date endDate, Date startDate, String remarks) {
+        JSONObject mainObject = new JSONObject();
+        JSONObject absenceObject = new JSONObject();
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            absenceObject.put("popup_type", absenceType.getAbsenceName())
+                    .put("popup_date_end", dateFormat.format(endDate))
+                    .put("popup_remarks", remarks)
+                    .put("popup_date_start", dateFormat.format(startDate));
+            mainObject.put("absence", absenceObject);
+            Log.d(Config.TAG, mainObject.toString());
+            Log.d(Config.TAG, dateFormat.format(endDate));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }
