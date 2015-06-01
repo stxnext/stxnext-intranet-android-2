@@ -8,6 +8,7 @@ import java.util.Date;
 public interface Absence {
 
     User getUser();
+    void setUser(User user);
     Date getAbsenceFrom();
     Date getAbsenceTo();
     String getDescription();
