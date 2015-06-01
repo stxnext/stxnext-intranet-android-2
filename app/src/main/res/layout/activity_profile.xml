@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.stxnext.intranet2.view.ProfileView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.stxnext.intranet2.view.ProfileView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:round="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
     <ImageView
-        android:id="@+id/profile_image_view"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/profile_image_height"
-        android:scaleType="fitCenter"
-        android:src="@drawable/mr_superhero_profile" />
+        android:paddingTop="90dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/mr_superhero_profile"/>
+
+    <com.stxnext.intranet2.view.RoundedImageView
+        android:id="@+id/profile_image_view"
+        android:layout_width="@dimen/profile_photo_size"
+        android:layout_height="@dimen/profile_photo_size"
+        android:src="@drawable/avatar_placeholder"
+        android:layout_marginLeft="152dp"
+        android:layout_marginTop="42dp"
+        round:borderColor="@color/background"
+        round:borderSize="@dimen/null_value"/>
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -25,13 +37,13 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/profile_image_height"
-                android:background="@android:color/transparent" />
+                android:background="@android:color/transparent"/>
 
             <LinearLayout xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/background"
-                android:orientation="vertical">
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:background="@color/background"
+                          android:orientation="vertical">
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/worked_hours_container"
@@ -56,7 +68,7 @@
                             android:text="Przepracowane godziny"
                             android:textColor="@color/stxnext_green"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -74,7 +86,7 @@
                                 android:gravity="center"
                                 android:text="Dziś"
                                 android:textSize="15sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -84,7 +96,7 @@
                                 android:gravity="center"
                                 android:text="Maj"
                                 android:textSize="15sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -94,7 +106,7 @@
                                 android:gravity="center"
                                 android:text="Kwartał"
                                 android:textSize="15sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"/>
 
                         </LinearLayout>
 
@@ -113,7 +125,7 @@
                                 android:layout_weight="1.5"
                                 android:gravity="center"
                                 android:text="6.00"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -122,7 +134,7 @@
                                 android:layout_weight="2"
                                 android:gravity="center"
                                 android:text="131.21"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -131,7 +143,7 @@
                                 android:layout_weight="2"
                                 android:gravity="center"
                                 android:text="323.21"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"/>
 
                         </LinearLayout>
 
@@ -150,7 +162,7 @@
                                 android:layout_weight="1.5"
                                 android:gravity="center"
                                 android:text=""
-                                android:textSize="12sp" />
+                                android:textSize="12sp"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -160,7 +172,7 @@
                                 android:gravity="center"
                                 android:text="-2.00"
                                 android:textColor="@android:color/holo_red_light"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -170,7 +182,7 @@
                                 android:gravity="center"
                                 android:text="+22.21"
                                 android:textColor="@android:color/holo_green_dark"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"/>
 
                         </LinearLayout>
 
@@ -181,7 +193,7 @@
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
                             android:layout_marginTop="24dp"
-                            android:text="Dodaj godziny" />
+                            android:text="Dodaj godziny"/>
 
                     </LinearLayout>
 
@@ -209,7 +221,7 @@
                             android:text="Tomasz Konieczny"
                             android:textColor="@color/stxnext_green"
                             android:textSize="21sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -223,20 +235,20 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="12dp"
                                 android:text="Programmer"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
                                 android:layout_marginRight="4dp"
-                                android:text="\@" />
+                                android:text="\@"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Mobile Team"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"/>
 
                         </LinearLayout>
 
@@ -254,7 +266,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Biuro:"
-                                android:textColor="@color/gray_dark" />
+                                android:textColor="@color/gray_dark"/>
 
                             <TextView
                                 android:id="@+id/office_text_view"
@@ -262,7 +274,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
                                 android:layout_weight="5"
-                                android:text="Poznań" />
+                                android:text="Poznań"/>
 
                         </LinearLayout>
 
@@ -280,7 +292,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="E-mail:"
-                                android:textColor="@color/gray_dark" />
+                                android:textColor="@color/gray_dark"/>
 
                             <TextView
                                 android:id="@+id/email_text_view"
@@ -288,7 +300,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
                                 android:layout_weight="5"
-                                android:text="tomasz.konieczny@stxnext.pl" />
+                                android:text="tomasz.konieczny@stxnext.pl"/>
 
                         </LinearLayout>
 
@@ -306,7 +318,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Tel:"
-                                android:textColor="@color/gray_dark" />
+                                android:textColor="@color/gray_dark"/>
 
                             <TextView
                                 android:id="@+id/phone_text_view"
@@ -314,7 +326,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
                                 android:layout_weight="5"
-                                android:text="+48 600 516 232" />
+                                android:text="+48 600 516 232"/>
 
                         </LinearLayout>
 
@@ -332,7 +344,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Skype:"
-                                android:textColor="@color/gray_dark" />
+                                android:textColor="@color/gray_dark"/>
 
                             <TextView
                                 android:id="@+id/skype_text_view"
@@ -340,17 +352,17 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
                                 android:layout_weight="5"
-                                android:text="-" />
+                                android:text="-"/>
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="24dp"
                             android:layout_marginLeft="12dp"
                             android:layout_marginRight="12dp"
                             android:layout_marginTop="12dp"
-                            android:layout_marginBottom="24dp"
                             android:orientation="horizontal">
 
 
@@ -359,7 +371,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="IRC:"
-                                android:textColor="@color/gray_dark" />
+                                android:textColor="@color/gray_dark"/>
 
                             <TextView
                                 android:id="@+id/irc_text_view"
@@ -367,7 +379,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
                                 android:layout_weight="5"
-                                android:text="-" />
+                                android:text="-"/>
 
                         </LinearLayout>
 
@@ -378,7 +390,7 @@
                             android:layout_marginBottom="3dp"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
-                            android:text="Edytuj dane" />
+                            android:text="Edytuj dane"/>
 
                     </LinearLayout>
 
@@ -393,7 +405,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize" />
+        android:layout_height="?attr/actionBarSize"/>
 
     <FrameLayout
         android:id="@+id/floating_menu_container"
@@ -417,7 +429,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="18dp"
-            android:src="@drawable/plus" />
+            android:src="@drawable/plus"/>
 
     </FrameLayout>
 

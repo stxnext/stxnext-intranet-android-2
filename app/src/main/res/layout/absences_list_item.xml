@@ -94,6 +94,7 @@
             android:text="From:"/>
 
         <TextView
+            android:id="@+id/from_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="8dp"
@@ -119,6 +120,7 @@
             android:text="To:"/>
 
         <TextView
+            android:id="@+id/to_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="8dp"
