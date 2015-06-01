@@ -59,6 +59,6 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
 
     @Override
     public void onItemClick(String userId) {
-        startActivity(new Intent(this, ProfileActivity.class));
+        startActivity(new Intent(this, ProfileActivity.class).putExtra(ProfileActivity.USER_ID_TAG, userId));
     }
 }
