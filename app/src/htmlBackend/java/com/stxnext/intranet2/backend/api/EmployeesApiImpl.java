@@ -90,7 +90,7 @@ public class EmployeesApiImpl extends EmployeesApi {
         String[] nameSplitted = name.split(" ");
         String firstName;
         String lastName = "";
-        if (nameSplitted != null && nameSplitted.length == 2) {
+        if (nameSplitted.length == 2) {
             firstName = nameSplitted[0];
             lastName = nameSplitted[1];
         } else {
@@ -99,7 +99,10 @@ public class EmployeesApiImpl extends EmployeesApi {
         String role = "";
         JSONArray rolesJSONArray = userJSONObject.getJSONArray("roles");
         String avatarUrl = userJSONObject.getString("avatar_url");
-        if (rolesJSONArray.length() > 0) role = rolesJSONArray.getString(0);
+        if (rolesJSONArray.length() > 0) {
+            role = rolesJSONArray.getString(0);
+            role = role.substring(0, 1).toUpperCase() + role.substring(1, role.length()).toLowerCase();
+        }
         User user = new UserImpl(String.valueOf(id), firstName, lastName, "", "", "", role, "", "", "", avatarUrl);
         return user;
     }
@@ -109,7 +112,7 @@ public class EmployeesApiImpl extends EmployeesApi {
     }
 
     @Override
-    public void requestForOutOfOfficeAbsenceEmpolyees() {
+    public void requestForOutOfOfficeAbsenceEmployees() {
 
         AsyncHttpClient httpClient = new AsyncHttpClient();
         httpClient.setCookieStore(Session.getInstance(context).getCookieStore());

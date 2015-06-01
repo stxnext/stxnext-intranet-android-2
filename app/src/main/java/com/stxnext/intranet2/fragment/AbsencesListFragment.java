@@ -68,7 +68,7 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
                 employeesApi.requestForWorkFromHomeAbsenceEmpolyees();
                 break;
             case OUT_OF_OFFICE:
-                employeesApi.requestForOutOfOfficeAbsenceEmpolyees();
+                employeesApi.requestForOutOfOfficeAbsenceEmployees();
                 break;
         }
         return view;
