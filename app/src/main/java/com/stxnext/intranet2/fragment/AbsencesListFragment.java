@@ -99,7 +99,7 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
 
     @Override
     public void onAbsenceEmployeesListReceived(List<Absence> absenceEmployees) {
-        AbsencesListAdapter absencesListAdapter = new AbsencesListAdapter(context, absenceEmployees, this);
+        AbsencesListAdapter absencesListAdapter = new AbsencesListAdapter(context, absenceEmployees, type, this);
         recycleView.setAdapter(absencesListAdapter);
         callback.onAbsencesDownloaded();
         if (swipeRefreshView.isRefreshing()) {

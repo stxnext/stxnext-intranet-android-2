@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="profile_image_height">220dp</dimen>
+    <dimen name="profile_photo_size">114dp</dimen>
     <dimen name="floating_button_radius">60dp</dimen>
     <dimen name="profile_floating_button_position">190dp</dimen>
     <dimen name="max_floating_button_position">32dp</dimen>
 
     <dimen name="default_rounded_image_border">6dp</dimen>
+    <dimen name="null_value">0dp</dimen>
 </resources>

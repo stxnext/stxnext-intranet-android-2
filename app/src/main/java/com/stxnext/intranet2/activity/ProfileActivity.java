@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.api.UserApi;
 import com.stxnext.intranet2.backend.api.UserApiImpl;
@@ -28,6 +30,7 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
     private TextView phoneTextView;
     private TextView skypeTextView;
     private TextView ircTextView;
+    private ImageView profileImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
         phoneTextView = (TextView) findViewById(R.id.phone_text_view);
         skypeTextView = (TextView) findViewById(R.id.skype_text_view);
         ircTextView = (TextView) findViewById(R.id.irc_text_view);
+        profileImageView = (ImageView) findViewById(R.id.profile_image_view);
         findViewById(R.id.floating_button).setVisibility(View.GONE);
         findViewById(R.id.worked_hours_container).setVisibility(View.GONE);
         findViewById(R.id.edit_profile_button).setVisibility(View.GONE);
@@ -65,11 +69,22 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
 
     @Override
     public void onUserReceived(User user) {
-        firstNameTextView.setText(user.getFirstName() + " " + user.getLastName());
+        String userName = user.getFirstName() + " " + user.getLastName();
+        getSupportActionBar().setTitle(userName);
+        firstNameTextView.setText(userName);
         roleTextView.setText(user.getRole());
         officeTextView.setText(user.getLocalization());
         emailTextView.setText(user.getEmail());
-        phoneTextView.setText(user.getPhoneNumber());
+
+        String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
+        Picasso.with(this).load(imageAddress).placeholder(R.drawable.avatar_placeholder)
+                .resizeDimen(R.dimen.profile_image_height, R.dimen.profile_image_height)
+                .centerCrop()
+                .into(profileImageView);
+
+        if (user.getPhoneNumber() != "null") {
+            phoneTextView.setText(user.getPhoneNumber());
+        }
         if (user.getSkype() != "null") {
             skypeTextView.setText(user.getSkype());
         }
