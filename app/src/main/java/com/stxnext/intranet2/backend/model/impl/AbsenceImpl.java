@@ -1,7 +1,7 @@
 package com.stxnext.intranet2.backend.model.impl;
 
 import com.stxnext.intranet2.backend.model.Absence;
-import com.stxnext.intranet2.backend.model.impl.UserImpl;
+import com.stxnext.intranet2.backend.model.User;
 
 import java.util.Date;
 
@@ -10,12 +10,12 @@ import java.util.Date;
  */
 public class AbsenceImpl implements Absence {
 
-    private UserImpl user;
+    private User user;
     private Date absenceFrom;
     private Date absenceTo;
     private String description;
 
-    public AbsenceImpl(UserImpl user, Date absenceFrom, Date absenceTo, String description) {
+    public AbsenceImpl(User user, Date absenceFrom, Date absenceTo, String description) {
         this.user = user;
         this.absenceFrom = absenceFrom;
         this.absenceTo = absenceTo;
@@ -23,8 +23,13 @@ public class AbsenceImpl implements Absence {
     }
 
     @Override
-    public UserImpl getUser() {
+    public User getUser() {
         return user;
+    }
+
+    @Override
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

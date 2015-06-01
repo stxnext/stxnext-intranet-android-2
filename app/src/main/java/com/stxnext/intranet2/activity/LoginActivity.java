@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.utils.Config;
+import com.stxnext.intranet2.utils.Session;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -44,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                     setResult(resultCode);
                     finish();
                 } else if (resultCode == LOGIN_FAILED) {
+                    Session.getInstance(this).clearCookieStore();
                     findViewById(R.id.login_failed_label).setVisibility(View.VISIBLE);
                 }
                 break;

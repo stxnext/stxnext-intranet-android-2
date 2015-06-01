@@ -33,7 +33,6 @@ public class ConnectionManager {
     }
 
     public void signIn() {
-
         WebViewClient webViewClient = new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -64,8 +63,7 @@ public class ConnectionManager {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
                 Log.d(Config.TAG, response);
-                Session.getInstance(context).setLogged(true);
-                callback.onLoggedIn();
+                getUserId();
             }
 
             @Override
@@ -74,6 +72,30 @@ public class ConnectionManager {
             }
         };
         httpClient.get("https://intranet.stxnext.pl/auth/callback?code=" + Session.getInstance(context).getAuthorizationCode(), asyncHttpResponseHandler);
+    }
+
+    private void getUserId() {
+        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String response = new String(responseBody);
+                Log.d(Config.TAG, response);
+                if (response.contains("id")) {
+                    int beginIndex = response.indexOf("\"id\"") + "\"id\": ".length();
+                    String id = response.substring(beginIndex);
+                    id = id.substring(0, id.indexOf(","));
+                    Session.getInstance(context).setUserId(id);
+                    Session.getInstance(context).initializeOkHttpCookieHandler();
+                    callback.onLoggedIn();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                callback.onLoginFailed();
+            }
+        };
+        httpClient.get("https://intranet.stxnext.pl/user/edit", asyncHttpResponseHandler);
     }
 
     public interface ConnectionCallback {

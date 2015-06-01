@@ -1,30 +1,16 @@
 package com.stxnext.intranet2.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.stxnext.intranet2.R;
-import com.stxnext.intranet2.adapter.DrawerAdapter;
 import com.stxnext.intranet2.backend.api.UserApi;
 import com.stxnext.intranet2.backend.api.UserApiImpl;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.User;
-import com.stxnext.intranet2.fragment.FloatingMenuFragment;
-import com.stxnext.intranet2.model.DrawerMenuItems;
 
 
 /**
@@ -47,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        UserApi userApi = new UserApiImpl(this);
+        UserApi userApi = new UserApiImpl(this, this);
         userApi.requestForUser(null);
     }
 

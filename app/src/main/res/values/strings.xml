@@ -29,4 +29,8 @@
     <string name="submit">Submit</string>
     <string name="move_finger">Move your finger!</string>
     <string name="explanation">Explanation…</string>
+    <string name="absence_planned">Planned</string>
+    <string name="absence_leave_at_request">At request</string>
+    <string name="absence_illness">Illness</string>
+    <string name="absence_compassionate">Compassionate</string>
 </resources>

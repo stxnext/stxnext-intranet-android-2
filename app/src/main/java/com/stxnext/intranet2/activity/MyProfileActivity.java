@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stxnext.intranet2.R;
@@ -159,8 +160,8 @@ public class MyProfileActivity extends AppCompatActivity
 
     private void loadProfile() {
         Log.d(Config.TAG, "loadProfile()");
-        UserApi userApi = new UserApiImpl(this);
-        userApi.requestForUser(null);
+        UserApi userApi = new UserApiImpl(this, this);
+        userApi.requestForUser(Session.getInstance(this).getUserId());
     }
 
     private boolean isLogged() {
@@ -169,7 +170,21 @@ public class MyProfileActivity extends AppCompatActivity
 
     @Override
     public void onUserReceived(User user) {
-
+        Log.d(Config.TAG, "User profile for userId: " + user.getId() + " name: " + user.getFirstName() + " " + user.getLastName());
+        TextView firstName =  (TextView) findViewById(R.id.first_name_text_view);
+        firstName.setText(user.getFirstName() + " " + user.getLastName());
+        TextView role = (TextView) findViewById(R.id.role_text_view);
+        role.setText(user.getRole());
+        TextView office = (TextView) findViewById(R.id.office_text_view);
+        office.setText(user.getLocalization());
+        TextView email = (TextView) findViewById(R.id.email_text_view);
+        email.setText(user.getEmail());
+        TextView phone = (TextView) findViewById(R.id.phone_text_view);
+        phone.setText(user.getPhoneNumber());
+        TextView skype = (TextView) findViewById(R.id.skype_text_view);
+        skype.setText((user.getSkype() == "null") ? "" : user.getSkype());
+        TextView irc = (TextView) findViewById(R.id.irc_text_view);
+        irc.setText((user.getIrc() == "null") ? "" : user.getIrc());
     }
 
     @Override
