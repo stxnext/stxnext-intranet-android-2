@@ -87,7 +87,7 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
 
     @Override
     public void onItemClick(String userId) {
-        startActivity(new Intent(getActivity(), ProfileActivity.class));
+        startActivity(new Intent(getActivity(), ProfileActivity.class).putExtra(ProfileActivity.USER_ID_TAG, userId));
     }
 
     public int getCount() {
