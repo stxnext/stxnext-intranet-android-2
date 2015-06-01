@@ -57,7 +57,7 @@ public class AbsencesListAdapter extends RecyclerView.Adapter<AbsencesListAdapte
         holder.nameTextView.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
         holder.descriptionTextView.setText(absence.getDescription());
         String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
-        Picasso.with(context).load(imageAddress).placeholder(R.drawable.avatar_placeholder).into(holder.avatarImageView);
+        Picasso.with(context).load(imageAddress).placeholder(R.drawable.avatar_placeholder).fit().into(holder.avatarImageView);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
