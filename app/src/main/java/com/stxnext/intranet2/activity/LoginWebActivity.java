@@ -44,6 +44,7 @@ public class LoginWebActivity extends AppCompatActivity implements ConnectionMan
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
+                progressBar.setProgress(newProgress);
                 if (newProgress == 100) {
                     progressContainer.animate()
                             .alpha(0)
