@@ -26,6 +26,8 @@ public abstract class UserApi {
 
     public abstract void submitWorkFromHomeAbsence(Date submissionDate, Date startHour, Date endHour, String explanation);
 
+    public abstract void submitLateness(boolean workFromHome, Date submissionDate, Date startHour, Date endHour, String explanation);
+
     public abstract void submitHolidayAbsence(HolidayTypes absenceType, Date endDate, Date startDate, String remarks);
 
 }
