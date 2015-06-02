@@ -97,4 +97,14 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
         }
     }
 
+    @Override
+    public void onAbsenceDaysLeft(int absenceDaysLeft) {
+        // nothing to do
+    }
+
+    @Override
+    public void onLatenessResponse(String latenessResponse) {
+        // nothing to do
+    }
+
 }

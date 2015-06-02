@@ -275,4 +275,14 @@ public class MyProfileActivity extends AppCompatActivity
             ircTextView.setText(user.getIrc());
         }
     }
+
+    @Override
+    public void onAbsenceDaysLeft(int absenceDaysLeft) {
+        // nothing to do
+    }
+
+    @Override
+    public void onLatenessResponse(String latenessResponse) {
+        // nothing to do
+    }
 }
