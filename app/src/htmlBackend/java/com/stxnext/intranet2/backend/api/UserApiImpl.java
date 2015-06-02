@@ -3,8 +3,10 @@ package com.stxnext.intranet2.backend.api;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.stxnext.intranet2.backend.api.json.AbsenceDaysLeft;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.backend.model.impl.UserImpl;
@@ -30,6 +32,8 @@ import java.util.List;
  * Created by Tomasz Konieczny on 2015-05-07.
  */
 public class UserApiImpl extends UserApi {
+
+    private static final String API_URL = "https://intranet.stxnext.pl/";
 
     public UserApiImpl(Context context, UserApiCallback callback) {
         super(context, callback);
@@ -244,6 +248,37 @@ public class UserApiImpl extends UserApi {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+    }
+
+    public void getAbsenceDaysLeft() {
+        AsyncHttpClient httpClient = new AsyncHttpClient();
+        httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
+        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String response = new String(responseBody);
+                Log.d(Config.TAG, response);
+                Gson gson = new Gson();
+                AbsenceDaysLeft absenceDaysLeft = gson.fromJson(response, AbsenceDaysLeft.class);
+                apiCallback.onAbsenceDaysLeftReceived(absenceDaysLeft.getMandated(), absenceDaysLeft.getDays(), absenceDaysLeft.getLeft());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.d(Config.TAG, "Failure");
+            }
+        };
+
+        SimpleDateFormat defaultDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String url = String.format(API_URL + "api/absence_days?date_start=%s&type=planowany",
+                defaultDateFormat.format(new Date()));
+//        try {
+//            url = URLEncoder.encode(url, "UTF-8");
+//            httpClient.get(url, asyncHttpResponseHandler);
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+        httpClient.get(url, asyncHttpResponseHandler);
     }
 
 }

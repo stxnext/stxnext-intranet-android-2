@@ -13,4 +13,6 @@ public interface UserApiCallback {
 
     void onLatenessResponse(boolean entry);
 
+    void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft);
+
 }

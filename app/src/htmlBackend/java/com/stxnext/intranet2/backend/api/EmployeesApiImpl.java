@@ -200,6 +200,11 @@ public class EmployeesApiImpl extends EmployeesApi {
 
                     }
 
+                    @Override
+                    public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
+
+                    }
+
                 });
                 userApi.requestForUser(userId);
             } else {
@@ -389,6 +394,11 @@ public class EmployeesApiImpl extends EmployeesApi {
 
                     @Override
                     public void onLatenessResponse(boolean entry) {
+
+                    }
+
+                    @Override
+                    public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
 
                     }
                 });
