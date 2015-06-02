@@ -69,6 +69,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
 
+        <activity
+            android:name=".activity.ReportHolidayActivity"
+            android:label="@string/submit_absence"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
     </application>
 
 </manifest>

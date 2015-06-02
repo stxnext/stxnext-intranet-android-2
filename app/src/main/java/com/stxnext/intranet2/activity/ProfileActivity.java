@@ -31,6 +31,7 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
     private TextView skypeTextView;
     private TextView ircTextView;
     private ImageView profileImageView;
+    private ImageView superheroImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +47,8 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
         skypeTextView = (TextView) findViewById(R.id.skype_text_view);
         ircTextView = (TextView) findViewById(R.id.irc_text_view);
         profileImageView = (ImageView) findViewById(R.id.profile_image_view);
+        superheroImageView = (ImageView) findViewById(R.id.superhero_image_view);
         findViewById(R.id.floating_button).setVisibility(View.GONE);
-        findViewById(R.id.worked_hours_container).setVisibility(View.GONE);
-        findViewById(R.id.edit_profile_button).setVisibility(View.GONE);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -69,16 +69,21 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
 
     @Override
     public void onUserReceived(User user) {
-        String userName = user.getFirstName() + " " + user.getLastName();
+        String firstName = user.getFirstName();
+        String userName = firstName + " " + user.getLastName();
         getSupportActionBar().setTitle(userName);
         firstNameTextView.setText(userName);
         roleTextView.setText(user.getRole());
         officeTextView.setText(user.getLocalization());
         emailTextView.setText(user.getEmail());
 
+        if (firstName.substring(firstName.length() - 1, firstName.length()).equals("a")) {
+            superheroImageView.setImageResource(R.drawable.mrs_superhero_profile);
+        }
+
         String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
         Picasso.with(this).load(imageAddress).placeholder(R.drawable.avatar_placeholder)
-                .resizeDimen(R.dimen.profile_image_height, R.dimen.profile_image_height)
+                .resizeDimen(R.dimen.profile_photo_size, R.dimen.profile_photo_size)
                 .centerCrop()
                 .into(profileImageView);
 

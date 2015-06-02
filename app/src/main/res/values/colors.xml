@@ -5,6 +5,7 @@
     <color name="white_alpha">#c8ffffff</color>
     <color name="gray_light">#ffd6d7d7</color>
     <color name="stxnext_green_selected">#2d49fff9</color>
+    <color name="stxnext_green_light">#0f49fff9</color>
     <color name="stxnext_green">#2e9f99</color>
     <color name="stxnext_green_dark">#ff195b55</color>
     <color name="stxnext_green_darkest">#ff184640</color>

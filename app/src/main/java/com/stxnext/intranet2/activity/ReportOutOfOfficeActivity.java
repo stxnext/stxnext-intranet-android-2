@@ -27,8 +27,8 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
     private int fromHour = 9;
     private int fromMinute = 0;
 
-    private int toHour = 9;
-    private int toMiunute = 0;
+    private int toHour = 17;
+    private int toMinute = 0;
 
     private TextView dateLabel;
     private TextView fromLabel;
@@ -58,7 +58,7 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
         fromLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialogFragment.show(getFragmentManager(), fromMinute, fromHour, TimePickerDialogFragment.TIME_FROM);
+                TimePickerDialogFragment.show(getFragmentManager(), fromHour, fromMinute, TimePickerDialogFragment.TIME_FROM);
             }
         });
 
@@ -66,7 +66,7 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
         toLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialogFragment.show(getFragmentManager(), toMiunute, toHour, TimePickerDialogFragment.TIME_TO);
+                TimePickerDialogFragment.show(getFragmentManager(), toHour, toMinute, TimePickerDialogFragment.TIME_TO);
             }
         });
     }
@@ -95,7 +95,7 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
                 fromLabel.setText(dateFormat);
                 break;
             case TimePickerDialogFragment.TIME_TO:
-                toMiunute = minute;
+                toMinute = minute;
                 toHour = hour;
                 toLabel.setText(dateFormat);
                 break;

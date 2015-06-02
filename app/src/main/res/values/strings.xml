@@ -33,4 +33,14 @@
     <string name="absence_leave_at_request">At request</string>
     <string name="absence_illness">Illness</string>
     <string name="absence_compassionate">Compassionate</string>
+    <string name="summary">Summary</string>
+    <string name="selected">Selected</string>
+    <string name="remaining">Remaining</string>
+    <string name="all">All</string>
+    <string name="type">Type:</string>
+    <string name="planned_leave">Planned leave</string>
+    <string name="leave_at_request">Leave at request</string>
+    <string name="illness">Illness</string>
+    <string name="illness_unpaid">Illness (unpaid)</string>
+    <string name="compassionate_leave">Compassionate leave</string>
 </resources>
