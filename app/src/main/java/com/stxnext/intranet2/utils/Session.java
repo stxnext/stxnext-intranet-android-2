@@ -32,6 +32,10 @@ public class Session {
     private String userId = null;
     private CookieManager cookieManager = null;
     private Context context;
+    private Integer absenceDaysLeft = null;
+    private Integer daysMandated = null;
+    private Integer days;
+
     private static final String PREFERENCES_NAME = "com.stxnext.intranet2";
     private static final String TOKEN_PREFERENCE = "token";
     private static final String CODE_PREFERENCE = "code";
@@ -171,6 +175,22 @@ public class Session {
             userId = preferences.getString(USER_ID_PREFERENCE, null);
         }
         return userId;
+    }
+
+    public void setAbsenceDaysLeft(int absenceDaysLeft) {
+        this.absenceDaysLeft = absenceDaysLeft;
+    }
+
+    public Integer getAbsenceDaysLeft() {
+        return absenceDaysLeft;
+    }
+
+    public void setDaysMandated(int daysMandated) {
+        this.daysMandated = daysMandated;
+    }
+
+    public Integer getDaysMandated() {
+        return daysMandated;
     }
 
     public boolean isLogged() {

@@ -112,4 +112,8 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
         // nothing to do
     }
 
+    @Override
+    public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
+        // nothing to do
+    }
 }

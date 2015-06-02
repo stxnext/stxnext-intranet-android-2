@@ -308,4 +308,9 @@ public class MyProfileActivity extends AppCompatActivity
         boolean result = entry;
         // nothing to do
     }
+
+    @Override
+    public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
+        // nothing to do
+    }
 }

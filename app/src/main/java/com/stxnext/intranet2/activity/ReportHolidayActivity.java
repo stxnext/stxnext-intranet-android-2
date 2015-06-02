@@ -1,6 +1,5 @@
 package com.stxnext.intranet2.activity;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,19 +8,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.HolidayTypeSpinnerAdapter;
+import com.stxnext.intranet2.backend.api.UserApi;
+import com.stxnext.intranet2.backend.api.UserApiImpl;
+import com.stxnext.intranet2.backend.callback.UserApiCallback;
+import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.dialog.DatePickerDialogFragment;
-import com.stxnext.intranet2.dialog.TimePickerDialogFragment;
 import com.stxnext.intranet2.model.HolidayTypes;
+import com.stxnext.intranet2.utils.Session;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import static com.stxnext.intranet2.R.id.selected_amount_label;
 
@@ -29,7 +30,7 @@ import static com.stxnext.intranet2.R.id.selected_amount_label;
  * Created by Tomasz Konieczny on 2015-04-22.
  */
 public class ReportHolidayActivity extends AppCompatActivity
-        implements AdapterView.OnItemSelectedListener, DatePickerDialogFragment.OnDatePickListener, View.OnClickListener {
+        implements AdapterView.OnItemSelectedListener, DatePickerDialogFragment.OnDatePickListener, View.OnClickListener, UserApiCallback {
 
     private TextView dateFromLabel;
     private TextView dateToLabel;
@@ -47,6 +48,8 @@ public class ReportHolidayActivity extends AppCompatActivity
     private int remainingDays = 12;
     private int selectedAmount = 0;
 
+    private UserApi userApi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +59,18 @@ public class ReportHolidayActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        preapreDateViews();
+        userApi = new UserApiImpl(this, this);
+
+        // TODO add loading progress
+        Integer absenceDaysLeft = Session.getInstance(this).getAbsenceDaysLeft();
+        Integer daysMandated = Session.getInstance(this).getDaysMandated();
+        if (absenceDaysLeft == null) {
+            userApi.getAbsenceDaysLeft();
+        } else {
+            remainingDays = absenceDaysLeft;
+            allDays = daysMandated;
+            preapreDateViews();
+        }
         prepareSpinner();
     }
 
@@ -193,5 +207,30 @@ public class ReportHolidayActivity extends AppCompatActivity
         } else {
             //TODO: Request to server for holidays
         }
+    }
+
+    @Override
+    public void onUserReceived(User user) {
+
+    }
+
+    @Override
+    public void onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request) {
+
+    }
+
+    @Override
+    public void onLatenessResponse(boolean entry) {
+
+    }
+
+    // TODO add loading info before receiving this
+    @Override
+    public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
+        Session.getInstance(this).setAbsenceDaysLeft(absenceDaysLeft);
+        Session.getInstance(this).setDaysMandated(mandated);
+        remainingDays = absenceDaysLeft;
+        allDays = mandated;
+        preapreDateViews();
     }
 }
