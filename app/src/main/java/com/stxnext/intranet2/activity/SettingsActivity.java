@@ -36,8 +36,8 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Session.getInstance(SettingsActivity.this).logout();
-                ActivityCompat.finishAffinity(SettingsActivity.this);
-                startActivity(new Intent(SettingsActivity.this, MyProfileActivity.class));
+                setResult(RESULT_OK);
+                finish();
             }
         });
 
