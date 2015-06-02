@@ -14,10 +14,13 @@ import com.stxnext.intranet2.utils.DBManager;
 import com.stxnext.intranet2.utils.Session;
 
 import org.apache.http.Header;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -128,18 +131,63 @@ public class UserApiImpl extends UserApi {
         return !userJSONObject.getBoolean("is_client");
     }
 
-    //TODO
+    //TODO probably to delete
     //Need json:
     // {"lateness":{"late_end":"09:05","popup_explanation":"Test aplikacji.","work_from_home":"false","late_start":"09:00","popup_date":"31/05/2015"}}
     @Override
     public void submitOutOfOfficeAbsence(Date submissionDate, Date startHour, Date endHour, String explanation) {
     }
-    //TODO
+    //TODO probably to delete
     // {"lateness":{"late_end":"09:05","popup_explanation":"Test aplikacji.","work_from_home":"true","late_start":"09:00","popup_date":"31/05/2015"}}
     @Override
     public void submitWorkFromHomeAbsence(Date submissionDate, Date startHour, Date endHour, String explanation) {
 
     }
+
+    //TODO
+    //Need example jsons:
+    // {"lateness":{"late_end":"09:05","popup_explanation":"Test aplikacji.","work_from_home":"false","late_start":"09:00","popup_date":"31/05/2015"}}
+    // {"lateness":{"late_end":"09:05","popup_explanation":"Test aplikacji.","work_from_home":"true","late_start":"09:00","popup_date":"31/05/2015"}}
+    public void submitLateness(boolean workFromHome, Date submissionDate, Date startHour, Date endHour, String explanation) {
+        JSONObject mainObject = new JSONObject();
+        JSONObject absenceObject = new JSONObject();
+        try {
+            SimpleDateFormat submissionDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat hourDateFormat = new SimpleDateFormat("HH:mm");
+            absenceObject.put("popup_date", submissionDateFormat.format(submissionDate))
+                    .put("late_start", hourDateFormat.format(startHour))
+                    .put("late_end", hourDateFormat.format(endHour))
+                    .put("popup_explanation", explanation)
+                    .put("work_from_home", (new Boolean(workFromHome)).toString());
+            mainObject.put("lateness", absenceObject);
+            String jsonString = mainObject.toString().replace("\\","") ;
+            Log.d(Config.TAG, jsonString);
+
+            AsyncHttpClient httpClient = new AsyncHttpClient();
+            httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
+//            httpClient.addHeader(AsyncHttpClient.HEADER_CONTENT_TYPE, "application/json");
+            StringEntity postEntity = new StringEntity(jsonString, HTTP.UTF_8);
+            AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String latenessResponse = new String(responseBody);
+                    apiCallback.onLatenessResponse(latenessResponse);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                }
+            };
+
+//            httpClient.post(context, "https://intranet.stxnext.pl/api/lateness", postEntity, "application/json", asyncHttpResponseHandler);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
     //TODO
     // JSON to gain:
     // {"absence":{"popup_type":"planowany","popup_date_end":"05/06/2015","popup_remarks":"Wolne.","popup_date_start":"05/06/2015"}}
@@ -154,9 +202,30 @@ public class UserApiImpl extends UserApi {
                     .put("popup_remarks", remarks)
                     .put("popup_date_start", dateFormat.format(startDate));
             mainObject.put("absence", absenceObject);
-            Log.d(Config.TAG, mainObject.toString());
-            Log.d(Config.TAG, dateFormat.format(endDate));
+            String jsonString = mainObject.toString().replace("\\","") ;
+            Log.d(Config.TAG, jsonString);
+
+            AsyncHttpClient httpClient = new AsyncHttpClient();
+            httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
+//            httpClient.addHeader(AsyncHttpClient.HEADER_CONTENT_TYPE, "application/json");
+            StringEntity postEntity = new StringEntity(jsonString, HTTP.UTF_8);
+            AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String absenceDaysLeft = new String(responseBody);
+//                    apiCallback.onHolidaySubmit(absenceDaysLeft);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                }
+            };
+
+//            httpClient.post(context, "https://intranet.stxnext.pl/api/absence", postEntity, "application/json", asyncHttpResponseHandler);
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
