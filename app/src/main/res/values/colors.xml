@@ -13,4 +13,5 @@
     <color name="text_dark">#ff333333</color>
     <color name="floating_button">#B71C1C</color>
     <color name="floating_button_light">#fffb3c35</color>
+    <color name="header_gray">#e0e0e0</color>
 </resources>

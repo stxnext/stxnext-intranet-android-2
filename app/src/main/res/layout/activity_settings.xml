@@ -64,12 +64,11 @@
                                 android:textSize="18dp"/>
 
                             <Switch
-                                android:id="@+id/work_from_home_switch"
+                                android:id="@+id/superhero_switch"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="24dp"
                                 android:checked="false"/>
-
 
                         </LinearLayout>
 
