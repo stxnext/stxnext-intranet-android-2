@@ -23,8 +23,6 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
     private final List<User> users;
     private OnItemClickListener listener;
     private Context context;
-    private OkHttpDownloader downloader;
-    private Picasso picasso;
 
     public EmployeesListAdapter(Context context, List<User> users, OnItemClickListener listener) {
         this.context = context;
@@ -34,7 +32,7 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
 
     @Override
     public EmployeesListAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext())
+        View view = LayoutInflater.from(context)
                 .inflate(R.layout.employees_list_item, viewGroup, false);
 
         return new ViewHolder(view);

@@ -21,7 +21,7 @@ import java.util.Calendar;
  */
 public class ReportOutOfOfficeActivity extends AppCompatActivity implements
         TimePickerDialogFragment.OnTimeSetListener,
-        DatePickerDialog.OnDateSetListener {
+        DatePickerDialogFragment.OnDatePickListener {
 
     private Calendar date;
     private int fromHour = 9;
@@ -49,8 +49,11 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
         dateLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialogFragment datePickerDialog = new DatePickerDialogFragment();
-                datePickerDialog.show(getFragmentManager(), "date_picker");
+                DatePickerDialogFragment.show(
+                        getFragmentManager(),
+                        date.get(Calendar.DAY_OF_MONTH),
+                        date.get(Calendar.MONTH),
+                        date.get(Calendar.YEAR), 0);
             }
         });
 
@@ -103,9 +106,9 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+    public void onDatePicked(int dayOfMonth, int month, int year, int type) {
         date.set(Calendar.YEAR, year);
-        date.set(Calendar.MONTH, monthOfYear);
+        date.set(Calendar.MONTH, month);
         date.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         dateLabel.setText(DateFormat.format("dd.MM.yyyy", date));
     }

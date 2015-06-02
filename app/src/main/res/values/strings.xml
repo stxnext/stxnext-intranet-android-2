@@ -29,10 +29,6 @@
     <string name="submit">Submit</string>
     <string name="move_finger">Move your finger!</string>
     <string name="explanation">Explanation…</string>
-    <string name="absence_planned">Planned</string>
-    <string name="absence_leave_at_request">At request</string>
-    <string name="absence_illness">Illness</string>
-    <string name="absence_compassionate">Compassionate</string>
     <string name="summary">Summary</string>
     <string name="selected">Selected</string>
     <string name="remaining">Remaining</string>
@@ -43,4 +39,9 @@
     <string name="illness">Illness</string>
     <string name="illness_unpaid">Illness (unpaid)</string>
     <string name="compassionate_leave">Compassionate leave</string>
+    <string name="other">Other</string>
+    <string name="from">From:</string>
+    <string name="to">To:</string>
+    <string name="different_month_holiday_warning">Please submit seperate absence for each month.</string>
+    <string name="im_superhero">I am a SuperHero!</string>
 </resources>
