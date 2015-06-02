@@ -1,14 +1,13 @@
 package com.stxnext.intranet2.activity;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.dialog.DatePickerDialogFragment;
@@ -72,6 +71,13 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
                 TimePickerDialogFragment.show(getFragmentManager(), toHour, toMinute, TimePickerDialogFragment.TIME_TO);
             }
         });
+
+        findViewById(R.id.submit_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submit();
+            }
+        });
     }
 
     @Override
@@ -83,7 +89,6 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
 
         return false;
     }
-
 
     @Override
     public void onTimeSet(int hour, int minute, int type) {
@@ -105,11 +110,22 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
         }
     }
 
+
     @Override
     public void onDatePicked(int dayOfMonth, int month, int year, int type) {
         date.set(Calendar.YEAR, year);
         date.set(Calendar.MONTH, month);
         date.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         dateLabel.setText(DateFormat.format("dd.MM.yyyy", date));
+    }
+
+    private void submit() {
+        if (date.getTimeInMillis() > (System.currentTimeMillis() - (1000 * 60 * 60 * 24))) {
+            Toast.makeText(this, R.string.validation_day_difference_warning, Toast.LENGTH_SHORT).show();
+        } else if (toHour > fromHour) {
+            Toast.makeText(this, R.string.validation_hour_difference_warning, Toast.LENGTH_SHORT).show();
+        } else {
+            //TODO: request for out of office
+        }
     }
 }
