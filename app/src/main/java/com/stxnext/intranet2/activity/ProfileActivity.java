@@ -53,8 +53,12 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String userId = getIntent().getStringExtra(USER_ID_TAG);
-        UserApi userApi = new UserApiImpl(this, this);
-        userApi.requestForUser(userId);
+        // this can be also a MyProfileActivity, then here userId is null.
+        if (userId != null) {
+            UserApi userApi = new UserApiImpl(this, this);
+            userApi.requestForUser(userId);
+        }
+
     }
 
     @Override
@@ -96,6 +100,16 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
         if (user.getIrc() != "null") {
             ircTextView.setText(user.getIrc());
         }
+    }
+
+    @Override
+    public void onAbsenceDaysLeft(int absenceDaysLeft) {
+        // nothing to do
+    }
+
+    @Override
+    public void onLatenessResponse(String latenessResponse) {
+        // nothing to do
     }
 
 }

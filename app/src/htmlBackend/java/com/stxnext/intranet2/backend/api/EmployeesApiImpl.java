@@ -1,7 +1,6 @@
 package com.stxnext.intranet2.backend.api;
 
 import android.content.Context;
-import android.text.format.DateFormat;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -190,6 +189,17 @@ public class EmployeesApiImpl extends EmployeesApi {
                         absence.setUser(user);
                         absences.add(absence);
                     }
+
+                    @Override
+                    public void onAbsenceDaysLeft(int absenceDaysLeft) {
+
+                    }
+
+                    @Override
+                    public void onLatenessResponse(String latenessResponse) {
+
+                    }
+
                 });
                 userApi.requestForUser(userId);
             } else {
@@ -370,6 +380,16 @@ public class EmployeesApiImpl extends EmployeesApi {
                     public void onUserReceived(User user) {
                         absence.setUser(user);
                         absences.add(absence);
+                    }
+
+                    @Override
+                    public void onAbsenceDaysLeft(int absenceDaysLeft) {
+
+                    }
+
+                    @Override
+                    public void onLatenessResponse(String latenessResponse) {
+
                     }
                 });
                 userApi.requestForUser(userId);

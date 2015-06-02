@@ -9,4 +9,8 @@ public interface UserApiCallback {
 
     void onUserReceived(User user);
 
+    void onAbsenceDaysLeft(int absenceDaysLeft);
+
+    void onLatenessResponse(String latenessResponse);
+
 }
