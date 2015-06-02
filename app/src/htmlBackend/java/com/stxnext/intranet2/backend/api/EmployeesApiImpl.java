@@ -191,12 +191,12 @@ public class EmployeesApiImpl extends EmployeesApi {
                     }
 
                     @Override
-                    public void onAbsenceDaysLeft(int absenceDaysLeft) {
+                    public void onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request) {
 
                     }
 
                     @Override
-                    public void onLatenessResponse(String latenessResponse) {
+                    public void onLatenessResponse(boolean entry) {
 
                     }
 
@@ -383,12 +383,12 @@ public class EmployeesApiImpl extends EmployeesApi {
                     }
 
                     @Override
-                    public void onAbsenceDaysLeft(int absenceDaysLeft) {
-
+                    public void onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request) {
+                        // nothing to do
                     }
 
                     @Override
-                    public void onLatenessResponse(String latenessResponse) {
+                    public void onLatenessResponse(boolean entry) {
 
                     }
                 });

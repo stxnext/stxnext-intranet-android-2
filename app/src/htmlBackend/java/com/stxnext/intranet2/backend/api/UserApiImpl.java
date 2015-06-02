@@ -165,22 +165,28 @@ public class UserApiImpl extends UserApi {
 
             AsyncHttpClient httpClient = new AsyncHttpClient();
             httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
-//            httpClient.addHeader(AsyncHttpClient.HEADER_CONTENT_TYPE, "application/json");
             StringEntity postEntity = new StringEntity(jsonString, HTTP.UTF_8);
             AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     String latenessResponse = new String(responseBody);
-                    apiCallback.onLatenessResponse(latenessResponse);
+                    try {
+                        JSONObject latenessJSONObject = new JSONObject(latenessResponse);
+                        boolean entry = latenessJSONObject.getBoolean("entry");
+                        apiCallback.onLatenessResponse(entry);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+                    apiCallback.onLatenessResponse(false);
                 }
             };
 
-//            httpClient.post(context, "https://intranet.stxnext.pl/api/lateness", postEntity, "application/json", asyncHttpResponseHandler);
+            httpClient.post(context, "https://intranet.stxnext.pl/api/lateness", postEntity, "application/json", asyncHttpResponseHandler);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
@@ -212,17 +218,27 @@ public class UserApiImpl extends UserApi {
             AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    String absenceDaysLeft = new String(responseBody);
-//                    apiCallback.onHolidaySubmit(absenceDaysLeft);
+                    String response = new String(responseBody);
+                    Log.d(Config.TAG, response);
+                    try {
+                        JSONObject holidayAbsenceResult = new JSONObject(response);
+                        boolean hours = holidayAbsenceResult.getBoolean("hours");
+                        boolean calendarEntry = holidayAbsenceResult.getBoolean("calendar_entry");
+                        boolean request = holidayAbsenceResult.getBoolean("request");
+                        apiCallback.onAbsenceResponse(hours, calendarEntry, request);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+                    apiCallback.onAbsenceResponse(false, false, false);
                 }
             };
 
-//            httpClient.post(context, "https://intranet.stxnext.pl/api/absence", postEntity, "application/json", asyncHttpResponseHandler);
+            httpClient.post(context, "https://intranet.stxnext.pl/api/absence", postEntity, "application/json", asyncHttpResponseHandler);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
