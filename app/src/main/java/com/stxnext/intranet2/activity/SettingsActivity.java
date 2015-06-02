@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.api.UserApi;
@@ -36,6 +38,17 @@ public class SettingsActivity extends AppCompatActivity {
                 Session.getInstance(SettingsActivity.this).logout();
                 ActivityCompat.finishAffinity(SettingsActivity.this);
                 startActivity(new Intent(SettingsActivity.this, MyProfileActivity.class));
+            }
+        });
+
+        final Session session = Session.getInstance(this);
+        Switch superHeroModeOption = (Switch) findViewById(R.id.superhero_switch);
+        superHeroModeOption.setChecked(session.isSuperHeroModeEnabled());
+        superHeroModeOption.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                session.enableSuperHeroMode(isChecked);
+                setResult(RESULT_OK);
             }
         });
     }

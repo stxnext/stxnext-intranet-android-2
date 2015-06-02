@@ -39,16 +39,18 @@ import com.stxnext.intranet2.utils.Session;
 public class MyProfileActivity extends AppCompatActivity
         implements UserApiCallback, FloatingMenuFragment.OnFloatingMenuItemClickListener {
 
-    private static String FLOATING_MENU_TAG = "floating_menu";
-
     private static final int LOGIN_REQUEST = 1;
+
+    private static final int SETTINGS_REQUEST = 1232;
+
+    private static String FLOATING_MENU_TAG = "floating_menu";
 
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private ViewGroup floatingButton;
-    private View plusView;
 
+    private View plusView;
     private TextView firstNameTextView;
     private TextView roleTextView;
     private TextView officeTextView;
@@ -86,7 +88,14 @@ public class MyProfileActivity extends AppCompatActivity
         phoneTextView = (TextView) findViewById(R.id.phone_text_view);
         skypeTextView = (TextView) findViewById(R.id.skype_text_view);
         ircTextView = (TextView) findViewById(R.id.irc_text_view);
-        profileImageView = (ImageView) findViewById(R.id.profile_image_view);
+
+        if (Session.getInstance(this).isSuperHeroModeEnabled()) {
+            findViewById(R.id.standard_profile_header_container).setVisibility(View.GONE);
+            profileImageView = (ImageView) findViewById(R.id.profile_image_view);
+
+        } else {
+            profileImageView = (ImageView) findViewById(R.id.profile_image_view_standard);
+        }
     }
 
     private void runLoginActivity() {
@@ -111,7 +120,7 @@ public class MyProfileActivity extends AppCompatActivity
                         startActivity(new Intent(MyProfileActivity.this, EmployeesActivity.class));
                         break;
                     case SETTINGS:
-                        startActivity(new Intent(MyProfileActivity.this, SettingsActivity.class));
+                        startActivityForResult(new Intent(MyProfileActivity.this, SettingsActivity.class), SETTINGS_REQUEST);
                         break;
                 }
 
@@ -174,6 +183,12 @@ public class MyProfileActivity extends AppCompatActivity
                     Toast.makeText(this, R.string.login_failure, Toast.LENGTH_SHORT).show();
                 } else if (resultCode == LoginActivity.LOGIN_CANCELED) {
                     Toast.makeText(this, "Login canceled.", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case SETTINGS_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    startActivity(new Intent(this, MyProfileActivity.class));
+                    finish();
                 }
                 break;
             default:

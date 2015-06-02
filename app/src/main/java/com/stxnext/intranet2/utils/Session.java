@@ -23,23 +23,17 @@ public class Session {
 
     private static Session instance = null;
 
-    private String googlePlusToken = null;
     private String authorizationCode = null;
     private SharedPreferences preferences = null;
-    // Stores cookies in sharedPreferences. Used by AsyncHttpClient.
     private PersistentCookieStore cookieStore = null;
-    private Boolean logged = null;
     private String userId = null;
     private CookieManager cookieManager = null;
-    private Context context;
     private static final String PREFERENCES_NAME = "com.stxnext.intranet2";
-    private static final String TOKEN_PREFERENCE = "token";
+    private static final String SUPERHERO_MODE_PREFERENCE = "com.stxnext.intranet2";
     private static final String CODE_PREFERENCE = "code";
-    private static final String LOGGED_PREFERENCE = "logged";
     private static final String USER_ID_PREFERENCE = "id";
 
     private Session(Context context) {
-        this.context = context;
         preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
         cookieStore = new PersistentCookieStore(context);
         if (isLogged()) {
@@ -55,8 +49,12 @@ public class Session {
     }
 
     public void logout() {
-        this.googlePlusToken = null;
-        preferences.edit().clear().commit();
+        userId = null;
+        preferences.edit()
+                .remove(USER_ID_PREFERENCE)
+                .remove(SUPERHERO_MODE_PREFERENCE)
+                .remove(CODE_PREFERENCE)
+                .commit();
     }
 
     public void setAuthorizationCode(String authorizationCode) {
@@ -143,27 +141,9 @@ public class Session {
         return httpCookie;
     }
 
-    public void setGooglePlusToken(String googlePlusToken) {
-        this.googlePlusToken = googlePlusToken;
-        preferences.edit().putString(TOKEN_PREFERENCE, googlePlusToken).apply();
-    }
-
-    public String getGooglePlusToken() {
-        if (googlePlusToken == null) {
-            googlePlusToken = preferences.getString(TOKEN_PREFERENCE, null);
-        }
-
-        return googlePlusToken;
-    }
-
-    public void setLogged(boolean logged) {
-        this.logged = logged;
-        preferences.edit().putBoolean(LOGGED_PREFERENCE, logged).commit();
-    }
-
     public void setUserId(String userId) {
         this.userId = userId;
-        preferences.edit().putString(USER_ID_PREFERENCE, userId).commit();
+        preferences.edit().putString(USER_ID_PREFERENCE, userId).apply();
     }
 
     public String getUserId() {
@@ -171,6 +151,14 @@ public class Session {
             userId = preferences.getString(USER_ID_PREFERENCE, null);
         }
         return userId;
+    }
+
+    public void enableSuperHeroMode(boolean enabled) {
+        preferences.edit().putBoolean(SUPERHERO_MODE_PREFERENCE, enabled).apply();
+    }
+
+    public boolean isSuperHeroModeEnabled() {
+        return preferences.getBoolean(SUPERHERO_MODE_PREFERENCE, false);
     }
 
     public boolean isLogged() {

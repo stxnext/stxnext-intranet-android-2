@@ -14,6 +14,7 @@ import com.stxnext.intranet2.backend.api.UserApi;
 import com.stxnext.intranet2.backend.api.UserApiImpl;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.User;
+import com.stxnext.intranet2.utils.Session;
 
 
 /**
@@ -46,9 +47,16 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
         phoneTextView = (TextView) findViewById(R.id.phone_text_view);
         skypeTextView = (TextView) findViewById(R.id.skype_text_view);
         ircTextView = (TextView) findViewById(R.id.irc_text_view);
-        profileImageView = (ImageView) findViewById(R.id.profile_image_view);
         superheroImageView = (ImageView) findViewById(R.id.superhero_image_view);
         findViewById(R.id.floating_button).setVisibility(View.GONE);
+
+        if (Session.getInstance(this).isSuperHeroModeEnabled()) {
+            findViewById(R.id.standard_profile_header_container).setVisibility(View.GONE);
+            profileImageView = (ImageView) findViewById(R.id.profile_image_view);
+
+        } else {
+            profileImageView = (ImageView) findViewById(R.id.profile_image_view_standard);
+        }
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -58,7 +66,6 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
             UserApi userApi = new UserApiImpl(this, this);
             userApi.requestForUser(userId);
         }
-
     }
 
     @Override
