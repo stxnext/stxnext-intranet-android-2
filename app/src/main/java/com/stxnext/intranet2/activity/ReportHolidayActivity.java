@@ -29,7 +29,7 @@ import static com.stxnext.intranet2.R.id.selected_amount_label;
  * Created by Tomasz Konieczny on 2015-04-22.
  */
 public class ReportHolidayActivity extends AppCompatActivity
-        implements AdapterView.OnItemSelectedListener, DatePickerDialogFragment.OnDatePickListener {
+        implements AdapterView.OnItemSelectedListener, DatePickerDialogFragment.OnDatePickListener, View.OnClickListener {
 
     private TextView dateFromLabel;
     private TextView dateToLabel;
@@ -62,6 +62,7 @@ public class ReportHolidayActivity extends AppCompatActivity
 
     private void preapreDateViews() {
         submitButton = (Button) findViewById(R.id.submit_button);
+        submitButton.setOnClickListener(this);
 
         selectedAmountLabel = (TextView) findViewById(selected_amount_label);
         remainingDaysLabel = (TextView) findViewById(R.id.remaining_amount_label);
@@ -180,6 +181,17 @@ public class ReportHolidayActivity extends AppCompatActivity
         } else {
             Toast toast = Toast.makeText(this, R.string.different_month_holiday_warning, Toast.LENGTH_LONG);
             toast.show();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (remainingDays < selectedAmount) {
+            Toast.makeText(this, R.string.validation_to_many_days, Toast.LENGTH_SHORT).show();
+        } else if (selectedAmount <= 0) {
+            Toast.makeText(this, R.string.validation_zero_days, Toast.LENGTH_SHORT).show();
+        } else {
+            //TODO: Request to server for holidays
         }
     }
 }
