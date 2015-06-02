@@ -9,8 +9,8 @@ public interface UserApiCallback {
 
     void onUserReceived(User user);
 
-    void onAbsenceDaysLeft(int absenceDaysLeft);
+    void onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request);
 
-    void onLatenessResponse(String latenessResponse);
+    void onLatenessResponse(boolean entry);
 
 }
