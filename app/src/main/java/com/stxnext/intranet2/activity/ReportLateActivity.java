@@ -16,7 +16,6 @@ import com.stxnext.intranet2.R;
  */
 public class ReportLateActivity extends AppCompatActivity {
 
-
     private View submitButton;
 
     @Override
@@ -69,6 +68,10 @@ public class ReportLateActivity extends AppCompatActivity {
                             finish();
                         }
                     });
+
+                    if (submitButton.getVisibility() == View.INVISIBLE) {
+                        submitButton.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
@@ -85,6 +88,10 @@ public class ReportLateActivity extends AppCompatActivity {
                     }
 
                     onProgressChanged(seekBar, progress, true);
+                }
+
+                if (progress == 0) {
+                    submitButton.setVisibility(View.INVISIBLE);
                 }
             }
         });
