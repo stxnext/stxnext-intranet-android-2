@@ -14,10 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.DrawerAdapter;
 import com.stxnext.intranet2.backend.api.UserApi;
@@ -33,10 +35,9 @@ import com.stxnext.intranet2.utils.Session;
 /**
  * Created by Tomasz Konieczny on 2015-04-22.
  */
-public class MyProfileActivity extends ProfileActivity
-        implements
-        UserApiCallback,
-        FloatingMenuFragment.OnFloatingMenuItemClickListener {
+
+public class MyProfileActivity extends AppCompatActivity
+        implements UserApiCallback, FloatingMenuFragment.OnFloatingMenuItemClickListener {
 
     private static String FLOATING_MENU_TAG = "floating_menu";
 
@@ -48,11 +49,20 @@ public class MyProfileActivity extends ProfileActivity
     private ViewGroup floatingButton;
     private View plusView;
 
+    private TextView firstNameTextView;
+    private TextView roleTextView;
+    private TextView officeTextView;
+    private TextView emailTextView;
+    private TextView phoneTextView;
+    private TextView skypeTextView;
+    private TextView ircTextView;
+    private ImageView profileImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_root);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        loadViews();
 
         setSupportActionBar(toolbar);
 
@@ -65,6 +75,18 @@ public class MyProfileActivity extends ProfileActivity
             runLoginActivity();
         }
 
+    }
+
+    private void loadViews() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        firstNameTextView = (TextView) findViewById(R.id.first_name_text_view);
+        roleTextView = (TextView) findViewById(R.id.role_text_view);
+        officeTextView = (TextView) findViewById(R.id.office_text_view);
+        emailTextView = (TextView) findViewById(R.id.email_text_view);
+        phoneTextView = (TextView) findViewById(R.id.phone_text_view);
+        skypeTextView = (TextView) findViewById(R.id.skype_text_view);
+        ircTextView = (TextView) findViewById(R.id.irc_text_view);
+        profileImageView = (ImageView) findViewById(R.id.profile_image_view);
     }
 
     private void runLoginActivity() {
@@ -226,5 +248,41 @@ public class MyProfileActivity extends ProfileActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onUserReceived(User user) {
+        String userName = user.getFirstName() + " " + user.getLastName();
+        getSupportActionBar().setTitle(userName);
+        firstNameTextView.setText(userName);
+        roleTextView.setText(user.getRole());
+        officeTextView.setText(user.getLocalization());
+        emailTextView.setText(user.getEmail());
+
+        String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
+        Picasso.with(this).load(imageAddress).placeholder(R.drawable.avatar_placeholder)
+                .resizeDimen(R.dimen.profile_image_height, R.dimen.profile_image_height)
+                .centerCrop()
+                .into(profileImageView);
+
+        if (user.getPhoneNumber() != "null") {
+            phoneTextView.setText(user.getPhoneNumber());
+        }
+        if (user.getSkype() != "null") {
+            skypeTextView.setText(user.getSkype());
+        }
+        if (user.getIrc() != "null") {
+            ircTextView.setText(user.getIrc());
+        }
+    }
+
+    @Override
+    public void onAbsenceDaysLeft(int absenceDaysLeft) {
+        // nothing to do
+    }
+
+    @Override
+    public void onLatenessResponse(String latenessResponse) {
+        // nothing to do
     }
 }
