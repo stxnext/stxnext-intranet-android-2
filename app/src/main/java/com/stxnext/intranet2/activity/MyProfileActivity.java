@@ -34,7 +34,8 @@ import com.stxnext.intranet2.utils.Session;
  * Created by Tomasz Konieczny on 2015-04-22.
  */
 public class MyProfileActivity extends ProfileActivity
-        implements UserApiCallback,
+        implements
+        UserApiCallback,
         FloatingMenuFragment.OnFloatingMenuItemClickListener {
 
     private static String FLOATING_MENU_TAG = "floating_menu";
@@ -192,7 +193,7 @@ public class MyProfileActivity extends ProfileActivity
                         intentClass = ReportLateActivity.class;
                         break;
                     case FloatingMenuFragment.HOLIDAY:
-                        intentClass = ReportOutOfOfficeActivity.class;
+                        intentClass = ReportHolidayActivity.class;
                         break;
                     case FloatingMenuFragment.OUT_OF_OFFICE:
                         intentClass = ReportOutOfOfficeActivity.class;
