@@ -16,14 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/profile_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="140dp"
-            android:layout_margin="18dp"
-            android:alpha="0.5"
-            android:src="@drawable/mr_superhero_profile"/>
-
         <ScrollView
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
@@ -39,8 +31,49 @@
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="110dp"
                     android:orientation="vertical">
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginTop="18dp"
+                        card_view:cardCornerRadius="4dp">
+
+                        <LinearLayout
+                            android:id="@+id/work_from_home_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="sans-serif-condensed"
+                                android:textStyle="bold"
+                                android:gravity="center_vertical"
+                                android:paddingBottom="12dp"
+                                android:paddingLeft="24dp"
+                                android:paddingRight="6dp"
+                                android:paddingTop="12dp"
+                                android:text="@string/im_superhero"
+                                android:textColor="@android:color/black"
+                                android:textSize="18dp"/>
+
+                            <Switch
+                                android:id="@+id/work_from_home_switch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="24dp"
+                                android:checked="false"/>
+
+
+                        </LinearLayout>
+
+                    </android.support.v7.widget.CardView>
 
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
@@ -53,13 +86,13 @@
                             android:id="@+id/logout_button"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:background="@drawable/selector_default_button"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:padding="16dp"
                             android:text="@string/logout"
                             android:textAllCaps="true"
-                            android:gravity="center"
                             android:textColor="@android:color/white"
-                            android:clickable="true"
-                            android:padding="16dp"
-                            android:background="@drawable/selector_default_button"
                             android:textSize="21sp"
                             android:textStyle="bold"/>
 
@@ -104,22 +137,22 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="38dp"
-                                android:textColor="@android:color/black"
-                                android:text="Mariusz Krok"/>
+                                android:text="Mariusz Krok"
+                                android:textColor="@android:color/black"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="38dp"
-                                android:textColor="@android:color/black"
-                                android:text="Łukasz Ciupa"/>
+                                android:text="Łukasz Ciupa"
+                                android:textColor="@android:color/black"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="38dp"
-                                android:textColor="@android:color/black"
-                                android:text="Tomasz Konieczny"/>
+                                android:text="Tomasz Konieczny"
+                                android:textColor="@android:color/black"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -135,10 +168,10 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="38dp"
-                                android:textColor="@android:color/black"
                                 android:layout_marginBottom="18dp"
-                                android:text="Tomasz Konieczny"/>
+                                android:layout_marginLeft="38dp"
+                                android:text="Tomasz Konieczny"
+                                android:textColor="@android:color/black"/>
 
                         </LinearLayout>
 
@@ -151,14 +184,14 @@
                         android:layout_margin="18dp"
                         card_view:cardCornerRadius="4dp">
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="12dp"
-                                android:layout_marginTop="12dp"
-                                android:gravity="center"
-                                android:textColor="@color/stxnext_green_dark"
-                                android:text="STX Next Mobile Team 2015"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginTop="12dp"
+                            android:gravity="center"
+                            android:text="STX Next Mobile Team 2015"
+                            android:textColor="@color/stxnext_green_dark"/>
 
 
                     </android.support.v7.widget.CardView>
