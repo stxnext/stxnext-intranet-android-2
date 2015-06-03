@@ -28,12 +28,8 @@ import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.fragment.FloatingMenuFragment;
 import com.stxnext.intranet2.model.DrawerMenuItems;
-import com.stxnext.intranet2.model.HolidayTypes;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.Session;
-
-import java.util.Calendar;
-import java.util.Date;
 
 
 /**
@@ -203,20 +199,6 @@ public class MyProfileActivity extends AppCompatActivity
     private void loadProfile() {
         Log.d(Config.TAG, "loadProfile()");
         UserApi userApi = new UserApiImpl(this, this);
-        HolidayTypes holidayType = HolidayTypes.PLANNED;
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MONTH, Calendar.JUNE);
-        calendar.set(Calendar.DAY_OF_MONTH, 10);
-//        userApi.submitHolidayAbsence(holidayType, calendar.getTime(), calendar.getTime(), "Test aplikacji.");
-        calendar = Calendar.getInstance();
-        Date submissionDate = calendar.getTime();
-        calendar.set(Calendar.HOUR_OF_DAY, 10);
-        calendar.set(Calendar.MINUTE, 30);
-        Date startHour = calendar.getTime();
-        calendar.set(Calendar.MINUTE, 31);
-        Date endHour = calendar.getTime();
-//        userApi.submitLateness(true, submissionDate, startHour, endHour, "Test aplikacji.");
-
         userApi.requestForUser(Session.getInstance(this).getUserId());
     }
 
