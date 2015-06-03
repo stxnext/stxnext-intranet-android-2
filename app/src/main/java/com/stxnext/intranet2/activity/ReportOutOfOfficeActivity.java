@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.api.UserApi;
@@ -18,6 +17,7 @@ import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.dialog.DatePickerDialogFragment;
 import com.stxnext.intranet2.dialog.TimePickerDialogFragment;
+import com.stxnext.intranet2.utils.STXToast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -41,6 +41,7 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
     private TextView toLabel;
     private Switch workFromHomeSwitch;
     private EditText explanationEditText;
+    private View progressView;
 
     private UserApi userApi;
 
@@ -54,6 +55,8 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         userApi = new UserApiImpl(this, this);
+
+        progressView = findViewById(R.id.progress_container);
 
         date = Calendar.getInstance();
         dateLabel = (TextView) findViewById(R.id.date_label);
@@ -138,15 +141,18 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
 
     private void submit() {
         if (date.getTimeInMillis() < (System.currentTimeMillis() - (1000 * 60 * 60 * 24))) {
-            Toast.makeText(this, R.string.validation_day_difference_warning, Toast.LENGTH_SHORT).show();
+            STXToast.show(this, R.string.validation_day_difference_warning);
         } else if (toHour < fromHour) {
-            Toast.makeText(this, R.string.validation_hour_difference_warning, Toast.LENGTH_SHORT).show();
+            STXToast.show(this, R.string.validation_hour_difference_warning);
+        } else if(explanationEditText.getText().length() == 0) {
+            STXToast.show(this, R.string.validation_no_explanation);
         } else {
             submitOutOfOffice();
         }
     }
 
     private void submitOutOfOffice() {
+        progressView.setVisibility(View.VISIBLE);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date.getTime());
         calendar.set(Calendar.HOUR_OF_DAY, fromHour);
@@ -155,7 +161,7 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
         calendar.set(Calendar.HOUR_OF_DAY, toHour);
         calendar.set(Calendar.MINUTE, toMinute);
         Date endHour = calendar.getTime();
-        userApi.submitLateness(workFromHomeSwitch.isChecked(), date.getTime(), startHour, endHour, explanationEditText.getText().toString());
+        userApi.submitOutOfOffice(workFromHomeSwitch.isChecked(), date.getTime(), startHour, endHour, explanationEditText.getText().toString());
     }
 
     @Override
@@ -168,11 +174,16 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
 
     }
 
-    // TODO add waiting sign before it
     @Override
-    public void onLatenessResponse(boolean entry) {
-        Toast.makeText(this, R.string.added, Toast.LENGTH_SHORT).show();
+    public void onOutOfOfficeResponse(boolean entry) {
+        STXToast.show(this, R.string.saved);
         finish();
+    }
+
+    @Override
+    public void onRequestError() {
+        STXToast.show(this, R.string.reqest_error);
+        progressView.setVisibility(View.GONE);
     }
 
     @Override

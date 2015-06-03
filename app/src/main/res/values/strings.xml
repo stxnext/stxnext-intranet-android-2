@@ -5,7 +5,6 @@
     <string name="stxnext">STX Next</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="employees_list">Employees</string>
     <string name="holiday">Holiday</string>
@@ -48,6 +47,8 @@
     <string name="validation_day_difference_warning">You can not report our of office for the day in the past.</string>
     <string name="validation_to_many_days">You do not have to many days!</string>
     <string name="validation_zero_days">Woow, first of all: select proper days in calendar</string>
-    <string name="added">Added</string>
     <string name="i_will_be_late">I\'ll be late</string>
+    <string name="saved">Request has been sent</string>
+    <string name="validation_no_explanation">Please add an explanation</string>
+    <string name="reqest_error">Internet connection error. Try again!</string>
 </resources>
