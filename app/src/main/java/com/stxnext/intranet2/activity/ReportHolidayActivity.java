@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +22,7 @@ import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.dialog.DatePickerDialogFragment;
 import com.stxnext.intranet2.model.HolidayTypes;
+import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.Session;
 
 import java.util.Calendar;
@@ -47,6 +50,8 @@ public class ReportHolidayActivity extends AppCompatActivity
     private int allDays = 24;
     private int remainingDays = 12;
     private int selectedAmount = 0;
+
+    private EditText explantation;
 
     private UserApi userApi;
 
@@ -120,6 +125,10 @@ public class ReportHolidayActivity extends AppCompatActivity
                         DatePickerDialogFragment.DATE_TYPE_TO);
             }
         });
+
+        explantation = (EditText) findViewById(R.id.explanation_edit_text);
+
+
     }
 
     private void prepareSpinner() {
@@ -205,9 +214,14 @@ public class ReportHolidayActivity extends AppCompatActivity
         } else if (selectedAmount <= 0) {
             Toast.makeText(this, R.string.validation_zero_days, Toast.LENGTH_SHORT).show();
         } else {
-            //TODO: Request to server for holidays
+            submitHoliday();
         }
     }
+
+    private void submitHoliday() {
+        userApi.submitHolidayAbsence(type, dateFrom.getTime(), dateTo.getTime(), explantation.getText().toString());
+    }
+
 
     @Override
     public void onUserReceived(User user) {
@@ -216,7 +230,9 @@ public class ReportHolidayActivity extends AppCompatActivity
 
     @Override
     public void onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request) {
-
+        Log.d(Config.TAG."onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request): hours: " + hours + " calendarEntry: " + calendarEntry + " request: " + request);
+        Toast.makeText(this, R.string.added, Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override
