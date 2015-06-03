@@ -43,6 +43,7 @@
                         card_view:cardCornerRadius="4dp">
 
                         <LinearLayout
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
                             android:id="@+id/work_from_home_container"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -63,12 +64,13 @@
                                 android:textColor="@android:color/black"
                                 android:textSize="18dp"/>
 
-                            <Switch
+                            <android.support.v7.widget.SwitchCompat
                                 android:id="@+id/superhero_switch"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="24dp"
-                                android:checked="false"/>
+                                android:checked="false"
+                                app:theme="@style/Switch"/>
 
                         </LinearLayout>
 
