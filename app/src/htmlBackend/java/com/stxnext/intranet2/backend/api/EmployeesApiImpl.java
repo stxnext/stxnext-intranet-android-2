@@ -20,12 +20,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.Collator;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Lukasz Ciupa on 2015-05-22.
@@ -49,6 +53,7 @@ public class EmployeesApiImpl extends EmployeesApi {
                     String response = new String(responseBody);
                     Log.d(Config.TAG, response);
                     List<User> users = processJsonEmployees(response);
+                    sortUsersByFirstName(users);
                     DBManager.getInstance().persistEmployees(users);
                     apiCallback.onEmployeesListReceived(users);
                 }
@@ -63,6 +68,20 @@ public class EmployeesApiImpl extends EmployeesApi {
         } else {
             apiCallback.onEmployeesListReceived(employees);
         }
+    }
+
+    private void sortUsersByFirstName(List<User> users) {
+        Locale polishLocale = new Locale("pl_PL");
+        final Collator polishCollator = Collator.getInstance(polishLocale);
+
+        Comparator<User> comparator = new Comparator<User>() {
+
+            @Override
+            public int compare(User user1, User user2) {
+                return polishCollator.compare(user1.getFirstName(), user2.getFirstName());
+            }
+        };
+        Collections.sort(users, comparator);
     }
 
     private List<User> processJsonEmployees(String jsonEmployeesString) {
@@ -123,6 +142,7 @@ public class EmployeesApiImpl extends EmployeesApi {
                 String response = new String(responseBody);
                 Log.d(Config.TAG, response);
                 List<Absence> absences = processJsonOutOfOfficeAbsences(response);
+                sortAbsencesByUserFirstName(absences);
                 apiCallback.onAbsenceEmployeesListReceived(absences);
             }
 
@@ -133,6 +153,18 @@ public class EmployeesApiImpl extends EmployeesApi {
         };
 
         httpClient.get("https://intranet.stxnext.pl/api/presence", asyncHttpResponseHandler);
+    }
+
+    private void sortAbsencesByUserFirstName(List<Absence> absences) {
+        Locale polishLocale = new Locale("pl_PL");
+        final Collator polishCollator = Collator.getInstance(polishLocale);
+        Comparator<Absence> comparator = new Comparator<Absence>() {
+            @Override
+            public int compare(Absence absence1, Absence absence2) {
+                return polishCollator.compare(absence1.getUser().getFirstName(), absence2.getUser().getFirstName());
+            }
+        };
+        Collections.sort(absences, comparator);
     }
 
     private List<Absence> processJsonOutOfOfficeAbsences(String jsonAbsencesString) {
@@ -273,6 +305,7 @@ public class EmployeesApiImpl extends EmployeesApi {
                 String response = new String(responseBody);
                 Log.d(Config.TAG, response);
                 List<Absence> absences = processJsonWorkFromHomeAbsences(response);
+                sortAbsencesByUserFirstName(absences);
                 apiCallback.onAbsenceEmployeesListReceived(absences);
             }
 
@@ -283,17 +316,7 @@ public class EmployeesApiImpl extends EmployeesApi {
         };
 
         httpClient.get("https://intranet.stxnext.pl/api/presence", asyncHttpResponseHandler);
-//
-//        List<Absence> absenceList = new ArrayList<>();
-//        Date absenceFrom = Calendar.getInstance().getTime();
-//        Calendar absenceToCalendar = Calendar.getInstance();
-//        absenceToCalendar.add(Calendar.DAY_OF_MONTH, 2);
-//        Date absenceTo = absenceToCalendar.getTime();
-//        absenceList.add(new AbsenceImpl(new UserImpl("13dsa3", "Mariusz", "Krok", "", "", "", "Chemist", "", "", "", ""), absenceFrom, absenceTo, "Źle się czuje, pracuję z domu"));
-//        absenceList.add(new AbsenceImpl(new UserImpl("1sa243", "Jacek", "Wieczorek", "", "", "", "COO", "", "", "", ""), absenceFrom, absenceTo, "Córka chora, musiałem zostać w domu"));
-//        absenceList.add(new AbsenceImpl(new UserImpl("121233", "Mieszko", "Stelmach", "", "", "", "Android Developer", "", "", "", ""), absenceFrom, absenceTo, "Chory, dostępny po tel."));
-//        absenceList.add(new AbsenceImpl(new UserImpl("15saa3", "Tomasz", "Konieczny", "", "", "", "Team Leader", "", "", "", ""), absenceFrom, absenceTo, "Jeżdżę po urzędach"));
-//        apiCallback.onAbsenceEmployeesListReceived(absenceList);
+
     }
 
     private List<Absence> processJsonWorkFromHomeAbsences(String jsonAbsencesString) {
@@ -341,6 +364,7 @@ public class EmployeesApiImpl extends EmployeesApi {
                 String response = new String(responseBody);
                 Log.d(Config.TAG, response);
                 List<Absence> absences = processJsonHolidayAbsences(response);
+                sortAbsencesByUserFirstName(absences);
                 apiCallback.onAbsenceEmployeesListReceived(absences);
             }
 
