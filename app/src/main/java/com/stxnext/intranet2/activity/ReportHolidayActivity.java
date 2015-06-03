@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,7 +21,7 @@ import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.dialog.DatePickerDialogFragment;
 import com.stxnext.intranet2.model.HolidayTypes;
-import com.stxnext.intranet2.utils.Config;
+import com.stxnext.intranet2.utils.STXToast;
 import com.stxnext.intranet2.utils.Session;
 
 import java.util.Calendar;
@@ -40,19 +39,19 @@ public class ReportHolidayActivity extends AppCompatActivity
     private TextView selectedAmountLabel;
     private TextView remainingDaysLabel;
     private TextView allDaysLabel;
-    private Button submitButton;
+    private View progressView;
 
+    private Button submitButton;
     private HolidayTypes type;
     private Calendar dateFrom;
+
     private Calendar dateTo;
 
-    //TODO: We need to receive this values!
-    private int allDays = 24;
-    private int remainingDays = 12;
+    private int allDays = 0;
+    private int remainingDays = 0;
     private int selectedAmount = 0;
 
-    private EditText explantation;
-
+    private EditText explanation;
     private UserApi userApi;
 
     @Override
@@ -65,21 +64,22 @@ public class ReportHolidayActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         userApi = new UserApiImpl(this, this);
+        progressView = findViewById(R.id.progress_container);
 
-        // TODO add loading progress
         Integer absenceDaysLeft = Session.getInstance(this).getAbsenceDaysLeft();
         Integer daysMandated = Session.getInstance(this).getDaysMandated();
         if (absenceDaysLeft == null) {
             userApi.getAbsenceDaysLeft();
+            progressView.setVisibility(View.VISIBLE);
         } else {
             remainingDays = absenceDaysLeft;
             allDays = daysMandated;
-            preapreDateViews();
+            prepareDateViews();
         }
         prepareSpinner();
     }
 
-    private void preapreDateViews() {
+    private void prepareDateViews() {
         submitButton = (Button) findViewById(R.id.submit_button);
         submitButton.setOnClickListener(this);
 
@@ -126,9 +126,9 @@ public class ReportHolidayActivity extends AppCompatActivity
             }
         });
 
-        explantation = (EditText) findViewById(R.id.explanation_edit_text);
+        explanation = (EditText) findViewById(R.id.explanation_edit_text);
 
-
+        progressView.setVisibility(View.GONE);
     }
 
     private void prepareSpinner() {
@@ -210,16 +210,19 @@ public class ReportHolidayActivity extends AppCompatActivity
     @Override
     public void onClick(View v) {
         if (remainingDays < selectedAmount) {
-            Toast.makeText(this, R.string.validation_to_many_days, Toast.LENGTH_SHORT).show();
+            STXToast.show(this, R.string.validation_to_many_days);
         } else if (selectedAmount <= 0) {
-            Toast.makeText(this, R.string.validation_zero_days, Toast.LENGTH_SHORT).show();
+            STXToast.show(this, R.string.validation_zero_days);
+        } else if (explanation.getText().length() == 0) {
+            STXToast.show(this, R.string.validation_no_explanation);
         } else {
             submitHoliday();
         }
     }
 
     private void submitHoliday() {
-        userApi.submitHolidayAbsence(type, dateFrom.getTime(), dateTo.getTime(), explantation.getText().toString());
+        progressView.setVisibility(View.VISIBLE);
+        userApi.submitHolidayAbsence(type, dateFrom.getTime(), dateTo.getTime(), explanation.getText().toString());
     }
 
 
@@ -230,23 +233,27 @@ public class ReportHolidayActivity extends AppCompatActivity
 
     @Override
     public void onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request) {
-        Log.d(Config.TAG."onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request): hours: " + hours + " calendarEntry: " + calendarEntry + " request: " + request);
-        Toast.makeText(this, R.string.added, Toast.LENGTH_SHORT).show();
+        STXToast.show(this, R.string.saved);
         finish();
     }
 
     @Override
-    public void onLatenessResponse(boolean entry) {
+    public void onOutOfOfficeResponse(boolean entry) {
 
     }
 
-    // TODO add loading info before receiving this
+    @Override
+    public void onRequestError() {
+        STXToast.show(this, R.string.reqest_error);
+        progressView.setVisibility(View.GONE);
+    }
+
     @Override
     public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
         Session.getInstance(this).setAbsenceDaysLeft(absenceDaysLeft);
         Session.getInstance(this).setDaysMandated(mandated);
         remainingDays = absenceDaysLeft;
         allDays = mandated;
-        preapreDateViews();
+        prepareDateViews();
     }
 }

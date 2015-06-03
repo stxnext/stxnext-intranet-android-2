@@ -8,13 +8,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.api.UserApi;
 import com.stxnext.intranet2.backend.api.UserApiImpl;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.User;
+import com.stxnext.intranet2.utils.STXToast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -26,6 +26,7 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
 
     private View submitButton;
     private UserApi userApi;
+    private View progressView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         userApi = new UserApiImpl(this, this);
+        progressView = findViewById(R.id.progress_container);
 
         final TextView hourLabel = (TextView) findViewById(R.id.hour_label);
         final View labelBackground = findViewById(R.id.hour_label_background);
@@ -109,6 +111,7 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
     }
 
     private void submitLateness(TextView hourLabel) {
+        progressView.setVisibility(View.VISIBLE);
         Calendar calendar = Calendar.getInstance();
         Date submissionDate = calendar.getTime();
         calendar.set(Calendar.HOUR_OF_DAY, 9);
@@ -127,7 +130,7 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         Date endHour = calendar.getTime();
-        userApi.submitLateness(false, submissionDate, startHour, endHour, getString(R.string.i_will_be_late));
+        userApi.submitOutOfOffice(false, submissionDate, startHour, endHour, getString(R.string.i_will_be_late));
     }
 
     private String convertIntToTime(int progress) {
@@ -169,13 +172,20 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
     }
 
     @Override
-    public void onLatenessResponse(boolean entry) {
-        Toast.makeText(this, R.string.added, Toast.LENGTH_SHORT).show();
+    public void onOutOfOfficeResponse(boolean entry) {
+        STXToast.show(this, R.string.saved);
         finish();
+    }
+
+    @Override
+    public void onRequestError() {
+        STXToast.show(this, R.string.reqest_error);
+        progressView.setVisibility(View.GONE);
     }
 
     @Override
     public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
 
     }
+
 }
