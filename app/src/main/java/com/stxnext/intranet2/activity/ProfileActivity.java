@@ -115,12 +115,17 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
     }
 
     @Override
-    public void onLatenessResponse(boolean latenessResponse) {
+    public void onOutOfOfficeResponse(boolean latenessResponse) {
         // nothing to do
     }
 
     @Override
     public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
         // nothing to do
+    }
+
+    @Override
+    public void onRequestError() {
+
     }
 }

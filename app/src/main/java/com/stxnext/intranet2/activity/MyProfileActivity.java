@@ -215,7 +215,7 @@ public class MyProfileActivity extends AppCompatActivity
         Date startHour = calendar.getTime();
         calendar.set(Calendar.MINUTE, 31);
         Date endHour = calendar.getTime();
-//        userApi.submitLateness(true, submissionDate, startHour, endHour, "Test aplikacji.");
+//        userApi.submitOutOfOffice(true, submissionDate, startHour, endHour, "Test aplikacji.");
 
         userApi.requestForUser(Session.getInstance(this).getUserId());
     }
@@ -309,23 +309,23 @@ public class MyProfileActivity extends AppCompatActivity
         }
     }
 
-    // TODO add progress bar. Here it's finish of submit function.
     @Override
     public void onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request) {
-        boolean resultHours = hours;
-        boolean resultCalendarEntry = calendarEntry;
-        boolean resultRequest = request;
+
     }
 
-    // TODO add progress bar. Here it's finish of submit function.
     @Override
-    public void onLatenessResponse(boolean entry) {
-        boolean result = entry;
-        // nothing to do
+    public void onOutOfOfficeResponse(boolean entry) {
+
     }
 
     @Override
     public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
         // nothing to do
+    }
+
+    @Override
+    public void onRequestError() {
+
     }
 }
