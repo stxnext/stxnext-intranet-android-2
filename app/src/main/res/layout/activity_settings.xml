@@ -61,7 +61,7 @@
                                 android:paddingRight="6dp"
                                 android:paddingTop="12dp"
                                 android:text="@string/im_superhero"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/stxnext_green_dark"
                                 android:textSize="18dp"/>
 
                             <android.support.v7.widget.SwitchCompat
@@ -186,6 +186,7 @@
                         card_view:cardCornerRadius="4dp">
 
                         <TextView
+                            android:id="@+id/version_info"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="12dp"

@@ -1,5 +1,8 @@
 package com.stxnext.intranet2.activity;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
@@ -7,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.utils.Session;
@@ -45,6 +49,15 @@ public class SettingsActivity extends AppCompatActivity {
                 setResult(RESULT_OK);
             }
         });
+
+        try {
+            TextView versionInfo = (TextView) findViewById(R.id.version_info);
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            versionInfo.setText(String.format("STX Next Intranet %s\n\n%s", version, versionInfo.getText().toString()));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
