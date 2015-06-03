@@ -44,5 +44,9 @@
         <item name="android:progressDrawable">@drawable/seekbar_progress</item>
         <item name="android:thumb">@null</item>
     </style>
+    
+    <style name="Switch">
+        <item name="android:colorForeground">@color/stxnext_green</item>
+    </style>
 
 </resources>

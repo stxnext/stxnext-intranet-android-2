@@ -230,7 +230,7 @@ public class ReportHolidayActivity extends AppCompatActivity
 
     @Override
     public void onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request) {
-        Log.d(Config.TAG."onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request): hours: " + hours + " calendarEntry: " + calendarEntry + " request: " + request);
+        Log.d(Config.TAG, "onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request): hours: " + hours + " calendarEntry: " + calendarEntry + " request: " + request);
         Toast.makeText(this, R.string.added, Toast.LENGTH_SHORT).show();
         finish();
     }
