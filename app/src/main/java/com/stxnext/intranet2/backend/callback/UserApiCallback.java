@@ -11,8 +11,10 @@ public interface UserApiCallback {
 
     void onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request);
 
-    void onLatenessResponse(boolean entry);
+    void onOutOfOfficeResponse(boolean entry);
 
     void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft);
+
+    void onRequestError();
 
 }

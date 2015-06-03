@@ -152,7 +152,7 @@ public class UserApiImpl extends UserApi {
     //Need example jsons:
     // {"lateness":{"late_end":"09:05","popup_explanation":"Test aplikacji.","work_from_home":"false","late_start":"09:00","popup_date":"31/05/2015"}}
     // {"lateness":{"late_end":"09:05","popup_explanation":"Test aplikacji.","work_from_home":"true","late_start":"09:00","popup_date":"31/05/2015"}}
-    public void submitLateness(boolean workFromHome, Date submissionDate, Date startHour, Date endHour, String explanation) {
+    public void submitOutOfOffice(boolean workFromHome, Date submissionDate, Date startHour, Date endHour, String explanation) {
         JSONObject mainObject = new JSONObject();
         JSONObject absenceObject = new JSONObject();
         try {
@@ -177,7 +177,7 @@ public class UserApiImpl extends UserApi {
                     try {
                         JSONObject latenessJSONObject = new JSONObject(latenessResponse);
                         boolean entry = latenessJSONObject.getBoolean("entry");
-                        apiCallback.onLatenessResponse(entry);
+                        apiCallback.onOutOfOfficeResponse(entry);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -186,7 +186,7 @@ public class UserApiImpl extends UserApi {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    apiCallback.onLatenessResponse(false);
+                    apiCallback.onRequestError();
                 }
             };
 
@@ -238,7 +238,7 @@ public class UserApiImpl extends UserApi {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    apiCallback.onAbsenceResponse(false, false, false);
+                    apiCallback.onRequestError();
                 }
             };
 
@@ -266,6 +266,7 @@ public class UserApiImpl extends UserApi {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.d(Config.TAG, "Failure");
+                apiCallback.onRequestError();
             }
         };
 
