@@ -30,4 +30,6 @@ public abstract class UserApi {
 
     public abstract void submitHolidayAbsence(HolidayTypes absenceType, Date endDate, Date startDate, String remarks);
 
+    public abstract void getAbsenceDaysLeft();
+
 }

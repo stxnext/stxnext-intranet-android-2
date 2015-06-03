@@ -6,21 +6,28 @@ import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stxnext.intranet2.R;
+import com.stxnext.intranet2.backend.api.UserApi;
+import com.stxnext.intranet2.backend.api.UserApiImpl;
+import com.stxnext.intranet2.backend.callback.UserApiCallback;
+import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.dialog.DatePickerDialogFragment;
 import com.stxnext.intranet2.dialog.TimePickerDialogFragment;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Tomasz Konieczny on 2015-04-22.
  */
 public class ReportOutOfOfficeActivity extends AppCompatActivity implements
         TimePickerDialogFragment.OnTimeSetListener,
-        DatePickerDialogFragment.OnDatePickListener {
+        DatePickerDialogFragment.OnDatePickListener, UserApiCallback {
 
     private Calendar date;
     private int fromHour = 9;
@@ -32,6 +39,10 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
     private TextView dateLabel;
     private TextView fromLabel;
     private TextView toLabel;
+    private Switch workFromHomeSwitch;
+    private EditText explanationEditText;
+
+    private UserApi userApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +52,8 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        userApi = new UserApiImpl(this, this);
 
         date = Calendar.getInstance();
         dateLabel = (TextView) findViewById(R.id.date_label);
@@ -71,6 +84,10 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
                 TimePickerDialogFragment.show(getFragmentManager(), toHour, toMinute, TimePickerDialogFragment.TIME_TO);
             }
         });
+
+        workFromHomeSwitch = (Switch) findViewById(R.id.work_from_home_switch);
+
+        explanationEditText = (EditText) findViewById(R.id.explanation_edit_text);
 
         findViewById(R.id.submit_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,12 +137,46 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
     }
 
     private void submit() {
-        if (date.getTimeInMillis() > (System.currentTimeMillis() - (1000 * 60 * 60 * 24))) {
+        if (date.getTimeInMillis() < (System.currentTimeMillis() - (1000 * 60 * 60 * 24))) {
             Toast.makeText(this, R.string.validation_day_difference_warning, Toast.LENGTH_SHORT).show();
-        } else if (toHour > fromHour) {
+        } else if (toHour < fromHour) {
             Toast.makeText(this, R.string.validation_hour_difference_warning, Toast.LENGTH_SHORT).show();
         } else {
-            //TODO: request for out of office
+            submitOutOfOffice();
         }
+    }
+
+    private void submitOutOfOffice() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date.getTime());
+        calendar.set(Calendar.HOUR_OF_DAY, fromHour);
+        calendar.set(Calendar.MINUTE, fromMinute);
+        Date startHour = calendar.getTime();
+        calendar.set(Calendar.HOUR_OF_DAY, toHour);
+        calendar.set(Calendar.MINUTE, toMinute);
+        Date endHour = calendar.getTime();
+        userApi.submitLateness(workFromHomeSwitch.isChecked(), date.getTime(), startHour, endHour, explanationEditText.getText().toString());
+    }
+
+    @Override
+    public void onUserReceived(User user) {
+
+    }
+
+    @Override
+    public void onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request) {
+
+    }
+
+    // TODO add waiting sign before it
+    @Override
+    public void onLatenessResponse(boolean entry) {
+        Toast.makeText(this, R.string.added, Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
+
     }
 }
