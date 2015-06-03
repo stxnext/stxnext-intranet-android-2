@@ -2,11 +2,11 @@ package com.stxnext.intranet2.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.utils.Session;
@@ -36,7 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         final Session session = Session.getInstance(this);
-        Switch superHeroModeOption = (Switch) findViewById(R.id.superhero_switch);
+        SwitchCompat superHeroModeOption = (SwitchCompat) findViewById(R.id.superhero_switch);
         superHeroModeOption.setChecked(session.isSuperHeroModeEnabled());
         superHeroModeOption.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
