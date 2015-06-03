@@ -28,6 +28,9 @@ public class Session {
     private PersistentCookieStore cookieStore = null;
     private String userId = null;
     private CookieManager cookieManager = null;
+    private Integer absenceDaysLeft = null;
+    private Integer daysMandated = null;
+
     private static final String PREFERENCES_NAME = "com.stxnext.intranet2";
     private static final String SUPERHERO_MODE_PREFERENCE = "com.stxnext.intranet2";
     private static final String CODE_PREFERENCE = "code";
@@ -153,12 +156,29 @@ public class Session {
         return userId;
     }
 
+
     public void enableSuperHeroMode(boolean enabled) {
         preferences.edit().putBoolean(SUPERHERO_MODE_PREFERENCE, enabled).apply();
     }
 
     public boolean isSuperHeroModeEnabled() {
         return preferences.getBoolean(SUPERHERO_MODE_PREFERENCE, false);
+    }
+
+    public void setAbsenceDaysLeft(int absenceDaysLeft) {
+        this.absenceDaysLeft = absenceDaysLeft;
+    }
+
+    public Integer getAbsenceDaysLeft() {
+        return absenceDaysLeft;
+    }
+
+    public void setDaysMandated(int daysMandated) {
+        this.daysMandated = daysMandated;
+    }
+
+    public Integer getDaysMandated() {
+        return daysMandated;
     }
 
     public boolean isLogged() {

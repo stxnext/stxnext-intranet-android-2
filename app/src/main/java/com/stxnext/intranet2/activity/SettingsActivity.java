@@ -1,8 +1,6 @@
 package com.stxnext.intranet2.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -11,10 +9,6 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.stxnext.intranet2.R;
-import com.stxnext.intranet2.backend.api.UserApi;
-import com.stxnext.intranet2.backend.api.UserApiImpl;
-import com.stxnext.intranet2.backend.callback.UserApiCallback;
-import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.utils.Session;
 
 

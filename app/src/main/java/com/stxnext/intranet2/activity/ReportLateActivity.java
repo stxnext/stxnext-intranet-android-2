@@ -8,15 +8,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.stxnext.intranet2.R;
+import com.stxnext.intranet2.backend.api.UserApi;
+import com.stxnext.intranet2.backend.api.UserApiImpl;
+import com.stxnext.intranet2.backend.callback.UserApiCallback;
+import com.stxnext.intranet2.backend.model.User;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Tomasz Konieczny on 2015-05-27.
  */
-public class ReportLateActivity extends AppCompatActivity {
+public class ReportLateActivity extends AppCompatActivity implements UserApiCallback {
 
     private View submitButton;
+    private UserApi userApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +38,8 @@ public class ReportLateActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        userApi = new UserApiImpl(this, this);
 
         final TextView hourLabel = (TextView) findViewById(R.id.hour_label);
         final View labelBackground = findViewById(R.id.hour_label_background);
@@ -65,7 +76,7 @@ public class ReportLateActivity extends AppCompatActivity {
                     submitButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            finish();
+                            submitLateness(hourLabel);
                         }
                     });
 
@@ -97,6 +108,28 @@ public class ReportLateActivity extends AppCompatActivity {
         });
     }
 
+    private void submitLateness(TextView hourLabel) {
+        Calendar calendar = Calendar.getInstance();
+        Date submissionDate = calendar.getTime();
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
+        calendar.set(Calendar.MINUTE, 0);
+        Date startHour = calendar.getTime();
+        String endHourString = hourLabel.getText().toString();
+        String[] splittedEndHourString = endHourString.split(":");
+        int hour = 9;
+        int minute = 1;
+        if (splittedEndHourString.length == 2) {
+            String hourString = splittedEndHourString[0];
+            String minuteString = splittedEndHourString[1];
+            hour = Integer.parseInt(hourString);
+            minute = Integer.parseInt(minuteString);
+        }
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        Date endHour = calendar.getTime();
+        userApi.submitLateness(false, submissionDate, startHour, endHour, getString(R.string.i_will_be_late));
+    }
+
     private String convertIntToTime(int progress) {
         int hour = 9;
 
@@ -125,4 +158,24 @@ public class ReportLateActivity extends AppCompatActivity {
         return false;
     }
 
+    @Override
+    public void onUserReceived(User user) {
+
+    }
+
+    @Override
+    public void onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request) {
+
+    }
+
+    @Override
+    public void onLatenessResponse(boolean entry) {
+        Toast.makeText(this, R.string.added, Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
+
+    }
 }
