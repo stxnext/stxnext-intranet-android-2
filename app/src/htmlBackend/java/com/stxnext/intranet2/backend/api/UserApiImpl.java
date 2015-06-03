@@ -23,10 +23,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.text.Collator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Tomasz Konieczny on 2015-05-07.
@@ -64,6 +68,7 @@ public class UserApiImpl extends UserApi {
                 String response = new String(responseBody);
                 Log.d(Config.TAG, response);
                 List<User> users = processJsonEmployees(response);
+                sortUsersByFirstName(users);
                 DBManager.getInstance().persistEmployees(users);
                 User user = DBManager.getInstance().getUser(userId);
                 apiCallback.onUserReceived(user);
@@ -76,6 +81,20 @@ public class UserApiImpl extends UserApi {
         };
 
         httpClient.get("https://intranet.stxnext.pl/api/users?full=1&inactive=0", asyncHttpResponseHandler);
+    }
+
+    private void sortUsersByFirstName(List<User> users) {
+        Locale polishLocale = new Locale("pl_PL");
+        final Collator polishCollator = Collator.getInstance(polishLocale);
+
+        Comparator<User> comparator = new Comparator<User>() {
+
+            @Override
+            public int compare(User user1, User user2) {
+                return polishCollator.compare(user1.getFirstName(), user2.getFirstName());
+            }
+        };
+        Collections.sort(users, comparator);
     }
 
     private List<User> processJsonEmployees(String jsonEmployeesString) {
