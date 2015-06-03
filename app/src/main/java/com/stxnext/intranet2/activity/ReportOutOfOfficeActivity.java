@@ -142,16 +142,20 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
         } else if (toHour < fromHour) {
             Toast.makeText(this, R.string.validation_hour_difference_warning, Toast.LENGTH_SHORT).show();
         } else {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date.getTime());
-            calendar.set(Calendar.HOUR_OF_DAY, fromHour);
-            calendar.set(Calendar.MINUTE, fromMinute);
-            Date startHour = calendar.getTime();
-            calendar.set(Calendar.HOUR_OF_DAY, toHour);
-            calendar.set(Calendar.MINUTE, toMinute);
-            Date endHour = calendar.getTime();
-            userApi.submitLateness(workFromHomeSwitch.isChecked(), date.getTime(), startHour, endHour, explanationEditText.getText().toString());
+            submitOutOfOffice();
         }
+    }
+
+    private void submitOutOfOffice() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date.getTime());
+        calendar.set(Calendar.HOUR_OF_DAY, fromHour);
+        calendar.set(Calendar.MINUTE, fromMinute);
+        Date startHour = calendar.getTime();
+        calendar.set(Calendar.HOUR_OF_DAY, toHour);
+        calendar.set(Calendar.MINUTE, toMinute);
+        Date endHour = calendar.getTime();
+        userApi.submitLateness(workFromHomeSwitch.isChecked(), date.getTime(), startHour, endHour, explanationEditText.getText().toString());
     }
 
     @Override
