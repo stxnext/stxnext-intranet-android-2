@@ -219,13 +219,13 @@
                                 android:textSize="17dp"/>
 
                             <android.support.v7.widget.SwitchCompat
+                                xmlns:switch="http://schemas.android.com/apk/res-auto"
                                 android:id="@+id/work_from_home_switch"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="24dp"
-                                app:theme="@style/Switch"
-                                android:checked="false"/>
-
+                                android:checked="false"
+                                switch:theme="@style/Switch"/>
 
                         </LinearLayout>
 
@@ -276,6 +276,7 @@
             android:paddingTop="12dp"
             android:text="@string/submit"
             android:textSize="21sp"
+            android:background="@drawable/selector_default_button"
             android:textStyle="bold"/>
 
     </LinearLayout>

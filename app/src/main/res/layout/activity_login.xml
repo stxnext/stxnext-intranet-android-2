@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:layout_margin="4dp"
+        android:background="@drawable/selector_default_button"
         android:layout_gravity="bottom"
         android:text="@string/login" />
 
