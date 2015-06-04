@@ -50,4 +50,5 @@
     <string name="saved">Zgłoszenie zostało wysłane</string>
     <string name="validation_no_explanation">Uzupełnij wyjaśnienie</string>
     <string name="reqest_error">Błąd serwera/połączenia internetowego. Spróbuj ponownie.</string>
+    <string name="office">Biuro:</string>
 </resources>
