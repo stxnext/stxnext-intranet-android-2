@@ -2,12 +2,12 @@ package com.stxnext.intranet2.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.stxnext.intranet2.R;
@@ -39,7 +39,7 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
     private TextView dateLabel;
     private TextView fromLabel;
     private TextView toLabel;
-    private Switch workFromHomeSwitch;
+    private SwitchCompat workFromHomeSwitch;
     private EditText explanationEditText;
     private View progressView;
 
@@ -88,7 +88,7 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
             }
         });
 
-        workFromHomeSwitch = (Switch) findViewById(R.id.work_from_home_switch);
+        workFromHomeSwitch = (SwitchCompat) findViewById(R.id.work_from_home_switch);
 
         explanationEditText = (EditText) findViewById(R.id.explanation_edit_text);
 

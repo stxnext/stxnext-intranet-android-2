@@ -435,10 +435,10 @@
         android:textSize="28sp">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="18dp"
-            android:src="@drawable/plus"/>
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/plus"/>
 
     </FrameLayout>
 
