@@ -50,4 +50,5 @@
     <string name="saved">Request has been sent</string>
     <string name="validation_no_explanation">Please add an explanation</string>
     <string name="reqest_error">Internet connection error. Try again!</string>
+    <string name="office">Office:</string>
 </resources>
