@@ -68,7 +68,9 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
                         getFragmentManager(),
                         date.get(Calendar.DAY_OF_MONTH),
                         date.get(Calendar.MONTH),
-                        date.get(Calendar.YEAR), 0);
+                        date.get(Calendar.YEAR),
+                        0,
+                        System.currentTimeMillis() - 1000);
             }
         });
 
