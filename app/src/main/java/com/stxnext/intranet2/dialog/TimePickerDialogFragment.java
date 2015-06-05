@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.TimePickerDialog;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
@@ -54,7 +56,12 @@ public class TimePickerDialogFragment extends DialogFragment implements android.
             int hour = getArguments().getInt(ARG_MINUTE);
             int minute = getArguments().getInt(ARG_HOUR);
 
-            return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
+            TimePickerDialog dialog = new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            }
+
+            return dialog;
         } else {
             throw new RuntimeException("This implementation needs minute and hour values!");
         }

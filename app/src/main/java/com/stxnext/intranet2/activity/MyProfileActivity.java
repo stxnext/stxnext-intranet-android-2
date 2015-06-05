@@ -272,27 +272,32 @@ public class MyProfileActivity extends AppCompatActivity
 
     @Override
     public void onUserReceived(User user) {
-        String userName = user.getFirstName() + " " + user.getLastName();
-        getSupportActionBar().setTitle(userName);
-        firstNameTextView.setText(userName);
-        roleTextView.setText(user.getRole());
-        officeTextView.setText(user.getLocalization());
-        emailTextView.setText(user.getEmail());
+        if (user != null) {
+            String userName = user.getFirstName() + " " + user.getLastName();
+            getSupportActionBar().setTitle(userName);
+            firstNameTextView.setText(userName);
+            roleTextView.setText(user.getRole());
+            officeTextView.setText(user.getLocalization());
+            emailTextView.setText(user.getEmail());
 
-        String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
-        Picasso.with(this).load(imageAddress).placeholder(R.drawable.avatar_placeholder)
-                .resizeDimen(R.dimen.profile_image_height, R.dimen.profile_image_height)
-                .centerCrop()
-                .into(profileImageView);
+            String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
+            Picasso.with(this).load(imageAddress).placeholder(R.drawable.avatar_placeholder)
+                    .resizeDimen(R.dimen.profile_image_height, R.dimen.profile_image_height)
+                    .centerCrop()
+                    .into(profileImageView);
 
-        if ("null".equals(user.getPhoneNumber())) {
-            phoneTextView.setText(user.getPhoneNumber());
-        }
-        if ("null".equals(user.getSkype())) {
-            skypeTextView.setText(user.getSkype());
-        }
-        if ("null".equals(user.getIrc())) {
-            ircTextView.setText(user.getIrc());
+            if (!"null".equals(user.getPhoneNumber())) {
+                phoneTextView.setText(user.getPhoneNumber());
+            }
+            if (!"null".equals(user.getSkype())) {
+                skypeTextView.setText(user.getSkype());
+            }
+            if (!"null".equals(user.getIrc())) {
+                ircTextView.setText(user.getIrc());
+            }
+        } else {
+            Session.getInstance(this).logout();
+            runLoginActivity();
         }
     }
 

@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
@@ -54,6 +56,10 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
                 long minDate = arguments.getLong(ARG_MIN_DATE);
 
                 DatePickerDialog datePicker = new DatePickerDialog(getActivity(), this, year, month, dayOfMonth);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    datePicker.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                }
+
                 datePicker.getDatePicker().setMinDate(minDate);
                 return datePicker;
             } else {
