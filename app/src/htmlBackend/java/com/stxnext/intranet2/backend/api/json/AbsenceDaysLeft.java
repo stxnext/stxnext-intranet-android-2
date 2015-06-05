@@ -10,8 +10,10 @@ public class AbsenceDaysLeft {
     @SerializedName("mandated")
     private int mandated;
 
+    @SerializedName("days")
     private int days;
 
+    @SerializedName("left")
     private int left;
 
     public int getMandated() {

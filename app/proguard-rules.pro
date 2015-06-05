@@ -16,6 +16,10 @@
 #   public *;
 #}
 
--keepattributes SourceFile, LineNumberTable
+-keepattributes SourceFile, LineNumberTable, Signature, *Annotation*
 -dontwarn org.joda.convert.**
 -dontwarn okio.**
+
+-keep class com.loopj.android.** { *; }
+-keep interface com.loopj.android.** { *; }
+-keep public class com.google.gson.** { *; }

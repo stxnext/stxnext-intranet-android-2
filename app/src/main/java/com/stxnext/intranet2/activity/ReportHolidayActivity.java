@@ -40,13 +40,10 @@ public class ReportHolidayActivity extends AppCompatActivity
     private TextView dateToLabel;
     private TextView selectedAmountLabel;
     private TextView remainingDaysLabel;
-    private TextView allDaysLabel;
     private View progressView;
 
-    private Button submitButton;
     private HolidayTypes type;
     private Calendar dateFrom;
-
     private Calendar dateTo;
 
     private int allDays = 0;
@@ -82,12 +79,12 @@ public class ReportHolidayActivity extends AppCompatActivity
     }
 
     private void prepareDateViews() {
-        submitButton = (Button) findViewById(R.id.submit_button);
+        Button submitButton = (Button) findViewById(R.id.submit_button);
         submitButton.setOnClickListener(this);
 
         selectedAmountLabel = (TextView) findViewById(selected_amount_label);
         remainingDaysLabel = (TextView) findViewById(R.id.remaining_amount_label);
-        allDaysLabel = (TextView) findViewById(R.id.all_days_label);
+        TextView allDaysLabel = (TextView) findViewById(R.id.all_days_label);
 
         selectedAmountLabel.setText(String.valueOf(selectedAmount));
         remainingDaysLabel.setText(String.valueOf(remainingDays));
