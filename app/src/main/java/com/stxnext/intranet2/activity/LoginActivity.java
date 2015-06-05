@@ -52,4 +52,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        setResult(LoginActivity.LOGIN_CANCELED);
+        super.onBackPressed();
+    }
 }

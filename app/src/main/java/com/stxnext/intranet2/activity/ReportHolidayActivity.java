@@ -1,11 +1,13 @@
 package com.stxnext.intranet2.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,7 +53,7 @@ public class ReportHolidayActivity extends AppCompatActivity
     private int remainingDays = 0;
     private int selectedAmount = 0;
 
-    private EditText explanation;
+    private EditText explanationEditText;
     private UserApi userApi;
 
     @Override
@@ -128,7 +130,15 @@ public class ReportHolidayActivity extends AppCompatActivity
             }
         });
 
-        explanation = (EditText) findViewById(R.id.explanation_edit_text);
+        explanationEditText = (EditText) findViewById(R.id.explanation_edit_text);
+        findViewById(R.id.explanation_container).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                explanationEditText.requestFocus();
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(explanationEditText, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
 
         progressView.setVisibility(View.GONE);
     }
@@ -208,7 +218,7 @@ public class ReportHolidayActivity extends AppCompatActivity
             STXToast.show(this, R.string.validation_to_many_days);
         } else if (selectedAmount <= 0) {
             STXToast.show(this, R.string.validation_zero_days);
-        } else if (explanation.getText().length() == 0) {
+        } else if (explanationEditText.getText().length() == 0) {
             STXToast.show(this, R.string.validation_no_explanation);
         } else {
             submitHoliday();
@@ -217,7 +227,7 @@ public class ReportHolidayActivity extends AppCompatActivity
 
     private void submitHoliday() {
         progressView.setVisibility(View.VISIBLE);
-        userApi.submitHolidayAbsence(type, dateFrom.getTime(), dateTo.getTime(), explanation.getText().toString());
+        userApi.submitHolidayAbsence(type, dateFrom.getTime(), dateTo.getTime(), explanationEditText.getText().toString());
     }
 
 

@@ -1,5 +1,6 @@
 package com.stxnext.intranet2.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
@@ -7,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -93,6 +96,14 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
         workFromHomeSwitch = (SwitchCompat) findViewById(R.id.work_from_home_switch);
 
         explanationEditText = (EditText) findViewById(R.id.explanation_edit_text);
+        findViewById(R.id.explanation_container).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                explanationEditText.requestFocus();
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(explanationEditText, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
 
         findViewById(R.id.submit_button).setOnClickListener(new View.OnClickListener() {
             @Override

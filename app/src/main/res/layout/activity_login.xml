@@ -32,6 +32,7 @@
         android:layout_margin="4dp"
         android:background="@drawable/selector_default_button"
         android:layout_gravity="bottom"
+        android:textColor="@android:color/white"
         android:text="@string/login" />
 
 </LinearLayout>

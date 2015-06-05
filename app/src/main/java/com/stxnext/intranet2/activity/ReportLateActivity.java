@@ -81,10 +81,8 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
                             submitLateness(hourLabel);
                         }
                     });
-
-                    if (submitButton.getVisibility() == View.INVISIBLE) {
-                        submitButton.setVisibility(View.VISIBLE);
-                    }
+                } else if (submitButton.getVisibility() == View.INVISIBLE) {
+                    submitButton.setVisibility(View.VISIBLE);
                 }
             }
 
