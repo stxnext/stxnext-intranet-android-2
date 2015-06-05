@@ -14,7 +14,8 @@
         <item name="android:buttonStyle">@style/Button</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:dialogTheme">@android:style/Theme.Holo.Light.Dialog</item>
+        <item name="android:dialogTheme">@android:style/Theme.DeviceDefault.Light.Dialog</item>
+        <item name="dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
     </style>
 
     <style name="Button">

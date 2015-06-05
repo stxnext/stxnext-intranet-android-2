@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.DrawerAdapter;
@@ -29,7 +30,10 @@ import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.fragment.FloatingMenuFragment;
 import com.stxnext.intranet2.model.DrawerMenuItems;
 import com.stxnext.intranet2.utils.Config;
+import com.stxnext.intranet2.utils.STXToast;
 import com.stxnext.intranet2.utils.Session;
+
+import io.fabric.sdk.android.Fabric;
 
 
 /**
@@ -63,6 +67,7 @@ public class MyProfileActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_profile_root);
         loadViews();
 
@@ -174,15 +179,14 @@ public class MyProfileActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case LOGIN_REQUEST:
                 if (resultCode == LoginActivity.LOGIN_OK) {
                     loadProfile();
                 } else if (resultCode == LoginActivity.LOGIN_FAILED) {
-                    Toast.makeText(this, R.string.login_failure, Toast.LENGTH_SHORT).show();
+                    STXToast.show(this, R.string.login_failure);
                 } else if (resultCode == LoginActivity.LOGIN_CANCELED) {
-                    Toast.makeText(this, "Login canceled.", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
                 break;
             case SETTINGS_REQUEST:
@@ -194,6 +198,8 @@ public class MyProfileActivity extends AppCompatActivity
             default:
                 break;
         }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void loadProfile() {
@@ -279,13 +285,13 @@ public class MyProfileActivity extends AppCompatActivity
                 .centerCrop()
                 .into(profileImageView);
 
-        if (user.getPhoneNumber() != "null") {
+        if ("null".equals(user.getPhoneNumber())) {
             phoneTextView.setText(user.getPhoneNumber());
         }
-        if (user.getSkype() != "null") {
+        if ("null".equals(user.getSkype())) {
             skypeTextView.setText(user.getSkype());
         }
-        if (user.getIrc() != "null") {
+        if ("null".equals(user.getIrc())) {
             ircTextView.setText(user.getIrc());
         }
     }
