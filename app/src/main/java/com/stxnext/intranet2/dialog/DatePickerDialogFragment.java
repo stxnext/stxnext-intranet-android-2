@@ -16,6 +16,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
     private static final String ARG_DAY = "day";
     private static final String ARG_MONTH = "month";
     private static final String ARG_YEAR = "year";
+    private static final String ARG_MIN_DATE = "min_date";
 
     public static final int DATE_TYPE_FROM = 0;
     public static final int DATE_TYPE_TO = 1;
@@ -24,7 +25,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
 
     private int type = 0;
 
-    public static void show(FragmentManager fragmentManager, int dayOfMonth, int month, int year, int type) {
+    public static void show(FragmentManager fragmentManager, int dayOfMonth, int month, int year, int type, long minDate) {
         DatePickerDialogFragment fragment = new DatePickerDialogFragment();
 
         Bundle bundle = new Bundle();
@@ -32,6 +33,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
         bundle.putInt(ARG_MONTH, month);
         bundle.putInt(ARG_YEAR, year);
         bundle.putInt(ARG_TYPE, type);
+        bundle.putLong(ARG_MIN_DATE, minDate);
 
         fragment.setArguments(bundle);
 
@@ -49,8 +51,11 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
                 int dayOfMonth = arguments.getInt(ARG_DAY);
                 int month = arguments.getInt(ARG_MONTH);
                 int year = arguments.getInt(ARG_YEAR);
+                long minDate = arguments.getLong(ARG_MIN_DATE);
 
-                return new DatePickerDialog(getActivity(), this, year, month, dayOfMonth);
+                DatePickerDialog datePicker = new DatePickerDialog(getActivity(), this, year, month, dayOfMonth);
+                datePicker.getDatePicker().setMinDate(minDate);
+                return datePicker;
             } else {
                 throw new RuntimeException("No arguments set");
             }

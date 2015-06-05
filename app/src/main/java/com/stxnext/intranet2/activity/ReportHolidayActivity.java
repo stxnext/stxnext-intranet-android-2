@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.HolidayTypeSpinnerAdapter;
@@ -21,6 +20,7 @@ import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.dialog.DatePickerDialogFragment;
 import com.stxnext.intranet2.model.HolidayTypes;
+import com.stxnext.intranet2.utils.HolidayUtils;
 import com.stxnext.intranet2.utils.STXToast;
 import com.stxnext.intranet2.utils.Session;
 
@@ -110,7 +110,8 @@ public class ReportHolidayActivity extends AppCompatActivity
                         dateFrom.get(Calendar.DAY_OF_MONTH),
                         dateFrom.get(Calendar.MONTH),
                         dateFrom.get(Calendar.YEAR),
-                        DatePickerDialogFragment.DATE_TYPE_FROM);
+                        DatePickerDialogFragment.DATE_TYPE_FROM,
+                        System.currentTimeMillis() - 1000);
             }
         });
 
@@ -122,7 +123,8 @@ public class ReportHolidayActivity extends AppCompatActivity
                         dateTo.get(Calendar.DAY_OF_MONTH),
                         dateTo.get(Calendar.MONTH),
                         dateTo.get(Calendar.YEAR),
-                        DatePickerDialogFragment.DATE_TYPE_TO);
+                        DatePickerDialogFragment.DATE_TYPE_TO,
+                        dateFrom.getTimeInMillis());
             }
         });
 
@@ -182,15 +184,8 @@ public class ReportHolidayActivity extends AppCompatActivity
     }
 
     private void calculateSummary() {
-        int monthFrom = dateFrom.get(Calendar.MONTH);
-        int monthTo = dateTo.get(Calendar.MONTH);
-
-        int dayFrom = dateFrom.get(Calendar.DAY_OF_MONTH);
-        int dayTo = dateTo.get(Calendar.DAY_OF_MONTH);
-
-        int diff = dayTo - dayFrom;
-        if (diff >= 0) {
-            int absenceDays = diff + 1;
+        int absenceDays = HolidayUtils.getWorkingDays(dateFrom.getTime(), dateTo.getTime());
+        if (absenceDays >= 0) {
             selectedAmount = absenceDays;
             int remaining = remainingDays - absenceDays;
             remainingDaysLabel.setText(String.valueOf(remaining));
@@ -200,15 +195,16 @@ public class ReportHolidayActivity extends AppCompatActivity
         }
 
         selectedAmountLabel.setText(String.valueOf(selectedAmount));
-
-        if (monthFrom != monthTo) {
-            STXToast.show(this, R.string.different_month_holiday_warning);
-        }
     }
 
     @Override
     public void onClick(View v) {
-        if (remainingDays < selectedAmount) {
+        int monthFrom = dateFrom.get(Calendar.MONTH);
+        int monthTo = dateTo.get(Calendar.MONTH);
+
+        if (monthFrom != monthTo) {
+            STXToast.show(this, R.string.different_month_holiday_warning);
+        } else if (remainingDays < selectedAmount) {
             STXToast.show(this, R.string.validation_to_many_days);
         } else if (selectedAmount <= 0) {
             STXToast.show(this, R.string.validation_zero_days);
