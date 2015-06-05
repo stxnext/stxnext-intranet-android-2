@@ -185,25 +185,24 @@ public class ReportHolidayActivity extends AppCompatActivity
         int monthFrom = dateFrom.get(Calendar.MONTH);
         int monthTo = dateTo.get(Calendar.MONTH);
 
-        if (monthFrom == monthTo) {
-            int dayFrom = dateFrom.get(Calendar.DAY_OF_MONTH);
-            int dayTo = dateTo.get(Calendar.DAY_OF_MONTH);
+        int dayFrom = dateFrom.get(Calendar.DAY_OF_MONTH);
+        int dayTo = dateTo.get(Calendar.DAY_OF_MONTH);
 
-            int diff = dayTo - dayFrom;
-            if (diff >= 0) {
-                int absenceDays = diff + 1;
-                selectedAmount = absenceDays;
-                int remaining = remainingDays - absenceDays;
-                remainingDaysLabel.setText(String.valueOf(remaining));
-            } else {
-                selectedAmount = 0;
-                remainingDaysLabel.setText(String.valueOf(remainingDays));
-            }
-
-            selectedAmountLabel.setText(String.valueOf(selectedAmount));
+        int diff = dayTo - dayFrom;
+        if (diff >= 0) {
+            int absenceDays = diff + 1;
+            selectedAmount = absenceDays;
+            int remaining = remainingDays - absenceDays;
+            remainingDaysLabel.setText(String.valueOf(remaining));
         } else {
-            Toast toast = Toast.makeText(this, R.string.different_month_holiday_warning, Toast.LENGTH_LONG);
-            toast.show();
+            selectedAmount = 0;
+            remainingDaysLabel.setText(String.valueOf(remainingDays));
+        }
+
+        selectedAmountLabel.setText(String.valueOf(selectedAmount));
+
+        if (monthFrom != monthTo) {
+            STXToast.show(this, R.string.different_month_holiday_warning);
         }
     }
 
