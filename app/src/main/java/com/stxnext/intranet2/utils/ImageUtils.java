@@ -1,6 +1,5 @@
 package com.stxnext.intranet2.utils;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -8,9 +7,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.media.ThumbnailUtils;
-import android.os.Environment;
-
-import java.io.File;
 
 /**
  * Created by Tomasz Konieczny on 2014-08-07.

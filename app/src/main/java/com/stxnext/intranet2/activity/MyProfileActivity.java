@@ -8,7 +8,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Callback;
@@ -31,7 +29,6 @@ import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.fragment.FloatingMenuFragment;
 import com.stxnext.intranet2.model.DrawerMenuItems;
-import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.STXToast;
 import com.stxnext.intranet2.utils.Session;
 
