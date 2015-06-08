@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.DrawerAdapter;
@@ -63,6 +65,8 @@ public class MyProfileActivity extends AppCompatActivity
     private TextView skypeTextView;
     private TextView ircTextView;
     private ImageView profileImageView;
+    private View progressView;
+    private View userInfoCardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,14 @@ public class MyProfileActivity extends AppCompatActivity
     }
 
     private void loadViews() {
+        progressView = findViewById(R.id.progress_container);
+        progressView.setVisibility(View.VISIBLE);
+
+        userInfoCardView = findViewById(R.id.user_info_container);
+        userInfoCardView.setAlpha(0);
+        userInfoCardView.setScaleX(0.6f);
+        userInfoCardView.setScaleY(0.6f);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         firstNameTextView = (TextView) findViewById(R.id.first_name_text_view);
         roleTextView = (TextView) findViewById(R.id.role_text_view);
@@ -101,6 +113,8 @@ public class MyProfileActivity extends AppCompatActivity
         } else {
             profileImageView = (ImageView) findViewById(R.id.profile_image_view_standard);
         }
+
+        profileImageView.setAlpha(0.6f);
     }
 
     private void runLoginActivity() {
@@ -272,6 +286,7 @@ public class MyProfileActivity extends AppCompatActivity
 
     @Override
     public void onUserReceived(User user) {
+        progressView.setVisibility(View.GONE);
         if (user != null) {
             String userName = user.getFirstName() + " " + user.getLastName();
             getSupportActionBar().setTitle(userName);
@@ -281,10 +296,22 @@ public class MyProfileActivity extends AppCompatActivity
             emailTextView.setText(user.getEmail());
 
             String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
-            Picasso.with(this).load(imageAddress).placeholder(R.drawable.avatar_placeholder)
+            Picasso.with(this)
+                    .load(imageAddress)
+                    .placeholder(R.drawable.avatar_placeholder)
                     .resizeDimen(R.dimen.profile_image_height, R.dimen.profile_image_height)
                     .centerCrop()
-                    .into(profileImageView);
+                    .into(profileImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            profileImageView.animate().alpha(1).setDuration(500);
+                        }
+
+                        @Override
+                        public void onError() {
+                            profileImageView.animate().alpha(1).setDuration(500);
+                        }
+                    });
 
             if (!"null".equals(user.getPhoneNumber())) {
                 phoneTextView.setText(user.getPhoneNumber());
@@ -295,6 +322,14 @@ public class MyProfileActivity extends AppCompatActivity
             if (!"null".equals(user.getIrc())) {
                 ircTextView.setText(user.getIrc());
             }
+
+            userInfoCardView.animate()
+                    .scaleX(1)
+                    .scaleY(1)
+                    .alpha(1)
+                    .setDuration(300)
+                    .setStartDelay(80)
+                    .setInterpolator(new OvershootInterpolator());
         } else {
             Session.getInstance(this).logout();
             runLoginActivity();
@@ -318,6 +353,7 @@ public class MyProfileActivity extends AppCompatActivity
 
     @Override
     public void onRequestError() {
-
+        progressView.setVisibility(View.GONE);
+        STXToast.show(this, R.string.reqest_error);
     }
 }
