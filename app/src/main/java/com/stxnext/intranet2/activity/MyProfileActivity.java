@@ -288,12 +288,18 @@ public class MyProfileActivity extends AppCompatActivity
     public void onUserReceived(User user) {
         progressView.setVisibility(View.GONE);
         if (user != null) {
-            String userName = user.getFirstName() + " " + user.getLastName();
+            String firstName = user.getFirstName();
+            String userName = firstName + " " + user.getLastName();
             getSupportActionBar().setTitle(userName);
             firstNameTextView.setText(userName);
             roleTextView.setText(user.getRole());
             officeTextView.setText(user.getLocalization());
             emailTextView.setText(user.getEmail());
+
+            if (firstName.substring(firstName.length() - 1, firstName.length()).equals("a")) {
+                ImageView superheroImageView = (ImageView) findViewById(R.id.superhero_image_view);
+                superheroImageView.setImageResource(R.drawable.mrs_superhero_profile);
+            }
 
             String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
             Picasso.with(this)
