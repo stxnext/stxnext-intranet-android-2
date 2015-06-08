@@ -1,7 +1,6 @@
 package com.stxnext.intranet2.utils;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeComparator;
 import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
