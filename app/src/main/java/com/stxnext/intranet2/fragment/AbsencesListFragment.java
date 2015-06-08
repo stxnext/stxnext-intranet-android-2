@@ -24,6 +24,7 @@ import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.model.AbsencesTypes;
 
 import java.util.List;
+import java.util.Set;
 
 public class AbsencesListFragment extends Fragment implements EmployeesApiCallback, AbsencesListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
@@ -98,7 +99,7 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
     }
 
     @Override
-    public void onAbsenceEmployeesListReceived(List<Absence> absenceEmployees) {
+    public void onAbsenceEmployeesListReceived(Set<Absence> absenceEmployees) {
         AbsencesListAdapter absencesListAdapter = new AbsencesListAdapter(context, absenceEmployees, type, this);
         recycleView.setAdapter(absencesListAdapter);
         callback.onAbsencesDownloaded();

@@ -13,6 +13,34 @@ public class UserImpl implements User {
     private String skype;
     private String phoneNumber;
     private String localization;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserImpl user = (UserImpl) o;
+
+        if (!firstName.equals(user.firstName)) return false;
+        if (!lastName.equals(user.lastName)) return false;
+        if (phoneNumber != null ? !phoneNumber.equals(user.phoneNumber) : user.phoneNumber != null) return false;
+        if (localization != null ? !localization.equals(user.localization) : user.localization != null) return false;
+        if (role != null ? !role.equals(user.role) : user.role != null) return false;
+        return !(team != null ? !team.equals(user.team) : user.team != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
+        result = 31 * result + (localization != null ? localization.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        result = 31 * result + (team != null ? team.hashCode() : 0);
+        return result;
+    }
+
     private String role;
     private String email;
     private String irc;

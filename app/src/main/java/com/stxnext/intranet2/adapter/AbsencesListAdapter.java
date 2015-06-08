@@ -15,8 +15,10 @@ import com.stxnext.intranet2.backend.model.Absence;
 import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.model.AbsencesTypes;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Lukasz Ciupa on 2015-05-14.
@@ -28,8 +30,8 @@ public class AbsencesListAdapter extends RecyclerView.Adapter<AbsencesListAdapte
     private OnItemClickListener listener;
     private Context context;
 
-    public AbsencesListAdapter(Context context, List<Absence> absences, AbsencesTypes type, OnItemClickListener listener) {
-        this.absences = absences;
+    public AbsencesListAdapter(Context context, Set<Absence> absences, AbsencesTypes type, OnItemClickListener listener) {
+        this.absences = new ArrayList<>(absences);
         this.listener = listener;
         this.context = context;
         this.type = type;
