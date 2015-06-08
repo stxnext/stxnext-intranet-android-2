@@ -67,6 +67,7 @@ public class MyProfileActivity extends AppCompatActivity
     private ImageView profileImageView;
     private View progressView;
     private View userInfoCardView;
+    private boolean superHeroModeEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +107,8 @@ public class MyProfileActivity extends AppCompatActivity
         skypeTextView = (TextView) findViewById(R.id.skype_text_view);
         ircTextView = (TextView) findViewById(R.id.irc_text_view);
 
-        if (Session.getInstance(this).isSuperHeroModeEnabled()) {
+        superHeroModeEnabled = Session.getInstance(this).isSuperHeroModeEnabled();
+        if (superHeroModeEnabled) {
             findViewById(R.id.standard_profile_header_container).setVisibility(View.GONE);
             profileImageView = (ImageView) findViewById(R.id.profile_image_view);
 
@@ -114,7 +116,9 @@ public class MyProfileActivity extends AppCompatActivity
             profileImageView = (ImageView) findViewById(R.id.profile_image_view_standard);
         }
 
-        profileImageView.setAlpha(0.6f);
+        if (!superHeroModeEnabled) {
+            profileImageView.setAlpha(0.6f);
+        }
     }
 
     private void runLoginActivity() {
