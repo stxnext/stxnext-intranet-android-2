@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,21 +14,58 @@ import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by OGIT on 2015-05-13.
  */
-public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdapter.ViewHolder> {
+public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdapter.ViewHolder> implements Filterable {
 
     private final List<User> users;
+    private List<User> filteredUsers;
     private OnItemClickListener listener;
     private Context context;
+    private Filter filter;
 
     public EmployeesListAdapter(Context context, List<User> users, OnItemClickListener listener) {
         this.context = context;
         this.users = users;
+        this.filteredUsers = users;
         this.listener = listener;
+        this.filter = prepareFilter();
+    }
+
+    private Filter prepareFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                List<User> filteredUsers = new ArrayList<>();
+                String filterText = constraint.toString().toLowerCase().trim();
+                for (User user : users) {
+                    String firstName = user.getFirstName().toLowerCase().trim();
+                    String lastName = user.getLastName().toLowerCase().trim();
+                    String phoneNumber = user.getPhoneNumber().replaceAll(" ", "");
+                    if (firstName.contains(filterText)
+                            || lastName.contains(filterText)
+                            || phoneNumber.contains(filterText.replaceAll(" ", ""))) {
+                        filteredUsers.add(user);
+                    }
+                }
+
+                FilterResults results = new FilterResults();
+                results.values = filteredUsers;
+                results.count = filteredUsers.size();
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                filteredUsers = (List<User>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     @Override
@@ -39,12 +78,12 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
 
     @Override
     public int getItemCount() {
-        return users.size();
+        return filteredUsers.size();
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final User user = users.get(position);
+        final User user = filteredUsers.get(position);
 
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +96,11 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
         holder.roleTextView.setText(user.getRole());
         String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
         Picasso.with(context).load(imageAddress).placeholder(R.drawable.avatar_placeholder).into(holder.avatarImageView);
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

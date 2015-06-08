@@ -5,7 +5,7 @@
     <string name="stxnext">STX Next</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
     <string name="employees_list">Employees</string>
     <string name="holiday">Holiday</string>
     <string name="work_from_home">Work From Home</string>
@@ -55,4 +55,5 @@
     <string name="call">Call</string>
     <string name="send_email">Send e-mail</string>
     <string name="contact_with">Contact with:</string>
+    <string name="search">Search by name, e-mail or phone.…</string>
 </resources>
