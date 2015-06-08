@@ -80,9 +80,9 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
     }
 
     @Override
-    public void onUserReceived(User user) {
-        String firstName = user.getFirstName();
-        String userName = firstName + " " + user.getLastName();
+    public void onUserReceived(final User user) {
+        final String firstName = user.getFirstName();
+        final String userName = firstName + " " + user.getLastName();
         getSupportActionBar().setTitle(userName);
         firstNameTextView.setText(userName);
         roleTextView.setText(user.getRole());
@@ -112,8 +112,11 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
         findViewById(R.id.user_info_container).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ContactDialogFragment dialog = new ContactDialogFragment();
-                dialog.show(getFragmentManager(), "contact_dialog");
+                ContactDialogFragment.show(
+                        getFragmentManager(),
+                        firstName,
+                        user.getPhoneNumber(),
+                        user.getEmail());
             }
         });
     }

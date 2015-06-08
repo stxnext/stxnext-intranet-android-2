@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -143,7 +144,7 @@ public class EmployeesApiImpl extends EmployeesApi {
                 Log.d(Config.TAG, response);
                 List<Absence> absences = processJsonOutOfOfficeAbsences(response);
                 sortAbsencesByUserFirstName(absences);
-                apiCallback.onAbsenceEmployeesListReceived(absences);
+                apiCallback.onAbsenceEmployeesListReceived(new HashSet<Absence>(absences));
             }
 
             @Override
@@ -306,7 +307,7 @@ public class EmployeesApiImpl extends EmployeesApi {
                 Log.d(Config.TAG, response);
                 List<Absence> absences = processJsonWorkFromHomeAbsences(response);
                 sortAbsencesByUserFirstName(absences);
-                apiCallback.onAbsenceEmployeesListReceived(absences);
+                apiCallback.onAbsenceEmployeesListReceived(new HashSet<Absence>(absences));
             }
 
             @Override
@@ -365,7 +366,7 @@ public class EmployeesApiImpl extends EmployeesApi {
                 Log.d(Config.TAG, response);
                 List<Absence> absences = processJsonHolidayAbsences(response);
                 sortAbsencesByUserFirstName(absences);
-                apiCallback.onAbsenceEmployeesListReceived(absences);
+                apiCallback.onAbsenceEmployeesListReceived(new HashSet<Absence>(absences));
             }
 
             @Override

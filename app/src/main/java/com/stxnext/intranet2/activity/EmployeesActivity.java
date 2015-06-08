@@ -17,6 +17,7 @@ import com.stxnext.intranet2.backend.model.Absence;
 import com.stxnext.intranet2.backend.model.User;
 
 import java.util.List;
+import java.util.Set;
 
 public class EmployeesActivity extends AppCompatActivity implements EmployeesApiCallback, EmployeesListAdapter.OnItemClickListener {
 
@@ -55,7 +56,7 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
     }
 
     @Override
-    public void onAbsenceEmployeesListReceived(List<Absence> absenceEmployees) {}
+    public void onAbsenceEmployeesListReceived(Set<Absence> absenceEmployees) {}
 
     @Override
     public void onItemClick(String userId) {

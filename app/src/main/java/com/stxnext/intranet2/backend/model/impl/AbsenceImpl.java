@@ -46,4 +46,27 @@ public class AbsenceImpl implements Absence {
     public String getDescription() {
         return description;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AbsenceImpl absence = (AbsenceImpl) o;
+
+        if (!user.equals(absence.user)) return false;
+        if (!absenceFrom.equals(absence.absenceFrom)) return false;
+        if (!absenceTo.equals(absence.absenceTo)) return false;
+        return description.equals(absence.description);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = user.hashCode();
+        result = 31 * result + absenceFrom.hashCode();
+        result = 31 * result + absenceTo.hashCode();
+        result = 31 * result + description.hashCode();
+        return result;
+    }
 }
