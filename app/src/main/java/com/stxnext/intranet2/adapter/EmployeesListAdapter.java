@@ -45,7 +45,7 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
                 for (User user : users) {
                     String firstName = user.getFirstName().toLowerCase().trim();
                     String lastName = user.getLastName().toLowerCase().trim();
-                    String phoneNumber = user.getPhoneNumber().replaceAll(" ", "");
+                    String phoneNumber = user.getPhoneNumber().replaceAll(" ", "").replace("-", "");
                     if (firstName.contains(filterText)
                             || lastName.contains(filterText)
                             || phoneNumber.contains(filterText.replaceAll(" ", ""))) {
