@@ -14,7 +14,11 @@ import com.stxnext.intranet2.R;
 public class STXToast {
 
     public static void show(Context context, int resText) {
-        Toast toast = Toast.makeText(context, resText, Toast.LENGTH_SHORT);
+        show(context, context.getString(resText));
+    }
+
+    public static void show(Context context, String text) {
+        Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.getView().setBackgroundResource(R.drawable.toast_background);
         TextView toastTextView = (TextView) toast.getView().findViewById(android.R.id.message);

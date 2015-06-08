@@ -20,8 +20,9 @@ public class ContactDialogFragment extends DialogFragment {
     private static final String ARG_PHONE_NUMBER = "phone_number";
     private static final String ARG_EMAIL = "email";
 
-    private static final int CALL = R.string.call;
     private static final int SEND_MAIL = R.string.send_email;
+    private static final int CALL = R.string.call;
+    private static final int SEND_SMS = R.string.send_sms;
 
     public static void show(FragmentManager fragmentManager, String name, String phone, String email) {
         ContactDialogFragment dialogFragment = new ContactDialogFragment();
@@ -50,20 +51,33 @@ public class ContactDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setCancelable(true);
         builder.setTitle(String.format("%s %s", getString(R.string.contact_with), name));
-        builder.setItems(new CharSequence[]{getString(CALL), getString(SEND_MAIL)}, new DialogInterface.OnClickListener() {
+
+        CharSequence[] items;
+        if ("null".equals(phone)) {
+            items = new CharSequence[]{getString(SEND_MAIL)};
+        } else {
+            items = new CharSequence[]{getString(SEND_MAIL),getString(CALL), getString(SEND_SMS)};
+        }
+
+        builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
-                        Intent phoneIntent = new Intent(Intent.ACTION_DIAL);
-                        phoneIntent.setData(Uri.parse("tel:" + phone));
-                        startActivity(phoneIntent);
-                        break;
-                    case 1:
                         Intent emailIntent = new Intent(Intent.ACTION_SEND);
                         emailIntent.setType("plain/text");
                         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
                         startActivity(Intent.createChooser(emailIntent, ""));
+                        break;
+                    case 1:
+                        Intent phoneIntent = new Intent(Intent.ACTION_DIAL);
+                        phoneIntent.setData(Uri.parse("tel:" + phone));
+                        startActivity(phoneIntent);
+                        break;
+                    case 2:
+                        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+                        sendIntent.setData(Uri.parse("sms:" + phone));
+                        startActivity(sendIntent);
                         break;
                 }
             }

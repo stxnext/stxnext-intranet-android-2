@@ -13,7 +13,7 @@ android {
         applicationId "com.stxnext.intranet2"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 5
+        versionCode 6
         versionName "2.0"
     }
 
