@@ -50,9 +50,9 @@
                 android:id="@+id/user_name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Imię nazwisko"
+                android:gravity="center"
                 android:textColor="@color/stxnext_green"
-                android:textSize="21sp"
+                android:textSize="19sp"
                 android:textStyle="bold" />
 
             <TextView

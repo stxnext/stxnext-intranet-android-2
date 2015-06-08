@@ -14,6 +14,7 @@ import com.stxnext.intranet2.backend.api.UserApi;
 import com.stxnext.intranet2.backend.api.UserApiImpl;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.User;
+import com.stxnext.intranet2.dialog.ContactDialogFragment;
 import com.stxnext.intranet2.utils.Session;
 
 
@@ -98,15 +99,23 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
                 .centerCrop()
                 .into(profileImageView);
 
-        if (user.getPhoneNumber() != "null") {
+        if (!"null".equals(user.getPhoneNumber())) {
             phoneTextView.setText(user.getPhoneNumber());
         }
-        if (user.getSkype() != "null") {
+        if (!"null".equals(user.getSkype())) {
             skypeTextView.setText(user.getSkype());
         }
-        if (user.getIrc() != "null") {
+        if (!"null".equals(user.getIrc())) {
             ircTextView.setText(user.getIrc());
         }
+
+        findViewById(R.id.user_info_container).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContactDialogFragment dialog = new ContactDialogFragment();
+                dialog.show(getFragmentManager(), "contact_dialog");
+            }
+        });
     }
 
     @Override

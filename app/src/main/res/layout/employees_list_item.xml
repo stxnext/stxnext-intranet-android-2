@@ -36,6 +36,7 @@
             android:textColor="@color/stxnext_green"
             android:layout_marginLeft="8dp"
             android:textSize="19sp"
+            android:gravity="right"
             android:textStyle="bold" />
 
         <TextView
