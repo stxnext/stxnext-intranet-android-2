@@ -53,6 +53,7 @@
     <string name="office">Biuro:</string>
     <string name="date">Data:</string>
     <string name="call">Zadzwoń</string>
+    <string name="send_sms">Wyślij SMS</string>
     <string name="send_email">Wyślij e-mail</string>
     <string name="contact_with">Skontaktuj się z:</string>
     <string name="search">Szukaj…</string>
