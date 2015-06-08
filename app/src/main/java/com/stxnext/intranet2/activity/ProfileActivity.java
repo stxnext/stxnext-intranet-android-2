@@ -24,7 +24,6 @@ import com.stxnext.intranet2.utils.Session;
 public class ProfileActivity extends AppCompatActivity implements UserApiCallback {
 
     public static final String USER_ID_TAG ="userId";
-    private Toolbar toolbar;
     private TextView firstNameTextView;
     private TextView roleTextView;
     private TextView officeTextView;
@@ -39,7 +38,7 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         firstNameTextView = (TextView) findViewById(R.id.first_name_text_view);
         roleTextView = (TextView) findViewById(R.id.role_text_view);
