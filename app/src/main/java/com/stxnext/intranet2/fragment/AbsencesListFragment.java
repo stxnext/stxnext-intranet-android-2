@@ -75,7 +75,7 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
         swipeRefreshView.setColorSchemeResources(
                 R.color.stxnext_green_dark,
                 R.color.stxnext_green,
-                R.color.stxnext_green_selected);
+                R.color.stxnext_green_darkest);
         swipeRefreshView.setOnRefreshListener(this);
 
         return view;

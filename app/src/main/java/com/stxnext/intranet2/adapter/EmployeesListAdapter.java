@@ -103,6 +103,11 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
         return filter;
     }
 
+    public void restore() {
+        this.filteredUsers = users;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public View container;

@@ -3,6 +3,7 @@ package com.stxnext.intranet2.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,13 +28,15 @@ import com.stxnext.intranet2.backend.model.User;
 import java.util.List;
 import java.util.Set;
 
-public class EmployeesActivity extends AppCompatActivity implements EmployeesApiCallback, EmployeesListAdapter.OnItemClickListener {
+public class EmployeesActivity extends AppCompatActivity implements EmployeesApiCallback, EmployeesListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView recycleView;
     private Toolbar toolbar;
     private View searchContainer;
     private EditText searchEditText;
     private EmployeesListAdapter adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private EmployeesApiImpl api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +68,20 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.stxnext_green_dark,
+                R.color.stxnext_green,
+                R.color.stxnext_green_darkest);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
         recycleView = (RecyclerView) findViewById(R.id.recycler_view);
         recycleView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recycleView.setLayoutManager(layoutManager);
 
-        EmployeesApi api = new EmployeesApiImpl(this, this);
-        api.requestForEmployees();
+        api = new EmployeesApiImpl(this, this);
+        api.requestForEmployees(false);
     }
 
     @Override
@@ -97,8 +107,14 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
 
     @Override
     public void onEmployeesListReceived(List<User> employees) {
-        adapter = new EmployeesListAdapter(this, employees, this);
-        recycleView.setAdapter(adapter);
+        if (adapter == null) {
+            adapter = new EmployeesListAdapter(this, employees, this);
+            recycleView.setAdapter(adapter);
+        } else {
+            adapter.restore();
+        }
+
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -121,7 +137,7 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
 
     private boolean toggleSearch() {
         if (searchContainer.getVisibility() == View.GONE) {
-            toolbar.animate().alpha(0f).setDuration(400);
+            toolbar.animate().alpha(0f).scaleX(0.95f).scaleY(0.7f).setDuration(400);
             searchContainer.setVisibility(View.VISIBLE);
             searchContainer.setAlpha(0);
             searchContainer.animate().alpha(1f).setDuration(300);
@@ -130,7 +146,7 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
             imm.showSoftInput(searchEditText, InputMethodManager.SHOW_IMPLICIT);
             return false;
         } else {
-            toolbar.animate().alpha(1f).setDuration(300);
+            toolbar.animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(300);
             searchContainer.animate().alpha(0f).setDuration(400).withEndAction(new Runnable() {
                 @Override
                 public void run() {
@@ -141,5 +157,14 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
 
             return true;
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        if (searchContainer.getVisibility() == View.VISIBLE) {
+            toggleSearch();
+        }
+
+        api.requestForEmployees(true);
     }
 }

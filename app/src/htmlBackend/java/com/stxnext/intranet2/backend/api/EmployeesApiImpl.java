@@ -42,9 +42,9 @@ public class EmployeesApiImpl extends EmployeesApi {
     }
 
     @Override
-    public void requestForEmployees() {
+    public void requestForEmployees(boolean forceRequest) {
         List<User> employees = DBManager.getInstance().getEmployees();
-        if (employees == null) {
+        if (employees == null || forceRequest) {
             AsyncHttpClient httpClient = new AsyncHttpClient();
             httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
 

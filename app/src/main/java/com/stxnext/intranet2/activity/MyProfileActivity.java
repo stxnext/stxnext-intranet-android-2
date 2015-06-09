@@ -3,6 +3,8 @@ package com.stxnext.intranet2.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -259,7 +261,8 @@ public class MyProfileActivity extends AppCompatActivity
                 }
 
                 Intent intent = new Intent(MyProfileActivity.this, intentClass);
-                startActivity(intent);
+                ActivityCompat.startActivity(MyProfileActivity.this, intent,
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(MyProfileActivity.this).toBundle());
             }
         }, 300);
 
