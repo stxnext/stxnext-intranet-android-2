@@ -17,7 +17,7 @@ public abstract class EmployeesApi {
         this.context = context;
     }
 
-    public abstract void requestForEmployees();
+    public abstract void requestForEmployees(boolean forceRequest);
 
     public abstract void requestForOutOfOfficeAbsenceEmployees();
 
