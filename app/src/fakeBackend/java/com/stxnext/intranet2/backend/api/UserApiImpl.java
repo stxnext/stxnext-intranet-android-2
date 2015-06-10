@@ -20,8 +20,8 @@ public class UserApiImpl extends UserApi {
 
     @Override
     public void requestForUser(String userId) {
-        User user = new UserImpl(null, "Marian", "Kowalski", "mariano.kowalsky", "+48 600 211 321",
-                "Poznań", "Programista", "marian.kowalski@stxnext.pl", "marianno", "Team Mobilny", null);
+        User user = new UserImpl(null, "John", "Smith", "john.smith", "+48 921 231 212",
+                "Poznań", "Programmer", "john.smith@stxnext.pl", "johny", "Mobile Team", null);
         apiCallback.onUserReceived(user);
     }
 
@@ -36,7 +36,17 @@ public class UserApiImpl extends UserApi {
     }
 
     @Override
+    public void submitOutOfOffice(boolean workFromHome, Date submissionDate, Date startHour, Date endHour, String explanation) {
+
+    }
+
+    @Override
     public void submitHolidayAbsence(HolidayTypes absenceType, Date endDate, Date startDate, String remarks) {
+
+    }
+
+    @Override
+    public void getAbsenceDaysLeft() {
 
     }
 }

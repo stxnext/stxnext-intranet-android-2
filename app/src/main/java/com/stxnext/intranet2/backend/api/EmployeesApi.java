@@ -23,6 +23,6 @@ public abstract class EmployeesApi {
 
     public abstract void requestForWorkFromHomeAbsenceEmpolyees();
 
-    public abstract void requestForHolidayAbsenceEmpolyees();
+    public abstract void requestForHolidayAbsenceEmployees();
 
 }
