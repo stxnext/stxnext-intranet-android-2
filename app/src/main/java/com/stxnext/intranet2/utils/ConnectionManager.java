@@ -50,7 +50,6 @@ public class ConnectionManager {
                 super.onPageFinished(view, url);
             }
         };
-
         webView.setWebViewClient(webViewClient);
         webView.loadUrl(LOGIN_URL);
 

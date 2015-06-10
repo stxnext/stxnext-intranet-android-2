@@ -2,6 +2,7 @@ package com.stxnext.intranet2.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 import com.loopj.android.http.PersistentCookieStore;
 
@@ -58,6 +59,16 @@ public class Session {
                 .remove(SUPERHERO_MODE_PREFERENCE)
                 .remove(CODE_PREFERENCE)
                 .commit();
+        clearCookieStore();
+        CookieStore managerCookieStore = cookieManager.getCookieStore();
+        managerCookieStore.removeAll();
+        android.webkit.CookieManager webKitCookieManager = android.webkit.CookieManager.getInstance();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webKitCookieManager.removeAllCookies(null);
+        }
+        else {
+            webKitCookieManager.removeAllCookie();
+        }
     }
 
     public void setAuthorizationCode(String authorizationCode) {
@@ -77,6 +88,10 @@ public class Session {
     }
 
     public void clearCookieStore() {
+        List<Cookie> cookies = cookieStore.getCookies();
+        for (Cookie cookie : cookies) {
+            cookieStore.deleteCookie(cookie);
+        }
         cookieStore.clear();
     }
 
