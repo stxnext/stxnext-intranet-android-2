@@ -324,12 +324,12 @@ public class EmployeesApiImpl extends EmployeesApi {
         List<Absence> absences = new ArrayList<>();
         try {
             JSONObject absencesMainObject = new JSONObject(jsonAbsencesString);
-            JSONArray latesTommorowJSONArray = absencesMainObject.getJSONArray("lates_tomorrow");
-            List<JSONObject> latesTommorowWorkFromHome = filterWorkFromHomeAbsences(latesTommorowJSONArray);
+            JSONArray latestTomorrowJSONArray = absencesMainObject.getJSONArray("lates_tomorrow");
+            List<JSONObject> latestTomorrowWorkFromHome = filterWorkFromHomeAbsences(latestTomorrowJSONArray);
             Calendar absenceCalendar = Calendar.getInstance();
             absenceCalendar.add(Calendar.DATE, 1);
-            Date tommorowDate = absenceCalendar.getTime();
-            parseAbsencesWithDay(latesTommorowWorkFromHome, absences, tommorowDate);
+            Date tomorrowDate = absenceCalendar.getTime();
+            parseAbsencesWithDay(latestTomorrowWorkFromHome, absences, tomorrowDate);
 
             JSONArray latesJSONArray = absencesMainObject.getJSONArray("lates");
             List<JSONObject> latesWorkFromHome = filterWorkFromHomeAbsences(latesJSONArray);
@@ -355,7 +355,7 @@ public class EmployeesApiImpl extends EmployeesApi {
     }
 
     @Override
-    public void requestForHolidayAbsenceEmpolyees() {
+    public void requestForHolidayAbsenceEmployees() {
         AsyncHttpClient httpClient = new AsyncHttpClient();
         httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
 

@@ -69,8 +69,6 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
         recycleView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recycleView.setLayoutManager(layoutManager);
-        requestForData();
-
         swipeRefreshView = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshView.setColorSchemeResources(
                 R.color.stxnext_green_dark,
@@ -87,9 +85,13 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
         swipeRefreshView.post(new Runnable() {
             @Override
             public void run() {
-                swipeRefreshView.setRefreshing(true);
+                if (recycleView.getAdapter() == null) {
+                    swipeRefreshView.setRefreshing(true);
+                }
             }
         });
+
+        requestForData();
     }
 
     @Override
@@ -126,7 +128,7 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
         EmployeesApi employeesApi = new EmployeesApiImpl(getActivity(), this);
         switch (type) {
             case HOLIDAY:
-                employeesApi.requestForHolidayAbsenceEmpolyees();
+                employeesApi.requestForHolidayAbsenceEmployees();
                 break;
             case WORK_FROM_HOME:
                 employeesApi.requestForWorkFromHomeAbsenceEmpolyees();
