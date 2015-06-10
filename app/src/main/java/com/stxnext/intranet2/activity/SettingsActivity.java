@@ -29,6 +29,10 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        if (!getResources().getBoolean(R.bool.superheromode_available)) {
+            findViewById(R.id.superhero_mode_container).setVisibility(View.GONE);
+        }
+
         findViewById(R.id.logout_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

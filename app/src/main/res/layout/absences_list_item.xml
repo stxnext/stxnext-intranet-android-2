@@ -91,7 +91,7 @@
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:background="@color/stxnext_green"
-            android:text="From:"/>
+            android:text="@string/from"/>
 
         <TextView
             android:id="@+id/from_label"
@@ -102,8 +102,7 @@
             android:fontFamily="sans-serif-condensed"
             android:textColor="@color/gray_dark"
             android:textSize="13dp"
-            android:textStyle="bold"
-            android:text="21.05"/>
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -117,7 +116,7 @@
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:background="@color/stxnext_green"
-            android:text="To:"/>
+            android:text="@string/to"/>
 
         <TextView
             android:id="@+id/to_label"
@@ -128,8 +127,7 @@
             android:fontFamily="sans-serif-condensed"
             android:textColor="@color/gray_dark"
             android:textSize="13dp"
-            android:textStyle="bold"
-            android:text="28.05"/>
+            android:textStyle="bold"/>
 
     </LinearLayout>
 
