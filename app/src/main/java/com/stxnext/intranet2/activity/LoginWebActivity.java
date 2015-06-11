@@ -59,7 +59,6 @@ public class LoginWebActivity extends AppCompatActivity implements ConnectionMan
             }
 
         };
-
         webView = (WebView) findViewById(R.id.web_view);
         webView.setWebChromeClient(client);
         webView.getSettings().setJavaScriptEnabled(true);

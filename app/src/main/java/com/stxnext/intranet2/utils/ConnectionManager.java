@@ -33,6 +33,7 @@ public class ConnectionManager {
     }
 
     public void signIn() {
+        Session.getInstance(context).clearWebKitCookieStore();
         WebViewClient webViewClient = new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
