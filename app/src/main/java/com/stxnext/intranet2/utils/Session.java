@@ -31,6 +31,7 @@ public class Session {
     private CookieManager cookieManager = null;
     private Integer absenceDaysLeft = null;
     private Integer daysMandated = null;
+    private boolean webKitCookieStoreInitialized = false;
 
     private static final String PREFERENCES_NAME = "com.stxnext.intranet2";
     private static final String SUPERHERO_MODE_PREFERENCE = "com.stxnext.intranet2";
@@ -60,14 +61,27 @@ public class Session {
                 .remove(CODE_PREFERENCE)
                 .commit();
         clearCookieStore();
+        clearManagerCookieStore();
+    }
+
+    private void clearManagerCookieStore() {
         CookieStore managerCookieStore = cookieManager.getCookieStore();
         managerCookieStore.removeAll();
+    }
+
+    /**
+     * Has to be executed after initialization of webView (best before starting loading page).
+     * When executed on logout() then there is a strange error where webKitCookieManager is not null
+     * but causes crash of whole appliaction on executing of its methods.
+     */
+    public void clearWebKitCookieStore() {
         android.webkit.CookieManager webKitCookieManager = android.webkit.CookieManager.getInstance();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webKitCookieManager.removeAllCookies(null);
-        }
-        else {
-            webKitCookieManager.removeAllCookie();
+        } else {
+            if (webKitCookieManager.hasCookies()) {
+                webKitCookieManager.removeAllCookie();
+            }
         }
     }
 
@@ -88,10 +102,6 @@ public class Session {
     }
 
     public void clearCookieStore() {
-        List<Cookie> cookies = cookieStore.getCookies();
-        for (Cookie cookie : cookies) {
-            cookieStore.deleteCookie(cookie);
-        }
         cookieStore.clear();
     }
 
