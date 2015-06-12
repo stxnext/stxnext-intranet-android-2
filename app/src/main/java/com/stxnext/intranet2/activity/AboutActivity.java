@@ -1,22 +1,33 @@
 package com.stxnext.intranet2.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.OfficeInfoPagerAdapter;
+import com.stxnext.intranet2.model.Office;
 
 /**
  * Created by Tomasz Konieczny on 2015-06-11.
  */
 public class AboutActivity extends AppCompatActivity {
 
+    private static final String TAG_MAP = "map";
+
     private ViewPager viewPager;
     private OfficeInfoPagerAdapter fragmentAdapter;
+    private GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +45,26 @@ public class AboutActivity extends AppCompatActivity {
         PagerTabStrip tabStrip = (PagerTabStrip) findViewById(R.id.sliding_tabs);
         tabStrip.setTabIndicatorColor(getResources().getColor(R.color.stxnext_green));
         tabStrip.setTextColor(getResources().getColor(R.color.stxnext_green_dark));
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Office office = fragmentAdapter.getOffice(position);
+                animateMap(office);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        prepareMap();
     }
 
     @Override
@@ -44,6 +75,47 @@ public class AboutActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    private void prepareMap() {
+        FragmentManager fm = getSupportFragmentManager();
+        SupportMapFragment fragment = (SupportMapFragment) fm.findFragmentByTag(TAG_MAP);
+        if (fragment == null) {
+            fragment = SupportMapFragment.newInstance();
+            final SupportMapFragment finalFragment = fragment;
+            fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+                @Override
+                public void onBackStackChanged() {
+                    map = finalFragment.getMap();
+                    if (map != null) {
+                        Office[] offices = Office.values();
+                        for (Office office : offices) {
+                            MarkerOptions options = new MarkerOptions();
+                            LatLng position = new LatLng(office.getLat(), office.getLon());
+                            options.position(position);
+                            map.addMarker(options);
+                        }
+
+                        map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                        map.getUiSettings().setAllGesturesEnabled(false);
+
+                        animateMap(offices[0]);
+                    } else {
+                        onBackPressed();
+                    }
+                }
+            });
+
+            fm.beginTransaction().replace(R.id.map_container, fragment, TAG_MAP).addToBackStack(null).commit();
+        }
+
+    }
+
+    private void animateMap(Office office) {
+        if (map != null) {
+            LatLng cameraPosition = new LatLng(office.getLat() + 0.02, office.getLon());
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(cameraPosition, 12), 2000, null);
+        }
     }
 
 }

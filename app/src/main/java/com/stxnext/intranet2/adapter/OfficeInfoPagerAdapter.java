@@ -34,4 +34,8 @@ public class OfficeInfoPagerAdapter extends FragmentPagerAdapter {
         return offices[position].getCity();
     }
 
+    public Office getOffice(int position) {
+        return offices[position];
+    }
+
 }

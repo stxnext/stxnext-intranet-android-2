@@ -12,20 +12,32 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/stxnext_green"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"
-        android:background="@color/background">
+        android:layout_height="match_parent">
 
-        <android.support.v4.view.PagerTabStrip
-            style="@style/PagerTabStrip"
-            android:id="@+id/sliding_tabs"
+        <FrameLayout
+            android:id="@+id/map_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"/>
+            android:layout_height="match_parent"/>
 
-    </android.support.v4.view.ViewPager>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent">
+
+            <android.support.v4.view.PagerTabStrip
+                style="@style/PagerTabStrip"
+                android:id="@+id/sliding_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_alpha"
+                android:layout_gravity="top"/>
+
+        </android.support.v4.view.ViewPager>
+
+    </FrameLayout>
+
 
 </LinearLayout>
