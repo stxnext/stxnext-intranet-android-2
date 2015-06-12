@@ -1,102 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:card_view="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+             xmlns:card_view="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/user_info_container"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="18dp"
-        android:background="@color/white_megaalpha"
-        card_view:cardBackgroundColor="@color/white_megaalpha"
-        card_view:cardCornerRadius="4dp">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/user_info_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="12dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/location_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Poznań"
-                android:textColor="@color/stxnext_green"
-                android:textSize="21sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/street_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ul. Morawskiego 5/12"
-                android:textColor="@color/stxnext_green_dark"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="61-648 Poznań"
-                android:textColor="@color/stxnext_green_dark"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginTop="18dp"
+            android:background="@color/white_megaalpha"
+            card_view:cardBackgroundColor="@color/white_megaalpha"
+            card_view:cardCornerRadius="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/location_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Poznań"
+                    android:textColor="@color/stxnext_green"
+                    android:textSize="21sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/street_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ul. Morawskiego 5/12"
+                    android:textColor="@color/stxnext_green_dark"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tel.:"
+                    android:text="61-648 Poznań"
                     android:textColor="@color/stxnext_green_dark"/>
 
-                <TextView
-                    android:id="@+id/tel_text_view"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="6dp"
-                    android:text="+48 61 234 23 34"
-                    android:textColor="@color/stxnext_green_dark"/>
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tel.:"
+                        android:textColor="@color/stxnext_green_dark"/>
+
+                    <TextView
+                        android:id="@+id/tel_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:text="+48 61 234 23 34"
+                        android:textColor="@color/stxnext_green_dark"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fax_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fax:"
+                        android:textColor="@color/stxnext_green_dark"/>
+
+                    <TextView
+                        android:id="@+id/fax_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:text="+48 61 234 23 34"
+                        android:textColor="@color/stxnext_green_dark"/>
+
+                </LinearLayout>
 
             </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/office_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/white_megaalpha"
+            card_view:cardBackgroundColor="@color/white_megaalpha"
+            card_view:cardCornerRadius="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
+                <ImageButton
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/mini_button"
+                    android:padding="6dp"
+                    android:src="@android:drawable/ic_menu_call"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fax:"
-                    android:textColor="@color/stxnext_green_dark"/>
+                <ImageButton
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/mini_button"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:padding="6dp"
+                    android:src="@android:drawable/ic_menu_mapmode"/>
 
-                <TextView
-                    android:id="@+id/fax_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="6dp"
-                    android:text="+48 61 234 23 34"
-                    android:textColor="@color/stxnext_green_dark"/>
+                <ImageButton
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/mini_button"
+                    android:padding="6dp"
+                    android:src="@android:drawable/ic_menu_directions"/>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-    </android.support.v7.widget.CardView>
-
-    <FrameLayout
-        android:id="@+id/map_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    </LinearLayout>
 
 </FrameLayout>
