@@ -9,7 +9,8 @@ public enum DrawerMenuItems {
 
     ABSENCES(R.string.absences),
     EMPLOYEES(R.string.employees_list),
-    SETTINGS(R.string.settings);
+    SETTINGS(R.string.settings),
+    ABOUT(R.string.about);
 
     private final int title;
 

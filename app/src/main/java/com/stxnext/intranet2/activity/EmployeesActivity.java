@@ -19,7 +19,6 @@ import android.widget.EditText;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.EmployeesListAdapter;
-import com.stxnext.intranet2.backend.api.EmployeesApi;
 import com.stxnext.intranet2.backend.api.EmployeesApiImpl;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.model.Absence;

@@ -30,7 +30,6 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
     public static final String TYPE_ARG = "type";
 
     private AbsencesTypes type;
-    private View view;
     private RecyclerView recycleView;
     private Context context;
     private OnAbsencesListDownloadedCallback callback;
@@ -64,7 +63,7 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_absence, container, false);
+        View view = inflater.inflate(R.layout.fragment_absence, container, false);
         recycleView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recycleView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
