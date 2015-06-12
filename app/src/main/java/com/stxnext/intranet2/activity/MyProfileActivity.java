@@ -144,6 +144,9 @@ public class MyProfileActivity extends AppCompatActivity
                     case SETTINGS:
                         startActivityForResult(new Intent(MyProfileActivity.this, SettingsActivity.class), SETTINGS_REQUEST);
                         break;
+                    case ABOUT:
+                        startActivityForResult(new Intent(MyProfileActivity.this, AboutActivity.class), SETTINGS_REQUEST);
+                        break;
                 }
 
                 drawerLayout.closeDrawers();
