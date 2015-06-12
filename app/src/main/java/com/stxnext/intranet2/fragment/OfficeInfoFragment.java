@@ -71,7 +71,9 @@ public class OfficeInfoFragment extends Fragment {
         FragmentManager fm = getChildFragmentManager();
         SupportMapFragment fragment = (SupportMapFragment) fm.findFragmentByTag(TAG_MAP);
         if (fragment == null) {
-            fragment = SupportMapFragment.newInstance();
+            GoogleMapOptions options = new GoogleMapOptions();
+            options.liteMode(true);
+            fragment = SupportMapFragment.newInstance(options);
             final SupportMapFragment finalFragment = fragment;
             getChildFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
                 @Override
@@ -81,7 +83,7 @@ public class OfficeInfoFragment extends Fragment {
                     LatLng position = new LatLng(office.getLat(), office.getLon());
                     LatLng cameraPosition = new LatLng(office.getLat() + 0.02, office.getLon());
                     options.position(position);
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraPosition, 15));
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraPosition, 12));
                     map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
                     map.addMarker(options);
                     map.getUiSettings().setAllGesturesEnabled(false);
