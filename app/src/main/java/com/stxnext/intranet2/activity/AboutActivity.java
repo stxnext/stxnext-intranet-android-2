@@ -10,7 +10,6 @@ import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -23,9 +22,6 @@ import com.stxnext.intranet2.model.Office;
  */
 public class AboutActivity extends AppCompatActivity {
 
-    private static final String TAG_MAP = "map";
-
-    private ViewPager viewPager;
     private OfficeInfoPagerAdapter fragmentAdapter;
     private GoogleMap map;
 
@@ -38,13 +34,15 @@ public class AboutActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         fragmentAdapter = new OfficeInfoPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(fragmentAdapter);
 
         PagerTabStrip tabStrip = (PagerTabStrip) findViewById(R.id.sliding_tabs);
         tabStrip.setTabIndicatorColor(getResources().getColor(R.color.stxnext_green));
         tabStrip.setTextColor(getResources().getColor(R.color.stxnext_green_dark));
+
+        prepareMap();
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -63,8 +61,6 @@ public class AboutActivity extends AppCompatActivity {
 
             }
         });
-
-        prepareMap();
     }
 
     @Override
@@ -79,36 +75,24 @@ public class AboutActivity extends AppCompatActivity {
 
     private void prepareMap() {
         FragmentManager fm = getSupportFragmentManager();
-        SupportMapFragment fragment = (SupportMapFragment) fm.findFragmentByTag(TAG_MAP);
-        if (fragment == null) {
-            fragment = SupportMapFragment.newInstance();
-            final SupportMapFragment finalFragment = fragment;
-            fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-                @Override
-                public void onBackStackChanged() {
-                    map = finalFragment.getMap();
-                    if (map != null) {
-                        Office[] offices = Office.values();
-                        for (Office office : offices) {
-                            MarkerOptions options = new MarkerOptions();
-                            LatLng position = new LatLng(office.getLat(), office.getLon());
-                            options.position(position);
-                            map.addMarker(options);
-                        }
-
-                        map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-                        map.getUiSettings().setAllGesturesEnabled(false);
-
-                        animateMap(offices[0]);
-                    } else {
-                        onBackPressed();
-                    }
+        SupportMapFragment fragment = (SupportMapFragment) fm.findFragmentById(R.id.map_fragment);
+        if (fragment != null) {
+            map = fragment.getMap();
+            if (map != null) {
+                Office[] offices = Office.values();
+                for (Office office : offices) {
+                    MarkerOptions options = new MarkerOptions();
+                    LatLng position = new LatLng(office.getLat(), office.getLon());
+                    options.position(position);
+                    map.addMarker(options);
                 }
-            });
 
-            fm.beginTransaction().replace(R.id.map_container, fragment, TAG_MAP).addToBackStack(null).commit();
+                map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                map.getUiSettings().setAllGesturesEnabled(false);
+
+                animateMap(offices[0]);
+            }
         }
-
     }
 
     private void animateMap(Office office) {

@@ -1,5 +1,7 @@
 package com.stxnext.intranet2.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -33,7 +35,7 @@ public class OfficeInfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_location_info, container, false);
 
         if (getArguments() != null) {
-            Office office = (Office) getArguments().getSerializable(ARG_OFFICE);
+            final Office office = (Office) getArguments().getSerializable(ARG_OFFICE);
 
             if (office != null) {
                 TextView locationTextView = (TextView) view.findViewById(R.id.location_text_view);
@@ -51,6 +53,35 @@ public class OfficeInfoFragment extends Fragment {
                 } else {
                     view.findViewById(R.id.fax_container).setVisibility(View.GONE);
                 }
+
+                view.findViewById(R.id.call_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent phoneIntent = new Intent(Intent.ACTION_DIAL);
+                        phoneIntent.setData(Uri.parse("tel:" + office.getTel()));
+                        startActivity(phoneIntent);
+                    }
+                });
+
+                view.findViewById(R.id.map_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                Uri.parse("http://maps.google.com/maps?q=loc:"
+                                        + office.getLat() + ", " + office.getLon()));
+                        startActivity(intent);
+                    }
+                });
+
+                view.findViewById(R.id.navigation_buttons).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(
+                                "http://maps.google.com/maps?daddr="
+                                        + office.getLat() + ", " + office.getLon()));
+                        startActivity(intent);
+                    }
+                });
             }
         }
 
