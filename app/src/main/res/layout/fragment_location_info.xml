@@ -120,6 +120,7 @@
                 android:orientation="horizontal">
 
                 <ImageButton
+                    android:id="@+id/call_button"
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:scaleType="fitCenter"
@@ -128,6 +129,7 @@
                     android:src="@android:drawable/ic_menu_call"/>
 
                 <ImageButton
+                    android:id="@+id/map_button"
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:scaleType="fitCenter"
@@ -138,6 +140,7 @@
                     android:src="@android:drawable/ic_menu_mapmode"/>
 
                 <ImageButton
+                    android:id="@+id/navigation_buttons"
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:scaleType="fitCenter"
