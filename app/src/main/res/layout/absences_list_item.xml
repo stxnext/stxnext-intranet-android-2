@@ -83,17 +83,19 @@
             android:id="@+id/tomorrow_marker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
+            android:paddingRight="6dp"
+            android:paddingLeft="6dp"
             android:fontFamily="sans-serif-condensed"
             android:textColor="@color/stxnext_green"
             android:textSize="11sp"
             android:text="@string/tomorrow"
             android:textAllCaps="true"
             android:visibility="gone"
+            android:background="@drawable/left_border"
             android:textStyle="bold"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

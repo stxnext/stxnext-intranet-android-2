@@ -70,10 +70,6 @@ public class AbsencesListAdapter extends RecyclerView.Adapter<AbsencesListAdapte
         Calendar dateFrom = Calendar.getInstance();
         dateFrom.setTime(absence.getAbsenceFrom());
 
-        if (today.get(Calendar.DAY_OF_MONTH) < dateFrom.get(Calendar.DAY_OF_MONTH)) {
-            holder.tomorrowMarker.setVisibility(View.VISIBLE);
-        }
-
         Date dateTo = absence.getAbsenceTo();
         CharSequence dateFromValue = "";
         CharSequence dateToValue = "";
@@ -86,6 +82,9 @@ public class AbsencesListAdapter extends RecyclerView.Adapter<AbsencesListAdapte
             case WORK_FROM_HOME:
                 dateFromValue = DateFormat.format("HH:mm", dateFrom);
                 dateToValue = DateFormat.format("HH:mm", dateTo);
+                if (today.get(Calendar.DAY_OF_MONTH) < dateFrom.get(Calendar.DAY_OF_MONTH)) {
+                    holder.tomorrowMarker.setVisibility(View.VISIBLE);
+                }
                 break;
         }
 
