@@ -16,6 +16,7 @@ import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.model.AbsencesTypes;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -29,12 +30,14 @@ public class AbsencesListAdapter extends RecyclerView.Adapter<AbsencesListAdapte
     private final AbsencesTypes type;
     private OnItemClickListener listener;
     private Context context;
+    private final Calendar today;
 
     public AbsencesListAdapter(Context context, Set<Absence> absences, AbsencesTypes type, OnItemClickListener listener) {
         this.absences = new ArrayList<>(absences);
         this.listener = listener;
         this.context = context;
         this.type = type;
+        this.today = Calendar.getInstance();
     }
 
     @Override
@@ -64,7 +67,13 @@ public class AbsencesListAdapter extends RecyclerView.Adapter<AbsencesListAdapte
         holder.nameTextView.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
         holder.descriptionTextView.setText(absence.getDescription());
 
-        Date dateFrom = absence.getAbsenceFrom();
+        Calendar dateFrom = Calendar.getInstance();
+        dateFrom.setTime(absence.getAbsenceFrom());
+
+        if (today.get(Calendar.DAY_OF_MONTH) < dateFrom.get(Calendar.DAY_OF_MONTH)) {
+            holder.tomorrowMarker.setVisibility(View.VISIBLE);
+        }
+
         Date dateTo = absence.getAbsenceTo();
         CharSequence dateFromValue = "";
         CharSequence dateToValue = "";
@@ -94,6 +103,7 @@ public class AbsencesListAdapter extends RecyclerView.Adapter<AbsencesListAdapte
         public TextView descriptionTextView;
         public TextView fromLabel;
         public TextView toLabel;
+        public View tomorrowMarker;
 
         public ViewHolder(View view) {
             super(view);
@@ -103,6 +113,7 @@ public class AbsencesListAdapter extends RecyclerView.Adapter<AbsencesListAdapte
             this.descriptionTextView = (TextView) view.findViewById(R.id.user_desc_text_view);
             this.fromLabel = (TextView) view.findViewById(R.id.from_label);
             this.toLabel = (TextView) view.findViewById(R.id.to_label);
+            this.tomorrowMarker = (TextView) view.findViewById(R.id.tomorrow_marker);
         }
     }
 
