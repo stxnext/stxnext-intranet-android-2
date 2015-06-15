@@ -17,6 +17,9 @@ import com.stxnext.intranet2.model.AbsencesTypes;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -38,6 +41,13 @@ public class AbsencesListAdapter extends RecyclerView.Adapter<AbsencesListAdapte
         this.context = context;
         this.type = type;
         this.today = Calendar.getInstance();
+
+        Collections.sort(this.absences, new Comparator<Absence>() {
+            @Override
+            public int compare(Absence absence, Absence absence2) {
+                return absence.getAbsenceFrom().compareTo(absence2.getAbsenceFrom());
+            }
+        });
     }
 
     @Override
@@ -82,8 +92,12 @@ public class AbsencesListAdapter extends RecyclerView.Adapter<AbsencesListAdapte
             case WORK_FROM_HOME:
                 dateFromValue = DateFormat.format("HH:mm", dateFrom);
                 dateToValue = DateFormat.format("HH:mm", dateTo);
-                if ((today.get(Calendar.MONTH) < dateFrom.get(Calendar.MONTH)) || (today.get(Calendar.DAY_OF_MONTH) < dateFrom.get(Calendar.DAY_OF_MONTH))) {
+
+                boolean isNextDay = dateFrom.get(Calendar.DAY_OF_MONTH) != today.get(Calendar.DAY_OF_MONTH);
+                if (isNextDay) {
                     holder.tomorrowMarker.setVisibility(View.VISIBLE);
+                } else {
+                    holder.tomorrowMarker.setVisibility(View.GONE);
                 }
                 break;
         }
