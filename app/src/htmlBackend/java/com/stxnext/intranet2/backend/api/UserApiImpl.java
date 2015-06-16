@@ -176,7 +176,7 @@ public class UserApiImpl extends UserApi {
         JSONObject absenceObject = new JSONObject();
         try {
             SimpleDateFormat submissionDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            SimpleDateFormat hourDateFormat = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat hourDateFormat = new SimpleDateFormat("kk:mm");
             absenceObject.put("popup_date", submissionDateFormat.format(submissionDate))
                     .put("late_start", hourDateFormat.format(startHour))
                     .put("late_end", hourDateFormat.format(endHour))

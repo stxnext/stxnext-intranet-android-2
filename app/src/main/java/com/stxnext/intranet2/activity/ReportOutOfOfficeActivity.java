@@ -127,7 +127,7 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
-        CharSequence dateFormat = DateFormat.format("HH:mm", calendar);
+        CharSequence dateFormat = DateFormat.format("kk:mm", calendar);
         switch (type) {
             case TimePickerDialogFragment.TIME_FROM:
                 fromMinute = minute;

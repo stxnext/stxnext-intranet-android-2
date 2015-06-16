@@ -90,8 +90,8 @@ public class AbsencesListAdapter extends RecyclerView.Adapter<AbsencesListAdapte
                 break;
             case OUT_OF_OFFICE:
             case WORK_FROM_HOME:
-                dateFromValue = DateFormat.format("HH:mm", dateFrom);
-                dateToValue = DateFormat.format("HH:mm", dateTo);
+                dateFromValue = DateFormat.format("kk:mm", dateFrom);
+                dateToValue = DateFormat.format("kk:mm", dateTo);
 
                 boolean isNextDay = dateFrom.get(Calendar.DAY_OF_MONTH) != today.get(Calendar.DAY_OF_MONTH);
                 if (isNextDay) {
