@@ -22,7 +22,7 @@ public class IncomingCallBroadcastReceiver  extends BroadcastReceiver {
         telephony = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
 
         if (customPhoneListener == null) {
-            customPhoneListener = new IncomingCallPhoneStateListener();
+            customPhoneListener = new IncomingCallPhoneStateListener(context);
             telephony.listen(customPhoneListener, PhoneStateListener.LISTEN_CALL_STATE);
         }
 
