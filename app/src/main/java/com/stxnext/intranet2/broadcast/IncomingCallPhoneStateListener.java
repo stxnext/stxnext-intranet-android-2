@@ -3,6 +3,7 @@ package com.stxnext.intranet2.broadcast;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.Typeface;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -13,6 +14,13 @@ import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.stxnext.intranet2.backend.model.impl.UserImpl;
+import com.stxnext.intranet2.database.repo.UserRepository;
+import com.stxnext.intranet2.utils.DBManager;
+
+import java.security.spec.ECField;
+import java.util.List;
 
 /**
  * Created by bkosarzycki on 05.08.15.
@@ -32,13 +40,39 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
 
         switch(state){
             case TelephonyManager.CALL_STATE_RINGING:
-                Log.i(TAG, "RINGING - show number and name: " + incomingNumber);
+
+                Log.i(TAG, "RINGING - number: " + incomingNumber);
+
+                UserImpl foundEmployee = null;
+                try {
+                    DBManager dbManager = DBManager.getInstance(context);
+                    List<UserImpl> employees = dbManager.getEmployees();
+                    for (UserImpl user : employees) {
+                        String userPhone = user.getPhoneNumber().replace(" ", "").replace("-","").replace("(","").replace(")","").replace(".","");
+                        String incomingNumberComp = incomingNumber.replace(" ", "").replace("-", "").replace("(","").replace(")","").replace(".","");
+
+                        if (userPhone.isEmpty() || userPhone.length() < 9
+                            || incomingNumberComp.isEmpty() || incomingNumberComp.length() < 9)
+                        continue;
+
+                        if (incomingNumberComp.substring(incomingNumberComp.length() - 9, incomingNumberComp.length())
+                                .equals(userPhone.substring(userPhone.length() - 9, userPhone.length())))
+                            foundEmployee = user;
+                    }
+                } catch (Exception exc) {
+                    Log.e(TAG, "Error in getting caller data: " + exc.toString());
+                }
+
+                if (foundEmployee == null)
+                    return;
+
 
                 Toast.makeText(context, "onCreate", Toast.LENGTH_LONG).show();
                 view = new TextView(context);
-                view.setText("DZWONI: " + incomingNumber);
+                view.setText("STXNext: " + foundEmployee.getFirstName() + " " + foundEmployee.getLastName());
                 view.setTextColor(Color.BLUE);
                 view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+                view.setTypeface(null, Typeface.BOLD_ITALIC);
 
                 WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                         WindowManager.LayoutParams.MATCH_PARENT,
