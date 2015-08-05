@@ -1,18 +1,28 @@
 package com.stxnext.intranet2.backend.model.impl;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 import com.stxnext.intranet2.backend.model.User;
 
 /**
  * Created by Tomasz on 2015-05-07.
  */
+
+@DatabaseTable(tableName = "user")
 public class UserImpl implements User {
 
-    private String id;
-    private String firstName;
-    private String lastName;
-    private String skype;
-    private String phoneNumber;
-    private String localization;
+    @DatabaseField(id = true) private String id;
+    @DatabaseField private String firstName;
+    @DatabaseField private String lastName;
+    @DatabaseField private String skype;
+    @DatabaseField private String phoneNumber;
+    @DatabaseField private String localization;
+
+    @DatabaseField private String role;
+    @DatabaseField private String email;
+    @DatabaseField private String irc;
+    @DatabaseField private String team;
+    @DatabaseField private String photo;
 
     @Override
     public boolean equals(Object o) {
@@ -40,12 +50,6 @@ public class UserImpl implements User {
         result = 31 * result + (team != null ? team.hashCode() : 0);
         return result;
     }
-
-    private String role;
-    private String email;
-    private String irc;
-    private String team;
-    private String photo;
 
     public UserImpl() {}
 

@@ -37,14 +37,16 @@ import java.util.Locale;
  */
 public class EmployeesApiImpl extends EmployeesApi {
 
+    private Context context;
+
     public EmployeesApiImpl(Context context, EmployeesApiCallback callback) {
         super(context, callback);
+        this.context = context;
     }
 
     @Override
     public void requestForEmployees(boolean forceRequest) {
-
-        List<UserImpl> employees = DBManager.getInstance().getEmployees();
+        List<UserImpl> employees = DBManager.getInstance(context).getEmployees();
         if (employees == null || forceRequest) {
             AsyncHttpClient httpClient = new AsyncHttpClient();
             httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
@@ -56,7 +58,7 @@ public class EmployeesApiImpl extends EmployeesApi {
                     Log.d(Config.TAG, response);
                     List<UserImpl> users = processJsonEmployees(response);
                     sortUsersByFirstName(users);
-                    DBManager.getInstance().persistEmployees(users);
+                    DBManager.getInstance(context).persistEmployees(users);
                     apiCallback.onEmployeesListReceived(users);
                 }
 
@@ -214,7 +216,7 @@ public class EmployeesApiImpl extends EmployeesApi {
             final Absence absence = parsePartlyAbsence(absenceJSONObject, day);
             User user = absence.getUser();
             String userId = user.getId();
-            User dbUser = DBManager.getInstance().getUser(userId);
+            User dbUser = DBManager.getInstance(context).getUser(userId);
             if (dbUser == null) {
                 UserApi userApi = new UserApiImpl(context, new UserApiCallback() {
 
@@ -407,7 +409,7 @@ public class EmployeesApiImpl extends EmployeesApi {
             final Absence absence = parsePartlyHolidayAbsence(absenceJSONObject);
             User user = absence.getUser();
             String userId = user.getId();
-            User dbUser = DBManager.getInstance().getUser(userId);
+            User dbUser = DBManager.getInstance(context).getUser(userId);
             if (dbUser == null) {
                 UserApi userApi = new UserApiImpl(context, new UserApiCallback() {
 

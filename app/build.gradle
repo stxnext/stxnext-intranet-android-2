@@ -76,6 +76,8 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'joda-time:joda-time:2.3'
+    compile 'com.j256.ormlite:ormlite-core:4.48'
+    compile 'com.j256.ormlite:ormlite-android:4.48'
 
     compile('com.crashlytics.sdk.android:crashlytics:2.3.2@aar') {
         transitive = true;
