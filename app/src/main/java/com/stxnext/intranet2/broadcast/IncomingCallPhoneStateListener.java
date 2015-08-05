@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,7 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
 
     private static final String TAG = "IncCallPhoneStListener";
     private Context context;
-    private TextView view;
+    private LinearLayout view;
 
     public IncomingCallPhoneStateListener(Context context) {
         this.context = context;
@@ -66,17 +67,21 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
                 if (foundEmployee == null)
                     return;
 
-
-                Toast.makeText(context, "onCreate", Toast.LENGTH_LONG).show();
-                view = new TextView(context);
-                view.setText("STXNext: " + foundEmployee.getFirstName() + " " + foundEmployee.getLastName());
-                view.setTextColor(Color.BLUE);
-                view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-                view.setTypeface(null, Typeface.BOLD_ITALIC);
+                view = new LinearLayout(context);
+                view.setGravity(Gravity.RIGHT);
+                view.setPadding(15,15,15,15);
+                view.setBackgroundColor(Color.WHITE);
+                TextView textView = new TextView(context);
+                textView.setText("STXNext: " + foundEmployee.getFirstName() + " " + foundEmployee.getLastName());
+                if (android.os.Build.VERSION.SDK_INT > 16)
+                    textView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
+                textView.setTextColor(Color.argb(240, 39, 147, 139));
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+                textView.setTypeface(null, Typeface.BOLD_ITALIC);
 
                 WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                         WindowManager.LayoutParams.MATCH_PARENT,
-                        WindowManager.LayoutParams.MATCH_PARENT,
+                        WindowManager.LayoutParams.WRAP_CONTENT,
                         WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
                         WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                         PixelFormat.TRANSLUCENT);
@@ -84,6 +89,7 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
                 params.setTitle("Load Average");
                 WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
                 try {
+                    view.addView(textView);
                     wm.addView(view, params);
                 } catch (Exception exc) {
                     Log.e(TAG, exc.toString());
