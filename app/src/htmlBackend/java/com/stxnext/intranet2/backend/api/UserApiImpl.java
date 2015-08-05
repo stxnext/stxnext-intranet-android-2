@@ -67,7 +67,7 @@ public class UserApiImpl extends UserApi {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
                 Log.d(Config.TAG, response);
-                List<User> users = processJsonEmployees(response);
+                List<UserImpl> users = processJsonEmployees(response);
                 sortUsersByFirstName(users);
                 DBManager.getInstance().persistEmployees(users);
                 User user = DBManager.getInstance().getUser(userId);
@@ -83,7 +83,7 @@ public class UserApiImpl extends UserApi {
         httpClient.get("https://intranet.stxnext.pl/api/users?full=1&inactive=0", asyncHttpResponseHandler);
     }
 
-    private void sortUsersByFirstName(List<User> users) {
+    private void sortUsersByFirstName(List<UserImpl> users) {
         Locale polishLocale = new Locale("pl_PL");
         final Collator polishCollator = Collator.getInstance(polishLocale);
 
@@ -97,15 +97,15 @@ public class UserApiImpl extends UserApi {
         Collections.sort(users, comparator);
     }
 
-    private List<User> processJsonEmployees(String jsonEmployeesString) {
-        List<User> users = new ArrayList<>();
+    private List<UserImpl> processJsonEmployees(String jsonEmployeesString) {
+        List<UserImpl> users = new ArrayList<>();
         try {
             JSONObject mainObject = new JSONObject(jsonEmployeesString);
             JSONArray usersJSONArray = mainObject.getJSONArray("users");
             for (int i = 0; i < usersJSONArray.length(); ++i) {
                 JSONObject userJSONObject = usersJSONArray.getJSONObject(i);
                 if (isEmployee(userJSONObject)) {
-                    User user = parseUser(userJSONObject);
+                    UserImpl user = parseUser(userJSONObject);
                     users.add(user);
                 }
 
@@ -116,7 +116,7 @@ public class UserApiImpl extends UserApi {
         return users;
     }
 
-    private User parseUser(JSONObject userJSONObject) throws JSONException {
+    private UserImpl parseUser(JSONObject userJSONObject) throws JSONException {
         int id = userJSONObject.getInt("id");
         String name = userJSONObject.getString("name");
         String[] nameSplitted = name.split(" ");
@@ -145,7 +145,7 @@ public class UserApiImpl extends UserApi {
         String email = userJSONObject.getString("email");
         String irc = userJSONObject.getString("irc");
         String avatarUrl = userJSONObject.getString("avatar_url");
-        User user = new UserImpl(String.valueOf(id), firstName, lastName, skype, phone,
+        UserImpl user = new UserImpl(String.valueOf(id), firstName, lastName, skype, phone,
                 city, role, email, irc, "Team Mobilny", avatarUrl);
         return user;
     }
