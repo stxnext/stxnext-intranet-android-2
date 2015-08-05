@@ -41,12 +41,13 @@ public class UserApiImpl extends UserApi {
 
     public UserApiImpl(Context context, UserApiCallback callback) {
         super(context, callback);
+        this.context = context;
     }
 
     @Override
     public void requestForUser(String userId) {
         if (userId != null) {
-            User userFromDB = DBManager.getInstance().getUser(userId);
+            User userFromDB = DBManager.getInstance(context).getUser(userId);
             if (userFromDB == null) {
                 getUser(userId);
             } else {
@@ -69,8 +70,8 @@ public class UserApiImpl extends UserApi {
                 Log.d(Config.TAG, response);
                 List<UserImpl> users = processJsonEmployees(response);
                 sortUsersByFirstName(users);
-                DBManager.getInstance().persistEmployees(users);
-                User user = DBManager.getInstance().getUser(userId);
+                DBManager.getInstance(context).persistEmployees(users);
+                User user = DBManager.getInstance(context).getUser(userId);
                 apiCallback.onUserReceived(user);
             }
 

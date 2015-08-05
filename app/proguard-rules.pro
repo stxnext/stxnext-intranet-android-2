@@ -23,3 +23,10 @@
 -keep class com.loopj.android.** { *; }
 -keep interface com.loopj.android.** { *; }
 -keep public class com.google.gson.** { *; }
+
+-keep class com.j256.**
+-keepclassmembers class com.j256.** { *; }
+-keep enum com.j256.**
+-keepclassmembers enum com.j256.** { *; }
+-keep interface com.j256.**
+-keepclassmembers interface com.j256.** { *; }
