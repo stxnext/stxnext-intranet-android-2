@@ -18,7 +18,9 @@ public class UserRepository {
     public UserRepository(final DatabaseHelper databaseHelper) {
         try {
             userDao = databaseHelper.getUserDao();
-        } catch (Exception exc) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
