@@ -61,27 +61,7 @@ public class UserApiImpl extends UserApi {
     }
 
     private void getUser(final String userId) {
-        AsyncHttpClient httpClient = new AsyncHttpClient();
-        httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
-        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String response = new String(responseBody);
-                Log.d(Config.TAG, response);
-                List<UserImpl> users = processJsonEmployees(response);
-                sortUsersByFirstName(users);
-                DBManager.getInstance(context).persistEmployees(users);
-                User user = DBManager.getInstance(context).getUser(userId);
-                apiCallback.onUserReceived(user);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
-        };
-
-        httpClient.get("https://intranet.stxnext.pl/api/users?full=1&inactive=0", asyncHttpResponseHandler);
+        downlUsersFromHTTP(context, apiCallback, userId);
     }
 
     private void sortUsersByFirstName(List<UserImpl> users) {
@@ -96,63 +76,6 @@ public class UserApiImpl extends UserApi {
             }
         };
         Collections.sort(users, comparator);
-    }
-
-    private List<UserImpl> processJsonEmployees(String jsonEmployeesString) {
-        List<UserImpl> users = new ArrayList<>();
-        try {
-            JSONObject mainObject = new JSONObject(jsonEmployeesString);
-            JSONArray usersJSONArray = mainObject.getJSONArray("users");
-            for (int i = 0; i < usersJSONArray.length(); ++i) {
-                JSONObject userJSONObject = usersJSONArray.getJSONObject(i);
-                if (isEmployee(userJSONObject)) {
-                    UserImpl user = parseUser(userJSONObject);
-                    users.add(user);
-                }
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return users;
-    }
-
-    private UserImpl parseUser(JSONObject userJSONObject) throws JSONException {
-        int id = userJSONObject.getInt("id");
-        String name = userJSONObject.getString("name");
-        String[] nameSplitted = name.split(" ");
-        String firstName;
-        String lastName = "";
-        if (nameSplitted.length == 2) {
-            firstName = nameSplitted[0];
-            lastName = nameSplitted[1];
-        } else {
-            firstName = name;
-        }
-        String skype = userJSONObject.getString("skype");
-        String phone = userJSONObject.getString("phone");
-        String city = "";
-        JSONArray locationJSONArray = userJSONObject.getJSONArray("location");
-        if (locationJSONArray.length() >= 2) {
-            city = locationJSONArray.getString(1);
-        }
-        String role = "";
-        JSONArray rolesJSONArray = userJSONObject.getJSONArray("roles");
-        if (rolesJSONArray.length() > 0) {
-            role = rolesJSONArray.getString(0);
-            role = role.substring(0, 1).toUpperCase() + role.substring(1, role.length()).toLowerCase();
-        }
-
-        String email = userJSONObject.getString("email");
-        String irc = userJSONObject.getString("irc");
-        String avatarUrl = userJSONObject.getString("avatar_url");
-        UserImpl user = new UserImpl(String.valueOf(id), firstName, lastName, skype, phone,
-                city, role, email, irc, "Team Mobilny", avatarUrl);
-        return user;
-    }
-
-    private boolean isEmployee(JSONObject userJSONObject) throws JSONException {
-        return !userJSONObject.getBoolean("is_client");
     }
 
     //TODO probably to delete
