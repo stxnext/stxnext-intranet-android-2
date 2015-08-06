@@ -37,13 +37,16 @@ import java.util.Locale;
  */
 public class EmployeesApiImpl extends EmployeesApi {
 
+    private Context context;
+
     public EmployeesApiImpl(Context context, EmployeesApiCallback callback) {
         super(context, callback);
+        this.context = context;
     }
 
     @Override
     public void requestForEmployees(boolean forceRequest) {
-        List<User> employees = DBManager.getInstance().getEmployees();
+        List<UserImpl> employees = DBManager.getInstance(context).getEmployees();
         if (employees == null || forceRequest) {
             AsyncHttpClient httpClient = new AsyncHttpClient();
             httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
@@ -53,9 +56,9 @@ public class EmployeesApiImpl extends EmployeesApi {
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     String response = new String(responseBody);
                     Log.d(Config.TAG, response);
-                    List<User> users = processJsonEmployees(response);
+                    List<UserImpl> users = processJsonEmployees(response);
                     sortUsersByFirstName(users);
-                    DBManager.getInstance().persistEmployees(users);
+                    DBManager.getInstance(context).persistEmployees(users);
                     apiCallback.onEmployeesListReceived(users);
                 }
 
@@ -71,7 +74,7 @@ public class EmployeesApiImpl extends EmployeesApi {
         }
     }
 
-    private void sortUsersByFirstName(List<User> users) {
+    private void sortUsersByFirstName(List<UserImpl> users) {
         Locale polishLocale = new Locale("pl_PL");
         final Collator polishCollator = Collator.getInstance(polishLocale);
 
@@ -85,15 +88,15 @@ public class EmployeesApiImpl extends EmployeesApi {
         Collections.sort(users, comparator);
     }
 
-    private List<User> processJsonEmployees(String jsonEmployeesString) {
-        List<User> users = new ArrayList<>();
+    private List<UserImpl> processJsonEmployees(String jsonEmployeesString) {
+        List<UserImpl> users = new ArrayList<>();
         try {
             JSONObject mainObject = new JSONObject(jsonEmployeesString);
             JSONArray usersJSONArray = mainObject.getJSONArray("users");
             for (int i = 0; i < usersJSONArray.length(); ++i) {
                 JSONObject userJSONObject = usersJSONArray.getJSONObject(i);
                 if (isEmployee(userJSONObject)) {
-                    User user = parseUser(userJSONObject);
+                    UserImpl user = parseUser(userJSONObject);
                     users.add(user);
                 }
 
@@ -104,7 +107,7 @@ public class EmployeesApiImpl extends EmployeesApi {
         return users;
     }
 
-    private User parseUser(JSONObject userJSONObject) throws JSONException {
+    private UserImpl parseUser(JSONObject userJSONObject) throws JSONException {
         int id = userJSONObject.getInt("id");
         String name = userJSONObject.getString("name");
         String[] nameSplitted = name.split(" ");
@@ -123,7 +126,7 @@ public class EmployeesApiImpl extends EmployeesApi {
             role = rolesJSONArray.getString(0);
             role = role.substring(0, 1).toUpperCase() + role.substring(1, role.length()).toLowerCase();
         }
-        User user = new UserImpl(String.valueOf(id), firstName, lastName, "", "", "", role, "", "", "", avatarUrl);
+        UserImpl user = new UserImpl(String.valueOf(id), firstName, lastName, "", "", "", role, "", "", "", avatarUrl);
         return user;
     }
 
@@ -213,7 +216,7 @@ public class EmployeesApiImpl extends EmployeesApi {
             final Absence absence = parsePartlyAbsence(absenceJSONObject, day);
             User user = absence.getUser();
             String userId = user.getId();
-            User dbUser = DBManager.getInstance().getUser(userId);
+            User dbUser = DBManager.getInstance(context).getUser(userId);
             if (dbUser == null) {
                 UserApi userApi = new UserApiImpl(context, new UserApiCallback() {
 
@@ -406,7 +409,7 @@ public class EmployeesApiImpl extends EmployeesApi {
             final Absence absence = parsePartlyHolidayAbsence(absenceJSONObject);
             User user = absence.getUser();
             String userId = user.getId();
-            User dbUser = DBManager.getInstance().getUser(userId);
+            User dbUser = DBManager.getInstance(context).getUser(userId);
             if (dbUser == null) {
                 UserApi userApi = new UserApiImpl(context, new UserApiCallback() {
 
