@@ -19,8 +19,7 @@ import com.stxnext.intranet2.backend.api.EmployeesApi;
 import com.stxnext.intranet2.backend.api.EmployeesApiImpl;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.model.Absence;
-import com.stxnext.intranet2.backend.model.User;
-import com.stxnext.intranet2.backend.model.impl.UserImpl;
+import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.model.AbsencesTypes;
 
 import java.util.List;
@@ -95,7 +94,7 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
     }
 
     @Override
-    public void onEmployeesListReceived(List<UserImpl> employees) {
+    public void onEmployeesListReceived(List<User> employees) {
         //nothing to do
     }
 

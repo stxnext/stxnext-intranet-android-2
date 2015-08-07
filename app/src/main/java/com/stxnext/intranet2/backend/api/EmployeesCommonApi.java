@@ -7,8 +7,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
-import com.stxnext.intranet2.backend.model.User;
-import com.stxnext.intranet2.backend.model.impl.UserImpl;
+import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
 import com.stxnext.intranet2.utils.Session;
@@ -40,7 +39,7 @@ public abstract class EmployeesCommonApi {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
                 Log.d(Config.TAG, response);
-                List<UserImpl> users = processJsonEmployees(response);
+                List<User> users = processJsonEmployees(response);
                 sortUsersByFirstName(users);
                 DBManager.getInstance(context).persistEmployees(users);
 
@@ -59,15 +58,15 @@ public abstract class EmployeesCommonApi {
         httpClient.get("https://intranet.stxnext.pl/api/users?full=1&inactive=0", asyncHttpResponseHandler);
     }
 
-    protected List<UserImpl> processJsonEmployees(String jsonEmployeesString) {
-        List<UserImpl> users = new ArrayList<>();
+    protected List<User> processJsonEmployees(String jsonEmployeesString) {
+        List<User> users = new ArrayList<>();
         try {
             JSONObject mainObject = new JSONObject(jsonEmployeesString);
             JSONArray usersJSONArray = mainObject.getJSONArray("users");
             for (int i = 0; i < usersJSONArray.length(); ++i) {
                 JSONObject userJSONObject = usersJSONArray.getJSONObject(i);
                 if (isEmployee(userJSONObject)) {
-                    UserImpl user = parseUser(userJSONObject);
+                    User user = parseUser(userJSONObject);
                     users.add(user);
                 }
 
@@ -82,7 +81,7 @@ public abstract class EmployeesCommonApi {
         return !userJSONObject.getBoolean("is_client");
     }
 
-    private UserImpl parseUser(JSONObject userJSONObject) throws JSONException {
+    private User parseUser(JSONObject userJSONObject) throws JSONException {
         int id = userJSONObject.getInt("id");
         String name = userJSONObject.getString("name");
         String[] nameSplitted = name.split(" ");
@@ -111,12 +110,12 @@ public abstract class EmployeesCommonApi {
         String email = userJSONObject.getString("email");
         String irc = userJSONObject.getString("irc");
         String avatarUrl = userJSONObject.getString("avatar_url");
-        UserImpl user = new UserImpl(String.valueOf(id), firstName, lastName, skype, phone,
+        User user = new User(String.valueOf(id), firstName, lastName, skype, phone,
                 city, role, email, irc, "Team Mobilny", avatarUrl);
         return user;
     }
 
-    private void sortUsersByFirstName(List<UserImpl> users) {
+    private void sortUsersByFirstName(List<User> users) {
         Locale polishLocale = new Locale("pl_PL");
         final Collator polishCollator = Collator.getInstance(polishLocale);
 
