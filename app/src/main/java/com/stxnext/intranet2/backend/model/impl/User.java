@@ -70,7 +70,7 @@ public class User {
         this.skype = skype;
         this.phoneNumber = phoneNumber;
         this.localization = localization;
-        this.roles = (String[])roles.toArray();
+        this.roles = roles.toArray(new String[roles.size()]);
         this.email = email;
         this.irc = irc;
         this.team = team;
