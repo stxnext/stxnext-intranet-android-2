@@ -29,8 +29,7 @@ import java.util.Locale;
  */
 public abstract class EmployeesCommonApi {
 
-
-    protected void downlUsersFromHTTP(final Context context, final Object apiCallback, final String userId) {
+    public static void downlUsersFromHTTP(final Context context, final Object apiCallback, final String userId) {
         AsyncHttpClient httpClient = new AsyncHttpClient();
         httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
 
@@ -43,11 +42,13 @@ public abstract class EmployeesCommonApi {
                 sortUsersByFirstName(users);
                 DBManager.getInstance(context).persistEmployees(users);
 
-                if (apiCallback instanceof EmployeesApiCallback)
-                    ((EmployeesApiCallback)apiCallback).onEmployeesListReceived(users);
-                else {
-                    User user = DBManager.getInstance(context).getUser(userId);
-                    ((UserApiCallback) apiCallback).onUserReceived(user);
+                if (apiCallback != null) {
+                    if (apiCallback instanceof EmployeesApiCallback)
+                        ((EmployeesApiCallback) apiCallback).onEmployeesListReceived(users);
+                    else {
+                        User user = DBManager.getInstance(context).getUser(userId);
+                        ((UserApiCallback) apiCallback).onUserReceived(user);
+                    }
                 }
             }
 
@@ -58,7 +59,7 @@ public abstract class EmployeesCommonApi {
         httpClient.get("https://intranet.stxnext.pl/api/users?full=1&inactive=0", asyncHttpResponseHandler);
     }
 
-    protected List<User> processJsonEmployees(String jsonEmployeesString) {
+    protected static List<User> processJsonEmployees(String jsonEmployeesString) {
         List<User> users = new ArrayList<>();
         try {
             JSONObject mainObject = new JSONObject(jsonEmployeesString);
@@ -77,11 +78,11 @@ public abstract class EmployeesCommonApi {
         return users;
     }
 
-    private boolean isEmployee(JSONObject userJSONObject) throws JSONException {
+    private static boolean isEmployee(JSONObject userJSONObject) throws JSONException {
         return !userJSONObject.getBoolean("is_client");
     }
 
-    private User parseUser(JSONObject userJSONObject) throws JSONException {
+    private static User parseUser(JSONObject userJSONObject) throws JSONException {
         int id = userJSONObject.getInt("id");
         String name = userJSONObject.getString("name");
         String[] nameSplitted = name.split(" ");
@@ -115,7 +116,7 @@ public abstract class EmployeesCommonApi {
         return user;
     }
 
-    private void sortUsersByFirstName(List<User> users) {
+    private static void sortUsersByFirstName(List<User> users) {
         Locale polishLocale = new Locale("pl_PL");
         final Collator polishCollator = Collator.getInstance(polishLocale);
 
