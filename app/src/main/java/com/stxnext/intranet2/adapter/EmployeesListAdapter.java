@@ -93,7 +93,7 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
         });
 
         holder.nameTextView.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
-        holder.roleTextView.setText(user.getRole());
+        holder.roleTextView.setText(user.getRoles() != null && user.getRoles().size() > 0 ? user.getRoles().get(0) : "");
         String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
         Picasso.with(context).load(imageAddress).placeholder(R.drawable.avatar_placeholder).into(holder.avatarImageView);
     }
