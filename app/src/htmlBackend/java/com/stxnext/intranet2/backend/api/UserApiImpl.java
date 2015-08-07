@@ -8,8 +8,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.stxnext.intranet2.backend.api.json.AbsenceDaysLeft;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
-import com.stxnext.intranet2.backend.model.User;
-import com.stxnext.intranet2.backend.model.impl.UserImpl;
+import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.model.HolidayTypes;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
@@ -18,14 +17,12 @@ import com.stxnext.intranet2.utils.Session;
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.protocol.HTTP;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.text.Collator;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -54,7 +51,7 @@ public class UserApiImpl extends UserApi {
                 apiCallback.onUserReceived(userFromDB);
             }
         } else {
-            User user = new UserImpl(null, "Marian", "Kowalski", "mariano.kowalsky", "+48 600 211 321",
+            User user = new User(null, "Marian", "Kowalski", "mariano.kowalsky", "+48 600 211 321",
                     "Poznań", "Programista", "marian.kowalski@stxnext.pl", "marianno", "Team Mobilny", null);
             apiCallback.onUserReceived(user);
         }
@@ -64,7 +61,7 @@ public class UserApiImpl extends UserApi {
         downlUsersFromHTTP(context, apiCallback, userId);
     }
 
-    private void sortUsersByFirstName(List<UserImpl> users) {
+    private void sortUsersByFirstName(List<User> users) {
         Locale polishLocale = new Locale("pl_PL");
         final Collator polishCollator = Collator.getInstance(polishLocale);
 

@@ -2,7 +2,7 @@
 # generated on 2015/08/06 01:42:21
 #
 # --table-start--
-dataClass=com.stxnext.intranet2.backend.model.impl.UserImpl
+dataClass=com.stxnext.intranet2.backend.model.impl.User
 tableName=user
 # --table-fields-start--
 # --field-start--

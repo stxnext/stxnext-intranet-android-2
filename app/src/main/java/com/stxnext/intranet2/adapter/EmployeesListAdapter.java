@@ -12,8 +12,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
-import com.stxnext.intranet2.backend.model.User;
-import com.stxnext.intranet2.backend.model.impl.UserImpl;
+import com.stxnext.intranet2.backend.model.impl.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +22,13 @@ import java.util.List;
  */
 public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdapter.ViewHolder> implements Filterable {
 
-    private final List<UserImpl> users;
-    private List<UserImpl> filteredUsers;
+    private final List<User> users;
+    private List<User> filteredUsers;
     private OnItemClickListener listener;
     private Context context;
     private Filter filter;
 
-    public EmployeesListAdapter(Context context, List<UserImpl> users, OnItemClickListener listener) {
+    public EmployeesListAdapter(Context context, List<User> users, OnItemClickListener listener) {
         this.context = context;
         this.users = users;
         this.filteredUsers = users;
@@ -63,7 +62,7 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredUsers = (List<UserImpl>) results.values;
+                filteredUsers = (List<User>) results.values;
                 notifyDataSetChanged();
             }
         };

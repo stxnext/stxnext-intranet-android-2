@@ -1,7 +1,6 @@
 package com.stxnext.intranet2.backend.model.impl;
 
 import com.stxnext.intranet2.backend.model.Absence;
-import com.stxnext.intranet2.backend.model.User;
 
 import java.util.Date;
 

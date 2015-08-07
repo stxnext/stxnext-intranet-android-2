@@ -2,14 +2,13 @@ package com.stxnext.intranet2.backend.model.impl;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.stxnext.intranet2.backend.model.User;
 
 /**
  * Created by Tomasz on 2015-05-07.
  */
 
 @DatabaseTable(tableName = "user")
-public class UserImpl implements User {
+public class User {
 
     @DatabaseField(id = true) private String id;
     @DatabaseField private String firstName;
@@ -29,7 +28,7 @@ public class UserImpl implements User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserImpl user = (UserImpl) o;
+        User user = (User) o;
 
         if (!firstName.equals(user.firstName)) return false;
         if (!lastName.equals(user.lastName)) return false;
@@ -51,11 +50,11 @@ public class UserImpl implements User {
         return result;
     }
 
-    public UserImpl() {}
+    public User() {}
 
-    public UserImpl(String id, String firstName, String lastName, String skype, String phoneNumber,
-                    String localization, String role, String email,
-                    String irc, String team, String photo) {
+    public User(String id, String firstName, String lastName, String skype, String phoneNumber,
+                String localization, String role, String email,
+                String irc, String team, String photo) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -69,7 +68,6 @@ public class UserImpl implements User {
         this.photo = photo;
     }
 
-    @Override
     public String getId() {
         return id;
     }
@@ -78,7 +76,6 @@ public class UserImpl implements User {
         this.id = id;
     }
 
-    @Override
     public String getFirstName() {
         return firstName;
     }
@@ -87,7 +84,6 @@ public class UserImpl implements User {
         this.firstName = firstName;
     }
 
-    @Override
     public String getLastName() {
         return lastName;
     }
@@ -96,7 +92,6 @@ public class UserImpl implements User {
         this.lastName = lastName;
     }
 
-    @Override
     public String getSkype() {
         return skype;
     }
@@ -105,7 +100,6 @@ public class UserImpl implements User {
         this.skype = skype;
     }
 
-    @Override
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -114,7 +108,6 @@ public class UserImpl implements User {
         this.phoneNumber = phoneNumber;
     }
 
-    @Override
     public String getLocalization() {
         return localization;
     }
@@ -123,7 +116,6 @@ public class UserImpl implements User {
         this.localization = localization;
     }
 
-    @Override
     public String getRole() {
         return role;
     }
@@ -132,7 +124,6 @@ public class UserImpl implements User {
         this.role = role;
     }
 
-    @Override
     public String getEmail() {
         return email;
     }
@@ -141,7 +132,6 @@ public class UserImpl implements User {
         this.email = email;
     }
 
-    @Override
     public String getIrc() {
         return irc;
     }
@@ -150,7 +140,6 @@ public class UserImpl implements User {
         this.irc = irc;
     }
 
-    @Override
     public String getPhoto() {
         return photo;
     }
@@ -159,7 +148,6 @@ public class UserImpl implements User {
         this.photo = photo;
     }
 
-    @Override
     public String getTeam() {
         return team;
     }

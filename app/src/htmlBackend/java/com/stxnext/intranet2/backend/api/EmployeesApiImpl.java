@@ -8,9 +8,8 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.Absence;
-import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.backend.model.impl.AbsenceImpl;
-import com.stxnext.intranet2.backend.model.impl.UserImpl;
+import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
 import com.stxnext.intranet2.utils.Session;
@@ -46,7 +45,7 @@ public class EmployeesApiImpl extends EmployeesApi {
 
     @Override
     public void requestForEmployees(boolean forceRequest) {
-        List<UserImpl> employees = DBManager.getInstance(context).getEmployees();
+        List<User> employees = DBManager.getInstance(context).getEmployees();
         if (employees == null || forceRequest)
             downlUsersFromHTTP(context, apiCallback, null);
         else
@@ -189,7 +188,7 @@ public class EmployeesApiImpl extends EmployeesApi {
         String userId = absenceJSONObject.getString("id");
         // TODO get real user info
 //        User user = DBManager.getInstance().getUser(userId);
-        Absence absenceWithNoUser = new AbsenceImpl(new UserImpl(userId, "", "", "", "", "", "", "", "", "", ""), absenceFrom, absenceTo, explanation);
+        Absence absenceWithNoUser = new AbsenceImpl(new User(userId, "", "", "", "", "", "", "", "", "", ""), absenceFrom, absenceTo, explanation);
         return absenceWithNoUser;
     }
 
@@ -379,7 +378,7 @@ public class EmployeesApiImpl extends EmployeesApi {
             e.printStackTrace();
         }
         String userId = absenceJSONObject.getString("id");
-        Absence absenceWithNoUser = new AbsenceImpl(new UserImpl(userId, "", "", "", "", "", "", "", "", "", ""), absenceFrom, absenceTo, explanation);
+        Absence absenceWithNoUser = new AbsenceImpl(new User(userId, "", "", "", "", "", "", "", "", "", ""), absenceFrom, absenceTo, explanation);
         return absenceWithNoUser;
     }
 

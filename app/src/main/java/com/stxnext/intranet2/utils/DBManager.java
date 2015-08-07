@@ -1,18 +1,12 @@
 package com.stxnext.intranet2.utils;
 
-import android.app.Application;
 import android.content.Context;
 
-import com.stxnext.intranet2.activity.EmployeesActivity;
-import com.stxnext.intranet2.backend.model.User;
-import com.stxnext.intranet2.backend.model.impl.UserImpl;
+import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.database.DatabaseHelper;
 import com.stxnext.intranet2.database.repo.UserRepository;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Lukasz Ciupa on 2015-05-28.
@@ -31,16 +25,16 @@ public class DBManager {
         return instance;
     }
 
-    public void persistEmployees(List<UserImpl> employees) {
+    public void persistEmployees(List<User> employees) {
         if (!isLoaded) {
-            for (UserImpl user : employees)
+            for (User user : employees)
                 if (!user.getId().isEmpty() && userRepository.getUser(Integer.parseInt(user.getId())) == null)
                     userRepository.saveOrUpdateUser(user);
             isLoaded = true;
         }
     }
 
-    public List<UserImpl> getEmployees() {
+    public List<User> getEmployees() {
         return userRepository.getUsers();
     }
 

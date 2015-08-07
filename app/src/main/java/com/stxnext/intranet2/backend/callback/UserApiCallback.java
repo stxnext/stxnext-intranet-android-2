@@ -1,6 +1,6 @@
 package com.stxnext.intranet2.backend.callback;
 
-import com.stxnext.intranet2.backend.model.User;
+import com.stxnext.intranet2.backend.model.impl.User;
 
 /**
  * Created by Tomasz Konieczny on 2015-05-07.
