@@ -28,7 +28,7 @@ import com.stxnext.intranet2.adapter.DrawerAdapter;
 import com.stxnext.intranet2.backend.api.UserApi;
 import com.stxnext.intranet2.backend.api.UserApiImpl;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
-import com.stxnext.intranet2.backend.model.User;
+import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.fragment.FloatingMenuFragment;
 import com.stxnext.intranet2.model.DrawerMenuItems;
 import com.stxnext.intranet2.utils.STXToast;
@@ -299,7 +299,7 @@ public class MyProfileActivity extends AppCompatActivity
             String userName = firstName + " " + user.getLastName();
             getSupportActionBar().setTitle(userName);
             firstNameTextView.setText(userName);
-            roleTextView.setText(user.getRole());
+            roleTextView.setText(user.getRoles() != null && user.getRoles().size() > 0 ? user.getRoles().get(0) : "");
             officeTextView.setText(user.getLocalization());
             emailTextView.setText(user.getEmail());
 

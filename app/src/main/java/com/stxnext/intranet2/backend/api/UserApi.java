@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Created by Tomasz Konieczny on 2015-05-07.
  */
-public abstract class UserApi {
+public abstract class UserApi extends EmployeesCommonApi {
 
     protected final UserApiCallback apiCallback;
     protected Context context;

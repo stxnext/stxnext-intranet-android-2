@@ -7,7 +7,7 @@ import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 /**
  * Created by Tomasz Konieczny on 2015-05-07.
  */
-public abstract class EmployeesApi {
+public abstract class EmployeesApi extends EmployeesCommonApi {
 
     protected final EmployeesApiCallback apiCallback;
     protected Context context;

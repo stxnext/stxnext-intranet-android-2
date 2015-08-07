@@ -1,5 +1,7 @@
 package com.stxnext.intranet2.backend.model;
 
+import com.stxnext.intranet2.backend.model.impl.User;
+
 import java.util.Date;
 
 /**

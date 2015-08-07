@@ -12,12 +12,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.model.Absence;
-import com.stxnext.intranet2.backend.model.User;
+import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.model.AbsencesTypes;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;

@@ -12,8 +12,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
-import com.stxnext.intranet2.backend.model.User;
-import com.stxnext.intranet2.backend.model.impl.UserImpl;
+import com.stxnext.intranet2.backend.model.impl.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +22,13 @@ import java.util.List;
  */
 public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdapter.ViewHolder> implements Filterable {
 
-    private final List<UserImpl> users;
-    private List<UserImpl> filteredUsers;
+    private final List<User> users;
+    private List<User> filteredUsers;
     private OnItemClickListener listener;
     private Context context;
     private Filter filter;
 
-    public EmployeesListAdapter(Context context, List<UserImpl> users, OnItemClickListener listener) {
+    public EmployeesListAdapter(Context context, List<User> users, OnItemClickListener listener) {
         this.context = context;
         this.users = users;
         this.filteredUsers = users;
@@ -44,9 +43,9 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
                 List<User> filteredUsers = new ArrayList<>();
                 String filterText = constraint.toString().toLowerCase().trim();
                 for (User user : users) {
-                    String firstName = user.getFirstName().toLowerCase().trim();
-                    String lastName = user.getLastName().toLowerCase().trim();
-                    String phoneNumber = user.getPhoneNumber().replaceAll(" ", "").replace("-", "");
+                    String firstName = user.getFirstName() != null && !user.getFirstName().isEmpty() ? user.getFirstName().toLowerCase().trim() : "";
+                    String lastName = user.getLastName() != null && !user.getLastName().isEmpty() ? user.getLastName().toLowerCase().trim()  : "";
+                    String phoneNumber = user.getPhoneNumber() != null && !user.getPhoneNumber().isEmpty() ? user.getPhoneNumber().replaceAll(" ", "").replace("-", "")  : "";
                     if (firstName.contains(filterText)
                             || lastName.contains(filterText)
                             || phoneNumber.contains(filterText.replaceAll(" ", ""))) {
@@ -63,7 +62,7 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredUsers = (List<UserImpl>) results.values;
+                filteredUsers = (List<User>) results.values;
                 notifyDataSetChanged();
             }
         };
@@ -94,7 +93,7 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
         });
 
         holder.nameTextView.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
-        holder.roleTextView.setText(user.getRole());
+        holder.roleTextView.setText(user.getRoles() != null && user.getRoles().size() > 0 ? user.getRoles().get(0) : "");
         String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
         Picasso.with(context).load(imageAddress).placeholder(R.drawable.avatar_placeholder).into(holder.avatarImageView);
     }
