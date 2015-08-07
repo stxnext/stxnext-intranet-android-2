@@ -3,6 +3,8 @@ package com.stxnext.intranet2.backend.api;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
@@ -13,10 +15,7 @@ import com.stxnext.intranet2.utils.DBManager;
 import com.stxnext.intranet2.utils.Session;
 
 import org.apache.http.Header;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.lang.reflect.Type;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,58 +61,16 @@ public abstract class EmployeesCommonApi {
     protected static List<User> processJsonEmployees(String jsonEmployeesString) {
         List<User> users = new ArrayList<>();
         try {
-            JSONObject mainObject = new JSONObject(jsonEmployeesString);
-            JSONArray usersJSONArray = mainObject.getJSONArray("users");
-            for (int i = 0; i < usersJSONArray.length(); ++i) {
-                JSONObject userJSONObject = usersJSONArray.getJSONObject(i);
-                if (isEmployee(userJSONObject)) {
-                    User user = parseUser(userJSONObject);
-                    users.add(user);
-                }
-
-            }
-        } catch (JSONException e) {
+            Type userListType = new TypeToken<UserRestWrapper>() {}.getType();
+            users = ((UserRestWrapper) new Gson().fromJson(jsonEmployeesString, userListType)).users;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return users;
     }
 
-    private static boolean isEmployee(JSONObject userJSONObject) throws JSONException {
-        return !userJSONObject.getBoolean("is_client");
-    }
-
-    private static User parseUser(JSONObject userJSONObject) throws JSONException {
-        int id = userJSONObject.getInt("id");
-        String name = userJSONObject.getString("name");
-        String[] nameSplitted = name.split(" ");
-        String firstName;
-        String lastName = "";
-        if (nameSplitted.length == 2) {
-            firstName = nameSplitted[0];
-            lastName = nameSplitted[1];
-        } else {
-            firstName = name;
-        }
-        String skype = userJSONObject.getString("skype");
-        String phone = userJSONObject.getString("phone");
-        String city = "";
-        JSONArray locationJSONArray = userJSONObject.getJSONArray("location");
-        if (locationJSONArray.length() >= 2) {
-            city = locationJSONArray.getString(1);
-        }
-        String role = "";
-        JSONArray rolesJSONArray = userJSONObject.getJSONArray("roles");
-        if (rolesJSONArray.length() > 0) {
-            role = rolesJSONArray.getString(0);
-            role = role.substring(0, 1).toUpperCase() + role.substring(1, role.length()).toLowerCase();
-        }
-
-        String email = userJSONObject.getString("email");
-        String irc = userJSONObject.getString("irc");
-        String avatarUrl = userJSONObject.getString("avatar_url");
-        User user = new User(String.valueOf(id), firstName, lastName, skype, phone,
-                city, role, email, irc, "Team Mobilny", avatarUrl);
-        return user;
+    private class UserRestWrapper {
+        public List<User> users;
     }
 
     private static void sortUsersByFirstName(List<User> users) {

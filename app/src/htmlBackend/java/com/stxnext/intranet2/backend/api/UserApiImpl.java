@@ -3,6 +3,7 @@ package com.stxnext.intranet2.backend.api;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -52,7 +53,7 @@ public class UserApiImpl extends UserApi {
             }
         } else {
             User user = new User(null, "Marian", "Kowalski", "mariano.kowalsky", "+48 600 211 321",
-                    "Poznań", "Programista", "marian.kowalski@stxnext.pl", "marianno", "Team Mobilny", null);
+                    "Poznań", Lists.newArrayList("Programista"), "marian.kowalski@stxnext.pl", "marianno", "Team Mobilny", null);
             apiCallback.onUserReceived(user);
         }
     }

@@ -3,6 +3,7 @@ package com.stxnext.intranet2.backend.api;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.common.collect.Lists;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
@@ -188,7 +189,7 @@ public class EmployeesApiImpl extends EmployeesApi {
         String userId = absenceJSONObject.getString("id");
         // TODO get real user info
 //        User user = DBManager.getInstance().getUser(userId);
-        Absence absenceWithNoUser = new AbsenceImpl(new User(userId, "", "", "", "", "", "", "", "", "", ""), absenceFrom, absenceTo, explanation);
+        Absence absenceWithNoUser = new AbsenceImpl(new User(userId, "", "", "", "", "", Lists.newArrayList(""), "", "", "", ""), absenceFrom, absenceTo, explanation);
         return absenceWithNoUser;
     }
 
@@ -378,7 +379,7 @@ public class EmployeesApiImpl extends EmployeesApi {
             e.printStackTrace();
         }
         String userId = absenceJSONObject.getString("id");
-        Absence absenceWithNoUser = new AbsenceImpl(new User(userId, "", "", "", "", "", "", "", "", "", ""), absenceFrom, absenceTo, explanation);
+        Absence absenceWithNoUser = new AbsenceImpl(new User(userId, "", "", "", "", "", Lists.newArrayList(""), "", "", "", ""), absenceFrom, absenceTo, explanation);
         return absenceWithNoUser;
     }
 

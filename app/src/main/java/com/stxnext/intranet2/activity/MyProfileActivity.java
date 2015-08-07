@@ -299,7 +299,7 @@ public class MyProfileActivity extends AppCompatActivity
             String userName = firstName + " " + user.getLastName();
             getSupportActionBar().setTitle(userName);
             firstNameTextView.setText(userName);
-            roleTextView.setText(user.getRole());
+            roleTextView.setText(user.getRoles() != null && user.getRoles().size() > 0 ? user.getRoles().get(0) : "");
             officeTextView.setText(user.getLocalization());
             emailTextView.setText(user.getEmail());
 
