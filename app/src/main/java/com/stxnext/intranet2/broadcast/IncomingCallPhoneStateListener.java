@@ -14,7 +14,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.stxnext.intranet2.backend.model.impl.UserImpl;
+
+import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.utils.DBManager;
 import java.util.List;
 
@@ -39,11 +40,11 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
 
                 Log.d(TAG, "RINGING - number: " + incomingNumber);
 
-                UserImpl foundEmployee = null;
+                User foundEmployee = null;
                 try {
                     DBManager dbManager = DBManager.getInstance(context);
-                    List<UserImpl> employees = dbManager.getEmployees();
-                    for (UserImpl user : employees) {
+                    List<User> employees = dbManager.getEmployees();
+                    for (User user : employees) {
                         String userPhone = replaceIllegalPhoneChars(user.getPhoneNumber());
                         String incomingNumberComp = replaceIllegalPhoneChars(incomingNumber);
 
@@ -93,7 +94,7 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
         return params;
     }
 
-    @NonNull private LinearLayout createStxFrameView(UserImpl foundEmployee) {
+    @NonNull private LinearLayout createStxFrameView(User foundEmployee) {
         LinearLayout llView = new LinearLayout(context);
         llView.setGravity(Gravity.RIGHT);
         llView.setPadding(15,15,15,15);

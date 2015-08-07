@@ -1,8 +1,8 @@
 #
-# generated on 2015/08/06 01:42:21
+# generated on 2015/08/07 04:18:03
 #
 # --table-start--
-dataClass=com.stxnext.intranet2.backend.model.impl.UserImpl
+dataClass=com.stxnext.intranet2.backend.model.impl.User
 tableName=user
 # --table-fields-start--
 # --field-start--
@@ -10,10 +10,7 @@ fieldName=id
 id=true
 # --field-end--
 # --field-start--
-fieldName=firstName
-# --field-end--
-# --field-start--
-fieldName=lastName
+fieldName=name
 # --field-end--
 # --field-start--
 fieldName=skype
@@ -25,7 +22,8 @@ fieldName=phoneNumber
 fieldName=localization
 # --field-end--
 # --field-start--
-fieldName=role
+fieldName=roles
+dataPersister=SERIALIZABLE
 # --field-end--
 # --field-start--
 fieldName=email

@@ -16,7 +16,7 @@ import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.api.UserApi;
 import com.stxnext.intranet2.backend.api.UserApiImpl;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
-import com.stxnext.intranet2.backend.model.User;
+import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.dialog.DatePickerDialogFragment;
 import com.stxnext.intranet2.dialog.TimePickerDialogFragment;
 import com.stxnext.intranet2.utils.STXToast;

@@ -3,8 +3,7 @@ package com.stxnext.intranet2.backend.api;
 import android.content.Context;
 
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
-import com.stxnext.intranet2.backend.model.User;
-import com.stxnext.intranet2.backend.model.impl.UserImpl;
+import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.model.HolidayTypes;
 
 import java.util.Date;
@@ -20,7 +19,7 @@ public class UserApiImpl extends UserApi {
 
     @Override
     public void requestForUser(String userId) {
-        User user = new UserImpl(null, "John", "Smith", "john.smith", "+48 921 231 212",
+        User user = new User(null, "John", "Smith", "john.smith", "+48 921 231 212",
                 "Poznań", "Programmer", "john.smith@stxnext.pl", "johny", "Mobile Team", null);
         apiCallback.onUserReceived(user);
     }

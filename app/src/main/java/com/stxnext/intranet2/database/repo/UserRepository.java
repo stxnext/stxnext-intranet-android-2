@@ -1,8 +1,7 @@
 package com.stxnext.intranet2.database.repo;
 
 import com.j256.ormlite.dao.Dao;
-import com.stxnext.intranet2.backend.model.User;
-import com.stxnext.intranet2.backend.model.impl.UserImpl;
+import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.database.DatabaseHelper;
 
 import java.sql.SQLException;
@@ -13,7 +12,7 @@ import java.util.List;
  */
 public class UserRepository {
 
-    private Dao<UserImpl, Integer> userDao;
+    private Dao<User, Integer> userDao;
 
     public UserRepository(final DatabaseHelper databaseHelper) {
         try {
@@ -24,7 +23,7 @@ public class UserRepository {
     }
 
 
-    public void saveOrUpdateUser(final UserImpl person) {
+    public void saveOrUpdateUser(final User person) {
         try {
             userDao.createOrUpdate(person);
         }
@@ -33,7 +32,7 @@ public class UserRepository {
         }
     }
 
-    public List<UserImpl> getUsers() {
+    public List<User> getUsers() {
         try {
             return userDao.queryForAll();
         }
@@ -44,7 +43,7 @@ public class UserRepository {
         return null;
     }
 
-    public UserImpl getUser(int userId) {
+    public User getUser(int userId) {
         try {
             return userDao.queryForId(userId);
         }

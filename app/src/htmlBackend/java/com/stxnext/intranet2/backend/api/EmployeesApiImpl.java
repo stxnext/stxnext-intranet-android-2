@@ -3,14 +3,14 @@ package com.stxnext.intranet2.backend.api;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.common.collect.Lists;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.Absence;
-import com.stxnext.intranet2.backend.model.User;
 import com.stxnext.intranet2.backend.model.impl.AbsenceImpl;
-import com.stxnext.intranet2.backend.model.impl.UserImpl;
+import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
 import com.stxnext.intranet2.utils.Session;
@@ -46,92 +46,11 @@ public class EmployeesApiImpl extends EmployeesApi {
 
     @Override
     public void requestForEmployees(boolean forceRequest) {
-        List<UserImpl> employees = DBManager.getInstance(context).getEmployees();
-        if (employees == null || forceRequest) {
-            AsyncHttpClient httpClient = new AsyncHttpClient();
-            httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
-
-            AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    String response = new String(responseBody);
-                    Log.d(Config.TAG, response);
-                    List<UserImpl> users = processJsonEmployees(response);
-                    sortUsersByFirstName(users);
-                    DBManager.getInstance(context).persistEmployees(users);
-                    apiCallback.onEmployeesListReceived(users);
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-                }
-            };
-
-            httpClient.get("https://intranet.stxnext.pl/api/users?full=1&inactive=0", asyncHttpResponseHandler);
-        } else {
+        List<User> employees = DBManager.getInstance(context).getEmployees();
+        if (employees == null || forceRequest)
+            downlUsersFromHTTP(context, apiCallback, null);
+        else
             apiCallback.onEmployeesListReceived(employees);
-        }
-    }
-
-    private void sortUsersByFirstName(List<UserImpl> users) {
-        Locale polishLocale = new Locale("pl_PL");
-        final Collator polishCollator = Collator.getInstance(polishLocale);
-
-        Comparator<User> comparator = new Comparator<User>() {
-
-            @Override
-            public int compare(User user1, User user2) {
-                return polishCollator.compare(user1.getFirstName(), user2.getFirstName());
-            }
-        };
-        Collections.sort(users, comparator);
-    }
-
-    private List<UserImpl> processJsonEmployees(String jsonEmployeesString) {
-        List<UserImpl> users = new ArrayList<>();
-        try {
-            JSONObject mainObject = new JSONObject(jsonEmployeesString);
-            JSONArray usersJSONArray = mainObject.getJSONArray("users");
-            for (int i = 0; i < usersJSONArray.length(); ++i) {
-                JSONObject userJSONObject = usersJSONArray.getJSONObject(i);
-                if (isEmployee(userJSONObject)) {
-                    UserImpl user = parseUser(userJSONObject);
-                    users.add(user);
-                }
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return users;
-    }
-
-    private UserImpl parseUser(JSONObject userJSONObject) throws JSONException {
-        int id = userJSONObject.getInt("id");
-        String name = userJSONObject.getString("name");
-        String[] nameSplitted = name.split(" ");
-        String firstName;
-        String lastName = "";
-        if (nameSplitted.length == 2) {
-            firstName = nameSplitted[0];
-            lastName = nameSplitted[1];
-        } else {
-            firstName = name;
-        }
-        String role = "";
-        JSONArray rolesJSONArray = userJSONObject.getJSONArray("roles");
-        String avatarUrl = userJSONObject.getString("avatar_url");
-        if (rolesJSONArray.length() > 0) {
-            role = rolesJSONArray.getString(0);
-            role = role.substring(0, 1).toUpperCase() + role.substring(1, role.length()).toLowerCase();
-        }
-        UserImpl user = new UserImpl(String.valueOf(id), firstName, lastName, "", "", "", role, "", "", "", avatarUrl);
-        return user;
-    }
-
-    private boolean isEmployee(JSONObject userJSONObject) throws JSONException {
-        return !userJSONObject.getBoolean("is_client");
     }
 
     @Override
@@ -151,9 +70,7 @@ public class EmployeesApiImpl extends EmployeesApi {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {}
         };
 
         httpClient.get("https://intranet.stxnext.pl/api/presence", asyncHttpResponseHandler);
@@ -272,7 +189,7 @@ public class EmployeesApiImpl extends EmployeesApi {
         String userId = absenceJSONObject.getString("id");
         // TODO get real user info
 //        User user = DBManager.getInstance().getUser(userId);
-        Absence absenceWithNoUser = new AbsenceImpl(new UserImpl(userId, "", "", "", "", "", "", "", "", "", ""), absenceFrom, absenceTo, explanation);
+        Absence absenceWithNoUser = new AbsenceImpl(new User(userId, "", "", "", "", "", Lists.newArrayList(""), "", "", "", ""), absenceFrom, absenceTo, explanation);
         return absenceWithNoUser;
     }
 
@@ -462,7 +379,7 @@ public class EmployeesApiImpl extends EmployeesApi {
             e.printStackTrace();
         }
         String userId = absenceJSONObject.getString("id");
-        Absence absenceWithNoUser = new AbsenceImpl(new UserImpl(userId, "", "", "", "", "", "", "", "", "", ""), absenceFrom, absenceTo, explanation);
+        Absence absenceWithNoUser = new AbsenceImpl(new User(userId, "", "", "", "", "", Lists.newArrayList(""), "", "", "", ""), absenceFrom, absenceTo, explanation);
         return absenceWithNoUser;
     }
 
