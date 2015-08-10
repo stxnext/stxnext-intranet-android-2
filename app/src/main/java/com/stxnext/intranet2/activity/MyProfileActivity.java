@@ -42,7 +42,7 @@ import io.fabric.sdk.android.Fabric;
  * Created by Tomasz Konieczny on 2015-04-22.
  */
 
-public class MyProfileActivity extends AppCompatActivity
+public class MyProfileActivity extends CommonProfileActivity
         implements UserApiCallback, FloatingMenuFragment.OnFloatingMenuItemClickListener {
 
     private static final int LOGIN_REQUEST = 1;
@@ -68,7 +68,6 @@ public class MyProfileActivity extends AppCompatActivity
     private View progressView;
     private View userInfoCardView;
     private boolean superHeroModeEnabled;
-    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -273,16 +272,6 @@ public class MyProfileActivity extends AppCompatActivity
 
     }
 
-    public void onProfilePictureClick(View v) {
-
-        if (currentUser != null) {
-            Intent intent = new Intent(this, PicturePreviewActivity.class);
-            intent.putExtra("pictureUrl", currentUser.getPhoto());
-            startActivity(intent);
-        } else
-            Toast.makeText(MyProfileActivity.this, "User not loaded", Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public void onFloatingMenuClose() {
         plusView.animate()
@@ -305,8 +294,8 @@ public class MyProfileActivity extends AppCompatActivity
 
     @Override
     public void onUserReceived(User user) {
+        super.onUserReceived(user);
         progressView.setVisibility(View.GONE);
-        currentUser = user;
         if (user != null) {
             String firstName = user.getFirstName();
             String userName = firstName + " " + user.getLastName();
