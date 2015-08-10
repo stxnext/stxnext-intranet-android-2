@@ -68,6 +68,7 @@ public class MyProfileActivity extends AppCompatActivity
     private View progressView;
     private View userInfoCardView;
     private boolean superHeroModeEnabled;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -273,7 +274,13 @@ public class MyProfileActivity extends AppCompatActivity
     }
 
     public void onProfilePictureClick(View v) {
-        Toast.makeText(MyProfileActivity.this, "My profile activity", Toast.LENGTH_SHORT).show();
+
+        if (currentUser != null) {
+            Intent intent = new Intent(this, PicturePreviewActivity.class);
+            intent.putExtra("pictureUrl", currentUser.getPhoto());
+            startActivity(intent);
+        } else
+            Toast.makeText(MyProfileActivity.this, "User not loaded", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -299,6 +306,7 @@ public class MyProfileActivity extends AppCompatActivity
     @Override
     public void onUserReceived(User user) {
         progressView.setVisibility(View.GONE);
+        currentUser = user;
         if (user != null) {
             String firstName = user.getFirstName();
             String userName = firstName + " " + user.getLastName();
