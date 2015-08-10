@@ -45,10 +45,10 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
                     DBManager dbManager = DBManager.getInstance(context);
                     List<User> employees = dbManager.getEmployees();
                     for (User user : employees) {
-                        String userPhone = replaceIllegalPhoneChars(user.getPhoneNumber());
-                        String incomingNumberComp = replaceIllegalPhoneChars(incomingNumber);
+                        String userPhone = replaceIllegalPhoneChars(user != null ? user.getPhoneNumber() : "");
+                        String incomingNumberComp = replaceIllegalPhoneChars(incomingNumber != null ? incomingNumber : "");
 
-                        if (isPhoneNumberLengthCorrect(userPhone) || isPhoneNumberLengthCorrect(incomingNumberComp) )
+                        if (!isPhoneNumberLengthCorrect(userPhone) || !isPhoneNumberLengthCorrect(incomingNumberComp) )
                             continue;
 
                         if (incomingNumberComp.substring(incomingNumberComp.length() - 9, incomingNumberComp.length())
@@ -112,11 +112,13 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
     }
 
     private String replaceIllegalPhoneChars(String val) {
+        if (val == null)
+            return "";
         return val.replace(" ", "").replace("-","").replace("(","").replace(")","").replace(".","");
     }
 
     private boolean isPhoneNumberLengthCorrect(String userPhone) {
-        return userPhone.isEmpty() || userPhone.length() < 9;
+        return userPhone != null && !userPhone.isEmpty() && userPhone.length() >= 9;
     }
 
 }
