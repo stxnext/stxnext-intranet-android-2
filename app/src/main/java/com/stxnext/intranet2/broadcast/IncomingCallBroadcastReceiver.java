@@ -20,6 +20,7 @@ public class IncomingCallBroadcastReceiver  extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         telephony = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+        Log.d(TAG, "IncomingCallBroadcastReceiver : PHONE_STATE broadcast received");
 
         if (customPhoneListener == null) {
             customPhoneListener = new IncomingCallPhoneStateListener(context);
