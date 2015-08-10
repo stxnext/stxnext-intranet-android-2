@@ -22,7 +22,7 @@ import com.stxnext.intranet2.utils.Session;
 /**
  * Created by Tomasz Konieczny on 2015-04-22.
  */
-public class ProfileActivity extends AppCompatActivity implements UserApiCallback {
+public class ProfileActivity extends CommonProfileActivity implements UserApiCallback {
 
     public static final String USER_ID_TAG ="userId";
     private TextView firstNameTextView;
@@ -69,10 +69,6 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
         }
     }
 
-    public void onProfilePictureClick(View v) {
-        Toast.makeText(ProfileActivity.this, "ProfileActivity", Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -85,6 +81,8 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
 
     @Override
     public void onUserReceived(final User user) {
+        super.onUserReceived(user);
+        
         final String firstName = user.getFirstName();
         final String userName = firstName + " " + user.getLastName();
         getSupportActionBar().setTitle(userName);
