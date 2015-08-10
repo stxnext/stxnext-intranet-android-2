@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
@@ -66,6 +67,10 @@ public class ProfileActivity extends AppCompatActivity implements UserApiCallbac
             UserApi userApi = new UserApiImpl(this, this);
             userApi.requestForUser(userId);
         }
+    }
+
+    public void onProfilePictureClick(View v) {
+        Toast.makeText(ProfileActivity.this, "ProfileActivity", Toast.LENGTH_SHORT).show();
     }
 
     @Override
