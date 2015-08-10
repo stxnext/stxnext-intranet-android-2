@@ -64,16 +64,16 @@ public class MyProfileActivity extends CommonProfileActivity
     private TextView phoneTextView;
     private TextView skypeTextView;
     private TextView ircTextView;
-    private ImageView profileImageView;
+
     private View progressView;
     private View userInfoCardView;
-    private boolean superHeroModeEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_profile_root);
+        super.initializeProfileImageView();
         loadViews();
 
         setSupportActionBar(toolbar);
@@ -86,7 +86,6 @@ public class MyProfileActivity extends CommonProfileActivity
         } else {
             runLoginActivity();
         }
-
     }
 
     private void loadViews() {
@@ -106,19 +105,6 @@ public class MyProfileActivity extends CommonProfileActivity
         phoneTextView = (TextView) findViewById(R.id.phone_text_view);
         skypeTextView = (TextView) findViewById(R.id.skype_text_view);
         ircTextView = (TextView) findViewById(R.id.irc_text_view);
-
-        superHeroModeEnabled = Session.getInstance(this).isSuperHeroModeEnabled();
-        if (superHeroModeEnabled) {
-            findViewById(R.id.standard_profile_header_container).setVisibility(View.GONE);
-            profileImageView = (ImageView) findViewById(R.id.profile_image_view);
-
-        } else {
-            profileImageView = (ImageView) findViewById(R.id.profile_image_view_standard);
-        }
-
-        if (!superHeroModeEnabled) {
-            profileImageView.setAlpha(0.6f);
-        }
     }
 
     private void runLoginActivity() {

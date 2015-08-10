@@ -32,7 +32,6 @@ public class ProfileActivity extends CommonProfileActivity implements UserApiCal
     private TextView phoneTextView;
     private TextView skypeTextView;
     private TextView ircTextView;
-    private ImageView profileImageView;
     private ImageView superheroImageView;
 
     @Override
@@ -51,13 +50,7 @@ public class ProfileActivity extends CommonProfileActivity implements UserApiCal
         superheroImageView = (ImageView) findViewById(R.id.superhero_image_view);
         findViewById(R.id.floating_button).setVisibility(View.GONE);
 
-        if (Session.getInstance(this).isSuperHeroModeEnabled()) {
-            findViewById(R.id.standard_profile_header_container).setVisibility(View.GONE);
-            profileImageView = (ImageView) findViewById(R.id.profile_image_view);
-
-        } else {
-            profileImageView = (ImageView) findViewById(R.id.profile_image_view_standard);
-        }
+        super.initializeProfileImageView();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -82,7 +75,7 @@ public class ProfileActivity extends CommonProfileActivity implements UserApiCal
     @Override
     public void onUserReceived(final User user) {
         super.onUserReceived(user);
-        
+
         final String firstName = user.getFirstName();
         final String userName = firstName + " " + user.getLastName();
         getSupportActionBar().setTitle(userName);
