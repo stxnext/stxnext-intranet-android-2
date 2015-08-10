@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Callback;
@@ -269,6 +270,10 @@ public class MyProfileActivity extends AppCompatActivity
             }
         }, 300);
 
+    }
+
+    public void onProfilePictureClick(View v) {
+        Toast.makeText(MyProfileActivity.this, "My profile activity", Toast.LENGTH_SHORT).show();
     }
 
     @Override

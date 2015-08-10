@@ -6,55 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/profile_image_height"
-        android:background="@color/header_gray">
-
-        <ImageView
-            android:id="@+id/superhero_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/profile_image_height"
-            android:paddingTop="90dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/mr_superhero_profile"/>
-
-        <com.stxnext.intranet2.view.RoundedImageView
-            android:id="@+id/profile_image_view"
-            android:layout_width="@dimen/profile_photo_size"
-            android:layout_height="@dimen/profile_photo_size"
-            android:layout_marginLeft="152dp"
-            android:layout_marginTop="44dp"
-            android:src="@drawable/avatar_placeholder"
-            round:borderColor="@color/background"
-            round:borderSize="@dimen/null_value"/>
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/standard_profile_header_container"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/profile_image_height"
-        android:background="@color/header_gray">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/profile_image_height"
-            android:scaleType="fitEnd"
-            android:src="@drawable/stx_logo_green_blur"/>
-
-        <com.stxnext.intranet2.view.RoundedImageView
-            android:id="@+id/profile_image_view_standard"
-            android:layout_width="@dimen/profile_photo_size"
-            android:layout_height="@dimen/profile_photo_size"
-            android:layout_gravity="center"
-            android:src="@drawable/avatar_placeholder"
-            android:layout_marginTop="8dp"
-            round:borderColor="@color/stxnext_green"
-            round:borderSize="@dimen/default_rounded_image_border"/>
-
-    </FrameLayout>
-
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
@@ -76,160 +27,6 @@
                           android:layout_height="match_parent"
                           android:background="@color/background"
                           android:orientation="vertical">
-
-                <!--<android.support.v7.widget.CardView-->
-                <!--android:id="@+id/worked_hours_container"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_marginLeft="18dp"-->
-                <!--android:layout_marginRight="18dp"-->
-                <!--android:layout_marginTop="18dp"-->
-                <!--card_view:cardCornerRadius="4dp">-->
-
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="vertical">-->
-
-                <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_margin="12dp"-->
-                <!--android:gravity="center"-->
-                <!--android:text="Przepracowane godziny"-->
-                <!--android:textColor="@color/stxnext_green"-->
-                <!--android:textSize="16sp"-->
-                <!--android:textStyle="bold"/>-->
-
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="8dp"-->
-                <!--android:layout_marginRight="8dp"-->
-                <!--android:layout_marginTop="14dp"-->
-                <!--android:orientation="horizontal">-->
-
-                <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="4dp"-->
-                <!--android:layout_weight="1.5"-->
-                <!--android:gravity="center"-->
-                <!--android:text="Dziś"-->
-                <!--android:textSize="15sp"-->
-                <!--android:textStyle="bold"/>-->
-
-                <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="4dp"-->
-                <!--android:layout_weight="2"-->
-                <!--android:gravity="center"-->
-                <!--android:text="Maj"-->
-                <!--android:textSize="15sp"-->
-                <!--android:textStyle="bold"/>-->
-
-                <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="4dp"-->
-                <!--android:layout_weight="2"-->
-                <!--android:gravity="center"-->
-                <!--android:text="Kwartał"-->
-                <!--android:textSize="15sp"-->
-                <!--android:textStyle="bold"/>-->
-
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="8dp"-->
-                <!--android:layout_marginRight="8dp"-->
-                <!--android:layout_marginTop="4dp"-->
-                <!--android:orientation="horizontal">-->
-
-                <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="4dp"-->
-                <!--android:layout_weight="1.5"-->
-                <!--android:gravity="center"-->
-                <!--android:text="6.00"-->
-                <!--android:textSize="14sp"/>-->
-
-                <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="4dp"-->
-                <!--android:layout_weight="2"-->
-                <!--android:gravity="center"-->
-                <!--android:text="131.21"-->
-                <!--android:textSize="14sp"/>-->
-
-                <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="4dp"-->
-                <!--android:layout_weight="2"-->
-                <!--android:gravity="center"-->
-                <!--android:text="323.21"-->
-                <!--android:textSize="14sp"/>-->
-
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="8dp"-->
-                <!--android:layout_marginRight="8dp"-->
-                <!--android:layout_marginTop="-2dp"-->
-                <!--android:orientation="horizontal">-->
-
-                <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="4dp"-->
-                <!--android:layout_weight="1.5"-->
-                <!--android:gravity="center"-->
-                <!--android:text=""-->
-                <!--android:textSize="12sp"/>-->
-
-                <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="4dp"-->
-                <!--android:layout_weight="2"-->
-                <!--android:gravity="center"-->
-                <!--android:text="-2.00"-->
-                <!--android:textColor="@android:color/holo_red_light"-->
-                <!--android:textSize="12sp"/>-->
-
-                <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="4dp"-->
-                <!--android:layout_weight="2"-->
-                <!--android:gravity="center"-->
-                <!--android:text="+22.21"-->
-                <!--android:textColor="@android:color/holo_green_dark"-->
-                <!--android:textSize="12sp"/>-->
-
-                <!--</LinearLayout>-->
-
-                <!--<Button-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="3dp"-->
-                <!--android:layout_marginLeft="3dp"-->
-                <!--android:layout_marginRight="3dp"-->
-                <!--android:layout_marginTop="24dp"-->
-                <!--android:text="Dodaj godziny"/>-->
-
-                <!--</LinearLayout>-->
-
-                <!--</android.support.v7.widget.CardView>-->
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/user_info_container"
@@ -410,6 +207,57 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/profile_image_height"
+        android:background="@color/header_gray">
+
+        <ImageView
+            android:id="@+id/superhero_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/profile_image_height"
+            android:paddingTop="90dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/mr_superhero_profile"/>
+
+        <com.stxnext.intranet2.view.RoundedImageView
+            android:id="@+id/profile_image_view"
+            android:layout_width="@dimen/profile_photo_size"
+            android:layout_height="@dimen/profile_photo_size"
+            android:layout_marginLeft="152dp"
+            android:layout_marginTop="44dp"
+            android:onClick="onProfilePictureClick"
+            android:src="@drawable/avatar_placeholder"
+            round:borderColor="@color/background"
+            round:borderSize="@dimen/null_value"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/standard_profile_header_container"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/profile_image_height"
+        android:background="@color/header_gray">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/profile_image_height"
+            android:scaleType="fitEnd"
+            android:src="@drawable/stx_logo_green_blur"/>
+
+        <com.stxnext.intranet2.view.RoundedImageView
+            android:id="@+id/profile_image_view_standard"
+            android:layout_width="@dimen/profile_photo_size"
+            android:layout_height="@dimen/profile_photo_size"
+            android:layout_gravity="center"
+            android:src="@drawable/avatar_placeholder"
+            android:onClick="onProfilePictureClick"
+            android:layout_marginTop="8dp"
+            round:borderColor="@color/stxnext_green"
+            round:borderSize="@dimen/default_rounded_image_border"/>
+
+    </FrameLayout>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
