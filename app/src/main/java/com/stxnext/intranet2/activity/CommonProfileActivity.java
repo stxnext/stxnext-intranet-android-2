@@ -1,8 +1,11 @@
 package com.stxnext.intranet2.activity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
@@ -44,14 +47,41 @@ import io.fabric.sdk.android.Fabric;
 
 public class CommonProfileActivity extends AppCompatActivity implements UserApiCallback {
 
+    protected ImageView profileImageView;
+    protected boolean superHeroModeEnabled;
     private User currentUser;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    protected void initializeProfileImageView() {
+        superHeroModeEnabled = Session.getInstance(this).isSuperHeroModeEnabled();
+        if (superHeroModeEnabled) {
+            findViewById(R.id.standard_profile_header_container).setVisibility(View.GONE);
+            profileImageView = (ImageView) findViewById(R.id.profile_image_view);
+
+        } else {
+            profileImageView = (ImageView) findViewById(R.id.profile_image_view_standard);
+        }
+
+        if (!superHeroModeEnabled) {
+            profileImageView.setAlpha(0.6f);
+        }
+    }
 
     public void onProfilePictureClick(View v) {
 
         if (currentUser != null) {
             Intent intent = new Intent(this, PicturePreviewActivity.class);
             intent.putExtra("pictureUrl", currentUser.getPhoto());
-            startActivity(intent);
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                startActivity(intent,
+                        ActivityOptions.makeSceneTransitionAnimation(this, profileImageView, "profileImageView").toBundle());
+            else
+                startActivity(intent);
+
         } else
             Toast.makeText(CommonProfileActivity.this, "User not loaded", Toast.LENGTH_SHORT).show();
     }
