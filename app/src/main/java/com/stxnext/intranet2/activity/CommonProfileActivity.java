@@ -79,12 +79,22 @@ public class CommonProfileActivity extends AppCompatActivity implements UserApiC
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent,
                         ActivityOptions.makeSceneTransitionAnimation(this, profileImageView, "profileImageView").toBundle());
+
             } else {
+                profileImageView.setVisibility(View.INVISIBLE);
                 startActivity(intent);
             }
 
         } else
             Toast.makeText(CommonProfileActivity.this, "User not loaded", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (profileImageView != null && profileImageView.getVisibility() == View.INVISIBLE)
+            profileImageView.setVisibility(View.VISIBLE);
     }
 
     @Override public void onUserReceived(User user) {
