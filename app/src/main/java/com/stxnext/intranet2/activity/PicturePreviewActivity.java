@@ -106,13 +106,7 @@ public class PicturePreviewActivity extends AppCompatActivity {
         profileImageView.animate().scaleX(2.5f).scaleY(2.5f).setDuration(400).setStartDelay(180);
     }
 
-    private boolean afterBackAnim = false;
     @Override public void onBackPressed() {
-        if (afterBackAnim) {
-            super.onBackPressed();
-            return;
-        }
-
         final int BACK_ANIM_DURATION_MILLIS = 300;
         profileImageView.animate().scaleX(1f).scaleY(1f).setDuration(BACK_ANIM_DURATION_MILLIS);
 
@@ -120,8 +114,7 @@ public class PicturePreviewActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                afterBackAnim = true;
-                selfRef.onBackPressed();
+                selfRef.supportFinishAfterTransition();
             }
         }, (int)2.0*BACK_ANIM_DURATION_MILLIS);
     }
