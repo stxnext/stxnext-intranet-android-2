@@ -103,7 +103,7 @@ public class PicturePreviewActivity extends AppCompatActivity {
         RelativeLayout outerLayout = (RelativeLayout) this.findViewById(R.id.activity_picture_preview_outerLayout);
         final int width = outerLayout.getWidth();
         final int height = outerLayout.getHeight();
-        profileImageView.animate().scaleX(2.5f).scaleY(2.5f).setDuration(700).setStartDelay(350);
+        profileImageView.animate().scaleX(2.5f).scaleY(2.5f).setDuration(400).setStartDelay(250);
     }
 
     private boolean afterBackAnim = false;
