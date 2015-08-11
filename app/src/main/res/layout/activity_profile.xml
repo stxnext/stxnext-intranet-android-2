@@ -228,6 +228,7 @@
             android:layout_marginLeft="152dp"
             android:layout_marginTop="44dp"
             android:onClick="onProfilePictureClick"
+            android:transitionName="profileImageView"
             android:src="@drawable/avatar_placeholder"
             round:borderColor="@color/background"
             round:borderSize="@dimen/null_value"/>
@@ -253,6 +254,7 @@
             android:layout_gravity="center"
             android:src="@drawable/avatar_placeholder"
             android:onClick="onProfilePictureClick"
+            android:transitionName="profileImageView"
             android:layout_marginTop="8dp"
             round:borderColor="@color/stxnext_green"
             round:borderSize="@dimen/default_rounded_image_border"/>
