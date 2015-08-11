@@ -103,7 +103,7 @@ public class PicturePreviewActivity extends AppCompatActivity {
         RelativeLayout outerLayout = (RelativeLayout) this.findViewById(R.id.activity_picture_preview_outerLayout);
         final int width = outerLayout.getWidth();
         final int height = outerLayout.getHeight();
-        profileImageView.animate().scaleX(2.5f).scaleY(2.5f).setDuration(400).setStartDelay(250);
+        profileImageView.animate().scaleX(2.5f).scaleY(2.5f).setDuration(400).setStartDelay(180);
     }
 
     private boolean afterBackAnim = false;
@@ -123,6 +123,10 @@ public class PicturePreviewActivity extends AppCompatActivity {
                 afterBackAnim = true;
                 selfRef.onBackPressed();
             }
-        }, (int)2.5*BACK_ANIM_DURATION_MILLIS);
+        }, (int)2.0*BACK_ANIM_DURATION_MILLIS);
+    }
+
+    public void onOutOfPictureClick(View v) {
+        onBackPressed();
     }
 }

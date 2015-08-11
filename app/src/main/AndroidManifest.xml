@@ -106,7 +106,7 @@
             android:name=".activity.PicturePreviewActivity"
             android:label="@string/picture_preview"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppThemeTransparentWindowBackground"/>
 
         <receiver android:name=".broadcast.IncomingCallBroadcastReceiver"
                     android:exported="true">
