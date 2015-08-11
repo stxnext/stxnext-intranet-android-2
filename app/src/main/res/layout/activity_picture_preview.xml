@@ -5,7 +5,8 @@
     android:id="@+id/activity_picture_preview_outerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@android:color/transparent"
+    android:onClick="onOutOfPictureClick"
     android:gravity="center">
 
     <com.stxnext.intranet2.view.RoundedImageView
