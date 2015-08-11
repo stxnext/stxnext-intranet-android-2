@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -49,6 +50,7 @@ public class PicturePreviewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_picture_preview);
