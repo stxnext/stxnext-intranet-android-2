@@ -13,9 +13,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.utils.DBManager;
@@ -107,6 +110,14 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
         tv.setText("STXNext: \n" + foundEmployee.getFirstName() + " " + foundEmployee.getLastName());
         if (android.os.Build.VERSION.SDK_INT > 16)
             tv.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
+
+        ImageView imageView = (ImageView)ll.findViewById(R.id.notification_caller_layout_profile_iv);
+        Picasso.with(context)
+                .load("https://intranet.stxnext.pl" + foundEmployee.getPhoto())
+                .placeholder(R.drawable.avatar_placeholder)
+                .resizeDimen(R.dimen.notif_caller_profile_pict_size, R.dimen.notif_caller_profile_pict_size)
+                .centerCrop()
+                .into(imageView);
 
         ll.findViewById(R.id.caller_layout_close_ll).setOnClickListener(
                 new View.OnClickListener() {
