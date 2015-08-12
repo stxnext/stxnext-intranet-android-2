@@ -16,8 +16,9 @@
         >
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:id="@+id/notification_caller_layout_profile_iv"
+            android:layout_width="@dimen/notif_caller_profile_pict_size"
+            android:layout_height="@dimen/notif_caller_profile_pict_size"
             android:layout_marginRight="5dp"
             android:src="@drawable/avatar_placeholder"/>
 
