@@ -11,6 +11,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -96,7 +97,7 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
+                WindowManager.LayoutParams.TYPE_PHONE, //previosly: TYPE_SYSTEM_OVERLAY  //http://stackoverflow.com/questions/9656185/type-system-overlay-in-ics
                 WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT);
         params.gravity = Gravity.RIGHT | Gravity.TOP;
@@ -119,16 +120,17 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
                 .centerCrop()
                 .into(imageView);
 
-        ll.findViewById(R.id.caller_layout_close_ll).setOnClickListener(
-                new View.OnClickListener() {
+        ll.findViewById(R.id.caller_layout_close_ll).setOnTouchListener(
+                new View.OnTouchListener() {
                     @Override
-                    public void onClick(View v) {
+                    public boolean onTouch(View v, MotionEvent event) {
                         try {
                             WindowManager winMan = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
                             winMan.removeViewImmediate(view);
                         } catch (Exception exc) {
                             Log.e(TAG, "CALLER WINDOW WAS NOT ATTACHED TO Window Manager.");
                         }
+                        return true;
                     }
                 }
         );
