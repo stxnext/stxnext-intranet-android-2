@@ -21,6 +21,7 @@ import android.view.animation.OvershootInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.Transformation;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -100,7 +101,7 @@ public class PicturePreviewActivity extends AppCompatActivity {
     }
 
     private void onViewCreated() {
-        RelativeLayout outerLayout = (RelativeLayout) this.findViewById(R.id.activity_picture_preview_outerLayout);
+        FrameLayout outerLayout = (FrameLayout) this.findViewById(R.id.activity_picture_preview_outerLayout);
         final int width = outerLayout.getWidth();
         final int height = outerLayout.getHeight();
         profileImageView.animate().scaleX(2.5f).scaleY(2.5f).setDuration(400).setStartDelay(180);
