@@ -76,11 +76,12 @@ public class CommonProfileActivity extends AppCompatActivity implements UserApiC
         if (currentUser != null) {
             Intent intent = new Intent(this, PicturePreviewActivity.class);
             intent.putExtra("pictureUrl", currentUser.getPhoto());
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent,
                         ActivityOptions.makeSceneTransitionAnimation(this, profileImageView, "profileImageView").toBundle());
-            else
+            } else {
                 startActivity(intent);
+            }
 
         } else
             Toast.makeText(CommonProfileActivity.this, "User not loaded", Toast.LENGTH_SHORT).show();
