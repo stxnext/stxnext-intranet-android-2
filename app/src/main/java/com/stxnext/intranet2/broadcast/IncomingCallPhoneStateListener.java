@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -32,7 +33,7 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
 
     private static final String TAG = "IncCallPhoneStListener";
     private Context context;
-    private LinearLayout view;
+    private static LinearLayout view;
 
     public IncomingCallPhoneStateListener(Context context) {
         this.context = context;
@@ -100,7 +101,10 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
                 WindowManager.LayoutParams.TYPE_PHONE, //previosly: TYPE_SYSTEM_OVERLAY  //http://stackoverflow.com/questions/9656185/type-system-overlay-in-ics
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                 PixelFormat.TRANSLUCENT);
-        params.gravity = Gravity.RIGHT | Gravity.TOP;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            params.gravity = Gravity.CENTER;
+        } else
+            params.gravity = Gravity.RIGHT | Gravity.TOP;
         return params;
     }
 
@@ -124,12 +128,15 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
                 new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
-                        try {
-                            WindowManager winMan = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-                            winMan.removeViewImmediate(view);
-                        } catch (Exception exc) {
+                        WindowManager winMan = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+                        try { winMan.removeViewImmediate(view); } catch (Exception exc) {
                             Log.e(TAG, "CALLER WINDOW WAS NOT ATTACHED TO Window Manager.");
                         }
+
+                        try { winMan.removeViewImmediate((View)v.getParent().getParent()); } catch (Exception exc) {
+                            Log.e(TAG, "CALLER VIEW PARENT WAS NOT ATTACHED TO Window Manager.");
+                        }
+
                         return true;
                     }
                 }
