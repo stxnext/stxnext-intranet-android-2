@@ -11,21 +11,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/caller_layout_background"
+        android:orientation="horizontal"
         android:padding="15dp"
         >
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/avatar_placeholder"/>
 
         <TextView
             android:id="@+id/notification_caller_layout_caller_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
+            android:textSize="15sp"
             android:textColor="@color/stxnext_green_dark"
             android:textStyle="bold|italic"
-            android:text="Ala ma kota"
+            android:text="Unknown name"
+            android:maxLines="2"
+            android:layout_gravity="center_vertical"
             />
 
+        <LinearLayout
+            android:id="@+id/caller_layout_close_ll"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="right|center_vertical">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_clear_black_48dp" />
+
+        </LinearLayout>
+
     </LinearLayout>
-
-
 
 </LinearLayout>
