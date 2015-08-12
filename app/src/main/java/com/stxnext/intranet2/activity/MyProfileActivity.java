@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Callback;
@@ -41,7 +42,7 @@ import io.fabric.sdk.android.Fabric;
  * Created by Tomasz Konieczny on 2015-04-22.
  */
 
-public class MyProfileActivity extends AppCompatActivity
+public class MyProfileActivity extends CommonProfileActivity
         implements UserApiCallback, FloatingMenuFragment.OnFloatingMenuItemClickListener {
 
     private static final int LOGIN_REQUEST = 1;
@@ -63,16 +64,16 @@ public class MyProfileActivity extends AppCompatActivity
     private TextView phoneTextView;
     private TextView skypeTextView;
     private TextView ircTextView;
-    private ImageView profileImageView;
+
     private View progressView;
     private View userInfoCardView;
-    private boolean superHeroModeEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_profile_root);
+        super.initializeProfileImageView();
         loadViews();
 
         setSupportActionBar(toolbar);
@@ -85,7 +86,6 @@ public class MyProfileActivity extends AppCompatActivity
         } else {
             runLoginActivity();
         }
-
     }
 
     private void loadViews() {
@@ -105,19 +105,6 @@ public class MyProfileActivity extends AppCompatActivity
         phoneTextView = (TextView) findViewById(R.id.phone_text_view);
         skypeTextView = (TextView) findViewById(R.id.skype_text_view);
         ircTextView = (TextView) findViewById(R.id.irc_text_view);
-
-        superHeroModeEnabled = Session.getInstance(this).isSuperHeroModeEnabled();
-        if (superHeroModeEnabled) {
-            findViewById(R.id.standard_profile_header_container).setVisibility(View.GONE);
-            profileImageView = (ImageView) findViewById(R.id.profile_image_view);
-
-        } else {
-            profileImageView = (ImageView) findViewById(R.id.profile_image_view_standard);
-        }
-
-        if (!superHeroModeEnabled) {
-            profileImageView.setAlpha(0.6f);
-        }
     }
 
     private void runLoginActivity() {
@@ -293,6 +280,7 @@ public class MyProfileActivity extends AppCompatActivity
 
     @Override
     public void onUserReceived(User user) {
+        super.onUserReceived(user);
         progressView.setVisibility(View.GONE);
         if (user != null) {
             String firstName = user.getFirstName();

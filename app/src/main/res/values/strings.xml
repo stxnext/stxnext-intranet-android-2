@@ -59,4 +59,5 @@
     <string name="send_sms">Send SMS</string>
     <string name="tomorrow">tomorrow</string>
     <string name="about">Offices</string>
+    <string name="picture_preview">Profile picture</string>
 </resources>
