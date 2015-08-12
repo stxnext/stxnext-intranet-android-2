@@ -104,9 +104,24 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.notification_caller_layout, null);
         TextView tv = (TextView)ll.findViewById(R.id.notification_caller_layout_caller_tv);
-        tv.setText("STXNext: " + foundEmployee.getFirstName() + " " + foundEmployee.getLastName());
+        tv.setText("STXNext: \n" + foundEmployee.getFirstName() + " " + foundEmployee.getLastName());
         if (android.os.Build.VERSION.SDK_INT > 16)
             tv.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
+
+        ll.findViewById(R.id.caller_layout_close_ll).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            WindowManager winMan = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+                            winMan.removeViewImmediate(view);
+                        } catch (Exception exc) {
+                            Log.e(TAG, "CALLER WINDOW WAS NOT ATTACHED TO Window Manager.");
+                        }
+                    }
+                }
+        );
+
 
         return ll;
     }
