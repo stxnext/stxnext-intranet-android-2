@@ -102,6 +102,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
 
+        <activity
+            android:name=".activity.PicturePreviewActivity"
+            android:label="@string/picture_preview"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
         <receiver android:name=".broadcast.IncomingCallBroadcastReceiver"
                     android:exported="true">
             <intent-filter>
