@@ -10,11 +10,13 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.utils.DBManager;
 import java.util.List;
@@ -75,8 +77,12 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
             default:
                 Log.d(TAG, "STOPPED - hide number and name");
                 if (view != null) {
-                    WindowManager winMan = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-                    winMan.removeViewImmediate(view);
+                    try {
+                        WindowManager winMan = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+                        winMan.removeViewImmediate(view);
+                    } catch (Exception exc) {
+                        Log.e(TAG, "CALLER WINDOW WAS NOT ATTACHED TO Window Manager.");
+                    }
                     view = null;
                 }
                 break;
@@ -95,20 +101,14 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
     }
 
     @NonNull private LinearLayout createStxFrameView(User foundEmployee) {
-        LinearLayout llView = new LinearLayout(context);
-        llView.setGravity(Gravity.RIGHT);
-        llView.setPadding(15,15,15,15);
-        llView.setBackgroundColor(Color.WHITE);
-        TextView textView = new TextView(context);
-        textView.setText("STXNext: " + foundEmployee.getFirstName() + " " + foundEmployee.getLastName());
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.notification_caller_layout, null);
+        TextView tv = (TextView)ll.findViewById(R.id.notification_caller_layout_caller_tv);
+        tv.setText("STXNext: " + foundEmployee.getFirstName() + " " + foundEmployee.getLastName());
         if (android.os.Build.VERSION.SDK_INT > 16)
-            textView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
-        textView.setTextColor(Color.argb(240, 39, 147, 139));
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-        textView.setTypeface(null, Typeface.BOLD_ITALIC);
-        llView.addView(textView);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
 
-        return llView;
+        return ll;
     }
 
     private String replaceIllegalPhoneChars(String val) {
