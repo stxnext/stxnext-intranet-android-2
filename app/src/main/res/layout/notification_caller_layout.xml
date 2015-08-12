@@ -3,19 +3,29 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:gravity="center"
-              android:background="@android:color/white"
-              android:layout_margin="5dp"
+              android:background="@android:color/transparent"
               android:padding="15dp"
               android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/notification_caller_layout_caller_tv"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:textColor="@color/stxnext_green_dark"
-        android:textStyle="bold|italic"
-        android:text="Ala ma kota"
-        />
+        android:background="@drawable/caller_layout_background"
+        android:padding="15dp"
+        >
+
+        <TextView
+            android:id="@+id/notification_caller_layout_caller_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="@color/stxnext_green_dark"
+            android:textStyle="bold|italic"
+            android:text="Ala ma kota"
+            />
+
+    </LinearLayout>
+
+
 
 </LinearLayout>
