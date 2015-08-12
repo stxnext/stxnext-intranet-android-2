@@ -95,16 +95,29 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
     }
 
     @NonNull private WindowManager.LayoutParams createStxFrameViewParams() {
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_PHONE, //previosly: TYPE_SYSTEM_OVERLAY  //http://stackoverflow.com/questions/9656185/type-system-overlay-in-ics
-                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
-                PixelFormat.TRANSLUCENT);
+        WindowManager.LayoutParams params = null;
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { //ANDROID 5.0 and up
+            params = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                    PixelFormat.TRANSLUCENT);
+        } else { //ANDROID 4.x
+            params = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.TYPE_PHONE, //previosly: TYPE_SYSTEM_OVERLAY  //http://stackoverflow.com/questions/9656185/type-system-overlay-in-ics
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                    PixelFormat.TRANSLUCENT);
+        }
+
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             params.gravity = Gravity.CENTER;
-        } else
+        } else {
             params.gravity = Gravity.RIGHT | Gravity.TOP;
+        }
         return params;
     }
 
