@@ -1,10 +1,13 @@
 package com.stxnext.intranet2.broadcast;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -16,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -77,6 +82,7 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
                 WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
                 try {
                     wm.addView(view, params);
+                    fadeIn(params);
                 } catch (Exception exc) {
                     Log.e(TAG, exc.toString());
                 }
@@ -94,6 +100,39 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
                     view = null;
                 }
                 break;
+        }
+    }
+
+    private void fadeIn(final WindowManager.LayoutParams params) {
+        final long startTime = System.currentTimeMillis();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                fadeInHandler(params, startTime);
+            }
+        }, 25);
+    }
+
+    /*This will handle the entire animation*/
+    public void fadeInHandler(final WindowManager.LayoutParams params, final long startTime){
+        int animationDurationMillis = 750;
+        long timeNow = System.currentTimeMillis();
+        float alpha = (timeNow - startTime)*1.0f/animationDurationMillis;
+        if (alpha > 1.0f){
+            alpha = 1.0f;
+        }
+        params.alpha = alpha;
+        //Log.d(TAG, "ALPHA: " + params.alpha);
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        windowManager.updateViewLayout(view, params);
+
+        if (timeNow-startTime < animationDurationMillis){
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable(){
+                public void run(){
+                    fadeInHandler(params, startTime);
+                }
+            }, 25);
         }
     }
 
