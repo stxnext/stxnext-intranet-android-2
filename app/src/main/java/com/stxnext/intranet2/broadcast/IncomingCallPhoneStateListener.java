@@ -81,8 +81,12 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
                 WindowManager.LayoutParams params = createStxFrameViewParams();
                 WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
                 try {
-                    //wm.addView(view, params);
-                    fadeIn(params);
+                    int numberOfProcessors = Runtime.getRuntime().availableProcessors();
+                    if (numberOfProcessors > 1) {
+                        fadeIn(params);
+                    } else {
+                        wm.addView(view, params);
+                    }
                 } catch (Exception exc) {
                     Log.e(TAG, exc.toString());
                 }
