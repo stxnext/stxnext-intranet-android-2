@@ -17,6 +17,19 @@
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
     </style>
 
+    <style name="AppThemeTransparentWindowBackground" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:buttonStyle">@style/Button</item>
+        <item name="colorPrimary">@color/stxnext_green</item>
+        <item name="colorAccent">@color/stxnext_green</item>
+        <item name="colorPrimaryDark">@color/stxnext_green</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
+    </style>
+
     <style name="Button">
         <item name="android:background">@drawable/selector_default_button</item>
         <item name="android:gravity">center</item>
