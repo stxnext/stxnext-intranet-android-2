@@ -104,6 +104,7 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
                     WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
                     WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                     PixelFormat.TRANSLUCENT);
+            params.gravity = Gravity.CENTER;
         } else { //ANDROID 4.x
             params = new WindowManager.LayoutParams(
                     WindowManager.LayoutParams.MATCH_PARENT,
@@ -111,13 +112,9 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
                     WindowManager.LayoutParams.TYPE_PHONE, //previosly: TYPE_SYSTEM_OVERLAY  //http://stackoverflow.com/questions/9656185/type-system-overlay-in-ics
                     WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                     PixelFormat.TRANSLUCENT);
-        }
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            params.gravity = Gravity.CENTER;
-        } else {
             params.gravity = Gravity.RIGHT | Gravity.TOP;
         }
+
         return params;
     }
 
