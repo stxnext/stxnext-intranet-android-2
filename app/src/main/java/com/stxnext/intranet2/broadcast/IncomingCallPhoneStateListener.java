@@ -81,7 +81,7 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
                 WindowManager.LayoutParams params = createStxFrameViewParams();
                 WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
                 try {
-                    wm.addView(view, params);
+                    //wm.addView(view, params);
                     fadeIn(params);
                 } catch (Exception exc) {
                     Log.e(TAG, exc.toString());
@@ -124,7 +124,12 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
         params.alpha = alpha;
         //Log.d(TAG, "ALPHA: " + params.alpha);
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        windowManager.updateViewLayout(view, params);
+
+        try {
+            windowManager.updateViewLayout(view, params);
+        } catch (IllegalArgumentException illArgExc) {
+            windowManager.addView(view, params);
+        }
 
         if (timeNow-startTime < animationDurationMillis){
             Handler handler = new Handler();
