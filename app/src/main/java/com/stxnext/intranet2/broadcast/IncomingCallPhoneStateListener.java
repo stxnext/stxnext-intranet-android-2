@@ -10,6 +10,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -34,6 +35,8 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
     private static final String TAG = "IncCallPhoneStListener";
     private Context context;
     private static LinearLayout view;
+
+    private int yDelta;
 
     public IncomingCallPhoneStateListener(Context context) {
         this.context = context;
@@ -104,7 +107,8 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
                     WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
                     WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                     PixelFormat.TRANSLUCENT);
-            params.gravity = Gravity.CENTER;
+            params.gravity = Gravity.LEFT | Gravity.TOP;
+            params.verticalMargin = 0.3f;
         } else { //ANDROID 4.x
             params = new WindowManager.LayoutParams(
                     WindowManager.LayoutParams.MATCH_PARENT,
@@ -112,7 +116,7 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
                     WindowManager.LayoutParams.TYPE_PHONE, //previosly: TYPE_SYSTEM_OVERLAY  //http://stackoverflow.com/questions/9656185/type-system-overlay-in-ics
                     WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                     PixelFormat.TRANSLUCENT);
-            params.gravity = Gravity.RIGHT | Gravity.TOP;
+            params.gravity = Gravity.LEFT | Gravity.TOP;
         }
 
         return params;
@@ -120,7 +124,7 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
 
     @NonNull private LinearLayout createStxFrameView(User foundEmployee) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.notification_caller_layout, null);
+        final LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.notification_caller_layout, null);
         TextView tv = (TextView)ll.findViewById(R.id.notification_caller_layout_caller_tv);
         tv.setText("STXNext: \n" + foundEmployee.getFirstName() + " " + foundEmployee.getLastName());
         if (android.os.Build.VERSION.SDK_INT > 16)
@@ -139,14 +143,67 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
                         WindowManager winMan = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-                        try { winMan.removeViewImmediate(view); } catch (Exception exc) {
+                        try {
+                            winMan.removeViewImmediate(view);
+                        } catch (Exception exc) {
                             Log.e(TAG, "CALLER WINDOW WAS NOT ATTACHED TO Window Manager.");
                         }
 
-                        try { winMan.removeViewImmediate((View)v.getParent().getParent()); } catch (Exception exc) {
+                        try {
+                            winMan.removeViewImmediate((View) v.getParent().getParent());
+                        } catch (Exception exc) {
                             Log.e(TAG, "CALLER VIEW PARENT WAS NOT ATTACHED TO Window Manager.");
                         }
 
+                        return true;
+                    }
+                }
+        );
+
+        ll.findViewById(R.id.caller_layout_image_name_combined_ll).setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        final int X = (int) event.getRawX();
+                        final int Y = (int) event.getRawY();
+                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                            case MotionEvent.ACTION_DOWN:
+                                WindowManager.LayoutParams lParams = ((WindowManager.LayoutParams) ((LinearLayout) v.getParent()).getLayoutParams());
+                                yDelta = Y;
+                                break;
+                            case MotionEvent.ACTION_MOVE:
+                                break;
+                            case MotionEvent.ACTION_POINTER_DOWN:
+                                break;
+                            case MotionEvent.ACTION_POINTER_UP:
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                LinearLayout layout = ((LinearLayout) v.getParent());
+                                WindowManager.LayoutParams lPar = ((WindowManager.LayoutParams) layout.getLayoutParams());
+
+                                WindowManager winMan = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+                                Display display = winMan.getDefaultDisplay();
+                                int height = display.getHeight();
+
+                                int yDiff = yDelta - Y;
+                                Log.d(TAG, "yDiff: " + yDiff);
+
+                                if (yDiff > 0) {
+                                    lPar.verticalMargin -= Math.abs(yDiff) * 1.0f / height;
+                                } else {
+                                    lPar.verticalMargin += Math.abs(yDiff) * 1.0f / height;
+                                }
+
+                                try {
+                                    winMan.removeViewImmediate(layout);
+                                } catch (Exception exc) {
+                                    Log.e(TAG, "CALLER VIEW PARENT WAS NOT ATTACHED TO Window Manager.");
+                                }
+                                winMan.addView(layout, lPar);
+
+                                break;
+                        }
+                        ll.invalidate();
                         return true;
                     }
                 }
