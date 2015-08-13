@@ -29,7 +29,6 @@
             android:textSize="15sp"
             android:textColor="@color/stxnext_green_dark"
             android:textStyle="bold|italic"
-            android:text="Unknown name"
             android:maxLines="2"
             android:layout_gravity="center_vertical"
             />
