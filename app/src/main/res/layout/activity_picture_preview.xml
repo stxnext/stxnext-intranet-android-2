@@ -2,14 +2,21 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:round="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_picture_preview_outerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/white_megaalpha"
+    android:onClick="onOutOfPictureClick">
 
-    <ImageView
+    <com.stxnext.intranet2.view.RoundedImageView
             android:id="@+id/profile_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/stx_logo_green" />
+            android:transitionName="profileImageView"
+            android:layout_width="@dimen/profile_photo_size"
+            android:layout_height="@dimen/profile_photo_size"
+            android:src="@drawable/avatar_placeholder"
+            android:layout_gravity="center"
+            round:borderColor="@color/stxnext_green"
+            round:borderSize="@dimen/default_rounded_image_border"
+        />
 
 </FrameLayout>
