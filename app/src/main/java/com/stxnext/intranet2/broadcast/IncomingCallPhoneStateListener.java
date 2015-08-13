@@ -4,17 +4,24 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.utils.DBManager;
 import java.util.List;
@@ -26,7 +33,7 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
 
     private static final String TAG = "IncCallPhoneStListener";
     private Context context;
-    private LinearLayout view;
+    private static LinearLayout view;
 
     public IncomingCallPhoneStateListener(Context context) {
         this.context = context;
@@ -75,8 +82,12 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
             default:
                 Log.d(TAG, "STOPPED - hide number and name");
                 if (view != null) {
-                    WindowManager winMan = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-                    winMan.removeViewImmediate(view);
+                    try {
+                        WindowManager winMan = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+                        winMan.removeViewImmediate(view);
+                    } catch (Exception exc) {
+                        Log.e(TAG, "CALLER WINDOW WAS NOT ATTACHED TO Window Manager.");
+                    }
                     view = null;
                 }
                 break;
@@ -84,31 +95,65 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
     }
 
     @NonNull private WindowManager.LayoutParams createStxFrameViewParams() {
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
-                WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-                PixelFormat.TRANSLUCENT);
-        params.gravity = Gravity.RIGHT | Gravity.TOP;
+        WindowManager.LayoutParams params = null;
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { //ANDROID 5.0 and up
+            params = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                    PixelFormat.TRANSLUCENT);
+            params.gravity = Gravity.CENTER;
+        } else { //ANDROID 4.x
+            params = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.TYPE_PHONE, //previosly: TYPE_SYSTEM_OVERLAY  //http://stackoverflow.com/questions/9656185/type-system-overlay-in-ics
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                    PixelFormat.TRANSLUCENT);
+            params.gravity = Gravity.RIGHT | Gravity.TOP;
+        }
+
         return params;
     }
 
     @NonNull private LinearLayout createStxFrameView(User foundEmployee) {
-        LinearLayout llView = new LinearLayout(context);
-        llView.setGravity(Gravity.RIGHT);
-        llView.setPadding(15,15,15,15);
-        llView.setBackgroundColor(Color.WHITE);
-        TextView textView = new TextView(context);
-        textView.setText("STXNext: " + foundEmployee.getFirstName() + " " + foundEmployee.getLastName());
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.notification_caller_layout, null);
+        TextView tv = (TextView)ll.findViewById(R.id.notification_caller_layout_caller_tv);
+        tv.setText("STXNext: \n" + foundEmployee.getFirstName() + " " + foundEmployee.getLastName());
         if (android.os.Build.VERSION.SDK_INT > 16)
-            textView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
-        textView.setTextColor(Color.argb(240, 39, 147, 139));
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-        textView.setTypeface(null, Typeface.BOLD_ITALIC);
-        llView.addView(textView);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
 
-        return llView;
+        ImageView imageView = (ImageView)ll.findViewById(R.id.notification_caller_layout_profile_iv);
+        Picasso.with(context)
+                .load("https://intranet.stxnext.pl" + foundEmployee.getPhoto())
+                .placeholder(R.drawable.avatar_placeholder)
+                .resizeDimen(R.dimen.notif_caller_profile_pict_size, R.dimen.notif_caller_profile_pict_size)
+                .centerCrop()
+                .into(imageView);
+
+        ll.findViewById(R.id.caller_layout_close_ll).setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        WindowManager winMan = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+                        try { winMan.removeViewImmediate(view); } catch (Exception exc) {
+                            Log.e(TAG, "CALLER WINDOW WAS NOT ATTACHED TO Window Manager.");
+                        }
+
+                        try { winMan.removeViewImmediate((View)v.getParent().getParent()); } catch (Exception exc) {
+                            Log.e(TAG, "CALLER VIEW PARENT WAS NOT ATTACHED TO Window Manager.");
+                        }
+
+                        return true;
+                    }
+                }
+        );
+
+
+        return ll;
     }
 
     private String replaceIllegalPhoneChars(String val) {
