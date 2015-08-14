@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
+import com.google.common.collect.Lists;
 import com.stxnext.intranet2.model.HolidayTypes;
 
 import java.util.Date;
@@ -20,7 +21,7 @@ public class UserApiImpl extends UserApi {
     @Override
     public void requestForUser(String userId) {
         User user = new User(null, "John", "Smith", "john.smith", "+48 921 231 212",
-                "Poznań", "Programmer", "john.smith@stxnext.pl", "johny", "Mobile Team", null);
+                "Poznań", Lists.newArrayList("Programmer"), "john.smith@stxnext.pl", "johny", "Mobile Team", null);
         apiCallback.onUserReceived(user);
     }
 
