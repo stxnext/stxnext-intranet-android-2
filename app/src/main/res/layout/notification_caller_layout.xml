@@ -8,6 +8,7 @@
               android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/caller_layout_image_name_combined_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/caller_layout_background"
