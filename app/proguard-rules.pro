@@ -32,15 +32,32 @@
 -keep interface com.j256.**
 -keepclassmembers interface com.j256.** { *; }
 
-#guava
--injars path/to/myapplication.jar
--injars lib/guava-r07.jar
--libraryjars lib/jsr305.jar
--outjars myapplication-dist.jar
--dontoptimize
--dontobfuscate
--dontwarn sun.misc.Unsafe
--dontwarn com.google.common.collect.MinMaxPriorityQueue
--keepclasseswithmembers public class * {
-    public static void main(java.lang.String[]);
+# Configuration for Guava
+#
+# disagrees with instructions provided by Guava project: https://code.google.com/p/guava-libraries/wiki/UsingProGuardWithGuava
+#
+# works if you add the following line to the Gradle dependencies
+#
+# provided 'javax.annotation:jsr250-api:1.0'
+
+-keep class com.google.common.io.Resources {
+    public static <methods>;
 }
+-keep class com.google.common.collect.Lists {
+    public static ** reverse(**);
+}
+-keep class com.google.common.base.Charsets {
+    public static <fields>;
+}
+
+-keep class com.google.common.base.Joiner {
+    public static Joiner on(String);
+    public ** join(...);
+}
+
+-keep class com.google.common.collect.MapMakerInternalMap$ReferenceEntry
+-keep class com.google.common.cache.LocalCache$ReferenceEntry
+
+-dontwarn sun.misc.Unsafe
+
+-keep public class com.stxnext.intranet2.backend.model.impl.User { *; }
