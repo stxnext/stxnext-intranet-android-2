@@ -10,6 +10,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
+import com.stxnext.intranet2.backend.model.impl.UserRestWrapper;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
 import com.stxnext.intranet2.utils.Session;
@@ -67,10 +68,6 @@ public abstract class EmployeesCommonApi {
             e.printStackTrace();
         }
         return users;
-    }
-
-    private class UserRestWrapper {
-        public List<User> users;
     }
 
     private static void sortUsersByFirstName(List<User> users) {

@@ -61,3 +61,5 @@
 -dontwarn sun.misc.Unsafe
 
 -keep public class com.stxnext.intranet2.backend.model.impl.User { *; }
+
+-keep public class com.stxnext.intranet2.backend.model.impl.UserRestWrapper { *; }
