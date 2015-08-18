@@ -24,6 +24,7 @@ import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.model.Absence;
 import com.stxnext.intranet2.backend.model.impl.User;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -117,7 +118,7 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
     }
 
     @Override
-    public void onAbsenceEmployeesListReceived(Set<Absence> absenceEmployees) {
+    public void onAbsenceEmployeesListReceived(LinkedHashSet<Absence> absenceEmployees) {
     }
 
     @Override
