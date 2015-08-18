@@ -65,10 +65,6 @@ public class CommonProfileActivity extends AppCompatActivity implements UserApiC
         } else {
             profileImageView = (ImageView) findViewById(R.id.profile_image_view_standard);
         }
-
-        if (!superHeroModeEnabled) {
-            profileImageView.setAlpha(0.6f);
-        }
     }
 
     public void onProfilePictureClick(View v) {
