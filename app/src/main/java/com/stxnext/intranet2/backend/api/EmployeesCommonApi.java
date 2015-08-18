@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by bkosarzycki on 06.08.15.
@@ -39,9 +40,9 @@ public abstract class EmployeesCommonApi {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
                 Log.d(Config.TAG, response);
-                List<User> users = processJsonEmployees(response);
-                users = removeClients(users);
-                sortUsersByFirstName(users);
+                CopyOnWriteArrayList<User> users = new CopyOnWriteArrayList(processJsonEmployees(response));
+                removeClients(users);
+                sortUsersByFirstName(Lists.newArrayList(users)); //concurrent.CopyOnWriteArrayList$CowIterator doesn't support set(Object o) operation which replaces the current object in the array
                 DBManager.getInstance(context).persistEmployees(users);
 
                 if (apiCallback != null) {
@@ -61,13 +62,16 @@ public abstract class EmployeesCommonApi {
         httpClient.get("https://intranet.stxnext.pl/api/users?full=1&inactive=0", asyncHttpResponseHandler);
     }
 
-    private static List<User> removeClients(List<User> users) {
-        List<User> tempList = Lists.newArrayList(users);
+    /**
+     * CopyOnWriteArrayList is used to enable concurrent modification of the list that the iterator in a for-loop is operating on,
+     * in particular the 'remove' of the current element operation.
+     *
+     * @param users
+     */
+    private static void removeClients(CopyOnWriteArrayList<User> users) {
         for (User u : users)
             if (u.isClient())
-                tempList.remove(u);
-
-        return tempList;
+                users.remove(u);
     }
 
     protected static List<User> processJsonEmployees(String jsonEmployeesString) {
