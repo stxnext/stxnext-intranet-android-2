@@ -49,8 +49,10 @@ public class EmployeesApiImpl extends EmployeesApi {
         List<User> employees = DBManager.getInstance(context).getEmployees();
         if (employees == null || forceRequest)
             downlUsersFromHTTP(context, apiCallback, null);
-        else
+        else {
+            sortUsersByFirstName(employees);
             apiCallback.onEmployeesListReceived(employees);
+        }
     }
 
     @Override

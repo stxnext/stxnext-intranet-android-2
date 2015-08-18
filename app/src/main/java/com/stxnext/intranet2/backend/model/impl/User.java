@@ -34,6 +34,7 @@ public class User {
     @DatabaseField private String irc;
     @DatabaseField private String team;
     @DatabaseField @SerializedName("avatar_url") private String photo;
+    @DatabaseField @SerializedName("is_client") private Boolean isClient;
 
     @Override
     public boolean equals(Object o) {
@@ -151,5 +152,13 @@ public class User {
 
     public void setTeam(String team) {
         this.team = team;
+    }
+
+    public Boolean isClient() {
+        return isClient;
+    }
+
+    public void setIsClient(Boolean isClient) {
+        this.isClient = isClient;
     }
 }
