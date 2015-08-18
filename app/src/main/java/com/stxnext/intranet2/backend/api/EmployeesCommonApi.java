@@ -3,6 +3,7 @@ package com.stxnext.intranet2.backend.api;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
@@ -39,6 +40,7 @@ public abstract class EmployeesCommonApi {
                 String response = new String(responseBody);
                 Log.d(Config.TAG, response);
                 List<User> users = processJsonEmployees(response);
+                users = removeClients(users);
                 sortUsersByFirstName(users);
                 DBManager.getInstance(context).persistEmployees(users);
 
@@ -59,6 +61,15 @@ public abstract class EmployeesCommonApi {
         httpClient.get("https://intranet.stxnext.pl/api/users?full=1&inactive=0", asyncHttpResponseHandler);
     }
 
+    private static List<User> removeClients(List<User> users) {
+        List<User> tempList = Lists.newArrayList(users);
+        for (User u : users)
+            if (u.isClient())
+                tempList.remove(u);
+
+        return tempList;
+    }
+
     protected static List<User> processJsonEmployees(String jsonEmployeesString) {
         List<User> users = new ArrayList<>();
         try {
@@ -70,7 +81,7 @@ public abstract class EmployeesCommonApi {
         return users;
     }
 
-    private static void sortUsersByFirstName(List<User> users) {
+    protected static void sortUsersByFirstName(List<User> users) {
         Locale polishLocale = new Locale("pl_PL");
         final Collator polishCollator = Collator.getInstance(polishLocale);
 

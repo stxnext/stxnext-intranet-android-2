@@ -62,20 +62,6 @@ public class UserApiImpl extends UserApi {
         downlUsersFromHTTP(context, apiCallback, userId);
     }
 
-    private void sortUsersByFirstName(List<User> users) {
-        Locale polishLocale = new Locale("pl_PL");
-        final Collator polishCollator = Collator.getInstance(polishLocale);
-
-        Comparator<User> comparator = new Comparator<User>() {
-
-            @Override
-            public int compare(User user1, User user2) {
-                return polishCollator.compare(user1.getFirstName(), user2.getFirstName());
-            }
-        };
-        Collections.sort(users, comparator);
-    }
-
     //TODO probably to delete
     //Need json:
     // {"lateness":{"late_end":"09:05","popup_explanation":"Test aplikacji.","work_from_home":"false","late_start":"09:00","popup_date":"31/05/2015"}}
