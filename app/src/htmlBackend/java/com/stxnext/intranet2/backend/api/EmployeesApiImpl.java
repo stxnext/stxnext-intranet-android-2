@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,8 +50,10 @@ public class EmployeesApiImpl extends EmployeesApi {
         List<User> employees = DBManager.getInstance(context).getEmployees();
         if (employees == null || forceRequest)
             downlUsersFromHTTP(context, apiCallback, null);
-        else
+        else {
+            sortUsersByFirstName(employees);
             apiCallback.onEmployeesListReceived(employees);
+        }
     }
 
     @Override
@@ -66,7 +69,7 @@ public class EmployeesApiImpl extends EmployeesApi {
                 Log.d(Config.TAG, response);
                 List<Absence> absences = processJsonOutOfOfficeAbsences(response);
                 sortAbsencesByUserFirstName(absences);
-                apiCallback.onAbsenceEmployeesListReceived(new HashSet<Absence>(absences));
+                apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absences));
             }
 
             @Override
@@ -227,7 +230,7 @@ public class EmployeesApiImpl extends EmployeesApi {
                 Log.d(Config.TAG, response);
                 List<Absence> absences = processJsonWorkFromHomeAbsences(response);
                 sortAbsencesByUserFirstName(absences);
-                apiCallback.onAbsenceEmployeesListReceived(new HashSet<Absence>(absences));
+                apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absences));
             }
 
             @Override
@@ -286,7 +289,7 @@ public class EmployeesApiImpl extends EmployeesApi {
                 Log.d(Config.TAG, response);
                 List<Absence> absences = processJsonHolidayAbsences(response);
                 sortAbsencesByUserFirstName(absences);
-                apiCallback.onAbsenceEmployeesListReceived(new HashSet<Absence>(absences));
+                apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absences));
             }
 
             @Override

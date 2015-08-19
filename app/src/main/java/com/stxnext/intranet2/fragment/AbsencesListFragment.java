@@ -22,6 +22,7 @@ import com.stxnext.intranet2.backend.model.Absence;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.model.AbsencesTypes;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -99,7 +100,7 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
     }
 
     @Override
-    public void onAbsenceEmployeesListReceived(Set<Absence> absenceEmployees) {
+    public void onAbsenceEmployeesListReceived(LinkedHashSet<Absence> absenceEmployees) {
         AbsencesListAdapter absencesListAdapter = new AbsencesListAdapter(context, absenceEmployees, type, this);
         recycleView.setAdapter(absencesListAdapter);
         callback.onAbsencesDownloaded();
