@@ -58,22 +58,35 @@
 
                 </FrameLayout>
 
-                <!-- Empty layout to prevent autofocus -->
-                <LinearLayout
-                    android:id="@+id/autotext"
-                    android:orientation="vertical"
-                    android:focusable="true" android:focusableInTouchMode="true"
-                    android:layout_width="0px" android:layout_height="0px"/>
+                <android.support.v7.widget.CardView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
 
-                <EditText
-                        android:id="@+id/lateness_reason"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/i_will_be_late"
-                        android:textStyle="bold"
-                        android:alpha="0.5"
-                        android:textColor="@android:color/black"
-                        android:nextFocusUp="@id/autotext" android:nextFocusLeft="@id/autotext" />
+                    <!-- Empty layout to prevent autofocus -->
+                    <LinearLayout
+                        android:id="@+id/autotext"
+                        android:orientation="vertical"
+                        android:focusable="true" android:focusableInTouchMode="true"
+                        android:layout_width="0px" android:layout_height="0px"/>
+
+                    <android.support.v7.widget.AppCompatEditText
+                            android:id="@+id/lateness_reason"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:maxLines="5"
+                            android:text="@string/i_will_be_late"
+                            android:textStyle="bold"
+                            android:alpha="0.5"
+                            android:textColor="@android:color/black"
+                            android:nextFocusUp="@id/autotext" android:nextFocusLeft="@id/autotext" />
+                </android.support.v7.widget.CardView>
 
                 <FrameLayout
                     android:layout_width="match_parent"
