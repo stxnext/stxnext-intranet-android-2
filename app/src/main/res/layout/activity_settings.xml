@@ -153,6 +153,13 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="38dp"
+                                android:text="Bartosz Kosarzycki"
+                                android:textColor="@android:color/black"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="38dp"
                                 android:text="Tomasz Konieczny"
                                 android:textColor="@android:color/black"/>
 
