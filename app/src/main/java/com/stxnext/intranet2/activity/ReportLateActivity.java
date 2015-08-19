@@ -6,8 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.api.UserApi;
@@ -44,6 +46,7 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
         progressView = findViewById(R.id.progress_container);
 
         final TextView hourLabel = (TextView) findViewById(R.id.hour_label);
+        final EditText latenessReasonEditText = (EditText) findViewById(R.id.lateness_reason);
         final View labelBackground = findViewById(R.id.hour_label_background);
         final View wtfView = findViewById(R.id.wtf_image);
         final SeekBar properSeekBar = (SeekBar) findViewById(R.id.time_seek_bar);
@@ -78,7 +81,7 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
                     submitButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            submitLateness(hourLabel);
+                            submitLateness(hourLabel, latenessReasonEditText);
                         }
                     });
                 } else if (submitButton.getVisibility() == View.INVISIBLE) {
@@ -108,7 +111,14 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
         });
     }
 
-    private void submitLateness(TextView hourLabel) {
+    private void submitLateness(TextView hourLabel, EditText latenessReasonEditText) {
+        String latenessReasonText = latenessReasonEditText.getText().toString();
+
+        if (latenessReasonText.isEmpty() || latenessReasonText.length() < 4) {
+            Toast.makeText(this, getString(R.string.give_lateness_reason), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         progressView.setVisibility(View.VISIBLE);
         Calendar calendar = Calendar.getInstance();
         Date submissionDate = calendar.getTime();
@@ -128,7 +138,7 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         Date endHour = calendar.getTime();
-        userApi.submitOutOfOffice(false, submissionDate, startHour, endHour, getString(R.string.i_will_be_late));
+        userApi.submitOutOfOffice(false, submissionDate, startHour, endHour, latenessReasonText);
     }
 
     private String convertIntToTime(int progress) {
