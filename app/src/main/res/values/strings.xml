@@ -48,6 +48,7 @@
     <string name="validation_zero_days">Woow, first of all: select proper days in calendar</string>
     <string name="i_will_be_late">I\'ll be late</string>
     <string name="give_lateness_reason">Please give reason for lateness</string>
+    <string name="lateness_reason">Lateness reason: </string>
     <string name="saved">Request has been sent</string>
     <string name="validation_no_explanation">Please add an explanation</string>
     <string name="reqest_error">Internet connection error. Try again!</string>
