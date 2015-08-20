@@ -87,7 +87,7 @@ public class MyProfileActivity extends CommonProfileActivity
     }
 
     @Override
-    public void initializeContent() {
+    public void initializeContentView() {
         setContentView(R.layout.activity_profile_root);
     }
 
