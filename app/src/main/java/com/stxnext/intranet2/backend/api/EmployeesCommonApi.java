@@ -3,6 +3,7 @@ package com.stxnext.intranet2.backend.api;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -10,6 +11,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
+import com.stxnext.intranet2.backend.model.Absence;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.impl.UserRestWrapper;
 import com.stxnext.intranet2.utils.Config;
@@ -22,6 +24,7 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -31,7 +34,30 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public abstract class EmployeesCommonApi {
 
-    public static void downlUsersFromHTTP(final Context context, final Object apiCallback, final String userId) {
+    public static void downloadUser(final Context context, final Optional<UserApiCallback> apiCallback, final String userId) {
+        EmployeesApiCallback employeesApiCallback = new EmployeesApiCallback() {
+            @Override public void onEmployeesListReceived(List<User> employees) {
+                User user = DBManager.getInstance(context).getUser(userId);
+                if (apiCallback != null && apiCallback.isPresent())
+                    apiCallback.get().onUserReceived(user);
+            }
+
+            @Override public void onAbsenceEmployeesListReceived(LinkedHashSet<Absence> absenceEmployees) {}
+        };
+
+        downloadUsersWorker(context, employeesApiCallback);
+    }
+
+    public static void downloadUsers(final Context context, final Optional<EmployeesApiCallback> apiCallback) {
+        downloadUsersWorker(context,
+                apiCallback != null && apiCallback.isPresent() ? apiCallback.get() : null);
+    }
+
+    /**
+     *
+     * @param apiCallback  EmployeesApiCallback or UserApiCallback
+     */
+    private static void downloadUsersWorker(final Context context, final EmployeesApiCallback apiCallback) {
         AsyncHttpClient httpClient = new AsyncHttpClient();
         httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
 
@@ -45,14 +71,8 @@ public abstract class EmployeesCommonApi {
                 sortUsersByFirstName(Lists.newArrayList(users)); //concurrent.CopyOnWriteArrayList$CowIterator doesn't support set(Object o) operation which replaces the current object in the array
                 DBManager.getInstance(context).persistEmployees(users);
 
-                if (apiCallback != null) {
-                    if (apiCallback instanceof EmployeesApiCallback)
-                        ((EmployeesApiCallback) apiCallback).onEmployeesListReceived(users);
-                    else {
-                        User user = DBManager.getInstance(context).getUser(userId);
-                        ((UserApiCallback) apiCallback).onUserReceived(user);
-                    }
-                }
+                if (apiCallback != null)
+                        apiCallback.onEmployeesListReceived(users);
             }
 
             @Override

@@ -3,6 +3,7 @@ package com.stxnext.intranet2.backend.api;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -22,13 +23,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.text.Collator;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Tomasz Konieczny on 2015-05-07.
@@ -59,7 +55,7 @@ public class UserApiImpl extends UserApi {
     }
 
     private void getUser(final String userId) {
-        downlUsersFromHTTP(context, apiCallback, userId);
+        downloadUser(context, Optional.of(apiCallback), userId);
     }
 
     //TODO probably to delete

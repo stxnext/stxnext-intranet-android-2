@@ -3,6 +3,7 @@ package com.stxnext.intranet2.backend.api;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -28,7 +29,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -49,7 +49,7 @@ public class EmployeesApiImpl extends EmployeesApi {
     public void requestForEmployees(boolean forceRequest) {
         List<User> employees = DBManager.getInstance(context).getEmployees();
         if (employees == null || forceRequest)
-            downlUsersFromHTTP(context, apiCallback, null);
+            downloadUsers(context, Optional.of(apiCallback));
         else {
             sortUsersByFirstName(employees);
             apiCallback.onEmployeesListReceived(employees);
