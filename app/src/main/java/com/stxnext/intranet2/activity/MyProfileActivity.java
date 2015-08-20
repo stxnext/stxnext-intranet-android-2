@@ -65,6 +65,7 @@ public class MyProfileActivity extends CommonProfileActivity
 
     private View progressView;
     private View userInfoCardView;
+    private View workedHoursContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +109,9 @@ public class MyProfileActivity extends CommonProfileActivity
         phoneTextView = (TextView) findViewById(R.id.phone_text_view);
         skypeTextView = (TextView) findViewById(R.id.skype_text_view);
         ircTextView = (TextView) findViewById(R.id.irc_text_view);
+
+        workedHoursContainer = findViewById(R.id.worked_hours_container);
+        workedHoursContainer.setVisibility(View.VISIBLE);
     }
 
     private void runLoginActivity() {
