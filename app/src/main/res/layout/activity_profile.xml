@@ -38,7 +38,7 @@
         android:id="@+id/standard_profile_header_container"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/profile_image_height"
-        android:background="@color/header_gray">
+        android:background="@color/header_gray" >
 
         <ImageView
             android:layout_width="wrap_content"

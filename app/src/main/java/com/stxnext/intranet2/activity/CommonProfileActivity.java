@@ -45,11 +45,11 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeContent();
+        initializeContentView();
         fillWorkedHours();
     }
 
-    public abstract void initializeContent();
+    public abstract void initializeContentView();
 
     public void fillWorkedHours() {
         todayNumberTextView = (TextView) findViewById(R.id.today_number);

@@ -59,7 +59,7 @@ public class ProfileActivity extends CommonProfileActivity implements UserApiCal
     }
 
     @Override
-    public void initializeContent() {
+    public void initializeContentView() {
         setContentView(R.layout.activity_profile);
     }
 
