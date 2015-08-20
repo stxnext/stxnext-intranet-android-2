@@ -102,7 +102,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="12dp"
                             android:gravity="center"
-                            android:text="Przepracowane godziny"
+                            android:text="@string/worked_hours_heading"
                             android:textColor="@color/stxnext_green"
                             android:textSize="16sp"
                             android:textStyle="bold"/>
@@ -121,7 +121,7 @@
                                 android:layout_marginLeft="4dp"
                                 android:layout_weight="1.5"
                                 android:gravity="center"
-                                android:text="Dziś"
+                                android:text="@string/today"
                                 android:textSize="15sp"
                                 android:textStyle="bold"/>
 
@@ -131,7 +131,7 @@
                                 android:layout_marginLeft="4dp"
                                 android:layout_weight="2"
                                 android:gravity="center"
-                                android:text="Maj"
+                                android:text="@string/month"
                                 android:textSize="15sp"
                                 android:textStyle="bold"/>
 
@@ -141,7 +141,7 @@
                                 android:layout_marginLeft="4dp"
                                 android:layout_weight="2"
                                 android:gravity="center"
-                                android:text="Kwartał"
+                                android:text="@string/quarter_heading"
                                 android:textSize="15sp"
                                 android:textStyle="bold"/>
 
@@ -161,8 +161,9 @@
                             android:layout_marginLeft="4dp"
                             android:layout_weight="1.5"
                             android:gravity="center"
-                            android:text="6.00"
-                            android:textSize="14sp"/>
+                            android:text="0.00"
+                            android:textSize="14sp"
+                                android:id="@+id/today_number" />
 
                             <TextView
                             android:layout_width="0dp"
@@ -170,8 +171,9 @@
                             android:layout_marginLeft="4dp"
                             android:layout_weight="2"
                             android:gravity="center"
-                            android:text="131.21"
-                            android:textSize="14sp"/>
+                            android:text="0.0"
+                            android:textSize="14sp"
+                                android:id="@+id/month_number" />
 
                             <TextView
                             android:layout_width="0dp"
@@ -179,8 +181,9 @@
                             android:layout_marginLeft="4dp"
                             android:layout_weight="2"
                             android:gravity="center"
-                            android:text="323.21"
-                            android:textSize="14sp"/>
+                            android:text="0.0"
+                            android:textSize="14sp"
+                                android:id="@+id/quarter_number" />
 
                             </LinearLayout>
 
@@ -198,8 +201,9 @@
                             android:layout_marginLeft="4dp"
                             android:layout_weight="1.5"
                             android:gravity="center"
-                            android:text=""
-                            android:textSize="12sp"/>
+                            android:text="0.0"
+                            android:textSize="12sp"
+                                android:id="@+id/today_overhours" />
 
                             <TextView
                             android:layout_width="0dp"
@@ -207,9 +211,10 @@
                             android:layout_marginLeft="4dp"
                             android:layout_weight="2"
                             android:gravity="center"
-                            android:text="-2.00"
+                            android:text="0.0"
                             android:textColor="@android:color/holo_red_light"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp"
+                                android:id="@+id/month_overhours" />
 
                             <TextView
                             android:layout_width="0dp"
@@ -217,9 +222,10 @@
                             android:layout_marginLeft="4dp"
                             android:layout_weight="2"
                             android:gravity="center"
-                            android:text="+22.21"
+                            android:text="0.0"
                             android:textColor="@android:color/holo_green_dark"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp"
+                                android:id="@+id/quarter_overhours" />
 
                             </LinearLayout>
 
@@ -230,7 +236,7 @@
                         android:layout_marginLeft="3dp"
                         android:layout_marginRight="3dp"
                         android:layout_marginTop="24dp"
-                        android:text="Dodaj godziny"/>
+                        android:text="@string/add_hours"/>
 
                 </LinearLayout>
 
