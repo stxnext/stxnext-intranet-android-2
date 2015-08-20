@@ -25,7 +25,7 @@ public class DBManager {
             instance = new DBManager();
             userRepository = new UserRepository(new DatabaseHelper(context));
 
-            //isLoaded is false on app start - contacts are refreshed
+            //if isLoaded is false on app start - contacts are refreshed
             if (!isLoaded)
                 EmployeesCommonApi.downloadUsers(context, Optional.<EmployeesApiCallback>absent());
         }
