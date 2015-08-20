@@ -291,7 +291,7 @@ public class MyProfileActivity extends CommonProfileActivity
             officeTextView.setText(user.getLocalization());
             emailTextView.setText(user.getEmail());
 
-            if (firstName.substring(firstName.length() - 1, firstName.length()).equals("a")) {
+            if (isFemaleName(firstName)) {
                 ImageView superheroImageView = (ImageView) findViewById(R.id.superhero_image_view);
                 superheroImageView.setImageResource(R.drawable.mrs_superhero_profile);
             }
@@ -335,6 +335,10 @@ public class MyProfileActivity extends CommonProfileActivity
             Session.getInstance(this).logout();
             runLoginActivity();
         }
+    }
+
+    private boolean isFemaleName(String firstName) {
+        return firstName.substring(firstName.length() - 1, firstName.length()).equals("a");
     }
 
     @Override

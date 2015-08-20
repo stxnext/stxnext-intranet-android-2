@@ -49,7 +49,7 @@ public class EmployeesApiImpl extends EmployeesApi {
     public void requestForEmployees(boolean forceRequest) {
         List<User> employees = DBManager.getInstance(context).getEmployees();
         if (employees == null || forceRequest)
-            downloadUsers(context, Optional.of(apiCallback));
+            downloadUsersFromHTTP(context, apiCallback, null);
         else {
             sortUsersByFirstName(employees);
             apiCallback.onEmployeesListReceived(employees);
