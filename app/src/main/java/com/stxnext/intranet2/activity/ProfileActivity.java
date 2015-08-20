@@ -34,7 +34,6 @@ public class ProfileActivity extends CommonProfileActivity implements UserApiCal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         firstNameTextView = (TextView) findViewById(R.id.first_name_text_view);
@@ -57,6 +56,11 @@ public class ProfileActivity extends CommonProfileActivity implements UserApiCal
             UserApi userApi = new UserApiImpl(this, this);
             userApi.requestForUser(userId);
         }
+    }
+
+    @Override
+    public void initializeContent() {
+        setContentView(R.layout.activity_profile);
     }
 
     @Override

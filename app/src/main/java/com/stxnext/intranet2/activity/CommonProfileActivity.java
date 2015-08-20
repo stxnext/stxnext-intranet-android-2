@@ -5,55 +5,105 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.google.gson.Gson;
 import com.stxnext.intranet2.R;
-import com.stxnext.intranet2.adapter.DrawerAdapter;
-import com.stxnext.intranet2.backend.api.UserApi;
-import com.stxnext.intranet2.backend.api.UserApiImpl;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
-import com.stxnext.intranet2.fragment.FloatingMenuFragment;
-import com.stxnext.intranet2.model.DrawerMenuItems;
-import com.stxnext.intranet2.utils.STXToast;
+import com.stxnext.intranet2.backend.model.workedHour.WorkedHours;
 import com.stxnext.intranet2.utils.Session;
 
-import io.fabric.sdk.android.Fabric;
+import java.text.DecimalFormat;
 
 
 /**
  * Created by Tomasz Konieczny on 2015-04-22.
  */
 
-public class CommonProfileActivity extends AppCompatActivity implements UserApiCallback {
+public abstract class CommonProfileActivity extends AppCompatActivity implements UserApiCallback {
 
     protected ImageView profileImageView;
     protected boolean superHeroModeEnabled;
     private User currentUser;
 
+    private TextView todayNumberTextView;
+    private TextView monthNumberTextView;
+    private TextView quarterNumberTextView;
+
+    private TextView todayOverhoursTextView;
+    private TextView monthOverhoursTextView;
+    private TextView quarterOverhoursTextView;
+
+    private Handler handler = new Handler(Looper.getMainLooper());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initializeContent();
+        fillWorkedHours();
+    }
+
+    public abstract void initializeContent();
+
+    public void fillWorkedHours() {
+        todayNumberTextView = (TextView) findViewById(R.id.today_number);
+        monthNumberTextView = (TextView) findViewById(R.id.month_number);
+        quarterNumberTextView = (TextView) findViewById(R.id.quarter_number);
+
+        todayOverhoursTextView = (TextView) findViewById(R.id.today_overhours);
+        monthOverhoursTextView = (TextView) findViewById(R.id.month_overhours);
+        quarterOverhoursTextView = (TextView) findViewById(R.id.quarter_overhours);
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                downloadTodayHours();
+            }
+        });
+    }
+
+    private void downloadTodayHours() {
+        //todo: download from backend server
+        String jsonString = "{\n" +
+                "\t\"today\" :  {\n" +
+                "\t\t\"sum\" : 6.00,\n" +
+                "\t\t\"diff\" : 0.00 \n" +
+                "\t},\n" +
+                "\t\"month\": {\n" +
+                "\t\t\"sum\" : 66.66,\n" +
+                "\t\t\"diff\" : -6.66 \n" +
+                "\t},\n" +
+                "\t\"quarter\": {\n" +
+                "\t\t\"sum\" : 333.33,\n" +
+                "\t\t\"diff\" : -3.33 \n" +
+                "\t}\n" +
+                "}";
+
+        final WorkedHours workedHours = new Gson().fromJson(jsonString, WorkedHours.class);
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                setTodayHoursValues(workedHours);
+            }
+        });
+    }
+
+    private void setTodayHoursValues(WorkedHours workedHours) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        todayNumberTextView.setText(df.format(workedHours.getToday().getSum()));
+        monthNumberTextView.setText(df.format(workedHours.getMonth().getSum()));
+        quarterNumberTextView.setText(df.format(workedHours.getQuarter().getSum()));
+
+        todayOverhoursTextView.setText(df.format(workedHours.getToday().getDiff()));
+        monthOverhoursTextView.setText(df.format(workedHours.getMonth().getDiff()));
+        quarterOverhoursTextView.setText(df.format(workedHours.getQuarter().getDiff()));
     }
 
     protected void initializeProfileImageView() {

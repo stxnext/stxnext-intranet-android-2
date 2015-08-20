@@ -62,4 +62,9 @@
     <string name="tomorrow">jutro</string>
     <string name="about">Oddziały</string>
     <string name="picture_preview">Zdjęcie profilowe</string>
+    <string name="worked_hours_heading">Przepracowane godziny</string>
+    <string name="add_hours">Dodaj godziny</string>
+    <string name="quarter_heading">Kwartał</string>
+    <string name="today">Dziś</string>
+    <string name="month">Miesiąc</string>
 </resources>

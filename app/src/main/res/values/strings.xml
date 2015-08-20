@@ -62,4 +62,9 @@
     <string name="tomorrow">tomorrow</string>
     <string name="about">Offices</string>
     <string name="picture_preview">Profile picture</string>
+    <string name="worked_hours_heading">Worked hours</string>
+    <string name="add_hours">Add hours</string>
+    <string name="quarter_heading">Quarter</string>
+    <string name="today">Today</string>
+    <string name="month">Month</string>
 </resources>

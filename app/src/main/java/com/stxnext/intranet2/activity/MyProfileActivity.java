@@ -70,7 +70,7 @@ public class MyProfileActivity extends CommonProfileActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
-        setContentView(R.layout.activity_profile_root);
+
         super.initializeProfileImageView();
         loadViews();
 
@@ -84,6 +84,11 @@ public class MyProfileActivity extends CommonProfileActivity
         } else {
             runLoginActivity();
         }
+    }
+
+    @Override
+    public void initializeContent() {
+        setContentView(R.layout.activity_profile_root);
     }
 
     private void loadViews() {
