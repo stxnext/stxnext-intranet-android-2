@@ -16,6 +16,9 @@ import com.stxnext.intranet2.R;
 public class ProfileView extends FrameLayout {
 
     private ImageView imageView;
+    private ImageView imageViewStandard;
+    private FrameLayout standardProfileHeaderCointainer;
+    private FrameLayout superHeroProfileHeaderContainer;
 
     public ProfileView(Context context) {
         super(context);
@@ -34,6 +37,9 @@ public class ProfileView extends FrameLayout {
         super.onFinishInflate();
 
         imageView = (ImageView) findViewById(R.id.profile_image_view);
+        imageViewStandard = (ImageView) findViewById(R.id.profile_image_view_standard);
+        standardProfileHeaderCointainer = (FrameLayout) findViewById(R.id.standard_profile_header_container);
+        superHeroProfileHeaderContainer = (FrameLayout) findViewById(R.id.superhero_profile_header_container);
         if (imageView == null) {
             throw new RuntimeException("ImageView with id profile_image_view not found in ProfileView");
         }
@@ -54,7 +60,8 @@ public class ProfileView extends FrameLayout {
             @Override
             public void onScrollChanged() {
                 int translationY = scrollView.getScrollY();
-                imageView.setTranslationY(-translationY / 4);
+//                translateImageViews(translationY);
+                translateHeaders(translationY);
                 toolbar.setTranslationY(-translationY / 4);
 
                 if (floatingButton != null) {
@@ -66,6 +73,16 @@ public class ProfileView extends FrameLayout {
             }
         });
 
+    }
+
+    private void translateImageViews(int translationY) {
+        imageView.setTranslationY(-translationY / 4);
+        imageViewStandard.setTranslationY(-translationY / 4);
+    }
+
+    private void translateHeaders(int translationY) {
+        standardProfileHeaderCointainer.setTranslationY(-translationY / 4);
+        superHeroProfileHeaderContainer.setTranslationY(-translationY / 4);
     }
 
 }
