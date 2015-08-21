@@ -53,7 +53,7 @@ public class ContactDialogFragment extends DialogFragment {
         builder.setTitle(String.format("%s %s", getString(R.string.contact_with), name));
 
         CharSequence[] items;
-        if ("null".equals(phone)) {
+        if (phone == null || "null".equals(phone)) {
             items = new CharSequence[]{getString(SEND_MAIL)};
         } else {
             items = new CharSequence[]{getString(SEND_MAIL),getString(CALL), getString(SEND_SMS)};

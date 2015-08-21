@@ -85,7 +85,7 @@ public class ProfileActivity extends CommonProfileActivity implements UserApiCal
         officeTextView.setText(user.getLocalization());
         emailTextView.setText(user.getEmail());
 
-        if (firstName.substring(firstName.length() - 1, firstName.length()).equals("a")) {
+        if (isFemaleName(firstName)) {
             superheroImageView.setImageResource(R.drawable.mrs_superhero_profile);
         }
 
@@ -115,6 +115,10 @@ public class ProfileActivity extends CommonProfileActivity implements UserApiCal
                         user.getEmail());
             }
         });
+    }
+
+    private boolean isFemaleName(String firstName) {
+        return firstName.substring(firstName.length() - 1, firstName.length()).equals("a");
     }
 
     @Override

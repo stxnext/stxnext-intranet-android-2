@@ -4,7 +4,8 @@
               android:layout_height="match_parent"
               android:layout_gravity="start"
               android:background="@drawable/stx_colors_gradient"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:clickable="true">
 
     <FrameLayout
         android:layout_width="match_parent"
