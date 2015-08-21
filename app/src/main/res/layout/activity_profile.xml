@@ -2,7 +2,6 @@
 <com.stxnext.intranet2.view.ProfileView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:round="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
@@ -27,7 +26,6 @@
             android:layout_height="@dimen/profile_photo_size"
             android:layout_marginLeft="152dp"
             android:layout_marginTop="44dp"
-            android:onClick="onProfilePictureClick"
             android:transitionName="profileImageView"
             android:src="@drawable/avatar_placeholder"
             round:borderColor="@color/background"
@@ -39,7 +37,7 @@
         android:id="@+id/standard_profile_header_container"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/profile_image_height"
-        android:background="@color/header_gray" >
+        android:background="@color/header_gray">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -53,7 +51,6 @@
             android:layout_height="@dimen/profile_photo_size"
             android:layout_gravity="center"
             android:src="@drawable/avatar_placeholder"
-            android:onClick="onProfilePictureClick"
             android:transitionName="profileImageView"
             android:layout_marginTop="8dp"
             round:borderColor="@color/stxnext_green"
@@ -73,9 +70,22 @@
             android:orientation="vertical">
 
             <FrameLayout
+                android:id="@+id/scroll_view_header_transparent_space"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/profile_image_height"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent" >
+
+                <com.stxnext.intranet2.view.RoundedImageView
+                    android:id="@+id/scroll_view_profile_image_view_mapper"
+                    android:layout_width="@dimen/profile_photo_size"
+                    android:layout_height="@dimen/profile_photo_size"
+                    android:layout_gravity="center"
+                    android:onClick="onProfilePictureClick"
+                    android:transitionName="profileImageView"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/transparent"/>
+
+            </FrameLayout>
 
             <LinearLayout xmlns:card_view="http://schemas.android.com/apk/res-auto"
                           android:layout_width="match_parent"
