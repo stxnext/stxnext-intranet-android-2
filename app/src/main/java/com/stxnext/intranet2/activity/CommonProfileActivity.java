@@ -17,9 +17,14 @@ import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.workedHour.WorkedHours;
+import com.stxnext.intranet2.backend.retrofit.WorkedHoursService;
 import com.stxnext.intranet2.utils.Session;
 
+import org.androidannotations.api.BackgroundExecutor;
+
 import java.text.DecimalFormat;
+
+import retrofit.RestAdapter;
 
 
 /**
@@ -40,7 +45,9 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     private TextView monthOverhoursTextView;
     private TextView quarterOverhoursTextView;
 
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private Handler uiHandler = new Handler(Looper.getMainLooper());
+    private RestAdapter restAdapter;
+    private WorkedHoursService workedHoursService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +67,22 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
         monthOverhoursTextView = (TextView) findViewById(R.id.month_overhours);
         quarterOverhoursTextView = (TextView) findViewById(R.id.quarter_overhours);
 
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                downloadTodayHours();
-            }
-        });
+        restAdapter = new RestAdapter.Builder()
+                .setEndpoint("https://intranet.stxnext.pl")
+                .build();
+        workedHoursService = restAdapter.create(WorkedHoursService.class);
+        BackgroundExecutor.execute(new BackgroundExecutor.Task("", 0, "") {
+               @Override
+               public void execute() {
+                   try {
+                       downloadTodayHours();
+                   } catch (Throwable e) {
+                       Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
+                   }
+               }
+
+           }
+        );
     }
 
     private void downloadTodayHours() {
@@ -85,9 +102,12 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
                 "\t}\n" +
                 "}";
 
+        //todo: uncomment getting data from REST
+        //workedHoursService.getUserWorkedHours(12345);
+
         final WorkedHours workedHours = new Gson().fromJson(jsonString, WorkedHours.class);
 
-        handler.post(new Runnable() {
+        uiHandler.post(new Runnable() {
             @Override
             public void run() {
                 setTodayHoursValues(workedHours);

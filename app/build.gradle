@@ -83,6 +83,7 @@ dependencies {
     compile 'joda-time:joda-time:2.3'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'com.google.code.findbugs:jsr305:2.0.2'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
 
     compile('com.crashlytics.sdk.android:crashlytics:2.3.2@aar') {
         transitive = true;
