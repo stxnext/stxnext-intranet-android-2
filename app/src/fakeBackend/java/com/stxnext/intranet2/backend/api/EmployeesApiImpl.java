@@ -96,4 +96,5 @@ public class EmployeesApiImpl extends EmployeesApi {
         absenceList.add(new AbsenceImpl(new User("15saa3", "Tommy", "Necessary", "", "", "", Lists.newArrayList("Team Leader"), "", "", "", ""), absenceFrom, absenceTo, "USA"));
         apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absenceList));
     }
+    
 }
