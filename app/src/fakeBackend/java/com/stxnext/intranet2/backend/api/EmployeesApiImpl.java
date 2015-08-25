@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
@@ -78,7 +79,7 @@ public class EmployeesApiImpl extends EmployeesApi {
         absenceList.add(new AbsenceImpl(new User("1sa243", "Jack", "Evening", "", "", "", Lists.newArrayList("COO"), "", "", "", ""), absenceFrom, absenceTo, "Feel bad"));
         absenceList.add(new AbsenceImpl(new User("121233", "Mieszko", "Wrightwheel", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""), absenceFrom, absenceTo, "Illness"));
         absenceList.add(new AbsenceImpl(new User("15saa3", "Tommy", "Necessary", "", "", "", Lists.newArrayList("Team Leader"), "", "", "", ""), absenceFrom, absenceTo, "Busy"));
-        apiCallback.onAbsenceEmployeesListReceived(new HashSet<Absence>(absenceList));
+        apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absenceList));
     }
 
     @Override
@@ -93,6 +94,6 @@ public class EmployeesApiImpl extends EmployeesApi {
         absenceList.add(new AbsenceImpl(new User("14das3", "Paolo", "Citizen", "", "", "", Lists.newArrayList("iOS Developer"), "", "", "", ""), absenceFrom, absenceTo, "Out of office"));
         absenceList.add(new AbsenceImpl(new User("12sad3", "Lucas", "Vega", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""), absenceFrom, absenceTo, "Unavailable"));
         absenceList.add(new AbsenceImpl(new User("15saa3", "Tommy", "Necessary", "", "", "", Lists.newArrayList("Team Leader"), "", "", "", ""), absenceFrom, absenceTo, "USA"));
-        apiCallback.onAbsenceEmployeesListReceived(new HashSet<Absence>(absenceList));
+        apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absenceList));
     }
 }
