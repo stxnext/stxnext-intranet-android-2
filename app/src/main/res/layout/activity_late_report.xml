@@ -58,31 +58,37 @@
 
                 </FrameLayout>
 
-                <android.support.v7.widget.CardView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    >
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center">
 
-                    <!-- Empty layout to prevent autofocus -->
-                    <LinearLayout
-                        android:id="@+id/autotext"
-                        android:orientation="vertical"
-                        android:focusable="true" android:focusableInTouchMode="true"
-                        android:layout_width="0px" android:layout_height="0px"/>
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/input_layout_lateness_reason"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="3dp"
+                        android:visibility="invisible"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/name_et_textinputlayout"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginTop="7dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        <!-- Empty layout to prevent autofocus -->
+                        <LinearLayout
+                            android:id="@+id/autotext"
+                            android:orientation="vertical"
+                            android:focusable="true" android:focusableInTouchMode="true"
+                            android:layout_width="0px" android:layout_height="0px"/>
 
-                        <android.support.v7.widget.AppCompatEditText
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="7dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <android.support.v7.widget.AppCompatEditText
                                 android:id="@+id/lateness_reason"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -97,15 +103,9 @@
                                 android:textColor="@android:color/black"
                                 android:nextFocusUp="@id/autotext"
                                 android:nextFocusLeft="@id/autotext" />
-                    </android.support.design.widget.TextInputLayout>
+                        </android.support.design.widget.TextInputLayout>
 
-                </android.support.v7.widget.CardView>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="center">
+                    </android.support.v7.widget.CardView>
 
                     <LinearLayout
                         android:id="@+id/tip_container"
@@ -117,6 +117,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
                             android:layout_gravity="center"
                             android:textColor="@android:color/black"
                             android:fontFamily="sans-serif-thin"
