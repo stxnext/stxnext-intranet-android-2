@@ -60,10 +60,7 @@
 
 -dontwarn sun.misc.Unsafe
 
--keep public class com.stxnext.intranet2.backend.model.impl.User { *; }
-
--keep public class com.stxnext.intranet2.backend.model.impl.UserRestWrapper { *; }
-
+-keep public class com.stxnext.intranet2.backend.** { *; }
 
 -keep class com.squareup.okhttp.** { *; }
 -keep interface com.squareup.okhttp.** { *; }
@@ -76,3 +73,5 @@
 -keepclasseswithmembers class * {
     @retrofit.http.* <methods>;
 }
+
+
