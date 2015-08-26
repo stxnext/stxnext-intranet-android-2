@@ -3,19 +3,15 @@ package com.stxnext.intranet2.activity;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -185,25 +181,29 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
     }
 
     private void animateReasonLatenessFrame() {
-        textInputLayout.setVisibility(View.VISIBLE);
-//        Animation animYValue = AnimationUtils.loadAnimation(getApplicationContext(),
-//                R.animator.scale_lateness_frame);
-//        textInputLayout.startAnimation(animYValue);
-//        textInputLayout.setAni
+        if (textInputLayout.getVisibility() == View.VISIBLE) {
+            AnimatorSet anim = (AnimatorSet)AnimatorInflater
+                    .loadAnimator(this, R.animator.disappear_lateness_frame);
+            anim.setTarget(textInputLayout);
+            anim.start();
 
+            anim.addListener(new Animator.AnimatorListener() {
+                @Override public void onAnimationStart(Animator animation) {}
+                @Override public void onAnimationCancel(Animator animation) {}
+                @Override public void onAnimationRepeat(Animator animation) {}
+                @Override public void onAnimationEnd(Animator animation) {
+                    textInputLayout.setVisibility(View.INVISIBLE);
+                }
+            });
+
+            return;
+        }
+
+        textInputLayout.setVisibility(View.VISIBLE);
         AnimatorSet anim = (AnimatorSet)AnimatorInflater
-                .loadAnimator(this, R.animator.scale_lateness_frame);
+                .loadAnimator(this, R.animator.appear_lateness_frame);
         anim.setTarget(textInputLayout);
         anim.start();
-
-        Resources r = getResources();
-        float pxWidthInFloat = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, r.getDisplayMetrics());
-        //ObjectAnimator anim = ObjectAnimator.ofFloat(textInputLayout, "ScaleY", 0.f, pxWidthInFloat);
-        //ObjectAnimator anim = ObjectAnimator.ofFloat(textInputLayout, "y", 0.f, pxWidthInFloat);
-        //ObjectAnimator anim = ObjectAnimator.ofFloat(textInputLayout, "height", 0.f, pxWidthInFloat);
-        anim.setDuration(300);
-        anim.start();
-
     }
 
     @Override
