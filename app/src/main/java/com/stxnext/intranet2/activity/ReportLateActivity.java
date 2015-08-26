@@ -1,11 +1,17 @@
 package com.stxnext.intranet2.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -29,6 +35,7 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
     private View submitButton;
     private UserApi userApi;
     private View progressView;
+    private CardView textInputLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,7 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
 
         userApi = new UserApiImpl(this, this);
         progressView = findViewById(R.id.progress_container);
+        textInputLayout = (CardView)findViewById(R.id.input_layout_lateness_reason);
 
         final TextView hourLabel = (TextView) findViewById(R.id.hour_label);
         final EditText latenessReasonEditText = (EditText) findViewById(R.id.lateness_reason);
@@ -164,9 +172,44 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
+        } else if (item.getItemId() == R.id.menu_give_lateness_reason) {
+            animateReasonLatenessFrame();
+            return true;
         }
 
         return false;
+    }
+
+    private void animateReasonLatenessFrame() {
+        if (textInputLayout.getVisibility() == View.VISIBLE) {
+            AnimatorSet anim = (AnimatorSet)AnimatorInflater
+                    .loadAnimator(this, R.animator.disappear_lateness_frame);
+            anim.setTarget(textInputLayout);
+            anim.start();
+
+            anim.addListener(new Animator.AnimatorListener() {
+                @Override public void onAnimationStart(Animator animation) {}
+                @Override public void onAnimationCancel(Animator animation) {}
+                @Override public void onAnimationRepeat(Animator animation) {}
+                @Override public void onAnimationEnd(Animator animation) {
+                    textInputLayout.setVisibility(View.INVISIBLE);
+                }
+            });
+
+            return;
+        }
+
+        textInputLayout.setVisibility(View.VISIBLE);
+        AnimatorSet anim = (AnimatorSet)AnimatorInflater
+                .loadAnimator(this, R.animator.appear_lateness_frame);
+        anim.setTarget(textInputLayout);
+        anim.start();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(Menu.NONE, R.id.menu_give_lateness_reason, Menu.NONE, R.string.give_lateness_reason);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
