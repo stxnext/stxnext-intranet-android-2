@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -164,9 +165,18 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
+        } else if (item.getItemId() == R.id.menu_give_lateness_reason) {
+            onBackPressed();
+            return true;
         }
 
         return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(Menu.NONE, R.id.menu_give_lateness_reason, Menu.NONE, R.string.give_lateness_reason);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
