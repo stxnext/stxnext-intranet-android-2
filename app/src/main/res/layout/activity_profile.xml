@@ -20,35 +20,23 @@
             android:scaleType="centerCrop"
             android:src="@drawable/mr_superhero_profile"/>
 
-        <LinearLayout
+        <android.support.percent.PercentFrameLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+            android:layout_height="match_parent">
 
             <com.stxnext.intranet2.view.RoundedImageView
                 android:id="@+id/profile_image_view"
                 android:layout_width="@dimen/profile_photo_size"
                 android:layout_height="@dimen/profile_photo_size"
-                android:layout_marginTop="44dp"
-                android:layout_marginLeft="55dp"
+                app:layout_marginTopPercent="18%"
+                app:layout_marginLeftPercent="41%"
                 android:transitionName="profileImageView"
                 android:src="@drawable/avatar_placeholder"
                 round:borderColor="@color/background"
                 round:borderSize="@dimen/null_value"/>
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-
+        </android.support.percent.PercentFrameLayout>
 
     </FrameLayout>
 
