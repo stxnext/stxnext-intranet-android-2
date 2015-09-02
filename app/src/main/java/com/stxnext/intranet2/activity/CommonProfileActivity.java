@@ -53,12 +53,11 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeContentView();
-        fillWorkedHours();
     }
 
     public abstract void initializeContentView();
 
-    public void fillWorkedHours() {
+    public void fillWorkedHours(final User user) {
         todayNumberTextView = (TextView) findViewById(R.id.today_number);
         monthNumberTextView = (TextView) findViewById(R.id.month_number);
         quarterNumberTextView = (TextView) findViewById(R.id.quarter_number);
@@ -75,7 +74,7 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
                @Override
                public void execute() {
                    try {
-                       downloadTodayHours();
+                       downloadTodayHours(user);
                    } catch (Throwable e) {
                        Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
                    }
@@ -85,27 +84,8 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
         );
     }
 
-    private void downloadTodayHours() {
-        //todo: download from backend server
-        String jsonString = "{\n" +
-                "\t\"today\" :  {\n" +
-                "\t\t\"sum\" : 6.00,\n" +
-                "\t\t\"diff\" : 0.00 \n" +
-                "\t},\n" +
-                "\t\"month\": {\n" +
-                "\t\t\"sum\" : 66.66,\n" +
-                "\t\t\"diff\" : -6.66 \n" +
-                "\t},\n" +
-                "\t\"quarter\": {\n" +
-                "\t\t\"sum\" : 333.33,\n" +
-                "\t\t\"diff\" : -3.33 \n" +
-                "\t}\n" +
-                "}";
-
-        //todo: uncomment getting data from REST
-        //workedHoursService.getUserWorkedHours(12345);
-
-        final WorkedHours workedHours = new Gson().fromJson(jsonString, WorkedHours.class);
+    private void downloadTodayHours(User user) {
+        final WorkedHours workedHours = workedHoursService.getUserWorkedHours(Integer.parseInt(user.getId()));
 
         uiHandler.post(new Runnable() {
             @Override

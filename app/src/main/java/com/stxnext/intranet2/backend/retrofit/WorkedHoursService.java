@@ -14,5 +14,5 @@ import retrofit.http.Query;
 public interface WorkedHoursService {
 
     @GET("/api/worked_hours")
-    List<WorkedHours> getUserWorkedHours(@Query("user_id") int user);
+    WorkedHours getUserWorkedHours(@Query("user_id") int user);
 }

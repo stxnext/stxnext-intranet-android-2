@@ -342,6 +342,8 @@ public class MyProfileActivity extends CommonProfileActivity
             Session.getInstance(this).logout();
             runLoginActivity();
         }
+
+        fillWorkedHours(user);
     }
 
     private boolean isFemaleName(String firstName) {
