@@ -38,16 +38,21 @@ public class ConnectionManager {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
+                Log.d(Config.getTag(this), "onPageStarted, url:" + url);
                 if (url.contains("code=")) {
                     webView.stopLoading();
                     String code = url.substring(url.indexOf("code=") + "code=".length());
                     Session.getInstance(context).setAuthorizationCode(code);
                     authorize();
+                } else {
+                    Log.d(Config.getTag(this), "Url doesn't contain code");
                 }
+
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
+                Log.d(Config.getTag(this), "onPageFinished, url" + url);
                 super.onPageFinished(view, url);
             }
         };
@@ -61,6 +66,7 @@ public class ConnectionManager {
         AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Log.d(Config.getTag(this), "callback onSuccess");
                 String response = new String(responseBody);
                 Log.d(Config.TAG, response);
                 getUserId();
@@ -68,6 +74,7 @@ public class ConnectionManager {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.d(Config.getTag(this), "callback failure");
                 callback.onLoginFailed();
             }
         };
@@ -78,6 +85,7 @@ public class ConnectionManager {
         AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Log.d(Config.getTag(this), "getUserId onSuccess");
                 String response = new String(responseBody);
                 Log.d(Config.TAG, response);
                 if (response.contains("id")) {
@@ -92,6 +100,7 @@ public class ConnectionManager {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.d(Config.getTag(this), "getUserId onFailure");
                 callback.onLoginFailed();
             }
         };
