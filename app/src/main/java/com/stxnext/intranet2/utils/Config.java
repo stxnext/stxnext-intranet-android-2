@@ -7,4 +7,8 @@ public class Config {
 
     public static final String TAG = "STX Intranet 2";
 
+    public static String getTag(Object object) {
+        return TAG + ":" + object.getClass().getName();
+    }
+
 }

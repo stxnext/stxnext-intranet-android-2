@@ -9,6 +9,7 @@ import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +31,7 @@ import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.fragment.FloatingMenuFragment;
 import com.stxnext.intranet2.model.DrawerMenuItems;
+import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.STXToast;
 import com.stxnext.intranet2.utils.Session;
 
@@ -286,7 +288,7 @@ public class MyProfileActivity extends CommonProfileActivity
     }
 
     @Override
-    public void onUserReceived(User user) {
+    public void onUserReceived(final User user) {
         super.onUserReceived(user);
         progressView.setVisibility(View.GONE);
         if (user != null) {
@@ -338,6 +340,16 @@ public class MyProfileActivity extends CommonProfileActivity
                     .setDuration(300)
                     .setStartDelay(80)
                     .setInterpolator(new OvershootInterpolator());
+
+            findViewById(R.id.user_info_container).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(Config.getTag(this), "Time report click");
+                    Intent timeReportActivityIntent = new Intent(MyProfileActivity.this, TimeReportActivity.class);
+                    timeReportActivityIntent.putExtra(TimeReportActivity.USER_ID_TAG, user.getId());
+                }
+            });
+
         } else {
             Session.getInstance(this).logout();
             runLoginActivity();

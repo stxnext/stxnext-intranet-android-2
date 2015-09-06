@@ -109,6 +109,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeTransparentWindowBackground"/>
 
+        <activity
+            android:name=".activity.TimeReportActivity"
+            android:label="@string/worked_hours_heading"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
         <receiver android:name=".broadcast.IncomingCallBroadcastReceiver"
                     android:exported="true">
             <intent-filter>
