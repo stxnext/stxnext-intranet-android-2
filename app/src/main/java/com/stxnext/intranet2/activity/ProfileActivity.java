@@ -46,7 +46,7 @@ public class ProfileActivity extends CommonProfileActivity implements UserApiCal
         superheroImageView = (ImageView) findViewById(R.id.superhero_image_view);
         findViewById(R.id.floating_button).setVisibility(View.GONE);
 
-        super.initializeProfileImageView();
+//        super.initializeProfileImageView();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

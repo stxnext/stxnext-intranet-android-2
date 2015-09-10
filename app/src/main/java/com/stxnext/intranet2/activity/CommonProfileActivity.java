@@ -53,6 +53,7 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeContentView();
+        initializeProfileImageView();
     }
 
     public abstract void initializeContentView();
