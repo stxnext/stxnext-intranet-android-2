@@ -14,6 +14,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.stxnext.intranet2.R;
+import com.stxnext.intranet2.model.DaysShorcuts;
 
 import java.util.Calendar;
 
@@ -47,7 +48,6 @@ public class TimeReportActivity extends AppCompatActivity {
     private TableLayout createTimeTable() {
         TableLayout tableLayout = new TableLayout(getApplicationContext());
         tableLayout.setStretchAllColumns(true);
-
         TableRow tableRowDayNumbers = new TableRow(getApplicationContext());
         TableRow tableRowDays = new TableRow(getApplicationContext());
 
@@ -56,13 +56,15 @@ public class TimeReportActivity extends AppCompatActivity {
         actualMonth.set(Calendar.DAY_OF_MONTH, 1);
         int dayOfFirstWeek = actualMonth.get(Calendar.DAY_OF_WEEK);
         dayOfFirstWeek = recalculateDayOfFirstWeek(dayOfFirstWeek);
+        createDaysNames(tableLayout);
         tableLayout.addView(tableRowDayNumbers);
         tableLayout.addView(tableRowDays);
-        insertBeginningEmptyCells(tableRowDayNumbers, tableRowDays, dayOfFirstWeek);
-
+        insertEmptyCells(tableRowDayNumbers, tableRowDays, dayOfFirstWeek);
+        int currentColumnPosition = 0;
         for (int day = 1; day <= numberOfDays; day++) {
             // If this is new week create new row
-            if (isBeginningOfWeek(day, dayOfFirstWeek - 1)) {
+            if (isBeginningOfWeek(day, dayOfFirstWeek)) {
+                currentColumnPosition = 0;
                 tableRowDayNumbers = new TableRow(getApplicationContext());
                 tableLayout.addView(tableRowDayNumbers);
                 tableRowDays = new TableRow(getApplicationContext());
@@ -73,8 +75,14 @@ public class TimeReportActivity extends AppCompatActivity {
 
             TextView hoursWorked = createHoursWorkedCell("8.00");
             tableRowDays.addView(hoursWorked);
+            currentColumnPosition++;
         }
+        insertEmptyCells(tableRowDayNumbers, tableRowDays, getEmptyColumnsLeft(currentColumnPosition));
         return tableLayout;
+    }
+
+    private int getEmptyColumnsLeft(int currentColumnPosition) {
+        return 7 - currentColumnPosition;
     }
 
     @NonNull
@@ -96,26 +104,41 @@ public class TimeReportActivity extends AppCompatActivity {
         return dayNumber;
     }
 
-    private void insertBeginningEmptyCells(TableRow tableRowDayNumbers, TableRow tableRowDays, int dayOfFirstWeek) {
-        for(int i = 1; i < dayOfFirstWeek; i++) {
+    private void createDaysNames(TableLayout tableLayout) {
+        TableRow tableRowNames = new TableRow(getApplicationContext());
+        for (int i = 0; i < 7; i++) {
+            TextView dayName = new TextView(getApplicationContext());
+            dayName.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_light_darker));
+            dayName.setTextColor(Color.BLACK);
+            dayName.setPadding(3, 3, 3, 3);
+            dayName.setText(getString(DaysShorcuts.values()[i].getDayShortcut()));
+            tableRowNames.addView(dayName);
+        }
+        tableLayout.addView(tableRowNames);
+    }
+
+    private void insertEmptyCells(TableRow tableRowDayNumbers, TableRow tableRowDays, int daysToFill) {
+        for(int i = 0; i < daysToFill; i++) {
             TextView dayNumber = new TextView(getApplicationContext());
-            dayNumber.setBackgroundColor(ContextCompat.getColor(this, R.color.background));
+            dayNumber.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_light));
+            dayNumber.setPadding(3, 3, 3, 3);
             tableRowDayNumbers.addView(dayNumber);
             TextView hoursWorked = new TextView(getApplicationContext());
-            hoursWorked.setBackgroundColor(ContextCompat.getColor(this, R.color.background));
+            hoursWorked.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_light));
+            hoursWorked.setPadding(3, 3, 3, 3);
             tableRowDays.addView(hoursWorked);
         }
     }
 
     /**
-     * Recalculates day of first week as to monday is 1, sunday is 7.
+     * Recalculates day of first week as to monday is 0, sunday is 6.
      * @param dayOfFirstWeek
      * @return
      */
     private int recalculateDayOfFirstWeek(int dayOfFirstWeek) {
-        dayOfFirstWeek -= 1;
-        if (dayOfFirstWeek == 0) {
-            dayOfFirstWeek = 7;
+        dayOfFirstWeek -=2;
+        if (dayOfFirstWeek == -1) {
+            dayOfFirstWeek = 6;
         }
         return dayOfFirstWeek;
     }

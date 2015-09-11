@@ -68,4 +68,11 @@
     <string name="today">Dziś</string>
     <string name="month">Miesiąc</string>
     <string name="time_report_for">Czas pracy za</string>
+    <string name="monday_short">Pn</string>
+    <string name="tuesday_short">Wt</string>
+    <string name="wednesday_short">Śr</string>
+    <string name="thursday_short">Czw</string>
+    <string name="friday_short">Pt</string>
+    <string name="saturday_short">So</string>
+    <string name="sunday_short">Nd</string>
 </resources>
