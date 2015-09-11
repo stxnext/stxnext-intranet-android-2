@@ -67,4 +67,5 @@
     <string name="quarter_heading">Quarter</string>
     <string name="today">Today</string>
     <string name="month">Month</string>
+    <string name="time_report_for">Time report for</string>
 </resources>

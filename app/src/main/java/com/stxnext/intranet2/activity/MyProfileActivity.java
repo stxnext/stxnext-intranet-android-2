@@ -74,7 +74,7 @@ public class MyProfileActivity extends CommonProfileActivity
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
 
-        super.initializeProfileImageView();
+//        super.initializeProfileImageView();
         loadViews();
 
         setSupportActionBar(toolbar);
@@ -341,12 +341,13 @@ public class MyProfileActivity extends CommonProfileActivity
                     .setStartDelay(80)
                     .setInterpolator(new OvershootInterpolator());
 
-            findViewById(R.id.user_info_container).setOnClickListener(new View.OnClickListener() {
+            findViewById(R.id.worked_hours_container).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d(Config.getTag(this), "Time report click");
                     Intent timeReportActivityIntent = new Intent(MyProfileActivity.this, TimeReportActivity.class);
                     timeReportActivityIntent.putExtra(TimeReportActivity.USER_ID_TAG, user.getId());
+                    startActivity(timeReportActivityIntent);
                 }
             });
 
