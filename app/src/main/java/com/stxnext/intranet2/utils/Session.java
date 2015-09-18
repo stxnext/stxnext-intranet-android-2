@@ -41,6 +41,7 @@ public class Session {
     private Session(Context context) {
         preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
         cookieStore = new PersistentCookieStore(context);
+        cookieManager = new CookieManager(new com.stxnext.intranet2.utils.PersistentCookieStore(context.getApplicationContext()), CookiePolicy.ACCEPT_ALL);
         if (isLogged()) {
             initializeOkHttpCookieHandler();
         }
@@ -109,12 +110,12 @@ public class Session {
      * Needed for OkHTTPRequest and Picasso. Invoked once by initializeOkHttpCookieHandler().
      * @return
      */
-    private CookieManager getCookieManager() {
-        cookieManager = new CookieManager();
-        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-        if (cookieManager.getCookieStore().getCookies().size() == 0 && isLogged()) {
-            initializeManagerCookieStore();
-        }
+    public CookieManager getCookieManager() {
+//        cookieManager = new CookieManager();
+//        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+//        if (cookieManager.getCookieStore().getCookies().size() == 0 && isLogged()) {
+//            initializeManagerCookieStore();
+//        }
         return cookieManager;
     }
 
