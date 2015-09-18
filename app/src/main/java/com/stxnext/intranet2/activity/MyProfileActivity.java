@@ -290,73 +290,77 @@ public class MyProfileActivity extends CommonProfileActivity
     @Override
     public void onUserReceived(final User user) {
         super.onUserReceived(user);
-        progressView.setVisibility(View.GONE);
-        if (user != null) {
-            String firstName = user.getFirstName();
-            String userName = firstName + " " + user.getLastName();
-            getSupportActionBar().setTitle(userName);
-            firstNameTextView.setText(userName);
-            roleTextView.setText(user.getRoles() != null && user.getRoles().size() > 0 ? user.getRoles().get(0) : "");
-            officeTextView.setText(user.getLocalization());
-            emailTextView.setText(user.getEmail());
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressView.setVisibility(View.GONE);
+                if (user != null) {
+                    String firstName = user.getFirstName();
+                    String userName = firstName + " " + user.getLastName();
+                    getSupportActionBar().setTitle(userName);
+                    firstNameTextView.setText(userName);
+                    roleTextView.setText(user.getRoles() != null && user.getRoles().size() > 0 ? user.getRoles().get(0) : "");
+                    officeTextView.setText(user.getLocalization());
+                    emailTextView.setText(user.getEmail());
 
-            if (isFemaleName(firstName)) {
-                ImageView superheroImageView = (ImageView) findViewById(R.id.superhero_image_view);
-                superheroImageView.setImageResource(R.drawable.mrs_superhero_profile);
-            }
+                    if (isFemaleName(firstName)) {
+                        ImageView superheroImageView = (ImageView) findViewById(R.id.superhero_image_view);
+                        superheroImageView.setImageResource(R.drawable.mrs_superhero_profile);
+                    }
 
-            String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
-            Picasso.with(this)
-                    .load(imageAddress)
-                    .placeholder(R.drawable.avatar_placeholder)
-                    .resizeDimen(R.dimen.profile_image_height, R.dimen.profile_image_height)
-                    .centerCrop()
-                    .into(profileImageView, new Callback() {
+                    String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
+                    Picasso.with(MyProfileActivity.this)
+                            .load(imageAddress)
+                            .placeholder(R.drawable.avatar_placeholder)
+                            .resizeDimen(R.dimen.profile_image_height, R.dimen.profile_image_height)
+                            .centerCrop()
+                            .into(profileImageView, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    profileImageView.animate().alpha(1).setDuration(500);
+                                }
+
+                                @Override
+                                public void onError() {
+                                    profileImageView.animate().alpha(1).setDuration(500);
+                                }
+                            });
+
+                    if (!"null".equals(user.getPhoneNumber())) {
+                        phoneTextView.setText(user.getPhoneNumber());
+                    }
+                    if (!"null".equals(user.getSkype())) {
+                        skypeTextView.setText(user.getSkype());
+                    }
+                    if (!"null".equals(user.getIrc())) {
+                        ircTextView.setText(user.getIrc());
+                    }
+
+                    userInfoCardView.animate()
+                            .scaleX(1)
+                            .scaleY(1)
+                            .alpha(1)
+                            .setDuration(300)
+                            .setStartDelay(80)
+                            .setInterpolator(new OvershootInterpolator());
+
+                    findViewById(R.id.worked_hours_container).setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onSuccess() {
-                            profileImageView.animate().alpha(1).setDuration(500);
-                        }
-
-                        @Override
-                        public void onError() {
-                            profileImageView.animate().alpha(1).setDuration(500);
+                        public void onClick(View v) {
+                            Log.d(Config.getTag(this), "Time report click");
+                            Intent timeReportActivityIntent = new Intent(MyProfileActivity.this, TimeReportActivity.class);
+                            timeReportActivityIntent.putExtra(TimeReportActivity.USER_ID_TAG, user.getId());
+                            startActivity(timeReportActivityIntent);
                         }
                     });
-
-            if (!"null".equals(user.getPhoneNumber())) {
-                phoneTextView.setText(user.getPhoneNumber());
-            }
-            if (!"null".equals(user.getSkype())) {
-                skypeTextView.setText(user.getSkype());
-            }
-            if (!"null".equals(user.getIrc())) {
-                ircTextView.setText(user.getIrc());
-            }
-
-            userInfoCardView.animate()
-                    .scaleX(1)
-                    .scaleY(1)
-                    .alpha(1)
-                    .setDuration(300)
-                    .setStartDelay(80)
-                    .setInterpolator(new OvershootInterpolator());
-
-            findViewById(R.id.worked_hours_container).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(Config.getTag(this), "Time report click");
-                    Intent timeReportActivityIntent = new Intent(MyProfileActivity.this, TimeReportActivity.class);
-                    timeReportActivityIntent.putExtra(TimeReportActivity.USER_ID_TAG, user.getId());
-                    startActivity(timeReportActivityIntent);
+                    fillWorkedHours(user);
+                } else {
+                    Session.getInstance(MyProfileActivity.this).logout();
+                    runLoginActivity();
                 }
-            });
+            }
+        });
 
-        } else {
-            Session.getInstance(this).logout();
-            runLoginActivity();
-        }
-
-        fillWorkedHours(user);
     }
 
     private boolean isFemaleName(String firstName) {

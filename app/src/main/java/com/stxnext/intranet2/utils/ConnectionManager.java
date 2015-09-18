@@ -8,8 +8,18 @@ import android.webkit.WebViewClient;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import org.apache.http.Header;
+
+import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 
 /**
  * Created by Lukasz Ciupa on 2015-05-26.
@@ -22,6 +32,7 @@ public class ConnectionManager {
     private ConnectionCallback callback;
     private WebView webView;
     private AsyncHttpClient httpClient;
+    private OkHttpClient okHttpClient;
 
     public ConnectionManager(Context context, WebView webView, ConnectionCallback callback) {
 
@@ -29,6 +40,11 @@ public class ConnectionManager {
         this.webView = webView;
         this.callback = callback;
         httpClient = new AsyncHttpClient();
+        okHttpClient = new OkHttpClient();
+
+//        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+//        CookieHandler.setDefault(cookieManager);
+        okHttpClient.setCookieHandler(Session.getInstance(context).getCookieManager());
         httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
     }
 
@@ -63,48 +79,101 @@ public class ConnectionManager {
 
     private void authorize() {
 
-        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Log.d(Config.getTag(this), "callback onSuccess");
-                String response = new String(responseBody);
-                Log.d(Config.TAG, response);
-                getUserId();
-            }
+        Callback okHttpCallback = new Callback() {
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            public void onFailure(Request request, IOException e) {
                 Log.d(Config.getTag(this), "callback failure");
                 callback.onLoginFailed();
             }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String responseString = response.body().string();
+                Log.d(Config.TAG, responseString);
+                getUserId();
+            }
         };
-        httpClient.get("https://intranet.stxnext.pl/auth/callback?code=" + Session.getInstance(context).getAuthorizationCode(), asyncHttpResponseHandler);
+
+        Request request = new Request.Builder()
+                .url("https://intranet.stxnext.pl/auth/callback?code=" + Session.getInstance(context).getAuthorizationCode())
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(okHttpCallback);
+
+//        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+//                Log.d(Config.getTag(this), "callback onSuccess");
+//                String response = new String(responseBody);
+//                Log.d(Config.TAG, response);
+//                getUserId();
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+//                Log.d(Config.getTag(this), "callback failure");
+//                callback.onLoginFailed();
+//            }
+//        };
+//        httpClient.get("https://intranet.stxnext.pl/auth/callback?code=" + Session.getInstance(context).getAuthorizationCode(), asyncHttpResponseHandler);
     }
 
     private void getUserId() {
-        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
+
+        Callback okHttpCallback = new Callback() {
+
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+            public void onFailure(Request request, IOException e) {
+                Log.d(Config.getTag(this), "callback failure");
+                callback.onLoginFailed();
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
                 Log.d(Config.getTag(this), "getUserId onSuccess");
-                String response = new String(responseBody);
-                Log.d(Config.TAG, response);
-                if (response.contains("id")) {
-                    int beginIndex = response.indexOf("\"id\"") + "\"id\": ".length();
-                    String id = response.substring(beginIndex);
+                String responseString = response.body().string();
+                Log.d(Config.TAG, responseString);
+                if (responseString.contains("\"id\"")) {
+                    int beginIndex = responseString.indexOf("\"id\"") + "\"id\": ".length();
+                    String id = responseString.substring(beginIndex);
                     id = id.substring(0, id.indexOf(","));
                     Session.getInstance(context).setUserId(id);
                     Session.getInstance(context).initializeOkHttpCookieHandler();
                     callback.onLoggedIn();
                 }
             }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.d(Config.getTag(this), "getUserId onFailure");
-                callback.onLoginFailed();
-            }
         };
-        httpClient.get("https://intranet.stxnext.pl/user/edit", asyncHttpResponseHandler);
+
+        Request request = new Request.Builder()
+                .url("https://intranet.stxnext.pl/user/edit")
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(okHttpCallback);
+
+//        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+//                Log.d(Config.getTag(this), "getUserId onSuccess");
+//                String response = new String(responseBody);
+//                Log.d(Config.TAG, response);
+//                if (response.contains("id")) {
+//                    int beginIndex = response.indexOf("\"id\"") + "\"id\": ".length();
+//                    String id = response.substring(beginIndex);
+//                    id = id.substring(0, id.indexOf(","));
+//                    Session.getInstance(context).setUserId(id);
+//                    Session.getInstance(context).initializeOkHttpCookieHandler();
+//                    callback.onLoggedIn();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+//                Log.d(Config.getTag(this), "getUserId onFailure");
+//                callback.onLoginFailed();
+//            }
+//        };
+//        httpClient.get("https://intranet.stxnext.pl/user/edit", asyncHttpResponseHandler);
     }
 
     public interface ConnectionCallback {

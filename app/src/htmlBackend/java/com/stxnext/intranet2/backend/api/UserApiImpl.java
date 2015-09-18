@@ -121,7 +121,6 @@ public class UserApiImpl extends UserApi {
         }
     }
 
-    //TODO
     // JSON to gain:
     // {"absence":{"popup_type":"planowany","popup_date_end":"05/06/2015","popup_remarks":"Wolne.","popup_date_start":"05/06/2015"}}
     @Override
