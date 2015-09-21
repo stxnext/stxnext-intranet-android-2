@@ -188,14 +188,24 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
 
     @Override
     public void onOutOfOfficeResponse(boolean entry) {
-        STXToast.show(this, R.string.saved);
-        finish();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                STXToast.show(ReportOutOfOfficeActivity.this, R.string.saved);
+                finish();
+            }
+        });
     }
 
     @Override
     public void onRequestError() {
-        STXToast.show(this, R.string.reqest_error);
-        progressView.setVisibility(View.GONE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressView.setVisibility(View.GONE);
+                STXToast.show(ReportOutOfOfficeActivity.this, R.string.reqest_error);
+            }
+        });
     }
 
     @Override

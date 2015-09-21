@@ -384,7 +384,12 @@ public class MyProfileActivity extends CommonProfileActivity
 
     @Override
     public void onRequestError() {
-        progressView.setVisibility(View.GONE);
-        STXToast.show(this, R.string.reqest_error);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressView.setVisibility(View.GONE);
+                STXToast.show(MyProfileActivity.this, R.string.reqest_error);
+            }
+        });
     }
 }

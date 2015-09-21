@@ -206,6 +206,7 @@ public class ReportHolidayActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
+
         int monthFrom = dateFrom.get(Calendar.MONTH);
         int monthTo = dateTo.get(Calendar.MONTH);
 
@@ -235,8 +236,13 @@ public class ReportHolidayActivity extends AppCompatActivity
 
     @Override
     public void onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request) {
-        STXToast.show(this, R.string.saved);
-        finish();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                STXToast.show(ReportHolidayActivity.this, R.string.saved);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -246,16 +252,26 @@ public class ReportHolidayActivity extends AppCompatActivity
 
     @Override
     public void onRequestError() {
-        STXToast.show(this, R.string.reqest_error);
-        progressView.setVisibility(View.GONE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                STXToast.show(ReportHolidayActivity.this, R.string.reqest_error);
+                progressView.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
-    public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
-        Session.getInstance(this).setAbsenceDaysLeft(absenceDaysLeft);
-        Session.getInstance(this).setDaysMandated(mandated);
-        remainingDays = absenceDaysLeft;
-        allDays = mandated;
-        prepareDateViews();
+    public void onAbsenceDaysLeftReceived(final int mandated, final int days, final int absenceDaysLeft) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Session.getInstance(ReportHolidayActivity.this).setAbsenceDaysLeft(absenceDaysLeft);
+                Session.getInstance(ReportHolidayActivity.this).setDaysMandated(mandated);
+                remainingDays = absenceDaysLeft;
+                allDays = mandated;
+                prepareDateViews();
+            }
+        });
     }
 }
