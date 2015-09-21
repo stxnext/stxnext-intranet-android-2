@@ -5,8 +5,6 @@ import android.util.Log;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -19,9 +17,7 @@ import com.stxnext.intranet2.backend.model.impl.AbsenceImpl;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
-import com.stxnext.intranet2.utils.Session;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
