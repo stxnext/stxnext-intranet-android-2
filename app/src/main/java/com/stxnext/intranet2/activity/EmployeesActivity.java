@@ -81,7 +81,7 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
         recycleView.setLayoutManager(layoutManager);
 
         api = new EmployeesApiImpl(this, this);
-        api.requestForEmployees(false);
+        api.requestForEmployees(true);
     }
 
     @Override
@@ -106,15 +106,20 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
     }
 
     @Override
-    public void onEmployeesListReceived(List<User> employees) {
-        if (adapter == null) {
-            adapter = new EmployeesListAdapter(this, employees, this);
-            recycleView.setAdapter(adapter);
-        } else {
-            adapter.restore();
-        }
+    public void onEmployeesListReceived(final List<User> employees) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (adapter == null) {
+                    adapter = new EmployeesListAdapter(EmployeesActivity.this, employees, EmployeesActivity.this);
+                    recycleView.setAdapter(adapter);
+                } else {
+                    adapter.restore();
+                }
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
-        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

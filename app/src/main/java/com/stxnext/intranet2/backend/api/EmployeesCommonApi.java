@@ -7,8 +7,11 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.Absence;
@@ -16,9 +19,8 @@ import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.impl.UserRestWrapper;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
-import com.stxnext.intranet2.utils.Session;
 
-import org.apache.http.Header;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.Collator;
 import java.util.ArrayList;
@@ -58,28 +60,34 @@ public abstract class EmployeesCommonApi {
      * @param apiCallback  EmployeesApiCallback or UserApiCallback
      */
     private static void downloadUsersWorker(final Context context, final EmployeesApiCallback apiCallback) {
-        AsyncHttpClient httpClient = new AsyncHttpClient();
-        httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
 
-        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
+        Callback okHttpCallback = new Callback() {
+
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String response = new String(responseBody);
-                Log.d(Config.TAG, response);
-                CopyOnWriteArrayList<User> users = new CopyOnWriteArrayList(processJsonEmployees(response));
+            public void onFailure(Request request, IOException e) {
+                Log.d(Config.getTag(this), "Download workers failure");
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String responseString = response.body().string();
+                Log.d(Config.TAG, responseString);
+                CopyOnWriteArrayList<User> users = new CopyOnWriteArrayList(processJsonEmployees(responseString));
                 removeClients(users);
                 sortUsersByFirstName(Lists.newArrayList(users)); //concurrent.CopyOnWriteArrayList$CowIterator doesn't support set(Object o) operation which replaces the current object in the array
                 DBManager.getInstance(context).persistEmployees(users);
 
                 if (apiCallback != null)
-                        apiCallback.onEmployeesListReceived(users);
+                    apiCallback.onEmployeesListReceived(users);
             }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {}
         };
 
-        httpClient.get("https://intranet.stxnext.pl/api/users?full=1&inactive=0", asyncHttpResponseHandler);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("https://intranet.stxnext.pl/api/users?full=1&inactive=0")
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(okHttpCallback);
     }
 
     /**

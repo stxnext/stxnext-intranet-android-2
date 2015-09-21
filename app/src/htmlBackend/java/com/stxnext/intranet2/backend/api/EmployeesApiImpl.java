@@ -5,8 +5,11 @@ import android.util.Log;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.Absence;
@@ -14,13 +17,12 @@ import com.stxnext.intranet2.backend.model.impl.AbsenceImpl;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
-import com.stxnext.intranet2.utils.Session;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.Collator;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -59,24 +61,29 @@ public class EmployeesApiImpl extends EmployeesApi {
     @Override
     public void requestForOutOfOfficeAbsenceEmployees() {
 
-        AsyncHttpClient httpClient = new AsyncHttpClient();
-        httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
+        Callback okHttpCallback = new Callback() {
 
-        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String response = new String(responseBody);
-                Log.d(Config.TAG, response);
-                List<Absence> absences = processJsonOutOfOfficeAbsences(response);
-                sortAbsencesByUserFirstName(absences);
-                apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absences));
+            public void onFailure(Request request, IOException e) {
+                Log.d(Config.getTag(this), "requestForOutOfOfficeAbsenceEmployees failure.");
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {}
+            public void onResponse(Response response) throws IOException {
+                String responseString = response.body().string();
+                Log.d(Config.TAG, responseString);
+                List<Absence> absences = processJsonOutOfOfficeAbsences(responseString);
+                sortAbsencesByUserFirstName(absences);
+                apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absences));
+            }
         };
 
-        httpClient.get("https://intranet.stxnext.pl/api/presence", asyncHttpResponseHandler);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("https://intranet.stxnext.pl/api/presence")
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(okHttpCallback);
     }
 
     private void sortAbsencesByUserFirstName(List<Absence> absences) {
@@ -220,27 +227,29 @@ public class EmployeesApiImpl extends EmployeesApi {
     @Override
     public void requestForWorkFromHomeAbsenceEmpolyees() {
 
-        AsyncHttpClient httpClient = new AsyncHttpClient();
-        httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
+        Callback okHttpCallback = new Callback() {
 
-        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String response = new String(responseBody);
-                Log.d(Config.TAG, response);
-                List<Absence> absences = processJsonWorkFromHomeAbsences(response);
+            public void onFailure(Request request, IOException e) {
+                Log.d(Config.getTag(this), "requestForWorkFromHomeAbsenceEmpolyees() failure.");
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String responseString = response.body().string();
+                Log.d(Config.TAG, responseString);
+                List<Absence> absences = processJsonWorkFromHomeAbsences(responseString);
                 sortAbsencesByUserFirstName(absences);
                 apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absences));
             }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
         };
 
-        httpClient.get("https://intranet.stxnext.pl/api/presence", asyncHttpResponseHandler);
-
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("https://intranet.stxnext.pl/api/presence")
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(okHttpCallback);
     }
 
     private List<Absence> processJsonWorkFromHomeAbsences(String jsonAbsencesString) {
@@ -279,26 +288,30 @@ public class EmployeesApiImpl extends EmployeesApi {
 
     @Override
     public void requestForHolidayAbsenceEmployees() {
-        AsyncHttpClient httpClient = new AsyncHttpClient();
-        httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
 
-        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
+        Callback okHttpCallback = new Callback() {
+
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String response = new String(responseBody);
-                Log.d(Config.TAG, response);
-                List<Absence> absences = processJsonHolidayAbsences(response);
+            public void onFailure(Request request, IOException e) {
+                Log.d(Config.getTag(this), "requestForHolidayAbsenceEmployees failure.");
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String responseString = response.body().string();
+                Log.d(Config.TAG, responseString);
+                List<Absence> absences = processJsonHolidayAbsences(responseString);
                 sortAbsencesByUserFirstName(absences);
                 apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absences));
             }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
         };
 
-        httpClient.get("https://intranet.stxnext.pl/api/presence", asyncHttpResponseHandler);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("https://intranet.stxnext.pl/api/presence")
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(okHttpCallback);
     }
 
     private List<Absence> processJsonHolidayAbsences(String jsonAbsenceString) {
