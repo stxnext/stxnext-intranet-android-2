@@ -130,31 +130,6 @@ public class UserApiImpl extends UserApi {
             Call call = okHttpClient.newCall(request);
             call.enqueue(okHttpCallback);
 
-//TODO delete
-//            AsyncHttpClient httpClient = new AsyncHttpClient();
-//            httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
-//            StringEntity postEntity = new StringEntity(jsonString, HTTP.UTF_8);
-//            AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
-//                @Override
-//                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-//                    String latenessResponse = new String(responseBody);
-//                    try {
-//                        JSONObject latenessJSONObject = new JSONObject(latenessResponse);
-//                        boolean entry = latenessJSONObject.getBoolean("entry");
-//                        apiCallback.onOutOfOfficeResponse(entry);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//
-//                @Override
-//                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-//                    apiCallback.onRequestError();
-//                }
-//            };
-//
-//            httpClient.post(context, "https://intranet.stxnext.pl/api/lateness", postEntity, "application/json", asyncHttpResponseHandler);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -210,72 +185,15 @@ public class UserApiImpl extends UserApi {
             Call call = okHttpClient.newCall(request);
             call.enqueue(okHttpCallback);
 
-//TODO delete
-//            AsyncHttpClient httpClient = new AsyncHttpClient();
-//            httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
-//            StringEntity postEntity = new StringEntity(jsonString, HTTP.UTF_8);
-//            AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
-//                @Override
-//                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-//                    String response = new String(responseBody);
-//                    Log.d(Config.TAG, response);
-//                    try {
-//                        JSONObject holidayAbsenceResult = new JSONObject(response);
-//                        boolean hours = holidayAbsenceResult.getBoolean("hours");
-//                        boolean calendarEntry = holidayAbsenceResult.getBoolean("calendar_entry");
-//                        boolean request = holidayAbsenceResult.getBoolean("request");
-//                        apiCallback.onAbsenceResponse(hours, calendarEntry, request);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//
-//                @Override
-//                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-//                    apiCallback.onRequestError();
-//                }
-//            };
-//
-//            httpClient.post(context, "https://intranet.stxnext.pl/api/absence", postEntity, "application/json", asyncHttpResponseHandler);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     public void getAbsenceDaysLeft() {
-
-        //TODO delete
-//        AsyncHttpClient httpClient = new AsyncHttpClient();
-//        httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
-//        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-//                String response = new String(responseBody);
-//                Log.d(Config.TAG, response);
-//                Gson gson = new Gson();
-//                AbsenceDaysLeft absenceDaysLeft = gson.fromJson(response, AbsenceDaysLeft.class);
-//                apiCallback.onAbsenceDaysLeftReceived(absenceDaysLeft.getMandated(), absenceDaysLeft.getDays(), absenceDaysLeft.getLeft());
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-//                Log.d(Config.TAG, "Failure");
-//                apiCallback.onRequestError();
-//            }
-//        };
-
         SimpleDateFormat defaultDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String url = String.format(API_URL + "api/absence_days?date_start=%s&type=planowany",
                 defaultDateFormat.format(new Date()));
-//        try {
-//            url = URLEncoder.encode(url, "UTF-8");
-//            httpClient.get(url, asyncHttpResponseHandler);
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-//        httpClient.get(url, asyncHttpResponseHandler);
-
 
         Callback okHttpCallback = new Callback() {
 

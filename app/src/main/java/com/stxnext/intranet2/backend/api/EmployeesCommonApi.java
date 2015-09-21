@@ -94,30 +94,6 @@ public abstract class EmployeesCommonApi {
                 .build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(okHttpCallback);
-
-// TODO delete
-//        AsyncHttpClient httpClient = new AsyncHttpClient();
-//        httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
-//
-//        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-//                String response = new String(responseBody);
-//                Log.d(Config.TAG, response);
-//                CopyOnWriteArrayList<User> users = new CopyOnWriteArrayList(processJsonEmployees(response));
-//                removeClients(users);
-//                sortUsersByFirstName(Lists.newArrayList(users)); //concurrent.CopyOnWriteArrayList$CowIterator doesn't support set(Object o) operation which replaces the current object in the array
-//                DBManager.getInstance(context).persistEmployees(users);
-//
-//                if (apiCallback != null)
-//                        apiCallback.onEmployeesListReceived(users);
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {}
-//        };
-
-//        httpClient.get("https://intranet.stxnext.pl/api/users?full=1&inactive=0", asyncHttpResponseHandler);
     }
 
     /**

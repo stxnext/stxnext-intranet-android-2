@@ -88,26 +88,6 @@ public class EmployeesApiImpl extends EmployeesApi {
                 .build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(okHttpCallback);
-
-        //TODO delete if everything works fine
-//        AsyncHttpClient httpClient = new AsyncHttpClient();
-//        httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
-//
-//        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-//                String response = new String(responseBody);
-//                Log.d(Config.TAG, response);
-//                List<Absence> absences = processJsonOutOfOfficeAbsences(response);
-//                sortAbsencesByUserFirstName(absences);
-//                apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absences));
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {}
-//        };
-//
-//        httpClient.get("https://intranet.stxnext.pl/api/presence", asyncHttpResponseHandler);
     }
 
     private void sortAbsencesByUserFirstName(List<Absence> absences) {
@@ -274,29 +254,6 @@ public class EmployeesApiImpl extends EmployeesApi {
                 .build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(okHttpCallback);
-
-        //TODO delete if everything works fine
-//        AsyncHttpClient httpClient = new AsyncHttpClient();
-//        httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
-//
-//        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-//                String response = new String(responseBody);
-//                Log.d(Config.TAG, response);
-//                List<Absence> absences = processJsonWorkFromHomeAbsences(response);
-//                sortAbsencesByUserFirstName(absences);
-//                apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absences));
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-//
-//            }
-//        };
-//
-//        httpClient.get("https://intranet.stxnext.pl/api/presence", asyncHttpResponseHandler);
-
     }
 
     private List<Absence> processJsonWorkFromHomeAbsences(String jsonAbsencesString) {
@@ -359,28 +316,6 @@ public class EmployeesApiImpl extends EmployeesApi {
                 .build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(okHttpCallback);
-
-        //TODO delete if everything works fine
-//        AsyncHttpClient httpClient = new AsyncHttpClient();
-//        httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
-//
-//        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-//                String response = new String(responseBody);
-//                Log.d(Config.TAG, response);
-//                List<Absence> absences = processJsonHolidayAbsences(response);
-//                sortAbsencesByUserFirstName(absences);
-//                apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absences));
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-//
-//            }
-//        };
-//
-//        httpClient.get("https://intranet.stxnext.pl/api/presence", asyncHttpResponseHandler);
     }
 
     private List<Absence> processJsonHolidayAbsences(String jsonAbsenceString) {
