@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -100,13 +101,18 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
     }
 
     @Override
-    public void onAbsenceEmployeesListReceived(LinkedHashSet<Absence> absenceEmployees) {
-        AbsencesListAdapter absencesListAdapter = new AbsencesListAdapter(context, absenceEmployees, type, this);
-        recycleView.setAdapter(absencesListAdapter);
-        callback.onAbsencesDownloaded();
-        if (swipeRefreshView.isRefreshing()) {
-            swipeRefreshView.setRefreshing(false);
-        }
+    public void onAbsenceEmployeesListReceived(final LinkedHashSet<Absence> absenceEmployees) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AbsencesListAdapter absencesListAdapter = new AbsencesListAdapter(context, absenceEmployees, type, AbsencesListFragment.this);
+                recycleView.setAdapter(absencesListAdapter);
+                callback.onAbsencesDownloaded();
+                if (swipeRefreshView.isRefreshing()) {
+                    swipeRefreshView.setRefreshing(false);
+                }
+            }
+        });
     }
 
     @Override

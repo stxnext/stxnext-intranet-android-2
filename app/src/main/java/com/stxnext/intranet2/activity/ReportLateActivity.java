@@ -223,15 +223,25 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
     }
 
     @Override
-    public void onOutOfOfficeResponse(boolean entry) {
-        STXToast.show(this, R.string.saved);
-        finish();
+    public void onOutOfOfficeResponse(final boolean entry) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                STXToast.show(ReportLateActivity.this, R.string.saved);
+                finish();
+            }
+        });
     }
 
     @Override
     public void onRequestError() {
-        STXToast.show(this, R.string.reqest_error);
-        progressView.setVisibility(View.GONE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                STXToast.show(ReportLateActivity.this, R.string.reqest_error);
+                progressView.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override

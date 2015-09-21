@@ -6,23 +6,24 @@ import android.util.Log;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 import com.stxnext.intranet2.backend.api.json.AbsenceDaysLeft;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.model.HolidayTypes;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
-import com.stxnext.intranet2.utils.Session;
 
-import org.apache.http.Header;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -87,16 +88,20 @@ public class UserApiImpl extends UserApi {
                     .put("popup_explanation", explanation)
                     .put("work_from_home", (new Boolean(workFromHome)).toString());
             mainObject.put("lateness", absenceObject);
-            String jsonString = mainObject.toString().replace("\\","") ;
+            String jsonString = mainObject.toString().replace("\\","");
             Log.d(Config.TAG, jsonString);
 
-            AsyncHttpClient httpClient = new AsyncHttpClient();
-            httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
-            StringEntity postEntity = new StringEntity(jsonString, HTTP.UTF_8);
-            AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
+            Callback okHttpCallback = new Callback() {
+
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    String latenessResponse = new String(responseBody);
+                public void onFailure(Request request, IOException e) {
+                    Log.d(Config.getTag(this), "submitOutOfOffice post query error.");
+                    apiCallback.onRequestError();
+                }
+
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    String latenessResponse = response.body().string();
                     try {
                         JSONObject latenessJSONObject = new JSONObject(latenessResponse);
                         boolean entry = latenessJSONObject.getBoolean("entry");
@@ -104,24 +109,24 @@ public class UserApiImpl extends UserApi {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    apiCallback.onRequestError();
                 }
             };
 
-            httpClient.post(context, "https://intranet.stxnext.pl/api/lateness", postEntity, "application/json", asyncHttpResponseHandler);
+            MediaType jsonMediaType = MediaType.parse("application/json; charset=utf-8");
+            OkHttpClient okHttpClient = new OkHttpClient();
+            RequestBody body = RequestBody.create(jsonMediaType, jsonString);
+            Request request = new Request.Builder()
+                    .url("https://intranet.stxnext.pl/api/lateness")
+                    .post(body)
+                    .build();
+            Call call = okHttpClient.newCall(request);
+            call.enqueue(okHttpCallback);
+
         } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
 
-    //TODO
     // JSON to gain:
     // {"absence":{"popup_type":"planowany","popup_date_end":"05/06/2015","popup_remarks":"Wolne.","popup_date_start":"05/06/2015"}}
     @Override
@@ -138,17 +143,20 @@ public class UserApiImpl extends UserApi {
             String jsonString = mainObject.toString().replace("\\","") ;
             Log.d(Config.TAG, jsonString);
 
-            AsyncHttpClient httpClient = new AsyncHttpClient();
-            httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
-//            httpClient.addHeader(AsyncHttpClient.HEADER_CONTENT_TYPE, "application/json");
-            StringEntity postEntity = new StringEntity(jsonString, HTTP.UTF_8);
-            AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
+            Callback okHttpCallback = new Callback() {
+
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    String response = new String(responseBody);
-                    Log.d(Config.TAG, response);
+                public void onFailure(Request request, IOException e) {
+                    Log.d(Config.getTag(this), "submitHolidayAbsence post query error.");
+                    apiCallback.onRequestError();
+                }
+
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    String responseString = response.body().string();
+                    Log.d(Config.TAG, responseString);
                     try {
-                        JSONObject holidayAbsenceResult = new JSONObject(response);
+                        JSONObject holidayAbsenceResult = new JSONObject(responseString);
                         boolean hours = holidayAbsenceResult.getBoolean("hours");
                         boolean calendarEntry = holidayAbsenceResult.getBoolean("calendar_entry");
                         boolean request = holidayAbsenceResult.getBoolean("request");
@@ -156,53 +164,53 @@ public class UserApiImpl extends UserApi {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    apiCallback.onRequestError();
                 }
             };
 
-            httpClient.post(context, "https://intranet.stxnext.pl/api/absence", postEntity, "application/json", asyncHttpResponseHandler);
+            MediaType jsonMediaType = MediaType.parse("application/json; charset=utf-8");
+            OkHttpClient okHttpClient = new OkHttpClient();
+            RequestBody body = RequestBody.create(jsonMediaType, jsonString);
+            Request request = new Request.Builder()
+                    .url("https://intranet.stxnext.pl/api/absence")
+                    .post(body)
+                    .build();
+            Call call = okHttpClient.newCall(request);
+            call.enqueue(okHttpCallback);
+
         } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
 
     public void getAbsenceDaysLeft() {
-        AsyncHttpClient httpClient = new AsyncHttpClient();
-        httpClient.setCookieStore(Session.getInstance(context).getCookieStore());
-        AsyncHttpResponseHandler asyncHttpResponseHandler = new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String response = new String(responseBody);
-                Log.d(Config.TAG, response);
-                Gson gson = new Gson();
-                AbsenceDaysLeft absenceDaysLeft = gson.fromJson(response, AbsenceDaysLeft.class);
-                apiCallback.onAbsenceDaysLeftReceived(absenceDaysLeft.getMandated(), absenceDaysLeft.getDays(), absenceDaysLeft.getLeft());
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.d(Config.TAG, "Failure");
-                apiCallback.onRequestError();
-            }
-        };
-
         SimpleDateFormat defaultDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String url = String.format(API_URL + "api/absence_days?date_start=%s&type=planowany",
                 defaultDateFormat.format(new Date()));
-//        try {
-//            url = URLEncoder.encode(url, "UTF-8");
-//            httpClient.get(url, asyncHttpResponseHandler);
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-        httpClient.get(url, asyncHttpResponseHandler);
+
+        Callback okHttpCallback = new Callback() {
+
+            @Override
+            public void onFailure(Request request, IOException e) {
+                Log.d(Config.TAG, "Failure");
+                apiCallback.onRequestError();
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String responseString = response.body().string();
+                Log.d(Config.TAG, responseString);
+                Gson gson = new Gson();
+                AbsenceDaysLeft absenceDaysLeft = gson.fromJson(responseString, AbsenceDaysLeft.class);
+                apiCallback.onAbsenceDaysLeftReceived(absenceDaysLeft.getMandated(), absenceDaysLeft.getDays(), absenceDaysLeft.getLeft());
+            }
+        };
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(okHttpCallback);
     }
 
 }
