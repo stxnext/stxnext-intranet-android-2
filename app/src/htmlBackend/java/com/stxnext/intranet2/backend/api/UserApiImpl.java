@@ -6,8 +6,6 @@ import android.util.Log;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
@@ -21,19 +19,13 @@ import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.model.HolidayTypes;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
-import com.stxnext.intranet2.utils.Session;
 
-import org.apache.http.Header;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Tomasz Konieczny on 2015-05-07.

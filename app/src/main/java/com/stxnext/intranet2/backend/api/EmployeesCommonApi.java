@@ -7,8 +7,6 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -21,9 +19,6 @@ import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.impl.UserRestWrapper;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
-import com.stxnext.intranet2.utils.Session;
-
-import org.apache.http.Header;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -88,7 +83,6 @@ public abstract class EmployeesCommonApi {
         };
 
         OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.setCookieHandler(Session.getInstance(context).getCookieManager());
         Request request = new Request.Builder()
                 .url("https://intranet.stxnext.pl/api/users?full=1&inactive=0")
                 .build();
