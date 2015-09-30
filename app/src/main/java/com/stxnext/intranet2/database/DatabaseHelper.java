@@ -8,7 +8,9 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.stxnext.intranet2.IntranetApp;
 import com.stxnext.intranet2.backend.model.impl.User;
+import com.stxnext.intranet2.utils.Session;
 
 import java.sql.SQLException;
 
@@ -53,6 +55,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             try {
                 if (oldVersion == 1 &&  newVersion >= 2) {
                     getUserDao().executeRaw("ALTER TABLE 'user' ADD COLUMN isClient BOOLEAN DEFAULT 0;");
+                    Session.getInstance(IntranetApp.getContext()).logout();
                 }
             } catch (SQLException exc) {
                 Log.e(TAG, "Exception on database upgrade: " + exc.toString());
