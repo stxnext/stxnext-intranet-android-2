@@ -26,7 +26,7 @@ public class Session {
     private static final String PREFERENCES_NAME = "com.stxnext.intranet2";
     private static final String SUPERHERO_MODE_PREFERENCE = "com.stxnext.intranet2";
     private static final String CODE_PREFERENCE = "code";
-    private static final String USER_ID_PREFERENCE = "id";
+    private static final String USER_ID_PREFERENCE = "user_id";
 
     private Session(Context context) {
         preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);

@@ -55,7 +55,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             try {
                 if (oldVersion == 1 &&  newVersion >= 2) {
                     getUserDao().executeRaw("ALTER TABLE 'user' ADD COLUMN isClient BOOLEAN DEFAULT 0;");
-                    Session.getInstance(IntranetApp.getContext()).logout();
+                    //Session.getInstance(IntranetApp.getContext()).logout();
                 }
             } catch (SQLException exc) {
                 Log.e(TAG, "Exception on database upgrade: " + exc.toString());
