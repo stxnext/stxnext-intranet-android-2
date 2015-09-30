@@ -1,5 +1,7 @@
 package com.stxnext.intranet2.database.repo;
 
+import android.util.Log;
+
 import com.j256.ormlite.dao.Dao;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.database.DatabaseHelper;
@@ -12,6 +14,7 @@ import java.util.List;
  */
 public class UserRepository {
 
+    private static String TAG = "UserRepository";
     private Dao<User, Integer> userDao;
 
     public UserRepository(final DatabaseHelper databaseHelper) {
@@ -48,6 +51,7 @@ public class UserRepository {
             return userDao.queryForId(userId);
         }
         catch (final SQLException e) {
+            Log.e(TAG, e.toString());
             e.printStackTrace();
         }
 

@@ -18,8 +18,10 @@ import java.sql.SQLException;
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
+    private static String TAG = "DatabaseHelper";
+
     private static final String DATABASE_NAME = "stxIntranet.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private Dao<User, Integer> simpleDao = null;
 
@@ -47,7 +49,15 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * the various data to match the new version number.
      */
     @Override
-    public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion)  {}
+    public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion)  {
+            try {
+                if (oldVersion == 1 &&  newVersion >= 2) {
+                    getUserDao().executeRaw("ALTER TABLE 'user' ADD COLUMN isClient BOOLEAN DEFAULT 0;");
+                }
+            } catch (SQLException exc) {
+                Log.e(TAG, "Exception on database upgrade: " + exc.toString());
+            }
+    }
 
     /**
      * Returns the Database Access Object (DAO) for our SimpleData class. It will create it or just give the cached
