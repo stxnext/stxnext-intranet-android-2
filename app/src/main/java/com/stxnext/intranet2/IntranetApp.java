@@ -23,8 +23,6 @@ public class IntranetApp extends Application {
         super.onCreate();
 
         mContext = this.getApplicationContext();
-        //create database for db-versioning (on app startup)
-        DBManager.getInstance(mContext).getEmployees();
 
         boolean isDebuggable =  ( 0 != ( getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
         if (BuildConfig.DEBUG && isDebuggable) {

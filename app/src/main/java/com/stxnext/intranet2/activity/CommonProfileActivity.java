@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
@@ -85,14 +88,20 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     }
 
     private void downloadTodayHours(User user) {
-        final WorkedHours workedHours = workedHoursService.getUserWorkedHours(Integer.parseInt(user.getId()));
-
-        uiHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                setTodayHoursValues(workedHours);
+        if (user != null && user.getId() != null) {
+            try {
+                final WorkedHours workedHours = workedHoursService.getUserWorkedHours(Integer.parseInt(user.getId()));
+                uiHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        setTodayHoursValues(workedHours);
+                    }
+                });
+            } catch (Exception exc) {
+                //There is no session with the server
+                Log.w(CommonProfileActivity.class.getName(), "Tried to download data - NO SESSION (cookies)");
             }
-        });
+        }
     }
 
     private void setTodayHoursValues(WorkedHours workedHours) {

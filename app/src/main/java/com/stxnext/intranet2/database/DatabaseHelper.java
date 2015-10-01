@@ -20,7 +20,7 @@ import java.sql.SQLException;
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private static String TAG = "DatabaseHelper";
+    private static String TAG = DatabaseHelper.class.getName();
 
     private static final String DATABASE_NAME = "stxIntranet.db";
     private static final int DATABASE_VERSION = 2;
@@ -38,7 +38,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
         try {
-            Log.d(DatabaseHelper.class.getName(), "onCreate");
+            Log.d(TAG, "onCreate ==== Database created from scratch ====");
             TableUtils.createTable(connectionSource, User.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
@@ -53,9 +53,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion)  {
             try {
-                if (oldVersion == 1 &&  newVersion >= 2) {
+                if (oldVersion == 1 && newVersion == 2) {
                     getUserDao().executeRaw("ALTER TABLE 'user' ADD COLUMN isClient BOOLEAN DEFAULT 0;");
-                    //Session.getInstance(IntranetApp.getContext()).logout();
+                    Log.i(TAG, "==== Database upgraded from v1 to v2 ====");
                 }
             } catch (SQLException exc) {
                 Log.e(TAG, "Exception on database upgrade: " + exc.toString());
