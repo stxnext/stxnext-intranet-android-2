@@ -36,6 +36,7 @@ public class ConnectionManager {
     }
 
     public void signIn() {
+        Session.getInstance(context).logout();
         Session.getInstance(context).clearWebKitCookieStore();
         WebViewClient webViewClient = new WebViewClient() {
             @Override
@@ -50,7 +51,6 @@ public class ConnectionManager {
                 } else {
                     Log.d(Config.getTag(this), "Url doesn't contain code");
                 }
-
             }
 
             @Override

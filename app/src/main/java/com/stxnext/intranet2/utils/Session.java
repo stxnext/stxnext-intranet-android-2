@@ -22,6 +22,7 @@ public class Session {
     private CookieManager cookieManager = null;
     private Integer absenceDaysLeft = null;
     private Integer daysMandated = null;
+    private Context context = null;
 
     private static final String PREFERENCES_NAME = "com.stxnext.intranet2";
     private static final String SUPERHERO_MODE_PREFERENCE = "com.stxnext.intranet2";
@@ -29,8 +30,8 @@ public class Session {
     private static final String USER_ID_PREFERENCE = "user_id";
 
     private Session(Context context) {
+        this.context = context;
         preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-        cookieManager = new CookieManager(new com.stxnext.intranet2.utils.PersistentCookieStore(context.getApplicationContext()), CookiePolicy.ACCEPT_ALL);
         if (isLogged()) {
             initializeOkHttpCookieHandler();
         }
@@ -49,6 +50,7 @@ public class Session {
                 .remove(USER_ID_PREFERENCE)
                 .remove(SUPERHERO_MODE_PREFERENCE)
                 .remove(CODE_PREFERENCE)
+                .clear()
                 .commit();
         clearManagerCookieStore();
     }
@@ -87,6 +89,9 @@ public class Session {
     }
 
     public CookieManager getCookieManager() {
+        if (cookieManager == null) {
+            cookieManager = new CookieManager(new com.stxnext.intranet2.utils.PersistentCookieStore(context.getApplicationContext()), CookiePolicy.ACCEPT_ALL);
+        }
         return cookieManager;
     }
 
