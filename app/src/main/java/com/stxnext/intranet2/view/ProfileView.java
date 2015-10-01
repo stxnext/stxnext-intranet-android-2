@@ -61,6 +61,7 @@ public class ProfileView extends FrameLayout {
 
             @Override
             public void onScrollChanged() {
+                // Get actual translation against beginning position
                 int translationY = scrollView.getScrollY();
 //                translateImageViews(translationY);
                 translateHeaders(translationY);
@@ -100,6 +101,7 @@ public class ProfileView extends FrameLayout {
     }
 
     private void translateHeaders(int translationY) {
+        // Sets translation against beginning position
         standardProfileHeaderCointainer.setTranslationY(-translationY / 4);
         superHeroProfileHeaderContainer.setTranslationY(-translationY / 4);
     }

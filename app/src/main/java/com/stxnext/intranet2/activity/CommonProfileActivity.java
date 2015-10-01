@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
@@ -112,7 +111,6 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
         if (superHeroModeEnabled) {
             findViewById(R.id.standard_profile_header_container).setVisibility(View.GONE);
             profileImageView = (ImageView) findViewById(R.id.profile_image_view);
-
         } else {
             profileImageView = (ImageView) findViewById(R.id.profile_image_view_standard);
         }

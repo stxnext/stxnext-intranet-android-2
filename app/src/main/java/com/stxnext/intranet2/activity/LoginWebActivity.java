@@ -4,12 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.stxnext.intranet2.R;
+import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.ConnectionManager;
 
 /**
@@ -35,6 +37,7 @@ public class LoginWebActivity extends AppCompatActivity implements ConnectionMan
     private void logIn() {
         ConnectionManager connectionManager = new ConnectionManager(this, webView, this);
         connectionManager.signIn();
+        Log.d(Config.getTag(this), "Login end.");
     }
 
     private void loadViews() {
