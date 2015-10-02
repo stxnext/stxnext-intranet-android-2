@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.stxnext.intranet2.IntranetApp;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.activity.CommonProfileActivity;
+import com.stxnext.intranet2.activity.MyProfileActivity;
 import com.stxnext.intranet2.backend.model.workedHour.WorkedHours;
 import com.stxnext.intranet2.backend.retrofit.WorkedHoursService;
 import com.stxnext.intranet2.rest.IntranetRestAdapter;
@@ -61,10 +62,11 @@ public class AlarmManagerService  extends IntentService {
                     Toast.makeText(mContext, fillHoursString, Toast.LENGTH_LONG).show();
                     wl.release();
 
-                    Intent notificationIntent = new Intent(getApplicationContext(), CommonProfileActivity.class);
-                    notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    Intent notificationIntent = new Intent(mContext, MyProfileActivity.class);
+                    notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     PendingIntent pendingIntent =
-                            PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            PendingIntent.getActivity(mContext, 0, notificationIntent, 0);
 
                     Notification notification = new NotificationCompat.Builder(mContext)
                             //.setContentTitle(mContext.getString(R.id.))
