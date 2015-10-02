@@ -52,7 +52,7 @@ public class AlarmManagerService  extends IntentService {
             try {
                 final WorkedHours workedHours = workedHoursService.getUserWorkedHours(Integer.parseInt(userId));
                 float diff =  workedHours.getToday().getDiff();
-                String fillHoursString = "Uzupełnij godziny w intranecie!";
+                String fillHoursString = getString(R.string.notif_register_hours_in_intranet);
 
                 if (diff == -8.0) {
                     PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
@@ -69,8 +69,6 @@ public class AlarmManagerService  extends IntentService {
                             PendingIntent.getActivity(mContext, 0, notificationIntent, 0);
 
                     Notification notification = new NotificationCompat.Builder(mContext)
-                            //.setContentTitle(mContext.getString(R.id.))
-                            //.setContentText(mContext.getString(R.id.))
                             .setContentTitle(fillHoursString)
                             .setContentText(fillHoursString)
                             .setSmallIcon(R.mipmap.ic_launcher)
