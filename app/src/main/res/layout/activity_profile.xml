@@ -135,115 +135,115 @@
                                 android:orientation="horizontal">
 
                                 <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1.5"
+                                    android:gravity="center"
+                                    android:text="@string/today"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold"/>
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="2"
+                                    android:gravity="center"
+                                    android:text="@string/month"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold"/>
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="2"
+                                    android:gravity="center"
+                                    android:text="@string/quarter_heading"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:layout_marginRight="8dp"
+                                android:layout_marginTop="4dp"
+                                android:orientation="horizontal">
+
+                            <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
                                 android:layout_weight="1.5"
                                 android:gravity="center"
-                                android:text="@string/today"
-                                android:textSize="15sp"
-                                android:textStyle="bold"/>
-
-                                <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="4dp"
-                                android:layout_weight="2"
-                                android:gravity="center"
-                                android:text="@string/month"
-                                android:textSize="15sp"
-                                android:textStyle="bold"/>
-
-                                <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="4dp"
-                                android:layout_weight="2"
-                                android:gravity="center"
-                                android:text="@string/quarter_heading"
-                                android:textSize="15sp"
-                                android:textStyle="bold"/>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginRight="8dp"
-                            android:layout_marginTop="4dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:layout_weight="1.5"
-                            android:gravity="center"
-                            android:text="0.00"
-                            android:textSize="14sp"
+                                android:text="0.00"
+                                android:textSize="14sp"
                                 android:id="@+id/today_number" />
 
                             <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:layout_weight="2"
-                            android:gravity="center"
-                            android:text="0.0"
-                            android:textSize="14sp"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="4dp"
+                                android:layout_weight="2"
+                                android:gravity="center"
+                                android:text="0.0"
+                                android:textSize="14sp"
                                 android:id="@+id/month_number" />
 
                             <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:layout_weight="2"
-                            android:gravity="center"
-                            android:text="0.0"
-                            android:textSize="14sp"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="4dp"
+                                android:layout_weight="2"
+                                android:gravity="center"
+                                android:text="0.0"
+                                android:textSize="14sp"
                                 android:id="@+id/quarter_number" />
 
                             </LinearLayout>
 
                             <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginRight="8dp"
-                            android:layout_marginTop="-2dp"
-                            android:orientation="horizontal">
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:layout_marginRight="8dp"
+                                android:layout_marginTop="-2dp"
+                                android:orientation="horizontal">
 
                             <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:layout_weight="1.5"
-                            android:gravity="center"
-                            android:text="0.0"
-                            android:textSize="12sp"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="4dp"
+                                android:layout_weight="1.5"
+                                android:gravity="center"
+                                android:text="0.0"
+                                android:textSize="12sp"
                                 android:id="@+id/today_overhours" />
 
                             <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:layout_weight="2"
-                            android:gravity="center"
-                            android:text="0.0"
-                            android:textColor="@android:color/holo_red_light"
-                            android:textSize="12sp"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="4dp"
+                                android:layout_weight="2"
+                                android:gravity="center"
+                                android:text="0.0"
+                                android:textColor="@android:color/holo_red_light"
+                                android:textSize="12sp"
                                 android:id="@+id/month_overhours" />
 
                             <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:layout_weight="2"
-                            android:gravity="center"
-                            android:text="0.0"
-                            android:textColor="@android:color/holo_green_dark"
-                            android:textSize="12sp"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="4dp"
+                                android:layout_weight="2"
+                                android:gravity="center"
+                                android:text="0.0"
+                                android:textColor="@android:color/holo_green_dark"
+                                android:textSize="12sp"
                                 android:id="@+id/quarter_overhours" />
 
                             </LinearLayout>
