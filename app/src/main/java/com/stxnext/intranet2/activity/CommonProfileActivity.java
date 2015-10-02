@@ -105,7 +105,7 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     }
 
     private void setTodayHoursValues(WorkedHours workedHours) {
-        DecimalFormat df = new DecimalFormat("#.00");
+        DecimalFormat df = new DecimalFormat("0.00");
         todayNumberTextView.setText(df.format(workedHours.getToday().getSum()));
         monthNumberTextView.setText(df.format(workedHours.getMonth().getSum()));
         quarterNumberTextView.setText(df.format(workedHours.getQuarter().getSum()));
