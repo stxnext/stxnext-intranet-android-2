@@ -22,6 +22,7 @@ import com.stxnext.intranet2.rest.IntranetRestAdapter;
 import com.stxnext.intranet2.utils.Session;
 
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
 
 /**
  * Created by bkosarzycki on 02.10.15.
@@ -33,9 +34,6 @@ public class AlarmManagerService  extends IntentService {
     private WorkedHoursService workedHoursService;
     public static int ID_NOTIFICATION = 2018;
 
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     */
     public AlarmManagerService() {
         super(AlarmManagerService.class.getName());
     }
@@ -50,7 +48,19 @@ public class AlarmManagerService  extends IntentService {
         String userId = Session.getInstance(mContext).getUserId();
         if (userId != null && !userId.isEmpty()) {
             try {
-                final WorkedHours workedHours = workedHoursService.getUserWorkedHours(Integer.parseInt(userId));
+                WorkedHours workedHours = null;
+                try { workedHours = workedHoursService.getUserWorkedHours(Integer.parseInt(userId)); }
+                catch (RetrofitError retrofitError) {
+                    if (retrofitError.getKind() == RetrofitError.Kind.NETWORK)
+                        Log.w(AlarmManagerService.class.getName(), "Couldn't get time-and-attendance - NO NETWORK");
+                    else
+                        Log.e(AlarmManagerService.class.getName(), "Couldn't get time-and-attendance " + retrofitError.toString());
+                    return;
+                }
+                catch (Exception exc) {
+                    Log.w(AlarmManagerService.class.getName(), "Tried to download data - NO SESSION (cookies)");
+                    return;
+                }
                 float diff =  workedHours.getToday().getDiff();
                 String fillHoursString = getString(R.string.notif_register_hours_in_intranet);
 
@@ -82,8 +92,7 @@ public class AlarmManagerService  extends IntentService {
                     notificationManager.notify(ID_NOTIFICATION, notification);
                 }
             } catch (Exception exc) {
-                //There is no session with the server
-                Log.w(AlarmManagerService.class.getName(), "Tried to download data - NO SESSION (cookies)");
+                Log.e(AlarmManagerService.class.getName(), "Couldn't download time-and-attendance data from the server");
             }
         }
     }
