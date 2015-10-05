@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -85,7 +86,7 @@ public class AlarmManagerService  extends IntentService {
                             .setAutoCancel(true)
                             .setOngoing(true)
                             .setContentIntent(pendingIntent)
-                            .setColor(Color.parseColor("#FF2196F3"))
+                            .setColor(ContextCompat.getColor(mContext, R.color.stxnext_green_dark))
                             .build();
 
                     NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
