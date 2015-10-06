@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import java.util.Set;
 public class AbsencesListFragment extends Fragment implements EmployeesApiCallback, AbsencesListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     public static final String TYPE_ARG = "type";
+    private static String TAG = AbsencesListFragment.class.getName();
 
     private AbsencesTypes type;
     private RecyclerView recycleView;
@@ -102,17 +104,21 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
 
     @Override
     public void onAbsenceEmployeesListReceived(final LinkedHashSet<Absence> absenceEmployees) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                AbsencesListAdapter absencesListAdapter = new AbsencesListAdapter(context, absenceEmployees, type, AbsencesListFragment.this);
-                recycleView.setAdapter(absencesListAdapter);
-                callback.onAbsencesDownloaded();
-                if (swipeRefreshView.isRefreshing()) {
-                    swipeRefreshView.setRefreshing(false);
+        Activity activity = getActivity();
+        if (activity != null)
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    AbsencesListAdapter absencesListAdapter = new AbsencesListAdapter(context, absenceEmployees, type, AbsencesListFragment.this);
+                    recycleView.setAdapter(absencesListAdapter);
+                    callback.onAbsencesDownloaded();
+                    if (swipeRefreshView.isRefreshing()) {
+                        swipeRefreshView.setRefreshing(false);
+                    }
                 }
-            }
-        });
+            });
+        else
+            Log.w(TAG, "Couldn't find activity in Absences list fragment!");
     }
 
     @Override
