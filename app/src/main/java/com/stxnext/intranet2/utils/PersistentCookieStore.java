@@ -20,6 +20,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.common.collect.Lists;
+
 import java.net.CookieStore;
 import java.net.HttpCookie;
 import java.net.URI;
@@ -146,11 +148,16 @@ public class PersistentCookieStore implements CookieStore {
     }
 
     private List<HttpCookie> getValidCookies(URI uri) {
+        if (uri == null)
+            return Lists.newArrayList();
+
         Set<HttpCookie> targetCookies = new HashSet<HttpCookie>();
         // If the stored URI does not have a path then it must match any URI in
         // the same domain
         for (Iterator<URI> it = allCookies.keySet().iterator(); it.hasNext(); ) {
             URI storedUri = it.next();
+            if (storedUri == null)
+                continue;
             // Check ith the domains match according to RFC 6265
             if (checkDomainsMatch(storedUri.getHost(), uri.getHost())) {
                 // Check if the paths match according to RFC 6265
