@@ -20,6 +20,7 @@ import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.workedHour.WorkedHours;
 import com.stxnext.intranet2.backend.retrofit.WorkedHoursService;
+import com.stxnext.intranet2.rest.IntranetRestAdapter;
 import com.stxnext.intranet2.utils.Session;
 
 import org.androidannotations.api.BackgroundExecutor;
@@ -69,9 +70,7 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
         monthOverhoursTextView = (TextView) findViewById(R.id.month_overhours);
         quarterOverhoursTextView = (TextView) findViewById(R.id.quarter_overhours);
 
-        restAdapter = new RestAdapter.Builder()
-                .setEndpoint("https://intranet.stxnext.pl")
-                .build();
+        restAdapter = IntranetRestAdapter.build();
         workedHoursService = restAdapter.create(WorkedHoursService.class);
         BackgroundExecutor.execute(new BackgroundExecutor.Task("", 0, "") {
                @Override
