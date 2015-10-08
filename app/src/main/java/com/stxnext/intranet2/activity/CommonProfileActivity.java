@@ -13,8 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
@@ -110,8 +108,17 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
         quarterNumberTextView.setText(df.format(workedHours.getQuarter().getSum()));
 
         todayOverhoursTextView.setText(df.format(workedHours.getToday().getDiff()));
+        if (workedHours.getToday().getDiff() < 0) {
+            todayOverhoursTextView.setTextColor(getColor(android.R.color.holo_red_light));
+        }
         monthOverhoursTextView.setText(df.format(workedHours.getMonth().getDiff()));
+        if (workedHours.getMonth().getDiff() < 0) {
+            monthOverhoursTextView.setTextColor(getColor(android.R.color.holo_red_light));
+        }
         quarterOverhoursTextView.setText(df.format(workedHours.getQuarter().getDiff()));
+        if (workedHours.getQuarter().getDiff() < 0) {
+            quarterOverhoursTextView.setTextColor(getColor(android.R.color.holo_red_light));
+        }
     }
 
     protected void initializeProfileImageView() {

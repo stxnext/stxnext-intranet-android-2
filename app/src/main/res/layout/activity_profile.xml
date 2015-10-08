@@ -221,6 +221,7 @@
                                 android:layout_weight="1.5"
                                 android:gravity="center"
                                 android:text="0.0"
+                                android:textColor="@android:color/holo_green_dark"
                                 android:textSize="12sp"
                                 android:id="@+id/today_overhours" />
 
@@ -231,7 +232,7 @@
                                 android:layout_weight="2"
                                 android:gravity="center"
                                 android:text="0.0"
-                                android:textColor="@android:color/holo_red_light"
+                                android:textColor="@android:color/holo_green_dark"
                                 android:textSize="12sp"
                                 android:id="@+id/month_overhours" />
 
