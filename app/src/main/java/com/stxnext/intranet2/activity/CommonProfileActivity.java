@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -109,15 +110,15 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
 
         todayOverhoursTextView.setText(df.format(workedHours.getToday().getDiff()));
         if (workedHours.getToday().getDiff() < 0) {
-            todayOverhoursTextView.setTextColor(getColor(android.R.color.holo_red_light));
+            todayOverhoursTextView.setTextColor(ContextCompat.getColor(getApplicationContext() ,android.R.color.holo_red_light));
         }
         monthOverhoursTextView.setText(df.format(workedHours.getMonth().getDiff()));
         if (workedHours.getMonth().getDiff() < 0) {
-            monthOverhoursTextView.setTextColor(getColor(android.R.color.holo_red_light));
+            monthOverhoursTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_red_light));
         }
         quarterOverhoursTextView.setText(df.format(workedHours.getQuarter().getDiff()));
         if (workedHours.getQuarter().getDiff() < 0) {
-            quarterOverhoursTextView.setTextColor(getColor(android.R.color.holo_red_light));
+            quarterOverhoursTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_red_light));
         }
     }
 
