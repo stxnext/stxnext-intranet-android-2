@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                     setResult(resultCode);
                     finish();
                 } else if (resultCode == LOGIN_FAILED) {
-                    Session.getInstance(this).clearManagerCookieStore();
+                    Session.getInstance(this).logout();
                     findViewById(R.id.login_failed_label).setVisibility(View.VISIBLE);
                 }
                 break;

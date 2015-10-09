@@ -67,14 +67,18 @@ public class PersistentCookieStore implements CookieStore {
                 HttpCookie cookie = new SerializableHttpCookie()
                         .decode(encodedCookie);
 
-                Set<HttpCookie> targetCookies = allCookies.get(uri);
-                if (targetCookies == null) {
-                    targetCookies = new HashSet<HttpCookie>();
-                    allCookies.put(uri, targetCookies);
+                if (cookie != null) {
+                    Set<HttpCookie> targetCookies = allCookies.get(uri);
+                    if (targetCookies == null) {
+                        targetCookies = new HashSet<HttpCookie>();
+                        allCookies.put(uri, targetCookies);
+                    }
+                    // Repeated cookies cannot exist in persistence
+                    // targetCookies.remove(cookie)
+                    targetCookies.add(cookie);
+                } else {
+                    removeFromPersistence(entry.getKey());
                 }
-                // Repeated cookies cannot exist in persistence
-                // targetCookies.remove(cookie)
-                targetCookies.add(cookie);
             } catch (URISyntaxException e) {
                 Log.w(TAG, e);
             }
@@ -173,7 +177,7 @@ public class PersistentCookieStore implements CookieStore {
             for (Iterator<HttpCookie> it = targetCookies.iterator(); it
                     .hasNext(); ) {
                 HttpCookie currentCookie = it.next();
-                if (currentCookie != null && currentCookie.hasExpired()) {
+                if (currentCookie.hasExpired()) {
                     cookiesToRemoveFromPersistence.add(currentCookie);
                     it.remove();
                 }
@@ -258,6 +262,12 @@ public class PersistentCookieStore implements CookieStore {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(uri.toString() + SP_KEY_DELIMITER
                 + cookieToRemove.getName());
+        editor.apply();
+    }
+
+    private void removeFromPersistence(String sharedPreferencesKey) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(sharedPreferencesKey);
         editor.apply();
     }
 
