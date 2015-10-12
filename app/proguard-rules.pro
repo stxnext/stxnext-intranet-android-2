@@ -58,6 +58,9 @@
 -keep class com.google.common.collect.MapMakerInternalMap$ReferenceEntry
 -keep class com.google.common.cache.LocalCache$ReferenceEntry
 
+-keep class com.stxnext.intranet2.model.** { *; }
+-keep interface com.stxnext.intranet2.model.** { *; }
+
 -dontwarn sun.misc.Unsafe
 
 -keep public class com.stxnext.intranet2.backend.** { *; }
