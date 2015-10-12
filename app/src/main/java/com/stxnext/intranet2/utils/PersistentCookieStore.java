@@ -21,6 +21,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.common.collect.Lists;
+import com.stxnext.intranet2.model.SerializableHttpCookie;
 
 import java.net.CookieStore;
 import java.net.HttpCookie;

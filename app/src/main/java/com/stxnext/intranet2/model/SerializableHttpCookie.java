@@ -1,4 +1,4 @@
-package com.stxnext.intranet2.utils;
+package com.stxnext.intranet2.model;
 
 /*
  * Copyright (c) 2011 James Smith <james@loopj.com>
