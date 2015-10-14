@@ -1,5 +1,8 @@
 package com.stxnext.intranet2.activity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,11 +32,14 @@ import com.stxnext.intranet2.backend.api.UserApi;
 import com.stxnext.intranet2.backend.api.UserApiImpl;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
+import com.stxnext.intranet2.broadcast.AlarmManagerService;
 import com.stxnext.intranet2.fragment.FloatingMenuFragment;
 import com.stxnext.intranet2.model.DrawerMenuItems;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.STXToast;
 import com.stxnext.intranet2.utils.Session;
+
+import java.util.Calendar;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -354,6 +360,7 @@ public class MyProfileActivity extends CommonProfileActivity
                         }
                     });
                     fillWorkedHours(user);
+                    setTimeReportAlarmManagerIfNeeded();
                 } else {
                     Session.getInstance(MyProfileActivity.this).logout();
                     runLoginActivity();
@@ -361,6 +368,22 @@ public class MyProfileActivity extends CommonProfileActivity
             }
         });
 
+    }
+
+    private void setTimeReportAlarmManagerIfNeeded() {
+        // Delete previous one if there was such.
+        PendingIntent pi = PendingIntent.getService(this, 0,
+                new Intent(this, AlarmManagerService.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        am.cancel(pi);
+        if (Session.getInstance(this).isTimeReportNotification()) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 17); // 5 PM
+            calendar.set(Calendar.MINUTE, 00);
+            calendar.set(Calendar.SECOND, 0);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, pi);
+        }
     }
 
     private boolean isFemaleName(String firstName) {
