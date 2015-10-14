@@ -53,6 +53,16 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        SwitchCompat timeReportNotification = (SwitchCompat) findViewById(R.id.time_report_notification_switch);
+        timeReportNotification.setChecked(session.isTimeReportNotification());
+        timeReportNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                session.setTimeReportNotification(isChecked);
+                setResult(RESULT_OK);
+            }
+        });
+
         try {
             TextView versionInfo = (TextView) findViewById(R.id.version_info);
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);

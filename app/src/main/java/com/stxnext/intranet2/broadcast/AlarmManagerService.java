@@ -6,7 +6,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import com.stxnext.intranet2.IntranetApp;
 import com.stxnext.intranet2.R;
-import com.stxnext.intranet2.activity.CommonProfileActivity;
 import com.stxnext.intranet2.activity.MyProfileActivity;
 import com.stxnext.intranet2.backend.model.workedHour.WorkedHours;
 import com.stxnext.intranet2.backend.retrofit.WorkedHoursService;
@@ -50,15 +48,15 @@ public class AlarmManagerService  extends IntentService {
         if (userId != null && !userId.isEmpty()) {
             try {
                 WorkedHours workedHours = null;
-                try { workedHours = workedHoursService.getUserWorkedHours(Integer.parseInt(userId)); }
-                catch (RetrofitError retrofitError) {
+                try {
+                    workedHours = workedHoursService.getUserWorkedHours(Integer.parseInt(userId));
+                } catch (RetrofitError retrofitError) {
                     if (retrofitError.getKind() == RetrofitError.Kind.NETWORK)
                         Log.w(AlarmManagerService.class.getName(), "Couldn't get time-and-attendance - NO NETWORK");
                     else
                         Log.e(AlarmManagerService.class.getName(), "Couldn't get time-and-attendance " + retrofitError.toString());
                     return;
-                }
-                catch (Exception exc) {
+                } catch (Exception exc) {
                     Log.w(AlarmManagerService.class.getName(), "Tried to download data - NO SESSION (cookies)");
                     return;
                 }
