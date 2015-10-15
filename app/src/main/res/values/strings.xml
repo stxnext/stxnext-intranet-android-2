@@ -42,7 +42,7 @@
     <string name="to">To:</string>
     <string name="different_month_holiday_warning">Please submit seperate absence for each month.</string>
     <string name="im_superhero">I am a SuperHero!</string>
-    <string name="time_report_notificaiton">Time report notification</string>
+    <string name="time_report_notification">Time report notification</string>
     <string name="validation_hour_difference_warning">End hour is lower than start hour.</string>
     <string name="validation_day_difference_warning">You can not report our of office for the day in the past.</string>
     <string name="validation_to_many_days">You do not have to many days!</string>
@@ -77,4 +77,5 @@
     <string name="saturday_short">Sa</string>
     <string name="sunday_short">Su</string>
     <string name="notif_register_hours_in_intranet">Fill work hours in intranet!</string>
+    <string name="notification_time">Time of notification:</string>
 </resources>
