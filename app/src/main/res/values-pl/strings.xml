@@ -42,7 +42,7 @@
     <string name="to">Do:</string>
     <string name="different_month_holiday_warning">Zgłoś urlop osobno dla każdego miesiąca</string>
     <string name="im_superhero">Jestem Superbohaterem!</string>
-    <string name="time_report_notificaiton">Powiadomienie o czasie pracy</string>
+    <string name="time_report_notification">Powiadomienie o czasie pracy</string>
     <string name="validation_hour_difference_warning">Godzina końcowa jest wcześniejsza niż godzina początkowa</string>
     <string name="validation_day_difference_warning">Nie możesz zgłosić nieobecności dla daty z przeszłości</string>
     <string name="validation_to_many_days">Nie masz tylu dostępnych dni urlopu!</string>
@@ -77,4 +77,5 @@
     <string name="saturday_short">So</string>
     <string name="sunday_short">Nd</string>
     <string name="notif_register_hours_in_intranet">Uzupełnij godziny w intranecie!</string>
+    <string name="notification_time">Czas powiadomienia:</string>
 </resources>
