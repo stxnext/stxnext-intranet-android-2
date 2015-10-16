@@ -1,24 +1,35 @@
 package com.stxnext.intranet2.activity;
 
+import android.animation.LayoutTransition;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.stxnext.intranet2.R;
+import com.stxnext.intranet2.dialog.TimePickerDialogFragment;
 import com.stxnext.intranet2.utils.Session;
+
+import java.util.Calendar;
 
 
 /**
  * Created by Tomasz Konieczny on 2015-04-22.
  */
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements TimePickerDialogFragment.OnTimeSetListener {
+
+    private View timeOfNotification;
+    private TextView timeOfNotificationValue;
+    private int notificationHour = 17;
+    private int notificationMinute = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +64,36 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        SwitchCompat timeReportNotification = (SwitchCompat) findViewById(R.id.time_report_notification_switch);
-        timeReportNotification.setChecked(session.isTimeReportNotification());
-        timeReportNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        setTransitionAnimationsForNotificationLayout();
+
+        timeOfNotification = (View) findViewById(R.id.time_of_notification);
+        if (!Session.getInstance(this).isTimeReportNotification()) {
+            timeOfNotification.setVisibility(View.GONE);
+        }
+        SwitchCompat timeReportNotificationSwitch = (SwitchCompat) findViewById(R.id.time_report_notification_switch);
+        timeReportNotificationSwitch.setChecked(session.isTimeReportNotification());
+        timeReportNotificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 session.setTimeReportNotification(isChecked);
+                if (isChecked) {
+                    timeOfNotification.setVisibility(View.VISIBLE);
+                } else {
+                    timeOfNotification.setVisibility(View.GONE);
+                }
                 setResult(RESULT_OK);
             }
         });
+
+        timeOfNotificationValue = (TextView) findViewById(R.id.time_of_notification_value);
+        setTimeReportNotificationHour();
+        timeOfNotificationValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialogFragment.show(getFragmentManager(), notificationHour, notificationMinute, TimePickerDialogFragment.TIME_FROM);
+            }
+        });
+
 
         try {
             TextView versionInfo = (TextView) findViewById(R.id.version_info);
@@ -71,6 +103,29 @@ public class SettingsActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setTimeReportNotificationHour() {
+        String notificationHourString = Session.getInstance(this).getTimeReportNotificationHour();
+        timeOfNotificationValue.setText(notificationHourString);
+        String[] hourSplitted = notificationHourString.split(":");
+        if (hourSplitted != null && hourSplitted.length == 2) {
+            String hourString = hourSplitted[0];
+            notificationHour = Integer.valueOf(hourString).intValue();
+            String minuteString = hourSplitted[1];
+            notificationMinute = Integer.valueOf(minuteString).intValue();
+        }
+    }
+
+    /**
+     * Sets animations when there are changes inside layout.
+     */
+    private void setTransitionAnimationsForNotificationLayout() {
+        LinearLayout timeReportNotificationLayout = (LinearLayout) findViewById(R.id.time_report_notification_layout);
+        LayoutTransition layoutTransition = new LayoutTransition();
+        // There is need to disable animation when view disappears because it is badly implemented.
+        layoutTransition.disableTransitionType(LayoutTransition.CHANGE_DISAPPEARING);
+        timeReportNotificationLayout.setLayoutTransition(layoutTransition);
     }
 
     @Override
@@ -84,5 +139,14 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-
+    @Override
+    public void onTimeSet(int hour, int minute, int type) {
+        notificationHour = hour;
+        notificationMinute = minute;
+        Session.getInstance(this).setTimeReportNoticationHour(hour, minute);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        timeOfNotificationValue.setText(DateFormat.format("kk:mm", calendar));
+    }
 }
