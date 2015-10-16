@@ -376,10 +376,21 @@ public class MyProfileActivity extends CommonProfileActivity
                 new Intent(this, AlarmManagerService.class), PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         am.cancel(pi);
-        if (Session.getInstance(this).isTimeReportNotification()) {
+        Session session = Session.getInstance(this);
+        if (session.isTimeReportNotification()) {
             Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 17); // 5 PM
-            calendar.set(Calendar.MINUTE, 00);
+            String notificationHourString = session.getTimeReportNotificationHour();
+            String[] hourSplitted = notificationHourString.split(":");
+            int hour = 17;
+            int minute = 0;
+            if (hourSplitted != null && hourSplitted.length == 2) {
+                String hourString = hourSplitted[0];
+                hour = Integer.valueOf(hourString).intValue();
+                String minuteString = hourSplitted[1];
+                minute = Integer.valueOf(minuteString).intValue();
+            }
+            calendar.set(Calendar.HOUR_OF_DAY, hour); // 5 PM
+            calendar.set(Calendar.MINUTE, minute);
             calendar.set(Calendar.SECOND, 0);
             am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                     AlarmManager.INTERVAL_DAY, pi);

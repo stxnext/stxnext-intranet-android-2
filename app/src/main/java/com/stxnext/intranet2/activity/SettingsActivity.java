@@ -148,5 +148,6 @@ public class SettingsActivity extends AppCompatActivity implements TimePickerDia
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         timeOfNotificationValue.setText(DateFormat.format("kk:mm", calendar));
+        setResult(RESULT_OK);
     }
 }
