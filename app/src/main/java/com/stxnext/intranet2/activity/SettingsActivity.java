@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.dialog.TimePickerDialogFragment;
+import com.stxnext.intranet2.utils.NotificationUtils;
 import com.stxnext.intranet2.utils.Session;
 
 import java.util.Calendar;
@@ -148,6 +149,6 @@ public class SettingsActivity extends AppCompatActivity implements TimePickerDia
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         timeOfNotificationValue.setText(DateFormat.format("kk:mm", calendar));
-        setResult(RESULT_OK);
+        NotificationUtils.setTimeReportAlarmManagerIfNeeded(this);
     }
 }
