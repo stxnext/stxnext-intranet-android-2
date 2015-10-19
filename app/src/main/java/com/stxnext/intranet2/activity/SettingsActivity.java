@@ -82,7 +82,7 @@ public class SettingsActivity extends AppCompatActivity implements TimePickerDia
                 } else {
                     timeOfNotification.setVisibility(View.GONE);
                 }
-                setResult(RESULT_OK);
+                setTimeReportAlarmManagerIfNeeded(this);
             }
         });
 
@@ -124,7 +124,7 @@ public class SettingsActivity extends AppCompatActivity implements TimePickerDia
     private void setTransitionAnimationsForNotificationLayout() {
         LinearLayout timeReportNotificationLayout = (LinearLayout) findViewById(R.id.time_report_notification_layout);
         LayoutTransition layoutTransition = new LayoutTransition();
-        // There is need to disable animation when view disappears because it is badly implemented.
+        // There is a need to disable animation when view disappears because it is badly implemented.
         layoutTransition.disableTransitionType(LayoutTransition.CHANGE_DISAPPEARING);
         timeReportNotificationLayout.setLayoutTransition(layoutTransition);
     }
