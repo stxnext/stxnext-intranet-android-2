@@ -32,6 +32,7 @@ import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.fragment.FloatingMenuFragment;
 import com.stxnext.intranet2.model.DrawerMenuItems;
 import com.stxnext.intranet2.utils.Config;
+import com.stxnext.intranet2.utils.NotificationUtils;
 import com.stxnext.intranet2.utils.STXToast;
 import com.stxnext.intranet2.utils.Session;
 
@@ -354,6 +355,7 @@ public class MyProfileActivity extends CommonProfileActivity
                         }
                     });
                     fillWorkedHours(user);
+                    NotificationUtils.setTimeReportAlarmManagerIfNeeded(MyProfileActivity.this);
                 } else {
                     Session.getInstance(MyProfileActivity.this).logout();
                     runLoginActivity();
