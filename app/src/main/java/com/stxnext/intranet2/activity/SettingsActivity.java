@@ -82,7 +82,7 @@ public class SettingsActivity extends AppCompatActivity implements TimePickerDia
                 } else {
                     timeOfNotification.setVisibility(View.GONE);
                 }
-                setTimeReportAlarmManagerIfNeeded(this);
+                NotificationUtils.setTimeReportAlarmManagerIfNeeded(SettingsActivity.this);
             }
         });
 
