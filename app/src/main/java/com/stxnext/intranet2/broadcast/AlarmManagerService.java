@@ -82,7 +82,6 @@ public class AlarmManagerService  extends IntentService {
                             .setContentText(fillHoursString)
                             .setSmallIcon(R.mipmap.ic_launcher)
                             .setAutoCancel(true)
-                            .setOngoing(true)
                             .setContentIntent(pendingIntent)
                             .setColor(ContextCompat.getColor(mContext, R.color.stxnext_green_dark))
                             .build();
