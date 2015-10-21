@@ -48,6 +48,7 @@
                     android:textColor="@color/stxnext_green_dark"/>
 
                 <TextView
+                    android:id="@+id/postal_code_city_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="61-648 Poznań"

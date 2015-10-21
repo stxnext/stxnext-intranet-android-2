@@ -44,6 +44,9 @@ public class OfficeInfoFragment extends Fragment {
                 TextView streetTextView = (TextView) view.findViewById(R.id.street_text_view);
                 streetTextView.setText(office.getStreet());
 
+                TextView postalCodeAndCityTextView = (TextView) view.findViewById(R.id.postal_code_city_text_view);
+                postalCodeAndCityTextView.setText(office.getPostcode() + " " + office.getCity());
+
                 TextView telTextView = (TextView) view.findViewById(R.id.tel_text_view);
                 telTextView.setText(office.getTel());
 
