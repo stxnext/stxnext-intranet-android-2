@@ -26,7 +26,6 @@ import com.stxnext.intranet2.backend.model.impl.User;
 
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 public class EmployeesActivity extends AppCompatActivity implements EmployeesApiCallback, EmployeesListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
@@ -80,6 +79,14 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recycleView.setLayoutManager(layoutManager);
 
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                if (recycleView.getAdapter() == null) {
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+            }
+        });
         api = new EmployeesApiImpl(this, this);
         api.requestForEmployees(true);
     }
