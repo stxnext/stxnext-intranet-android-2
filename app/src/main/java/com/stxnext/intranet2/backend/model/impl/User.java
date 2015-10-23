@@ -1,21 +1,12 @@
 package com.stxnext.intranet2.backend.model.impl;
 
 import com.google.common.collect.Lists;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.j256.ormlite.dao.EagerForeignCollection;
-import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by Tomasz on 2015-05-07.
@@ -28,7 +19,7 @@ public class User {
     @DatabaseField private String name;
     @DatabaseField private String skype;
     @DatabaseField @SerializedName("phone") private String phoneNumber;
-    @DatabaseField private String localization;
+    @DatabaseField(dataType = DataType.SERIALIZABLE) private String[] location;
     @DatabaseField(dataType = DataType.SERIALIZABLE) private String[] roles;
     @DatabaseField private String email;
     @DatabaseField private String irc;
@@ -45,7 +36,6 @@ public class User {
 
         if (!name.equals(user.name)) return false;
         if (phoneNumber != null ? !phoneNumber.equals(user.phoneNumber) : user.phoneNumber != null) return false;
-        if (localization != null ? !localization.equals(user.localization) : user.localization != null) return false;
         //if (role != null ? !role.equals(user.role) : user.role != null) return false;
         return !(team != null ? !team.equals(user.team) : user.team != null);
 
@@ -55,7 +45,6 @@ public class User {
     public int hashCode() {
         int result = name.hashCode();
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-        result = 31 * result + (localization != null ? localization.hashCode() : 0);
         //result = 31 * result + (role != null ? role.hashCode() : 0);
         result = 31 * result + (team != null ? team.hashCode() : 0);
         return result;
@@ -63,15 +52,14 @@ public class User {
 
     public User() {}
 
-    public User(String id, String firstName, String lastName, String skype, String phoneNumber,
-                String localization, List<String> roles, String email,
-                String irc, String team, String photo) {
+    public User(String id, String firstName, String lastName, String skype, String phoneNumber, String localization,
+                List<String> roles, String email, String irc, String team, String photo) {
         this.id = id;
         this.name = firstName + " " + lastName;
         this.skype = skype;
         this.phoneNumber = phoneNumber;
-        this.localization = localization;
         this.roles = roles.toArray(new String[roles.size()]);
+        this.location = new String[] {"", localization, ""};
         this.email = email;
         this.irc = irc;
         this.team = team;
@@ -111,11 +99,7 @@ public class User {
     }
 
     public String getLocalization() {
-        return localization;
-    }
-
-    public void setLocalization(String localization) {
-        this.localization = localization;
+        return location != null && location.length > 1 ? location[1] : null;
     }
 
     public List<String> getRoles() {
