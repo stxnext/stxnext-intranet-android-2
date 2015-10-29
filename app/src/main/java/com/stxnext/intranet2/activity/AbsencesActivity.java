@@ -3,6 +3,7 @@ package com.stxnext.intranet2.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
@@ -38,18 +39,19 @@ public class AbsencesActivity extends AppCompatActivity implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+        countTextView = (TextView) findViewById(R.id.count_text_view);
+        PagerTabStrip tabStrip = (PagerTabStrip) findViewById(R.id.sliding_tabs);
+
         ArrayList<AbsencesListFragment> viewPagerFragments = new ArrayList<>();
         viewPagerFragments.add(AbsencesListFragment.newInstance(AbsencesTypes.OUT_OF_OFFICE));
         viewPagerFragments.add(AbsencesListFragment.newInstance(AbsencesTypes.WORK_FROM_HOME));
         viewPagerFragments.add(AbsencesListFragment.newInstance(AbsencesTypes.HOLIDAY));
+
+        tabStrip.setTabIndicatorColor(ContextCompat.getColor(this , R.color.stxnext_green));
+        tabStrip.setTextColor(ContextCompat.getColor(this, R.color.stxnext_green_dark));
+
         fragmentAdapter = new AbsencesFragmentPagerAdapter(this, getSupportFragmentManager(), viewPagerFragments);
         viewPager.setAdapter(fragmentAdapter);
-
-        countTextView = (TextView) findViewById(R.id.count_text_view);
-
-        PagerTabStrip tabStrip = (PagerTabStrip) findViewById(R.id.sliding_tabs);
-        tabStrip.setTabIndicatorColor(getResources().getColor(R.color.stxnext_green));
-        tabStrip.setTextColor(getResources().getColor(R.color.stxnext_green_dark));
     }
 
     @Override
