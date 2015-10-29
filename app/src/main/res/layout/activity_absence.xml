@@ -33,6 +33,7 @@
         android:layout_weight="1"
         android:background="@color/background">
 
+        <!-- bug in: 23.0.0  https://code.google.com/p/android/issues/detail?id=183127 -->
         <android.support.v4.view.PagerTabStrip
             style="@style/PagerTabStrip"
             android:id="@+id/sliding_tabs"
