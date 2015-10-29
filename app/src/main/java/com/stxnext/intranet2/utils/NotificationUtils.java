@@ -33,7 +33,7 @@ public class NotificationUtils {
                 String minuteString = hourSplitted[1];
                 minute = Integer.valueOf(minuteString).intValue();
             }
-            calendar.set(Calendar.HOUR_OF_DAY, hour); // 5 PM
+            calendar.set(Calendar.HOUR_OF_DAY, hour);
             calendar.set(Calendar.MINUTE, minute);
             calendar.set(Calendar.SECOND, 0);
             am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),

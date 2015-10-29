@@ -144,12 +144,7 @@ public class Session {
     }
 
     public String getTimeReportNotificationHour() {
-        String defaultValue;
-        if (DateFormat.is24HourFormat(context)){
-            defaultValue = "17:00";
-        } else {
-            defaultValue = "05:00";
-        }
+        String defaultValue = "17:00";
         return preferences.getString(TIME_REPORT_NOTIFICATION_HOUR_PREFERENCE, defaultValue);
     }
 
