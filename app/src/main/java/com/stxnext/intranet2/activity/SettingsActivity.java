@@ -108,7 +108,7 @@ public class SettingsActivity extends AppCompatActivity implements TimePickerDia
 
     private void setTimeReportNotificationHour() {
         String notificationHourString = Session.getInstance(this).getTimeReportNotificationHour();
-        timeOfNotificationValue.setText(notificationHourString);
+
         String[] hourSplitted = notificationHourString.split(":");
         if (hourSplitted != null && hourSplitted.length == 2) {
             String hourString = hourSplitted[0];
@@ -116,6 +116,11 @@ public class SettingsActivity extends AppCompatActivity implements TimePickerDia
             String minuteString = hourSplitted[1];
             notificationMinute = Integer.valueOf(minuteString).intValue();
         }
+        if (!DateFormat.is24HourFormat(this)) {
+            notificationHourString = getNotificationHourString(notificationHour, notificationMinute);
+        }
+        timeOfNotificationValue.setText(notificationHourString);
+
     }
 
     /**
@@ -145,10 +150,26 @@ public class SettingsActivity extends AppCompatActivity implements TimePickerDia
         notificationHour = hour;
         notificationMinute = minute;
         Session.getInstance(this).setTimeReportNoticationHour(hour, minute);
+
+        timeOfNotificationValue.setText(getNotificationHourString(hour, minute));
+        NotificationUtils.setTimeReportAlarmManagerIfNeeded(this);
+    }
+
+    /**
+     * Returns notification hour string, formatted properly to fit 24 or 12h time format
+     * according to time format defined on device.
+     * @param hour
+     * @param minute
+     * @return
+     */
+    private String getNotificationHourString(int hour, int minute) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
-        timeOfNotificationValue.setText(DateFormat.format("kk:mm", calendar));
-        NotificationUtils.setTimeReportAlarmManagerIfNeeded(this);
+        if (DateFormat.is24HourFormat(this)) {
+            return DateFormat.format("kk:mm", calendar).toString();
+        } else {
+            return DateFormat.format("KK:mm a", calendar).toString();
+        }
     }
 }
