@@ -95,7 +95,6 @@ public class SettingsActivity extends AppCompatActivity implements TimePickerDia
             }
         });
 
-
         try {
             TextView versionInfo = (TextView) findViewById(R.id.version_info);
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
