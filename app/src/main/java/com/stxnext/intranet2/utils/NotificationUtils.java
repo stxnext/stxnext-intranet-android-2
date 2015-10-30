@@ -16,12 +16,9 @@ public class NotificationUtils {
 
     public static void setTimeReportAlarmManagerIfNeeded(Context context) {
         Session session = Session.getInstance(context);
-        // Delete previous one if there was such.
-        PendingIntent pi = PendingIntent.getService(context, 0,
-                new Intent(context, AlarmManagerService.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        am.cancel(pi);
-        if (session.isLogged() && session.isTimeReportNotification()) {
+        // Delete previous one if there was a such.
+        disableTimeReportAlarmManager(context);
+        if (session.isTimeReportNotification()) {
             Calendar calendar = Calendar.getInstance();
             String notificationHourString = session.getTimeReportNotificationHour();
             String[] hourSplitted = notificationHourString.split(":");
@@ -36,8 +33,27 @@ public class NotificationUtils {
             calendar.set(Calendar.HOUR_OF_DAY, hour);
             calendar.set(Calendar.MINUTE, minute);
             calendar.set(Calendar.SECOND, 0);
+            Calendar currentTime = Calendar.getInstance();
+            if (currentTime.getTimeInMillis() > calendar.getTimeInMillis()) {
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+            }
+            Intent intent = new Intent(context, AlarmManagerService.class);
+//            intent.putExtra("timeOfNotification", String.format("%02d:%02d", hour, minute));
+//            Calendar timeOfSettingNotification = Calendar.getInstance();
+//            intent.putExtra("timeOfSetting", DateFormat.format("kk:mm dd.MM.yyyy", timeOfSettingNotification));
+            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            PendingIntent pi = PendingIntent.getService(context, 0,
+                    intent, PendingIntent.FLAG_UPDATE_CURRENT);
             am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                     AlarmManager.INTERVAL_DAY, pi);
         }
+    }
+
+    public static void disableTimeReportAlarmManager(Context context) {
+        Intent intent = new Intent(context, AlarmManagerService.class);
+        PendingIntent pi = PendingIntent.getService(context, 0,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        am.cancel(pi);
     }
 }

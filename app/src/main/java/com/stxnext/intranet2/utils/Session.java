@@ -57,6 +57,7 @@ public class Session {
                 .clear()
                 .commit();
         clearManagerCookieStore();
+        NotificationUtils.disableTimeReportAlarmManager(context);
     }
 
     public void clearManagerCookieStore() {
