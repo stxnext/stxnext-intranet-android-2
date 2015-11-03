@@ -29,3 +29,11 @@ android:
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
 
+env:
+  global:
+    # install timeout in minutes (2 minutes by default)
+    - ADB_INSTALL_TIMEOUT=8
+
+# Emulator Management: Create, Start and Wait
+before_script:
+  - adb devices
