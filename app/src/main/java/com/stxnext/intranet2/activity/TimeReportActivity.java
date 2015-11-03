@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -37,6 +38,7 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
     private FrameLayout viewContainer;
     private Toolbar toolbar;
     private TextView timeReportTitle;
+    private View progressView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,8 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
         timeReportTitle = (TextView) findViewById(R.id.time_report_title);
         Calendar month = Calendar.getInstance();
         timeReportTitle.setText(getString(R.string.time_report_for) + " " + DateFormat.format("MM.yyyy", month));
+        progressView = findViewById(R.id.progress_container);
+        progressView.setVisibility(View.VISIBLE);
         if (getIntent() != null) {
             userId = getIntent().getStringExtra(USER_ID_TAG);
             UserApi userApi = new UserApiImpl(this, this);
@@ -236,6 +240,7 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
 
     @Override
     public void onTimeReportReceived(List<TimeReportDay> timeReportDays) {
+        progressView.setVisibility(View.GONE);
         TableLayout tableLayout = createTimeTable(timeReportDays);
         viewContainer.addView(tableLayout);
     }
