@@ -129,13 +129,13 @@
                             <LinearLayout
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="30dp" >
+                                android:layout_marginLeft="35dp" >
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textStyle="bold"
-                                    android:text="Today from:" />
+                                    android:text="@string/worked_hours_today_from" />
 
                                 <TextView
                                     android:id="@+id/worked_hours_today_from"
@@ -149,7 +149,7 @@
                                     android:layout_height="wrap_content"
                                     android:textStyle="bold"
                                     android:layout_marginLeft="15dp"
-                                    android:text="To add:" />
+                                    android:text="@string/worked_hours_time_to_add" />
 
                                 <TextView
                                     android:id="@+id/worked_hours_time_to_add"
