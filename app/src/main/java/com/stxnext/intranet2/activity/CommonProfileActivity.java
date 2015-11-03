@@ -39,6 +39,9 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     protected boolean superHeroModeEnabled;
     private User currentUser;
 
+    private TextView todayFromTextView;
+    private TextView timeToAddTextView;
+
     private TextView todayNumberTextView;
     private TextView monthNumberTextView;
     private TextView quarterNumberTextView;
@@ -61,6 +64,9 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     public abstract void initializeContentView();
 
     public void fillWorkedHours(final User user) {
+        todayFromTextView = (TextView) findViewById(R.id.worked_hours_today_from);
+        timeToAddTextView = (TextView) findViewById(R.id.worked_hours_time_to_add);
+
         todayNumberTextView = (TextView) findViewById(R.id.today_number);
         monthNumberTextView = (TextView) findViewById(R.id.month_number);
         quarterNumberTextView = (TextView) findViewById(R.id.quarter_number);
@@ -104,6 +110,10 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
 
     private void setTodayHoursValues(WorkedHours workedHours) {
         DecimalFormat df = new DecimalFormat("0.00");
+
+        todayFromTextView.setText(workedHours.getToday().getArrival());
+        timeToAddTextView.setText(df.format(workedHours.getToday().getRemaining()) + "h");
+
         todayNumberTextView.setText(df.format(workedHours.getToday().getSum()));
         monthNumberTextView.setText(df.format(workedHours.getMonth().getSum()));
         quarterNumberTextView.setText(df.format(workedHours.getQuarter().getSum()));

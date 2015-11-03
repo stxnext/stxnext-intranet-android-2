@@ -5,15 +5,15 @@ package com.stxnext.intranet2.backend.model.workedHour;
  */
 public class WorkedHours {
 
-    private WorkedPeriod today;
+    private WorkedPeriodToday today;
     private WorkedPeriod month;
     private WorkedPeriod quarter;
 
-    public WorkedPeriod getToday() {
+    public WorkedPeriodToday getToday() {
         return today;
     }
 
-    public void setToday(WorkedPeriod today) {
+    public void setToday(WorkedPeriodToday today) {
         this.today = today;
     }
 
