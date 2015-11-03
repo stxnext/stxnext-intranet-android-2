@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -22,10 +21,12 @@ import com.stxnext.intranet2.backend.api.UserApi;
 import com.stxnext.intranet2.backend.api.UserApiImpl;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
+import com.stxnext.intranet2.backend.model.timereport.TimeReportDay;
 import com.stxnext.intranet2.utils.STXToast;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Tomasz Konieczny on 2015-05-27.
@@ -246,6 +247,11 @@ public class ReportLateActivity extends AppCompatActivity implements UserApiCall
 
     @Override
     public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
+
+    }
+
+    @Override
+    public void onTimeReportReceived(List<TimeReportDay> timeReportDays) {
 
     }
 
