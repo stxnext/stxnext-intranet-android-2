@@ -78,4 +78,6 @@
     <string name="sunday_short">Su</string>
     <string name="notif_register_hours_in_intranet">Fill work hours in intranet!</string>
     <string name="notification_time">Time of notification:</string>
+    <string name="worked_hours_time_to_add">To add:</string>
+    <string name="worked_hours_today_from">Today from:</string>
 </resources>

@@ -78,4 +78,6 @@
     <string name="sunday_short">Nd</string>
     <string name="notif_register_hours_in_intranet">Uzupełnij godziny w intranecie!</string>
     <string name="notification_time">Godzina powiadomienia:</string>
+    <string name="worked_hours_time_to_add">Do dodania:</string>
+    <string name="worked_hours_today_from">Dzisiaj od:</string>
 </resources>
