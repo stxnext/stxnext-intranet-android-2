@@ -16,7 +16,10 @@ import com.squareup.okhttp.Response;
 import com.stxnext.intranet2.backend.api.json.AbsenceDaysLeft;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
+import com.stxnext.intranet2.backend.model.timereport.TimeReportDay;
+import com.stxnext.intranet2.backend.retrofit.WorkedHoursService;
 import com.stxnext.intranet2.model.HolidayTypes;
+import com.stxnext.intranet2.rest.IntranetRestAdapter;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
 
@@ -26,6 +29,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
 
 /**
  * Created by Tomasz Konieczny on 2015-05-07.
@@ -211,6 +218,26 @@ public class UserApiImpl extends UserApi {
                 .build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(okHttpCallback);
+    }
+
+    @Override
+    public void getTimeReport(String userId, String month) {
+        RestAdapter restAdapter = IntranetRestAdapter.build();
+        WorkedHoursService workedHoursService = restAdapter.create(WorkedHoursService.class);
+        retrofit.Callback<List<TimeReportDay>> callback = new retrofit.Callback<List<TimeReportDay>>() {
+
+            @Override
+            public void success(List<TimeReportDay> timeReportDays, retrofit.client.Response response) {
+                Log.d(Config.getTag(UserApiImpl.this), "time report json: " + timeReportDays.get(0).toString());
+                UserApiImpl.this.apiCallback.onTimeReportReceived(timeReportDays);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e(Config.getTag(UserApiImpl.this), "Error getting time report json values");
+            }
+        };
+        workedHoursService.getTimeReport(Integer.parseInt(userId), month, callback);
     }
 
 }

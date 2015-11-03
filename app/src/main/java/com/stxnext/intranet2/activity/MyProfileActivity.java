@@ -29,12 +29,15 @@ import com.stxnext.intranet2.backend.api.UserApi;
 import com.stxnext.intranet2.backend.api.UserApiImpl;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
+import com.stxnext.intranet2.backend.model.timereport.TimeReportDay;
 import com.stxnext.intranet2.fragment.FloatingMenuFragment;
 import com.stxnext.intranet2.model.DrawerMenuItems;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.NotificationUtils;
 import com.stxnext.intranet2.utils.STXToast;
 import com.stxnext.intranet2.utils.Session;
+
+import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -382,6 +385,11 @@ public class MyProfileActivity extends CommonProfileActivity
     @Override
     public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
         // nothing to do
+    }
+
+    @Override
+    public void onTimeReportReceived(List<TimeReportDay> timeReportDays) {
+
     }
 
     @Override

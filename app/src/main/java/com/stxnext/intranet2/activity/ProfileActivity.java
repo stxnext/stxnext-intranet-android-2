@@ -13,7 +13,10 @@ import com.stxnext.intranet2.backend.api.UserApi;
 import com.stxnext.intranet2.backend.api.UserApiImpl;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
+import com.stxnext.intranet2.backend.model.timereport.TimeReportDay;
 import com.stxnext.intranet2.dialog.ContactDialogFragment;
+
+import java.util.List;
 
 
 /**
@@ -134,6 +137,11 @@ public class ProfileActivity extends CommonProfileActivity implements UserApiCal
     @Override
     public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
         // nothing to do
+    }
+
+    @Override
+    public void onTimeReportReceived(List<TimeReportDay> timeReportDays) {
+
     }
 
     @Override

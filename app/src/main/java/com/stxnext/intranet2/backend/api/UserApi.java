@@ -32,4 +32,6 @@ public abstract class UserApi extends EmployeesCommonApi {
 
     public abstract void getAbsenceDaysLeft();
 
+    public abstract void getTimeReport(String userId, String month);
+
 }
