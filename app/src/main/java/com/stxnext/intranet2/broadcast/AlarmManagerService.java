@@ -20,6 +20,8 @@ import com.stxnext.intranet2.backend.retrofit.WorkedHoursService;
 import com.stxnext.intranet2.rest.IntranetRestAdapter;
 import com.stxnext.intranet2.utils.Session;
 
+import java.util.Calendar;
+
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 
@@ -45,7 +47,7 @@ public class AlarmManagerService  extends IntentService {
         workedHoursService = restAdapter.create(WorkedHoursService.class);
 
         String userId = Session.getInstance(mContext).getUserId();
-        if (userId != null && !userId.isEmpty()) {
+        if (userId != null && !userId.isEmpty() && !isWeekend()) {
             try {
                 WorkedHours workedHours = null;
                 try {
@@ -93,5 +95,11 @@ public class AlarmManagerService  extends IntentService {
                 Log.e(AlarmManagerService.class.getName(), "Couldn't download time-and-attendance data from the server");
             }
         }
+    }
+
+    private boolean isWeekend() {
+        Calendar calendar = Calendar.getInstance();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        return (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY);
     }
 }
