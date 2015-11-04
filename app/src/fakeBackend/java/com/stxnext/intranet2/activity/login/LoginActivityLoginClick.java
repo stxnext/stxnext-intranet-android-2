@@ -14,6 +14,7 @@ import com.stxnext.intranet2.backend.model.Absence;
 import com.stxnext.intranet2.backend.model.impl.AbsenceImpl;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.activity.MyProfileActivity;
+import com.stxnext.intranet2.utils.Session;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +29,9 @@ public class LoginActivityLoginClick {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Session session = Session.getInstance(context);
+                session.setUserId("100");
+
                 context.findViewById(R.id.login_failed_label).setVisibility(View.INVISIBLE);
                 Intent webLoginIntent = new Intent(context, MyProfileActivity.class);
                 context.startActivityForResult(webLoginIntent, RC_WEB_SIGN_IN_ID);
