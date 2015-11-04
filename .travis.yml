@@ -35,9 +35,6 @@ env:
 
 # Emulator Management: Create, Start and Wait
 before_script:
-  - adb devices
-
-after_script:
   - android list targets
   - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
   - emulator -avd test -no-skin -no-audio -no-window &
@@ -46,3 +43,5 @@ after_script:
   # now run the tests
   - ./gradlew connectedCheck
 
+#after_script:
+# - adb devices
