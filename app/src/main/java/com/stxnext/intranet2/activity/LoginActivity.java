@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.stxnext.intranet2.R;
+import com.stxnext.intranet2.activity.login.LoginActivityLoginClick;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.Session;
 
@@ -25,14 +26,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         Button signInButton = (Button) findViewById(R.id.sign_in_button);
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                findViewById(R.id.login_failed_label).setVisibility(View.INVISIBLE);
-                Intent webLoginIntent = new Intent(LoginActivity.this, LoginWebActivity.class);
-                startActivityForResult(webLoginIntent, RC_WEB_SIGN_IN);
-            }
-        });
+        signInButton.setOnClickListener(
+                LoginActivityLoginClick.createLoginClick(this, RC_WEB_SIGN_IN)
+        );
     }
 
     @Override
