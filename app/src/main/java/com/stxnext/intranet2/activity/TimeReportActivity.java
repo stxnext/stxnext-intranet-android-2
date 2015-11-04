@@ -181,7 +181,7 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
         for (int i = 0; i < 7; i++) {
             TextView dayName = new TextView(getApplicationContext());
             if (isWeekendDay(i)) {
-                dayName.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_little_lighter));
+                dayName.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_light_little_darker));
             } else {
                 dayName.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_light_darker));
             }
