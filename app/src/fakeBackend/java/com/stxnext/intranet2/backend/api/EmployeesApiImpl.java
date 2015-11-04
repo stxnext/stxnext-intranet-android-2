@@ -32,6 +32,7 @@ public class EmployeesApiImpl extends EmployeesApi {
         list.add(new User("15saa3", "Tommy", "Necessary", "", "", "", Lists.newArrayList("Team Leader"), "", "", "", ""));
         list.add(new User("13dsa3", "Mario", "Step", "", "", "", Lists.newArrayList("Chemist"), "", "", "", ""));
         list.add(new User("14das3", "Paolo", "Citizen", "", "", "", Lists.newArrayList("iOS Developer"), "", "", "", ""));
+        list.add(new User("112d33", "Bert", "Lawnmower", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""));
         list.add(new User("112d33", "David", "Studentzky", "", "", "", Lists.newArrayList("Senior iOS Developer"), "", "", "", ""));
         list.add(new User("121233", "Mieszko", "Wrightwheel", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""));
         list.add(new User("1sa243", "Jack", "Evening", "", "", "", Lists.newArrayList("COO"), "", "", "", ""));
@@ -40,6 +41,7 @@ public class EmployeesApiImpl extends EmployeesApi {
         list.add(new User("15saa3", "Tommy", "Necessary", "", "", "", Lists.newArrayList("Team Leader"), "", "", "", ""));
         list.add(new User("13dsa3", "Mario", "Step", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""));
         list.add(new User("14das3", "Paolo", "Citizen", "", "", "", Lists.newArrayList("iOS Developer"), "", "", "", ""));
+        list.add(new User("112d33", "Bert", "Lawnmower", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""));
         list.add(new User("112d33", "David", "Studentzky", "", "", "", Lists.newArrayList("Senior iOS Developer"), "", "", "", ""));
         list.add(new User("121233", "Mieszko", "Wrightwheel", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""));
         list.add(new User("1sa243", "Jack", "Evening", "", "", "", Lists.newArrayList("COO"), "", "", "", ""));
@@ -48,6 +50,7 @@ public class EmployeesApiImpl extends EmployeesApi {
         list.add(new User("15saa3", "Tommy", "Necessary", "", "", "", Lists.newArrayList("Team Leader"), "", "", "", ""));
         list.add(new User("13dsa3", "Mario", "Step", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""));
         list.add(new User("14das3", "Paolo", "Citizen", "", "", "", Lists.newArrayList("iOS Developer"), "", "", "", ""));
+        list.add(new User("112d33", "Bert", "Lawnmower", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""));
         list.add(new User("112d33", "David", "Studentzky", "", "", "", Lists.newArrayList("Senior iOS Developer"), "", "", "", ""));
         list.add(new User("121233", "Mieszko", "Wrightwheel", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""));
         list.add(new User("1sa243", "Jack", "Evening", "", "", "", Lists.newArrayList("COO"), "", "", "", ""));
@@ -56,6 +59,7 @@ public class EmployeesApiImpl extends EmployeesApi {
         list.add(new User("15saa3", "Tommy", "Necessary", "", "", "", Lists.newArrayList("Team Leader"), "", "", "", ""));
         list.add(new User("13dsa3", "Mario", "Step", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""));
         list.add(new User("14das3", "Paolo", "Citizen", "", "", "", Lists.newArrayList("iOS Developer"), "", "", "", ""));
+        list.add(new User("112d33", "Bert", "Lawnmower", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""));
         list.add(new User("112d33", "David", "Studentzky", "", "", "", Lists.newArrayList("Senior iOS Developer"), "", "", "", ""));
         list.add(new User("121233", "Mieszko", "Wrightwheel", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""));
         list.add(new User("1sa243", "Jack", "Evening", "", "", "", Lists.newArrayList("COO"), "", "", "", ""));
@@ -65,7 +69,18 @@ public class EmployeesApiImpl extends EmployeesApi {
 
     @Override
     public void requestForOutOfOfficeAbsenceEmployees() {
-        requestForEmployees(false);
+        List<Absence> absenceList = new ArrayList<>();
+        Date absenceFrom = Calendar.getInstance().getTime();
+        Calendar absenceToCalendar = Calendar.getInstance();
+        absenceToCalendar.add(Calendar.DAY_OF_MONTH, 2);
+        Date absenceTo = absenceToCalendar.getTime();
+        absenceList.add(new AbsenceImpl(new User("121233", "Mieszko", "Wrightwheel", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""), absenceFrom, absenceTo, "Holiday in Uganda"));
+        absenceList.add(new AbsenceImpl(new User("12sad3", "Lucas", "Vega", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""), absenceFrom, absenceTo, "Available via email"));
+        absenceList.add(new AbsenceImpl(new User("14das3", "Paolo", "Citizen", "", "", "", Lists.newArrayList("iOS Developer"), "", "", "", ""), absenceFrom, absenceTo, "Out of office"));
+        absenceList.add(new AbsenceImpl(new User("12sad3", "Lucas", "Vega", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""), absenceFrom, absenceTo, "Unavailable"));
+        absenceList.add(new AbsenceImpl(new User("15saa3", "Tommy", "Necessary", "", "", "", Lists.newArrayList("Team Leader"), "", "", "", ""), absenceFrom, absenceTo, "USA"));
+        absenceList.add(new AbsenceImpl(new User("151233", "Bert", "Lawnmower", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""), absenceFrom, absenceTo, "Illness"));
+        apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absenceList));
     }
 
     @Override
@@ -79,6 +94,7 @@ public class EmployeesApiImpl extends EmployeesApi {
         absenceList.add(new AbsenceImpl(new User("1sa243", "Jack", "Evening", "", "", "", Lists.newArrayList("COO"), "", "", "", ""), absenceFrom, absenceTo, "Feel bad"));
         absenceList.add(new AbsenceImpl(new User("121233", "Mieszko", "Wrightwheel", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""), absenceFrom, absenceTo, "Illness"));
         absenceList.add(new AbsenceImpl(new User("15saa3", "Tommy", "Necessary", "", "", "", Lists.newArrayList("Team Leader"), "", "", "", ""), absenceFrom, absenceTo, "Busy"));
+        absenceList.add(new AbsenceImpl(new User("151233", "Bert", "Lawnmower", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""), absenceFrom, absenceTo, "Illness"));
         apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absenceList));
     }
 
@@ -94,7 +110,7 @@ public class EmployeesApiImpl extends EmployeesApi {
         absenceList.add(new AbsenceImpl(new User("14das3", "Paolo", "Citizen", "", "", "", Lists.newArrayList("iOS Developer"), "", "", "", ""), absenceFrom, absenceTo, "Out of office"));
         absenceList.add(new AbsenceImpl(new User("12sad3", "Lucas", "Vega", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""), absenceFrom, absenceTo, "Unavailable"));
         absenceList.add(new AbsenceImpl(new User("15saa3", "Tommy", "Necessary", "", "", "", Lists.newArrayList("Team Leader"), "", "", "", ""), absenceFrom, absenceTo, "USA"));
+        absenceList.add(new AbsenceImpl(new User("151233", "Bert", "Lawnmower", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""), absenceFrom, absenceTo, "Illness"));
         apiCallback.onAbsenceEmployeesListReceived(new LinkedHashSet<Absence>(absenceList));
     }
-    
 }
