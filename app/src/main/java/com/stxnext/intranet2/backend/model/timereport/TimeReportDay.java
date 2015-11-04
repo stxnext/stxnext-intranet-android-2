@@ -9,7 +9,7 @@ public class TimeReportDay {
 
     @SerializedName("is_working_day") private Boolean isWorkingDay;
     @SerializedName("day_no") private int dayNumber;
-    private float time;
+    private Double time;
     @SerializedName("day_of_week") private int dayOfWeek;
     @SerializedName("late_entry") private Boolean lateEntry;
     private String date;
@@ -30,11 +30,11 @@ public class TimeReportDay {
         this.dayNumber = dayNumber;
     }
 
-    public float getTime() {
+    public Double getTime() {
         return time;
     }
 
-    public void setTime(float time) {
+    public void setTime(Double time) {
         this.time = time;
     }
 

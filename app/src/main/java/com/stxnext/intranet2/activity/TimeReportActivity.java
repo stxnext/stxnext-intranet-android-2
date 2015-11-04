@@ -10,7 +10,7 @@ import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -35,7 +35,7 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
 
     public static final String USER_ID_TAG = "userId";
     private String userId= null;
-    private FrameLayout viewContainer;
+    private LinearLayout viewContainer;
     private Toolbar toolbar;
     private TextView timeReportTitle;
     private View progressView;
@@ -47,7 +47,7 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        viewContainer = (FrameLayout) findViewById(R.id.container);
+        viewContainer = (LinearLayout) findViewById(R.id.container);
         timeReportTitle = (TextView) findViewById(R.id.time_report_title);
         Calendar month = Calendar.getInstance();
         timeReportTitle.setText(getString(R.string.time_report_for) + " " + DateFormat.format("MM.yyyy", month));
@@ -56,6 +56,8 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
         if (getIntent() != null) {
             userId = getIntent().getStringExtra(USER_ID_TAG);
             UserApi userApi = new UserApiImpl(this, this);
+            userApi.getTimeReport(userId, DateFormat.format("MM.yyyy", month).toString());
+            month.add(Calendar.MONTH, -1);
             userApi.getTimeReport(userId, DateFormat.format("MM.yyyy", month).toString());
         }
     }
@@ -142,7 +144,7 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
     @NonNull
     private TextView createHoursWorkedCell(TimeReportDay timeReportDay) {
         String hoursWorkedValue = ".";
-        if (timeReportDay.getTime() > 0) {
+        if (timeReportDay.getTime() != null && timeReportDay.getTime() > 0) {
             DecimalFormatSymbols formattingSymbols = DecimalFormatSymbols.getInstance();
             formattingSymbols.setDecimalSeparator('.');
             DecimalFormat numberFormat = new DecimalFormat("0.00", formattingSymbols);
@@ -239,7 +241,7 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
     }
 
     @Override
-    public void onTimeReportReceived(List<TimeReportDay> timeReportDays) {
+    public synchronized void onTimeReportReceived(List<TimeReportDay> timeReportDays) {
         progressView.setVisibility(View.GONE);
         TableLayout tableLayout = createTimeTable(timeReportDays);
         viewContainer.addView(tableLayout);
