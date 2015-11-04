@@ -6,7 +6,7 @@
     <color name="white_megaalpha">#9bffffff</color>
     <color name="gray_light">#ffd6d7d7</color>
     <color name="gray_lighter">#e5e6e6</color>
-    <color name="gray_little_lighter">#dedfdf</color>
+    <color name="gray_light_little_darker">#cccccc</color>
     <color name="gray_light_darker">#c5c6c6</color>
     <color name="stxnext_green_selected">#2d49fff9</color>
     <color name="stxnext_green_light">#0f49fff9</color>
