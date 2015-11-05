@@ -1,12 +1,14 @@
 package com.stxnext.intranet2.activity;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +27,10 @@ import com.stxnext.intranet2.model.DaysShorcuts;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -35,10 +40,10 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
 
     public static final String USER_ID_TAG = "userId";
     private String userId= null;
-    private LinearLayout viewContainer;
+    private LinearLayout timeReports;
     private Toolbar toolbar;
-    private TextView timeReportTitle;
     private View progressView;
+    private List<TimeReportDayContainer> timeReportDayViews = new ArrayList<TimeReportDayContainer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +52,20 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        viewContainer = (LinearLayout) findViewById(R.id.container);
-        timeReportTitle = (TextView) findViewById(R.id.time_report_title);
+        timeReports = (LinearLayout) findViewById(R.id.time_reports);
         Calendar month = Calendar.getInstance();
-        timeReportTitle.setText(getString(R.string.time_report_for) + " " + DateFormat.format("MM.yyyy", month));
         progressView = findViewById(R.id.progress_container);
         progressView.setVisibility(View.VISIBLE);
         if (getIntent() != null) {
             userId = getIntent().getStringExtra(USER_ID_TAG);
             UserApi userApi = new UserApiImpl(this, this);
-            userApi.getTimeReport(userId, DateFormat.format("MM.yyyy", month).toString());
+            userApi.getTimeReport(userId, month);
+            month = Calendar.getInstance();
             month.add(Calendar.MONTH, -1);
-            userApi.getTimeReport(userId, DateFormat.format("MM.yyyy", month).toString());
+            userApi.getTimeReport(userId, month);
+            month = Calendar.getInstance();
+            month.add(Calendar.MONTH, -2);
+            userApi.getTimeReport(userId, month);
         }
     }
 
@@ -241,10 +248,43 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
     }
 
     @Override
-    public synchronized void onTimeReportReceived(List<TimeReportDay> timeReportDays) {
-        progressView.setVisibility(View.GONE);
+    public synchronized void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month) {
         TableLayout tableLayout = createTimeTable(timeReportDays);
-        viewContainer.addView(tableLayout);
+        TimeReportDayContainer timeReportDayContainer = new TimeReportDayContainer(month, tableLayout);
+        timeReportDayViews.add(timeReportDayContainer);
+        if (timeReportDayViews.size() > 2) {
+            Comparator<TimeReportDayContainer> comparator = new Comparator<TimeReportDayContainer>() {
+                @Override
+                public int compare(TimeReportDayContainer lhs, TimeReportDayContainer rhs) {
+                    if ((lhs.month.getTimeInMillis() < rhs.month.getTimeInMillis())) {
+                        return -1;
+                    } else if ((lhs.month.getTimeInMillis() == rhs.month.getTimeInMillis())) {
+                        return 0;
+                    } else {
+                        return 1;
+                    }
+                }
+            };
+            comparator = Collections.reverseOrder(comparator);
+            Collections.sort(timeReportDayViews, comparator);
+            for (int i = 0; i < timeReportDayViews.size(); i++) {
+                TimeReportDayContainer containerElement = timeReportDayViews.get(i);
+                TextView timeReportTitle = new TextView(this);
+                timeReportTitle.setGravity(Gravity.CENTER);
+                timeReportTitle.setText(getString(R.string.time_report_for) + " " + DateFormat.format("MM.yyyy", containerElement.month));
+                timeReportTitle.setTextColor(Color.BLACK);
+                timeReportTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
+                timeReportTitle.setTypeface(null, Typeface.BOLD);
+//                timeReportTitle.setPadding(0, getResources().getDimensionPixelSize(R.dimen.time_report_title_padding_top), 0, 0);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, getResources().getDimensionPixelSize(R.dimen.time_report_title_text_view_size));
+                layoutParams.gravity = Gravity.CENTER;
+                if (i > 0)
+                    layoutParams.topMargin = getResources().getDimensionPixelSize(R.dimen.time_report_title_margin_top);
+                timeReports.addView(timeReportTitle, layoutParams);
+                timeReports.addView(containerElement.timeReportDayView);
+            }
+            progressView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -270,5 +310,16 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
     @Override
     public void onRequestError() {
 
+    }
+
+    private class TimeReportDayContainer {
+
+        public Calendar month;
+        public TableLayout timeReportDayView;
+
+        public TimeReportDayContainer(Calendar month, TableLayout timeReportDayView) {
+            this.month = month;
+            this.timeReportDayView = timeReportDayView;
+        }
     }
 }

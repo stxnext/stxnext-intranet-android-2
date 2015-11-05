@@ -1,6 +1,7 @@
 package com.stxnext.intranet2.backend.api;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import com.google.common.base.Optional;
@@ -28,6 +29,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -220,8 +222,14 @@ public class UserApiImpl extends UserApi {
         call.enqueue(okHttpCallback);
     }
 
+    /**
+     * Returns time report for given month.
+     * @param userId
+     * @param month Calendar instance with properly month and year set.
+     */
     @Override
-    public void getTimeReport(String userId, String month) {
+    public void getTimeReport(String userId, final Calendar month) {
+        String monthYearString = DateFormat.format("MM.yyyy", month).toString();
         RestAdapter restAdapter = IntranetRestAdapter.build();
         WorkedHoursService workedHoursService = restAdapter.create(WorkedHoursService.class);
         retrofit.Callback<List<TimeReportDay>> callback = new retrofit.Callback<List<TimeReportDay>>() {
@@ -229,7 +237,7 @@ public class UserApiImpl extends UserApi {
             @Override
             public void success(List<TimeReportDay> timeReportDays, retrofit.client.Response response) {
                 Log.d(Config.getTag(UserApiImpl.this), "time report json: " + timeReportDays.get(0).toString());
-                UserApiImpl.this.apiCallback.onTimeReportReceived(timeReportDays);
+                UserApiImpl.this.apiCallback.onTimeReportReceived(timeReportDays, month);
             }
 
             @Override
@@ -237,7 +245,7 @@ public class UserApiImpl extends UserApi {
                 Log.e(Config.getTag(UserApiImpl.this), "Error getting time report json values");
             }
         };
-        workedHoursService.getTimeReport(Integer.parseInt(userId), month, callback);
+        workedHoursService.getTimeReport(Integer.parseInt(userId), monthYearString, callback);
     }
 
 }

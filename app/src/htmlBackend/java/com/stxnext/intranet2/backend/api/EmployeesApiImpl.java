@@ -170,7 +170,7 @@ public class EmployeesApiImpl extends EmployeesApi {
                     }
 
                     @Override
-                    public void onTimeReportReceived(List<TimeReportDay> timeReportDays) {
+                    public void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month) {
 
                     }
 
@@ -374,7 +374,7 @@ public class EmployeesApiImpl extends EmployeesApi {
                     }
 
                     @Override
-                    public void onTimeReportReceived(List<TimeReportDay> timeReportDays) {
+                    public void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month) {
 
                     }
 

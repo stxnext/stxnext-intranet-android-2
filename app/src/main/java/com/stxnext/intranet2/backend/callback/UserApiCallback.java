@@ -3,6 +3,7 @@ package com.stxnext.intranet2.backend.callback;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.timereport.TimeReportDay;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public interface UserApiCallback {
 
     void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft);
 
-    void onTimeReportReceived(List<TimeReportDay> timeReportDays);
+    void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month);
 
     void onRequestError();
 
