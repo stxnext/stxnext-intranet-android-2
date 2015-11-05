@@ -278,7 +278,7 @@ public class ReportHolidayActivity extends AppCompatActivity
     }
 
     @Override
-    public void onTimeReportReceived(List<TimeReportDay> timeReportDays) {
+    public void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month) {
 
     }
 }

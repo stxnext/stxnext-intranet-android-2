@@ -16,6 +16,7 @@ import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.timereport.TimeReportDay;
 import com.stxnext.intranet2.dialog.ContactDialogFragment;
 
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -140,7 +141,7 @@ public class ProfileActivity extends CommonProfileActivity implements UserApiCal
     }
 
     @Override
-    public void onTimeReportReceived(List<TimeReportDay> timeReportDays) {
+    public void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month) {
 
     }
 

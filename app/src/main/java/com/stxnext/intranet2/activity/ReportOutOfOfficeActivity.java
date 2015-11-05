@@ -216,7 +216,7 @@ public class ReportOutOfOfficeActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onTimeReportReceived(List<TimeReportDay> timeReportDays) {
+    public void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month) {
 
     }
 }

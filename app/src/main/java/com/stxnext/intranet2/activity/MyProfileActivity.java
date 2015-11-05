@@ -37,6 +37,7 @@ import com.stxnext.intranet2.utils.NotificationUtils;
 import com.stxnext.intranet2.utils.STXToast;
 import com.stxnext.intranet2.utils.Session;
 
+import java.util.Calendar;
 import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
@@ -388,7 +389,7 @@ public class MyProfileActivity extends CommonProfileActivity
     }
 
     @Override
-    public void onTimeReportReceived(List<TimeReportDay> timeReportDays) {
+    public void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month) {
 
     }
 

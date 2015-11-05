@@ -5,6 +5,7 @@ import android.content.Context;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.model.HolidayTypes;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -32,6 +33,6 @@ public abstract class UserApi extends EmployeesCommonApi {
 
     public abstract void getAbsenceDaysLeft();
 
-    public abstract void getTimeReport(String userId, String month);
+    public abstract void getTimeReport(String userId, Calendar month);
 
 }
