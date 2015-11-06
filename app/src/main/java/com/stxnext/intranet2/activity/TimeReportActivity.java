@@ -275,7 +275,7 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
                 timeReportTitle.setTextColor(Color.BLACK);
                 timeReportTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
                 timeReportTitle.setTypeface(null, Typeface.BOLD);
-//                timeReportTitle.setPadding(0, getResources().getDimensionPixelSize(R.dimen.time_report_title_padding_top), 0, 0);
+                timeReportTitle.setPadding(0, getResources().getDimensionPixelSize(R.dimen.time_report_title_padding_top), 0, 0);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, getResources().getDimensionPixelSize(R.dimen.time_report_title_text_view_size));
                 layoutParams.gravity = Gravity.CENTER;
                 if (i > 0)

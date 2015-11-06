@@ -7,7 +7,7 @@
     <dimen name="profile_floating_button_position">190dp</dimen>
     <dimen name="max_floating_button_position">32dp</dimen>
     <dimen name="time_report_title_text_view_size">35dp</dimen>
-    <dimen name="time_report_title_margin_top">18dp</dimen>
+    <dimen name="time_report_title_margin_top">22dp</dimen>
     <dimen name="time_report_title_padding_top">1dp</dimen>
 
     <dimen name="default_rounded_image_border">6dp</dimen>
