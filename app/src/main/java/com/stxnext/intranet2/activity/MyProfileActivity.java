@@ -349,15 +349,15 @@ public class MyProfileActivity extends CommonProfileActivity
                             .setStartDelay(80)
                             .setInterpolator(new OvershootInterpolator());
 
-//                    findViewById(R.id.worked_hours_container).setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Log.d(Config.getTag(this), "Time report click");
-//                            Intent timeReportActivityIntent = new Intent(MyProfileActivity.this, TimeReportActivity.class);
-//                            timeReportActivityIntent.putExtra(TimeReportActivity.USER_ID_TAG, user.getId());
-//                            startActivity(timeReportActivityIntent);
-//                        }
-//                    });
+                    findViewById(R.id.worked_hours_container).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.d(Config.getTag(this), "Time report click");
+                            Intent timeReportActivityIntent = new Intent(MyProfileActivity.this, TimeReportActivity.class);
+                            timeReportActivityIntent.putExtra(TimeReportActivity.USER_ID_TAG, user.getId());
+                            startActivity(timeReportActivityIntent);
+                        }
+                    });
                     fillWorkedHours(user);
                     NotificationUtils.setTimeReportAlarmManagerIfNeeded(MyProfileActivity.this);
                 } else {
