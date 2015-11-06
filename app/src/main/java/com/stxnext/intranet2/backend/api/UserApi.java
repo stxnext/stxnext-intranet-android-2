@@ -5,6 +5,7 @@ import android.content.Context;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.model.HolidayTypes;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -31,5 +32,7 @@ public abstract class UserApi extends EmployeesCommonApi {
     public abstract void submitHolidayAbsence(HolidayTypes absenceType, Date endDate, Date startDate, String remarks);
 
     public abstract void getAbsenceDaysLeft();
+
+    public abstract void getTimeReport(String userId, Calendar month);
 
 }
