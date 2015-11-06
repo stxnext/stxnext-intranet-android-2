@@ -15,6 +15,7 @@ import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.Absence;
 import com.stxnext.intranet2.backend.model.impl.AbsenceImpl;
 import com.stxnext.intranet2.backend.model.impl.User;
+import com.stxnext.intranet2.backend.model.timereport.TimeReportDay;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
 
@@ -165,6 +166,11 @@ public class EmployeesApiImpl extends EmployeesApi {
 
                     @Override
                     public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
+
+                    }
+
+                    @Override
+                    public void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month) {
 
                     }
 
@@ -364,6 +370,11 @@ public class EmployeesApiImpl extends EmployeesApi {
 
                     @Override
                     public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
+
+                    }
+
+                    @Override
+                    public void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month) {
 
                     }
 
