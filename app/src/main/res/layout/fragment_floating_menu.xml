@@ -37,6 +37,25 @@
             android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/floating_add_hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/floating_option_selector"
+            android:text="@string/add_hours"
+            android:textSize="17sp"
+            android:fontFamily="sans-serif-condensed"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:paddingRight="12dp"
+            android:paddingLeft="12dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/stxnext_green"
+            android:clickable="true"
+            android:focusable="true"
+            android:alpha="0"
+            android:textStyle="bold"/>
+
+        <TextView
             android:id="@+id/floating_out_of_office_option"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

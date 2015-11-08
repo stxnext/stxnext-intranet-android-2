@@ -261,7 +261,9 @@ public class MyProfileActivity extends CommonProfileActivity
                     case FloatingMenuFragment.OUT_OF_OFFICE:
                         intentClass = ReportOutOfOfficeActivity.class;
                         break;
-
+                    case FloatingMenuFragment.ADD_HOURS:
+                        intentClass = AddHoursActivity.class;
+                        break;
                 }
 
                 Intent intent = new Intent(MyProfileActivity.this, intentClass);
