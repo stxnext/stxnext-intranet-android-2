@@ -87,6 +87,12 @@
             android:theme="@style/AppTheme"/>
 
         <activity
+            android:name=".activity.AddHoursActivity"
+            android:label="@string/add_hours"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
+        <activity
             android:name=".activity.ReportOutOfOfficeActivity"
             android:label="@string/report_out_office"
             android:screenOrientation="portrait"
