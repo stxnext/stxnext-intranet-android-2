@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.stxnext.intranet2.R;
+import com.stxnext.intranet2.backend.model.project.ProjectResponse;
+import com.stxnext.intranet2.backend.retrofit.ProjectListService;
 
 /**
  * Created by bkosarzycki on 02.11.15.
@@ -25,6 +27,7 @@ public class AddHoursActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        ProjectResponse pr = ProjectListService.getProjects();
     }
 
     @Override
