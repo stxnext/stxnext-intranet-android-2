@@ -19,6 +19,7 @@ public class FloatingMenuFragment extends Fragment {
     public static final int LATE = 0;
     public static final int HOLIDAY = 1;
     public static final int OUT_OF_OFFICE = 2;
+    public static final int ADD_HOURS = 3;
 
     private static final String VIEW_TRANSITION_ARG = "view_transition_arg";
 
@@ -74,6 +75,7 @@ public class FloatingMenuFragment extends Fragment {
         }
 
         TextView lateOptionButton = (TextView) view.findViewById(R.id.floating_late_option);
+        TextView addHoursButton = (TextView) view.findViewById(R.id.floating_add_hours);
         TextView outOfOfficeButton = (TextView) view.findViewById(R.id.floating_out_of_office_option);
         TextView absenceButton = (TextView) view.findViewById(R.id.floating_absence_option);
 
@@ -81,6 +83,13 @@ public class FloatingMenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mListener.onFloatingMenuItemClick(LATE);
+            }
+        });
+
+        addHoursButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onFloatingMenuItemClick(ADD_HOURS);
             }
         });
 

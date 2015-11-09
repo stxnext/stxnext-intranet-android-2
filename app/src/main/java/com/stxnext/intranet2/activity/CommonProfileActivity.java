@@ -40,7 +40,7 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     private User currentUser;
 
     private TextView todayFromTextView;
-    private TextView timeToAddTextView;
+    protected TextView timeToAddTextView;
 
     private TextView todayNumberTextView;
     private TextView monthNumberTextView;

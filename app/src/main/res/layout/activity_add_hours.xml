@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:animateLayoutChanges="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:orientation="vertical">
+
+        <LinearLayout android:id="@+id/autotext" android:orientation="horizontal"
+            android:focusable="true" android:focusableInTouchMode="true"
+            android:layout_width="0px" android:layout_height="0px"/>
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/stxnext_green"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <Spinner
+                    android:id="@+id/projects_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="45dp"
+                    />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_marginLeft="5dp"
+                        android:minWidth="150dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                            <android.support.v7.widget.AppCompatEditText
+                                android:id="@+id/activity_add_hours_ticket_id"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="5"
+                                android:text=""
+                                android:textColorHint="@color/stxnext_green"
+                                android:hint="@string/add_hours_ticket_id"
+                                android:textStyle="bold"
+                                android:paddingTop="0dp"
+                                android:alpha="0.5"
+                                android:textSize="25sp"
+                                android:digits="0123456789"
+                                android:inputType="numberDecimal"
+                                android:textColor="@android:color/black"
+                                android:nextFocusUp="@id/autotext" android:nextFocusLeft="@id/autotext"
+                                />
+                        </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_marginLeft="5dp"
+                        android:minWidth="150dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <android.support.v7.widget.AppCompatEditText
+                            android:id="@+id/activity_add_hours_time_value"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="5"
+                            android:text="0.00"
+                            android:textColorHint="@color/stxnext_green"
+                            android:hint="@string/add_hours_time_value"
+                            android:textStyle="bold"
+                            android:paddingTop="0dp"
+                            android:alpha="0.5"
+                            android:textSize="25sp"
+                            android:digits="0123456789."
+                            android:inputType="numberDecimal"
+                            android:textColor="@android:color/black" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        >
+                        <android.support.v7.widget.AppCompatEditText
+                            android:id="@+id/activity_add_hours_description"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="7"
+                            android:minLines="1"
+                            android:text=""
+                            android:textColorHint="@color/stxnext_green"
+                            android:textColorHighlight="@color/stxnext_green"
+                            android:hint="@string/add_hours_description"
+                            android:textStyle="bold"
+                            android:paddingTop="0dp"
+                            android:alpha="0.5"
+                            android:textSize="25sp"
+                            android:textColor="@android:color/black" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/activity_add_hours_load_previous_description"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:src="@drawable/ic_file_upload_black_48dp"
+                        />
+
+                </LinearLayout>
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/already_added_times_cardview"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginTop="18dp"
+                    card_view:cardCornerRadius="4dp"
+                    android:layout_marginBottom="18dp">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/stxnext_green"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:text="Zanotowano: " />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/progress_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        android:background="@color/white_alpha">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/activity_add_hours_send_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_send"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        app:backgroundTint="@color/stxnext_green_alpha"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
+        android:layout_marginRight="25dp"
+        />
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/activity_add_hours_snackbarPosition"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+             />
+
+</RelativeLayout>

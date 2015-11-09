@@ -103,6 +103,14 @@ dependencies {
     compile 'com.facebook.stetho:stetho-okhttp:1.1.1'
     compile 'com.facebook.stetho:stetho-urlconnection:1.1.1'
 
+    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'io.reactivex:rxjava:1.0.14'
+    compile 'io.reactivex:rxjava-math:1.0.0'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.2.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
+
+    compile 'com.pixplicity.easyprefs:library:1.7'
+
     compile('com.crashlytics.sdk.android:crashlytics:2.3.2@aar') {
         transitive = true;
     }
