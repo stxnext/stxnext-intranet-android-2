@@ -22,6 +22,7 @@ import com.stxnext.intranet2.backend.model.project.Project;
 import com.stxnext.intranet2.backend.model.project.ProjectResponse;
 import com.stxnext.intranet2.backend.retrofit.ProjectListService;
 import com.stxnext.intranet2.rest.IntranetRestAdapter;
+import com.stxnext.intranet2.sort.ProjectOrdering;
 
 import java.util.List;
 
@@ -134,8 +135,8 @@ public class AddHoursActivity extends AppCompatActivity {
                                     @Override
                                     public void onNext(ProjectResponse projectResponse) {
                                         List<Project> projectList = projectResponse.getProjects();
+                                        projectList = ProjectOrdering.natural().sortedCopy(projectList);
                                         mAdapter.setProjects(projectList);
-                                        Toast.makeText(mContext, "Added items: " + projectResponse.getProjects().size(), Toast.LENGTH_SHORT).show();
                                         mProjectsSpinner.setAdapter(mAdapter);
                                     }
                                 }
