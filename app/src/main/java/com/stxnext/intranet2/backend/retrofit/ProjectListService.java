@@ -32,11 +32,11 @@ public class /* interface */ ProjectListService { //todo: swap to interface when
 
                 "    ]\n" +
                 "}";
-        try { Thread.sleep(700); } catch  (Exception exc) {}
         return Observable.create(
                 new Observable.OnSubscribe<ProjectResponse>() {
                     @Override
                     public void call(Subscriber<? super ProjectResponse> subscriber) {
+                        try { Thread.sleep(700); } catch  (Exception exc) {}
                         subscriber.onNext(new Gson().fromJson(projects, ProjectResponse.class));
                     }
                 }
