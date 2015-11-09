@@ -2,15 +2,23 @@ package com.stxnext.intranet2.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.stxnext.intranet2.R;
+import com.stxnext.intranet2.adapter.ProjectSpinnerAdapter;
 import com.stxnext.intranet2.backend.model.project.Project;
 import com.stxnext.intranet2.backend.model.project.ProjectResponse;
 import com.stxnext.intranet2.backend.retrofit.ProjectListService;
@@ -18,6 +26,8 @@ import com.stxnext.intranet2.rest.IntranetRestAdapter;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import retrofit.RestAdapter;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -30,8 +40,10 @@ import rx.subscriptions.CompositeSubscription;
 
 public class AddHoursActivity extends AppCompatActivity {
 
+    @Bind(R.id.projects_spinner) AppCompatSpinner mProjectsSpinner;
+
     private final static String TAG = AddHoursActivity.class.getName();
-    private ArrayAdapter<Project> mAdapter;
+    private ProjectSpinnerAdapter mAdapter;
     private CompositeSubscription mSubscriptions = new CompositeSubscription();
     private RestAdapter restAdapter;
     private ProjectListService mProjectListService;
@@ -41,6 +53,7 @@ public class AddHoursActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_hours);
+        ButterKnife.bind(this);
         mContext = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -48,12 +61,11 @@ public class AddHoursActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1,
-                new ArrayList<Project>());
+        mAdapter = new ProjectSpinnerAdapter(this, android.R.layout.simple_list_item_1);
 
         restAdapter = IntranetRestAdapter.build();
         mProjectListService = new ProjectListService(); //todo: change to retrofit //restAdapter.create(ProjectListService.class);
+
         getListOfProjects();
     }
 
@@ -87,8 +99,9 @@ public class AddHoursActivity extends AppCompatActivity {
 
                         @Override
                         public void onNext(ProjectResponse projectResponse) {
-                            mAdapter.addAll(projectResponse.getProjects());
+                            mAdapter.setProjects(projectResponse.getProjects());
                             Toast.makeText(mContext, "Added items: " + projectResponse.getProjects().size(), Toast.LENGTH_SHORT).show();
+                            mProjectsSpinner.setAdapter(mAdapter);
                         }
                     }
             )
