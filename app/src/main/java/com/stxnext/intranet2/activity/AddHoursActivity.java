@@ -81,6 +81,7 @@ public class AddHoursActivity extends AppCompatActivity {
 
         getListOfProjects();
         createEditTextObservables();
+        mSendFab.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.activity_add_hours_send_fab)
@@ -187,8 +188,9 @@ public class AddHoursActivity extends AppCompatActivity {
                     @Override public void onNext(Boolean formValid) {
                         if (formValid) {
                             Toast.makeText(mContext, "Form valid", Toast.LENGTH_SHORT).show();
+                            mSendFab.setVisibility(View.VISIBLE);
                         } else {
-
+                            mSendFab.setVisibility(View.GONE);
                         }
                     }
                 });
