@@ -2,6 +2,7 @@ package com.stxnext.intranet2.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
@@ -9,6 +10,7 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
@@ -19,6 +21,7 @@ import com.stxnext.intranet2.backend.retrofit.ProjectListService;
 import com.stxnext.intranet2.rest.IntranetRestAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.RestAdapter;
 import rx.Observable;
 import rx.Observer;
@@ -37,6 +40,7 @@ import static android.text.TextUtils.isEmpty;
 public class AddHoursActivity extends AppCompatActivity {
 
     @Bind(R.id.projects_spinner) AppCompatSpinner mProjectsSpinner;
+    @Bind(R.id.activity_add_hours_send_fab) FloatingActionButton mSendFab;
 
     @Bind(R.id.activity_add_hours_ticket_id) AppCompatEditText mTicketIdET;
     @Bind(R.id.activity_add_hours_time_value) AppCompatEditText mTimeValueET;
@@ -73,6 +77,11 @@ public class AddHoursActivity extends AppCompatActivity {
 
         getListOfProjects();
         createEditTextObservables();
+    }
+
+    @OnClick(R.id.activity_add_hours_send_fab)
+    protected void sendFABClick() {
+        Toast.makeText(mContext, "Clicked !", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -155,7 +164,7 @@ public class AddHoursActivity extends AppCompatActivity {
                         if (!ticketIdValid)
                             mTicketIdET.setError("Invalid ticket id!");
 
-                        boolean timeValueValid = !isEmpty(timeValueCharSeq) && timeValueCharSeq.length() == 4
+                        boolean timeValueValid = !isEmpty(timeValueCharSeq) && timeValueCharSeq.length() >= 4 && timeValueCharSeq.length() <= 5
                                                     && validateFloat(timeValueCharSeq.toString(), 0.01f, 24.0f);
                         if (!timeValueValid)
                             mTimeValueET.setError("Invalid time value!");
