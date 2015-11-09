@@ -28,4 +28,9 @@ public class Project implements Comparable<Project> {
     public int compareTo(Project another) {
         return this.getName().compareTo(another.getName());
     }
+
+    public Project withName(String customName) {
+        name = customName;
+        return this;
+    }
 }
