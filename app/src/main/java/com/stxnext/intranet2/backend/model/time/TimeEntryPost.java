@@ -9,7 +9,7 @@ public class TimeEntryPost {
 
     @SerializedName("project_id") long  projectId;
 
-    @SerializedName("ticket_id") int ticketId;
+    @SerializedName("ticket_id") Integer ticketId;
 
     float time;
 
