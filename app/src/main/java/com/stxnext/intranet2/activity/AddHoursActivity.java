@@ -4,25 +4,31 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.ProjectSpinnerAdapter;
 import com.stxnext.intranet2.backend.model.project.ProjectResponse;
 import com.stxnext.intranet2.backend.retrofit.ProjectListService;
 import com.stxnext.intranet2.rest.IntranetRestAdapter;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit.RestAdapter;
+import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func3;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
+
+import static android.text.TextUtils.isEmpty;
 
 /**
  * Created by bkosarzycki on 02.11.15.
@@ -31,6 +37,15 @@ import rx.subscriptions.CompositeSubscription;
 public class AddHoursActivity extends AppCompatActivity {
 
     @Bind(R.id.projects_spinner) AppCompatSpinner mProjectsSpinner;
+
+    @Bind(R.id.activity_add_hours_ticket_id) AppCompatEditText mTicketIdET;
+    @Bind(R.id.activity_add_hours_time_value) AppCompatEditText mTimeValueET;
+    @Bind(R.id.activity_add_hours_description) AppCompatEditText mDescriptionET;
+
+    private Observable<CharSequence> mTicketIdChangeObservable;
+    private Observable<CharSequence> mTimeValueChangeObservable;
+    private Observable<CharSequence> mDescriptionChangeObservable;
+    private Subscription mEditTextChangeSubscription = null;
 
     private final static String TAG = AddHoursActivity.class.getName();
     private ProjectSpinnerAdapter mAdapter;
@@ -57,6 +72,7 @@ public class AddHoursActivity extends AppCompatActivity {
         mProjectListService = new ProjectListService(); //todo: change to retrofit //restAdapter.create(ProjectListService.class);
 
         getListOfProjects();
+        createEditTextObservables();
     }
 
     @Override
@@ -68,33 +84,41 @@ public class AddHoursActivity extends AppCompatActivity {
         return false;
     }
 
+    private void createEditTextObservables() {
+        mTicketIdChangeObservable = RxTextView.textChanges(mTicketIdET).skip(0);
+        mTimeValueChangeObservable = RxTextView.textChanges(mTimeValueET).skip(0);
+        mDescriptionChangeObservable = RxTextView.textChanges(mDescriptionET).skip(0);
+
+        combineLatestEvents();
+    }
+
     public void getListOfProjects() {
         mAdapter.clear();
 
         mSubscriptions.add(
-            mProjectListService.getProjects()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                    new Observer<ProjectResponse>() {
-                        @Override
-                        public void onCompleted() {
-                            Log.d(TAG, "Retrofit get projects list call completed");
-                        }
+                mProjectListService.getProjects()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                new Observer<ProjectResponse>() {
+                                    @Override
+                                    public void onCompleted() {
+                                        Log.d(TAG, "Retrofit get projects list call completed");
+                                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.e(TAG, "Error in downloading list of projects: " + e.toString());
-                        }
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Log.e(TAG, "Error in downloading list of projects: " + e.toString());
+                                    }
 
-                        @Override
-                        public void onNext(ProjectResponse projectResponse) {
-                            mAdapter.setProjects(projectResponse.getProjects());
-                            Toast.makeText(mContext, "Added items: " + projectResponse.getProjects().size(), Toast.LENGTH_SHORT).show();
-                            mProjectsSpinner.setAdapter(mAdapter);
-                        }
-                    }
-            )
+                                    @Override
+                                    public void onNext(ProjectResponse projectResponse) {
+                                        mAdapter.setProjects(projectResponse.getProjects());
+                                        Toast.makeText(mContext, "Added items: " + projectResponse.getProjects().size(), Toast.LENGTH_SHORT).show();
+                                        mProjectsSpinner.setAdapter(mAdapter);
+                                    }
+                                }
+                        )
         );
     }
 
@@ -117,5 +141,53 @@ public class AddHoursActivity extends AppCompatActivity {
             return new CompositeSubscription();
 
         return subscription;
+    }
+
+    private void combineLatestEvents() {
+        mEditTextChangeSubscription = Observable.combineLatest(mTicketIdChangeObservable, mTimeValueChangeObservable, mDescriptionChangeObservable,
+                new Func3<CharSequence, CharSequence, CharSequence, Boolean>() {
+                    @Override
+                    public Boolean call(CharSequence ticketIdCharSeq,
+                                        CharSequence timeValueCharSeq,
+                                        CharSequence descriptionCharSeq) {
+
+                        boolean ticketIdValid = !isEmpty(ticketIdCharSeq) && validateInt(ticketIdCharSeq.toString(), 1, 99999);
+                        if (!ticketIdValid)
+                            mTicketIdET.setError("Invalid ticket id!");
+
+                        boolean timeValueValid = !isEmpty(timeValueCharSeq) && timeValueCharSeq.length() == 4
+                                                    && validateFloat(timeValueCharSeq.toString(), 0.01f, 24.0f);
+                        if (!timeValueValid)
+                            mTimeValueET.setError("Invalid time value!");
+
+                        boolean descriptionValid = !isEmpty(descriptionCharSeq) && descriptionCharSeq.length() > 6;
+                        if (!descriptionValid)
+                            mDescriptionET.setError("Invalid description!");
+
+                        return ticketIdValid && timeValueValid && descriptionValid;
+                    }
+                })
+                .subscribe(new Observer<Boolean>() {
+                    @Override public void onCompleted() { Log.d(TAG, "Combine latest completed"); }
+                    @Override public void onError(Throwable e) { Log.d(TAG, "Combine latest error: " + e.toString()); }
+
+                    @Override public void onNext(Boolean formValid) {
+                        if (formValid) {
+                            Toast.makeText(mContext, "Form valid", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                        }
+                    }
+                });
+    }
+
+    private boolean validateFloat(String s, float rangeBeg, float rangeEnd) {
+        double res; try { res = Double.parseDouble(s); } catch (Exception exc) { return false; }
+        return res >= rangeBeg && res <= rangeEnd;
+    }
+
+    private boolean validateInt(String s, int rangeBeg, int rangeEnd) {
+        long res; try { res = Integer.parseInt(s); } catch (Exception exc) { return false; }
+        return res >= rangeBeg && res <= rangeEnd;
     }
 }
