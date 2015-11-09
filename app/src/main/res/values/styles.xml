@@ -44,7 +44,7 @@
 
     <style name="AppSpinner" parent="Widget.AppCompat.Spinner">
         <item name="android:background">@drawable/selector_default_button</item>
-        <item name="android:popupBackground">@drawable/abc_popup_background_mtrl_mult</item>
+        <item name="android:popupBackground">@color/stxnext_green</item>
         <item name="android:dropDownSelector">?attr/listChoiceBackgroundIndicator</item>
         <item name="android:dropDownVerticalOffset">0dip</item>
         <item name="android:dropDownHorizontalOffset">0dip</item>
