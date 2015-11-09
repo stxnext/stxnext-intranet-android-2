@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
@@ -51,7 +52,7 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:maxLines="5"
-                                android:text="0"
+                                android:text=""
                                 android:textColorHint="@color/stxnext_green"
                                 android:hint="@string/add_hours_ticket_id"
                                 android:textStyle="bold"
@@ -89,6 +90,7 @@
 
 
                 <android.support.design.widget.TextInputLayout
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -97,7 +99,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="7"
-                        android:minLines="7"
+                        android:minLines="1"
                         android:text=""
                         android:textColorHint="@color/stxnext_green"
                         android:textColorHighlight="@color/stxnext_green"
@@ -129,7 +131,20 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
 
-
     </FrameLayout>
 
-</FrameLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/activity_add_hours_send_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_send"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        app:backgroundTint="@color/stxnext_green_alpha"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
+        android:layout_marginRight="25dp"
+        />
+
+</RelativeLayout>
