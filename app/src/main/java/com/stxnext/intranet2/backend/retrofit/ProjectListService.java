@@ -11,37 +11,9 @@ import rx.Subscriber;
 /**
  * Created by bkosarzycki on 02.11.15.
  */
-public class /* interface */ ProjectListService { //todo: swap to interface when backend is ready!
+public interface ProjectListService {
 
-    //@GET("/api/projects")
-    //ProjectResponse getProjects();
-
-    //todo: swap to retrofit when backend is ready!
-    public Observable<ProjectResponse> getProjects() {
-        final String projects = "{projects: \n" +
-                "    [\n" +
-                "        {\n" +
-                "            id: 1,\n" +
-                "            name: \"Decernis / gComply\"  \n" +
-                "         },\n" +
-
-                "        {\n" +
-                "            id: 1,\n" +
-                "            name: \"Hogarth / ZADAR\"  \n" +
-                "         }\n" +
-
-                "    ]\n" +
-                "}";
-        return Observable.create(
-                new Observable.OnSubscribe<ProjectResponse>() {
-                    @Override
-                    public void call(Subscriber<? super ProjectResponse> subscriber) {
-                        try { Thread.sleep(700); } catch  (Exception exc) {}
-                        subscriber.onNext(new Gson().fromJson(projects, ProjectResponse.class));
-                    }
-                }
-
-        );
-    }
+    @GET("/api/projects")
+    Observable<ProjectResponse> getProjects();
 }
 

@@ -13,12 +13,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.ProjectSpinnerAdapter;
+import com.stxnext.intranet2.backend.model.project.Project;
 import com.stxnext.intranet2.backend.model.project.ProjectResponse;
 import com.stxnext.intranet2.backend.retrofit.ProjectListService;
 import com.stxnext.intranet2.rest.IntranetRestAdapter;
+
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -73,7 +79,7 @@ public class AddHoursActivity extends AppCompatActivity {
         mAdapter = new ProjectSpinnerAdapter(this, android.R.layout.simple_list_item_1);
 
         restAdapter = IntranetRestAdapter.build();
-        mProjectListService = new ProjectListService(); //todo: change to retrofit //restAdapter.create(ProjectListService.class);
+        mProjectListService = restAdapter.create(ProjectListService.class);
 
         String timeToAdd = getIntent().getExtras().getString("timeToAdd");
         if (timeToAdd != null && !timeToAdd.isEmpty() && validateFloat(timeToAdd.replace("h", ""),  0.01f, 24.0f))
@@ -127,7 +133,8 @@ public class AddHoursActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onNext(ProjectResponse projectResponse) {
-                                        mAdapter.setProjects(projectResponse.getProjects());
+                                        List<Project> projectList = projectResponse.getProjects();
+                                        mAdapter.setProjects(projectList);
                                         Toast.makeText(mContext, "Added items: " + projectResponse.getProjects().size(), Toast.LENGTH_SHORT).show();
                                         mProjectsSpinner.setAdapter(mAdapter);
                                     }
