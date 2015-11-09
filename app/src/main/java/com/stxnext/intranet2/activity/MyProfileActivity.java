@@ -250,23 +250,25 @@ public class MyProfileActivity extends CommonProfileActivity
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Class intentClass = null;
+                Intent intent = null;
+
                 switch (option) {
                     case FloatingMenuFragment.LATE:
-                        intentClass = ReportLateActivity.class;
+                        intent = new Intent(MyProfileActivity.this, ReportLateActivity.class);
                         break;
                     case FloatingMenuFragment.HOLIDAY:
-                        intentClass = ReportHolidayActivity.class;
+                        intent = new Intent(MyProfileActivity.this, ReportHolidayActivity.class);
                         break;
                     case FloatingMenuFragment.OUT_OF_OFFICE:
-                        intentClass = ReportOutOfOfficeActivity.class;
+                        intent = new Intent(MyProfileActivity.this, ReportOutOfOfficeActivity.class);
                         break;
                     case FloatingMenuFragment.ADD_HOURS:
-                        intentClass = AddHoursActivity.class;
+                        intent = new Intent(MyProfileActivity.this, AddHoursActivity.class);
+                        if (timeToAddTextView != null && timeToAddTextView.getText().toString() != null && !timeToAddTextView.getText().toString().isEmpty())
+                        intent.putExtra("timeToAdd", timeToAddTextView.getText().toString());
                         break;
                 }
 
-                Intent intent = new Intent(MyProfileActivity.this, intentClass);
                 ActivityCompat.startActivity(MyProfileActivity.this, intent,
                         ActivityOptionsCompat.makeSceneTransitionAnimation(MyProfileActivity.this).toBundle());
             }
