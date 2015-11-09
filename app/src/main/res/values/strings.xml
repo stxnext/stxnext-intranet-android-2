@@ -85,4 +85,6 @@
     <string name="add_hours_description">Description: </string>
     <string name="add_hours_connection_error">Could not download data</string>
     <string name="add_hours_connection_error_close">Close</string>
+    <string name="add_hours_no_previous_description">No previous descriptions</string>
+
 </resources>

@@ -113,7 +113,7 @@ public class AddHoursActivity extends AppCompatActivity {
         if (prevDescr != null && !prevDescr.isEmpty())
             mDescriptionET.setText(prevDescr);
         else
-            Toast.makeText(mContext, "No previous description", Toast.LENGTH_SHORT).show();
+            createSnackbar(R.string.add_hours_no_previous_description);
     }
 
 
@@ -151,15 +151,7 @@ public class AddHoursActivity extends AppCompatActivity {
                                     @Override
                                     public void onError(Throwable e) {
                                         Log.e(TAG, "Error in downloading list of projects: " + e.toString());
-                                        final Snackbar snack = Snackbar
-                                                .make(mSnackBarCoordinatorLayoutView, R.string.add_hours_connection_error, Snackbar.LENGTH_LONG);
-                                        snack.setAction(R.string.add_hours_connection_error_close, new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                snack.dismiss();
-                                            }
-                                        });
-                                        snack.show();
+                                        createSnackbar(R.string.add_hours_connection_error);
                                     }
 
                                     @Override
@@ -178,6 +170,18 @@ public class AddHoursActivity extends AppCompatActivity {
                                 }
                         )
         );
+    }
+
+    private void createSnackbar(int textResourceId) {
+        final Snackbar snack = Snackbar
+                .make(mSnackBarCoordinatorLayoutView, textResourceId , Snackbar.LENGTH_LONG);
+        snack.setAction(R.string.add_hours_connection_error_close, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snack.dismiss();
+            }
+        });
+        snack.show();
     }
 
     @Override
@@ -233,12 +237,10 @@ public class AddHoursActivity extends AppCompatActivity {
                     @Override public void onError(Throwable e) { Log.d(TAG, "Combine latest error: " + e.toString()); }
 
                     @Override public void onNext(Boolean formValid) {
-                        if (formValid) {
-                            Toast.makeText(mContext, "Form valid", Toast.LENGTH_SHORT).show();
+                        if (formValid)
                             mSendFab.setVisibility(View.VISIBLE);
-                        } else {
+                         else
                             mSendFab.setVisibility(View.GONE);
-                        }
                     }
                 });
     }
