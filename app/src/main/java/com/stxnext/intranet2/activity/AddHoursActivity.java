@@ -97,8 +97,8 @@ public class AddHoursActivity extends AppCompatActivity {
         mTimeEntriesService = restAdapter.create(TimeEntriesService.class);
 
         String timeToAdd = getIntent().getExtras().getString("timeToAdd");
-        if (timeToAdd != null && !timeToAdd.isEmpty() && validateFloat(timeToAdd.replace("h", ""),  0.01f, 24.0f))
-            mTimeValueET.setText(timeToAdd.replace("h", ""));
+        if (timeToAdd != null && !timeToAdd.isEmpty() && validateFloat(timeToAdd.replace("h", "").replace(",", "."),  0.01f, 24.0f))
+            mTimeValueET.setText(timeToAdd.replace("h", "").replace(",","."));
 
         getListOfProjects();
         createEditTextObservables();
