@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.jakewharton.rxbinding.widget.RxTextView;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.ProjectSpinnerAdapter;
 import com.stxnext.intranet2.backend.model.project.Project;
@@ -53,6 +54,9 @@ public class AddHoursActivity extends AppCompatActivity {
     @Bind(R.id.activity_add_hours_time_value) AppCompatEditText mTimeValueET;
     @Bind(R.id.activity_add_hours_description) AppCompatEditText mDescriptionET;
 
+    private final String SHARED_PREF_ADD_HOURS_SELECTED_PROJECT = "add_hours_selected_project_id";
+    private final String SHARED_PREF_ADD_HOURS_ENTERED_DESCRIPTION = "add_hours_entered_description";
+
     private Observable<CharSequence> mTicketIdChangeObservable;
     private Observable<CharSequence> mTimeValueChangeObservable;
     private Observable<CharSequence> mDescriptionChangeObservable;
@@ -88,12 +92,13 @@ public class AddHoursActivity extends AppCompatActivity {
 
         getListOfProjects();
         createEditTextObservables();
-        mSendFab.setVisibility(View.GONE);
+        //mSendFab.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.activity_add_hours_send_fab)
     protected void sendFABClick() {
         Toast.makeText(mContext, "Clicked !", Toast.LENGTH_SHORT).show();
+        Prefs.putInt(SHARED_PREF_ADD_HOURS_SELECTED_PROJECT, mProjectsSpinner.getSelectedItemPosition());
     }
 
     @Override
@@ -136,8 +141,14 @@ public class AddHoursActivity extends AppCompatActivity {
                                     public void onNext(ProjectResponse projectResponse) {
                                         List<Project> projectList = projectResponse.getProjects();
                                         projectList = ProjectOrdering.natural().sortedCopy(projectList);
+                                        projectList.add(0, new Project().withName("Choose a project..."));
                                         mAdapter.setProjects(projectList);
                                         mProjectsSpinner.setAdapter(mAdapter);
+                                        int prevSelectedProjectId = Prefs.getInt(SHARED_PREF_ADD_HOURS_SELECTED_PROJECT, -1);
+                                        if (prevSelectedProjectId > 0)
+                                            mProjectsSpinner.setSelection(prevSelectedProjectId);
+                                        else
+                                            mProjectsSpinner.setSelection(0);
                                     }
                                 }
                         )
@@ -173,7 +184,8 @@ public class AddHoursActivity extends AppCompatActivity {
                                         CharSequence timeValueCharSeq,
                                         CharSequence descriptionCharSeq) {
 
-                        boolean ticketIdValid = !isEmpty(ticketIdCharSeq) && validateInt(ticketIdCharSeq.toString(), 1, 99999);
+                        boolean ticketIdValid = isEmpty(ticketIdCharSeq)
+                                || (!isEmpty(ticketIdCharSeq) && validateInt(ticketIdCharSeq.toString(), 1, 99999) );
                         if (!ticketIdValid)
                             mTicketIdET.setError("Invalid ticket id!");
 
