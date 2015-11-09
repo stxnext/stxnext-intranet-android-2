@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/stxnext_green</item>
         <item name="android:buttonStyle">@style/Button</item>
         <item name="spinnerStyle">@style/AppSpinner</item>
+        <item name="android:textColorHint">@color/stxnext_texthightlight</item>
     </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
@@ -17,6 +18,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
         <item name="spinnerStyle">@style/AppSpinner</item>
+        <item name="android:textColorHint">@color/stxnext_texthightlight</item>
     </style>
 
     <style name="AppThemeTransparentWindowBackground" parent="Theme.AppCompat.NoActionBar">
@@ -30,6 +32,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
+        <item name="android:textColorHint">@color/stxnext_texthightlight</item>
     </style>
 
     <style name="Button">

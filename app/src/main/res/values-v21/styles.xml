@@ -19,6 +19,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:dialogTheme">@android:style/Theme.Material.Light.Dialog</item>
         <item name="android:spinnerStyle">@style/AppSpinner</item>
+        <item name="android:textColorHint">@color/stxnext_texthightlight</item>
     </style>
 
     <style name="Button.Material" parent="Button">

@@ -20,4 +20,5 @@
     <color name="floating_button_light">#fffb3c35</color>
     <color name="header_gray">#e0e0e0</color>
     <color name="stxnext_green_alpha">#dc195b55</color>
+    <color name="stxnext_texthightlight">@color/stxnext_green</color>
 </resources>

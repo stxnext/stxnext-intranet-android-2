@@ -80,4 +80,6 @@
     <string name="notification_time">Time of notification:</string>
     <string name="worked_hours_time_to_add">To add:</string>
     <string name="worked_hours_today_from">Today from:</string>
+    <string name="add_hours_ticket_id">Ticket id: </string>
+    <string name="add_hours_time_value">Time: </string>
 </resources>
