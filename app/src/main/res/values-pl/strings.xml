@@ -83,4 +83,6 @@
     <string name="add_hours_ticket_id">Nr ticketa: </string>
     <string name="add_hours_time_value">Czas: </string>
     <string name="add_hours_description">Opis: </string>
+    <string name="add_hours_connection_error">Błąd połączenia</string>
+    <string name="add_hours_connection_error_close">Zamknij</string>
 </resources>

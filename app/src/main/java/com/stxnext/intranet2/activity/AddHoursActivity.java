@@ -2,7 +2,9 @@ package com.stxnext.intranet2.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
@@ -53,6 +55,9 @@ public class AddHoursActivity extends AppCompatActivity {
     @Bind(R.id.activity_add_hours_ticket_id) AppCompatEditText mTicketIdET;
     @Bind(R.id.activity_add_hours_time_value) AppCompatEditText mTimeValueET;
     @Bind(R.id.activity_add_hours_description) AppCompatEditText mDescriptionET;
+
+    @Bind(R.id.activity_add_hours_snackbarPosition) CoordinatorLayout mSnackBarCoordinatorLayoutView;
+
 
     private final String SHARED_PREF_ADD_HOURS_SELECTED_PROJECT = "add_hours_selected_project_id";
     private final String SHARED_PREF_ADD_HOURS_ENTERED_DESCRIPTION = "add_hours_entered_description";
@@ -146,6 +151,15 @@ public class AddHoursActivity extends AppCompatActivity {
                                     @Override
                                     public void onError(Throwable e) {
                                         Log.e(TAG, "Error in downloading list of projects: " + e.toString());
+                                        final Snackbar snack = Snackbar
+                                                .make(mSnackBarCoordinatorLayoutView, R.string.add_hours_connection_error, Snackbar.LENGTH_LONG);
+                                        snack.setAction(R.string.add_hours_connection_error_close, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                snack.dismiss();
+                                            }
+                                        });
+                                        snack.show();
                                     }
 
                                     @Override
