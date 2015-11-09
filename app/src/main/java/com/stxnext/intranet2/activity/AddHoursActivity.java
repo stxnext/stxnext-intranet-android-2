@@ -47,7 +47,7 @@ import rx.subscriptions.CompositeSubscription;
 import static android.text.TextUtils.isEmpty;
 
 /**
- * Created by bkosarzycki on 02.11.15.
+ * Created by bkosarzycki on 02.11.15. //
  */
 
 public class AddHoursActivity extends AppCompatActivity {
