@@ -6,6 +6,7 @@
         <item name="android:colorPrimaryDark">@color/stxnext_green_dark</item>
         <item name="android:navigationBarColor">@color/stxnext_green_dark</item>
         <item name="android:buttonStyle">@style/Button.Material</item>
+        <item name="android:spinnerStyle">@style/AppSpinner</item>
     </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
@@ -17,6 +18,8 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:dialogTheme">@android:style/Theme.Material.Light.Dialog</item>
+        <item name="android:spinnerStyle">@style/AppSpinner</item>
+        <item name="android:textColorHint">@color/stxnext_texthightlight</item>
     </style>
 
     <style name="Button.Material" parent="Button">
