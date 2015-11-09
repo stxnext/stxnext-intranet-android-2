@@ -3,7 +3,7 @@ package com.stxnext.intranet2.backend.model.project;
 /**
  * Created by bkosarzycki on 02.11.15.
  */
-public class Project {
+public class Project implements Comparable<Project> {
     private int id;
 
     private String name;
@@ -22,5 +22,10 @@ public class Project {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int compareTo(Project another) {
+        return this.getName().compareTo(another.getName());
     }
 }
