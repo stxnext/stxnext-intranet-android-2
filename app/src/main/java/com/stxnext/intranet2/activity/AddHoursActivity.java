@@ -75,6 +75,10 @@ public class AddHoursActivity extends AppCompatActivity {
         restAdapter = IntranetRestAdapter.build();
         mProjectListService = new ProjectListService(); //todo: change to retrofit //restAdapter.create(ProjectListService.class);
 
+        String timeToAdd = getIntent().getExtras().getString("timeToAdd");
+        if (timeToAdd != null && !timeToAdd.isEmpty() && validateFloat(timeToAdd.replace("h", ""),  0.01f, 24.0f))
+            mTimeValueET.setText(timeToAdd.replace("h", ""));
+
         getListOfProjects();
         createEditTextObservables();
     }
