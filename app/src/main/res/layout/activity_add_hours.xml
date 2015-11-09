@@ -208,4 +208,12 @@
         android:layout_marginRight="25dp"
         />
 
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/activity_add_hours_snackbarPosition"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+             />
+
 </RelativeLayout>
