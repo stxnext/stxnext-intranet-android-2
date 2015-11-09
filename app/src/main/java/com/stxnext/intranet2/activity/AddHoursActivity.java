@@ -99,7 +99,18 @@ public class AddHoursActivity extends AppCompatActivity {
     protected void sendFABClick() {
         Toast.makeText(mContext, "Clicked !", Toast.LENGTH_SHORT).show();
         Prefs.putInt(SHARED_PREF_ADD_HOURS_SELECTED_PROJECT, mProjectsSpinner.getSelectedItemPosition());
+        Prefs.putString(SHARED_PREF_ADD_HOURS_ENTERED_DESCRIPTION, mDescriptionET.getText().toString().trim());
     }
+
+    @OnClick(R.id.activity_add_hours_load_previous_description)
+    protected void loadPrevDescriptionClick() {
+        String prevDescr = Prefs.getString(SHARED_PREF_ADD_HOURS_ENTERED_DESCRIPTION, null);
+        if (prevDescr != null && !prevDescr.isEmpty())
+            mDescriptionET.setText(prevDescr);
+        else
+            Toast.makeText(mContext, "No previous description", Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -197,6 +208,8 @@ public class AddHoursActivity extends AppCompatActivity {
                         boolean descriptionValid = !isEmpty(descriptionCharSeq) && descriptionCharSeq.length() > 6;
                         if (!descriptionValid)
                             mDescriptionET.setError("Invalid description!");
+                        else
+                            mDescriptionET.setError(null);
 
                         return ticketIdValid && timeValueValid && descriptionValid;
                     }
