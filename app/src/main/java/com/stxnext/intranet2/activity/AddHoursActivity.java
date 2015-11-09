@@ -23,7 +23,10 @@ import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.ProjectSpinnerAdapter;
 import com.stxnext.intranet2.backend.model.project.Project;
 import com.stxnext.intranet2.backend.model.project.ProjectResponse;
+import com.stxnext.intranet2.backend.model.time.TimeEntryPost;
+import com.stxnext.intranet2.backend.model.time.TimeEntryResponse;
 import com.stxnext.intranet2.backend.retrofit.ProjectListService;
+import com.stxnext.intranet2.backend.retrofit.TimeEntriesService;
 import com.stxnext.intranet2.rest.IntranetRestAdapter;
 import com.stxnext.intranet2.sort.ProjectOrdering;
 
@@ -72,6 +75,7 @@ public class AddHoursActivity extends AppCompatActivity {
     private CompositeSubscription mSubscriptions = new CompositeSubscription();
     private RestAdapter restAdapter;
     private ProjectListService mProjectListService;
+    private TimeEntriesService mTimeEntriesService;
     private Context mContext;
 
     @Override
@@ -90,6 +94,7 @@ public class AddHoursActivity extends AppCompatActivity {
 
         restAdapter = IntranetRestAdapter.build();
         mProjectListService = restAdapter.create(ProjectListService.class);
+        mTimeEntriesService = restAdapter.create(TimeEntriesService.class);
 
         String timeToAdd = getIntent().getExtras().getString("timeToAdd");
         if (timeToAdd != null && !timeToAdd.isEmpty() && validateFloat(timeToAdd.replace("h", ""),  0.01f, 24.0f))
@@ -97,14 +102,40 @@ public class AddHoursActivity extends AppCompatActivity {
 
         getListOfProjects();
         createEditTextObservables();
-        //mSendFab.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.activity_add_hours_send_fab)
     protected void sendFABClick() {
-        Toast.makeText(mContext, "Clicked !", Toast.LENGTH_SHORT).show();
-        Prefs.putInt(SHARED_PREF_ADD_HOURS_SELECTED_PROJECT, mProjectsSpinner.getSelectedItemPosition());
-        Prefs.putString(SHARED_PREF_ADD_HOURS_ENTERED_DESCRIPTION, mDescriptionET.getText().toString().trim());
+        mSendFab.setVisibility(View.GONE);
+        String projDescr =  mDescriptionET.getText().toString().trim();
+        String ticketIdString = mTicketIdET.getText().toString();
+        int spinnerSelPos = mProjectsSpinner.getSelectedItemPosition();
+        Prefs.putInt(SHARED_PREF_ADD_HOURS_SELECTED_PROJECT, spinnerSelPos);
+        Prefs.putString(SHARED_PREF_ADD_HOURS_ENTERED_DESCRIPTION, projDescr);
+
+        TimeEntryPost tep = new TimeEntryPost();
+        tep.setProjectId(mAdapter.getProject(spinnerSelPos).getId());
+        tep.setDescription(projDescr);
+        tep.setTime(Float.parseFloat(mTimeValueET.getText().toString()));
+        if (ticketIdString != null && !ticketIdString.isEmpty())
+            tep.setTicketId(Integer.parseInt(mTicketIdET.getText().toString()));
+
+        mSubscriptions.add(
+                mTimeEntriesService.postUserTime(tep)
+                        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                        new Observer<TimeEntryResponse>() {
+                            @Override public void onCompleted() {
+                                Log.d(TAG, "Retrofit post time entry call completed");
+                                createSnackbar("Wysyłanie powiodło się");
+                            }
+                            @Override public void onError(Throwable e) {
+                                Log.e(TAG, e.toString());
+                                createSnackbar("Błąd wysyłania godzin");
+                            }
+                            @Override public void onNext(TimeEntryResponse timeEntryResponse) {}
+                        }
+                )
+        );
     }
 
     @OnClick(R.id.activity_add_hours_load_previous_description)
@@ -175,6 +206,18 @@ public class AddHoursActivity extends AppCompatActivity {
     private void createSnackbar(int textResourceId) {
         final Snackbar snack = Snackbar
                 .make(mSnackBarCoordinatorLayoutView, textResourceId , Snackbar.LENGTH_LONG);
+        snack.setAction(R.string.add_hours_connection_error_close, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snack.dismiss();
+            }
+        });
+        snack.show();
+    }
+
+    private void createSnackbar(String text) {
+        final Snackbar snack = Snackbar
+                .make(mSnackBarCoordinatorLayoutView, text , Snackbar.LENGTH_LONG);
         snack.setAction(R.string.add_hours_connection_error_close, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
