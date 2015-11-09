@@ -2,29 +2,19 @@ package com.stxnext.intranet2.activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.ProjectSpinnerAdapter;
-import com.stxnext.intranet2.backend.model.project.Project;
 import com.stxnext.intranet2.backend.model.project.ProjectResponse;
 import com.stxnext.intranet2.backend.retrofit.ProjectListService;
 import com.stxnext.intranet2.rest.IntranetRestAdapter;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

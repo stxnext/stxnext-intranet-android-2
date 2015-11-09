@@ -80,4 +80,6 @@
     <string name="notification_time">Godzina powiadomienia:</string>
     <string name="worked_hours_time_to_add">Do dodania:</string>
     <string name="worked_hours_today_from">Dzisiaj od:</string>
+    <string name="add_hours_ticket_id">Nr ticketa: </string>
+    <string name="add_hours_time_value">Czas: </string>
 </resources>

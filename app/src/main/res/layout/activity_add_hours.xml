@@ -21,13 +21,71 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Spinner
-                android:id="@+id/projects_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
-                />
+                >
+
+                <Spinner
+                    android:id="@+id/projects_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    >
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_marginLeft="5dp"
+                        android:minWidth="150dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                            <android.support.v7.widget.AppCompatEditText
+                                android:id="@+id/activity_add_hours_ticket_id"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="5"
+                                android:text="0"
+                                android:textColorHint="@color/stxnext_green"
+                                android:textColorHighlight="@color/stxnext_green"
+                                android:hint="@string/add_hours_ticket_id"
+                                android:textStyle="bold"
+                                android:paddingTop="0dp"
+                                android:alpha="0.5"
+                                android:textSize="25sp"
+                                android:textColor="@android:color/black" />
+                        </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_marginLeft="5dp"
+                        android:minWidth="150dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <android.support.v7.widget.AppCompatEditText
+                            android:id="@+id/activity_add_hours_time_value"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="5"
+                            android:text="0.00"
+                            android:textColorHint="@color/stxnext_green"
+                            android:textColorHighlight="@color/stxnext_green"
+                            android:hint="@string/add_hours_time_value"
+                            android:textStyle="bold"
+                            android:paddingTop="0dp"
+                            android:alpha="0.5"
+                            android:textSize="25sp"
+                            android:textColor="@android:color/black" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+            </LinearLayout>
 
         </FrameLayout>
 
