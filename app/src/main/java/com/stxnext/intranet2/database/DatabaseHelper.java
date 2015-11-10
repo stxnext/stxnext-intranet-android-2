@@ -9,6 +9,9 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.stxnext.intranet2.backend.model.impl.User;
+import com.stxnext.intranet2.backend.model.team.Client;
+import com.stxnext.intranet2.backend.model.team.Project;
+import com.stxnext.intranet2.backend.model.team.Team;
 
 import java.sql.SQLException;
 
@@ -24,6 +27,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final int DATABASE_VERSION = 3;
 
     private Dao<User, Integer> simpleDao = null;
+    private Dao<Client, Long> clientDao = null;
+    private Dao<Project, Long> projectDao = null;
+    private Dao<Team, Long> teamDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -38,6 +44,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             Log.d(TAG, "onCreate ==== Database created from scratch ====");
             TableUtils.createTable(connectionSource, User.class);
+            TableUtils.createTable(connectionSource, Client.class);
+            TableUtils.createTable(connectionSource, Project.class);
+            TableUtils.createTable(connectionSource, Team.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
             throw new RuntimeException(e);
@@ -56,6 +65,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     Log.i(TAG, "==== Database upgraded from v1 to v2 ====");
                 }
                 db.execSQL("DROP TABLE IF EXISTS " + "user");
+                db.execSQL("DROP TABLE IF EXISTS " + "client");
+                db.execSQL("DROP TABLE IF EXISTS " + "project");
+                db.execSQL("DROP TABLE IF EXISTS " + "team");
                 onCreate(db, connectionSource);
             } catch (SQLException exc) {
                 Log.e(TAG, "Exception on database upgrade: " + exc.toString());
@@ -71,6 +83,24 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             simpleDao = getDao(User.class);
         }
         return simpleDao;
+    }
+
+    public Dao<Client, Long> getClientDao() throws  SQLException {
+        if (clientDao == null)
+            clientDao = getDao(Client.class);
+        return clientDao;
+    }
+
+    public Dao<Project, Long> getProjectDao() throws  SQLException {
+        if (projectDao == null)
+            projectDao = getDao(Project.class);
+        return projectDao;
+    }
+
+    public Dao<Team, Long> getTeamDao() throws  SQLException {
+        if (teamDao == null)
+            teamDao = getDao(Team.class);
+        return teamDao;
     }
 
     /**

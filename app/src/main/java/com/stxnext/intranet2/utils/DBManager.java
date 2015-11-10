@@ -23,7 +23,8 @@ public class DBManager {
     public static DBManager getInstance(Context context) {
         if (instance == null) {
             instance = new DBManager();
-            userRepository = new UserRepository(new DatabaseHelper(context));
+            DatabaseHelper dbHelper = new DatabaseHelper(context);
+            userRepository = new UserRepository(dbHelper);
 
             //if isLoaded is false on app start - contacts are refreshed
             if (!isLoaded)

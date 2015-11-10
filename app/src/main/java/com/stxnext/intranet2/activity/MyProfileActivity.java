@@ -9,7 +9,6 @@ import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,18 +24,13 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.DrawerAdapter;
-import com.stxnext.intranet2.backend.api.TeamApi;
-import com.stxnext.intranet2.backend.api.TeamApiImpl;
 import com.stxnext.intranet2.backend.api.UserApi;
 import com.stxnext.intranet2.backend.api.UserApiImpl;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
-import com.stxnext.intranet2.backend.callback.team.OnTeamsReceivedCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
-import com.stxnext.intranet2.backend.model.team.Team;
 import com.stxnext.intranet2.backend.model.timereport.TimeReportDay;
 import com.stxnext.intranet2.fragment.FloatingMenuFragment;
 import com.stxnext.intranet2.model.DrawerMenuItems;
-import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.NotificationUtils;
 import com.stxnext.intranet2.utils.STXToast;
 import com.stxnext.intranet2.utils.Session;
@@ -367,13 +361,7 @@ public class MyProfileActivity extends CommonProfileActivity
                         }
                     });
                     fillWorkedHours(user);
-                    TeamApi teamApi = new TeamApiImpl();
-                    teamApi.requestForTeams(new OnTeamsReceivedCallback() {
-                        @Override
-                        public void onReceived(List<Team> teams) {
-                            Log.d(Config.getTag(MyProfileActivity.this), "First team name: " + teams.get(0).getName());
-                        }
-                    });
+
                     NotificationUtils.setTimeReportAlarmManagerIfNeeded(MyProfileActivity.this);
                 } else {
                     Session.getInstance(MyProfileActivity.this).logout();
