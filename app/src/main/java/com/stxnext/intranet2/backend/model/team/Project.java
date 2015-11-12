@@ -23,5 +23,23 @@ public class Project {
     @SerializedName("last_month_worked_hours")
     private Double lastMonthWorkedHours;
 
+    public long getId() {
+        return id;
+    }
 
+    public Double getThisMonthWorkedHours() {
+        return thisMonthWorkedHours;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getLastMonthWorkedHours() {
+        return lastMonthWorkedHours;
+    }
 }
