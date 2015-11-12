@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class Teams {
 
-    public List<Team> teams;
+    private List<Team> teams;
 
     public List<Team> getTeams() {
         return teams;

@@ -24,7 +24,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static String TAG = DatabaseHelper.class.getName();
 
     private static final String DATABASE_NAME = "stxIntranet.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     private Dao<User, Integer> simpleDao = null;
     private Dao<Client, Long> clientDao = null;
@@ -110,5 +110,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void close() {
         super.close();
         simpleDao = null;
+        clientDao = null;
+        projectDao = null;
+        teamDao = null;
     }
 }
