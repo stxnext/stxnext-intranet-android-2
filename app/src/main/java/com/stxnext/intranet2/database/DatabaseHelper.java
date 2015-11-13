@@ -65,9 +65,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     Log.i(TAG, "==== Database upgraded from v1 to v2 ====");
                 }
                 db.execSQL("DROP TABLE IF EXISTS " + "user");
-                db.execSQL("DROP TABLE IF EXISTS " + "client");
-                db.execSQL("DROP TABLE IF EXISTS " + "project");
-                db.execSQL("DROP TABLE IF EXISTS " + "team");
+                TableUtils.dropTable(connectionSource, Client.class, true);
+                TableUtils.dropTable(connectionSource, Project.class, true);
+                TableUtils.dropTable(connectionSource, Team.class, true);
                 onCreate(db, connectionSource);
             } catch (SQLException exc) {
                 Log.e(TAG, "Exception on database upgrade: " + exc.toString());

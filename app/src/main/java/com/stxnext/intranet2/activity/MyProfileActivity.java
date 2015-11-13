@@ -29,6 +29,7 @@ import com.stxnext.intranet2.backend.api.UserApiImpl;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.timereport.TimeReportDay;
+import com.stxnext.intranet2.backend.service.TeamCacheService;
 import com.stxnext.intranet2.fragment.FloatingMenuFragment;
 import com.stxnext.intranet2.model.DrawerMenuItems;
 import com.stxnext.intranet2.utils.NotificationUtils;
@@ -361,7 +362,8 @@ public class MyProfileActivity extends CommonProfileActivity
                         }
                     });
                     fillWorkedHours(user);
-
+                    TeamCacheService teamCacheService = new TeamCacheService(MyProfileActivity.this);
+                    teamCacheService.getTeamForUser(Long.parseLong(user.getId()));
                     NotificationUtils.setTimeReportAlarmManagerIfNeeded(MyProfileActivity.this);
                 } else {
                     Session.getInstance(MyProfileActivity.this).logout();
