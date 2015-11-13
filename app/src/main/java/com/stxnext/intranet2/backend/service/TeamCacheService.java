@@ -46,7 +46,7 @@ public class TeamCacheService {
                 if (projects != null && projects.length > 0) {
                     Project project = projects[0];
                     Client client = project.getClient();
-                    DBManager.getInstance(context).saveOrUpdateClient(client);
+                    DBManager.getInstance(context).persistClient(client);
                 }
             }
         });
