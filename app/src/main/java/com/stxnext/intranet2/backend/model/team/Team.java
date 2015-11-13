@@ -1,8 +1,10 @@
 package com.stxnext.intranet2.backend.model.team;
 
 import com.google.gson.annotations.SerializedName;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
@@ -20,32 +22,68 @@ public class Team {
     private Boolean hasAvatar;
     @DatabaseField
     private String img;
-    @DatabaseField(foreign = true,foreignAutoRefresh = true)
-    private Project[] projects;
+    // For Orm lite
+//    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @ForeignCollectionField
+    ForeignCollection<Project> projectsORMLite;
+    // For Gson, filled only when json is parsed
+    private Project[] projectsGson;
     @DatabaseField
     private String name;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public long[] getUsers() {
         return users;
     }
 
-    public Boolean hasAvatar() {
+    public void setUsers(long[] users) {
+        this.users = users;
+    }
+
+    public Boolean getHasAvatar() {
         return hasAvatar;
+    }
+
+    public void setHasAvatar(Boolean hasAvatar) {
+        this.hasAvatar = hasAvatar;
     }
 
     public String getImg() {
         return img;
     }
 
-    public long getId() {
-        return id;
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public Project[] getProjects() {
-        return projects;
+        return projectsGson;
+    }
+
+    public void setProjects(Project[] projects) {
+        this.projectsGson = projects;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ForeignCollection<Project> getProjectsORMLite() {
+        return projectsORMLite;
+    }
+
+    public void setProjectsORMLite(ForeignCollection<Project> projectsORMLite) {
+        this.projectsORMLite = projectsORMLite;
     }
 }

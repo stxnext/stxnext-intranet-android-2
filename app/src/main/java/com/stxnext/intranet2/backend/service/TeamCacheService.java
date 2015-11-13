@@ -3,6 +3,7 @@ package com.stxnext.intranet2.backend.service;
 import android.content.Context;
 import android.util.Log;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.stxnext.intranet2.backend.api.TeamApi;
 import com.stxnext.intranet2.backend.api.TeamApiImpl;
 import com.stxnext.intranet2.backend.callback.team.OnTeamsReceivedCallback;
@@ -35,21 +36,35 @@ public class TeamCacheService {
         this.context = context;
     }
 
-    public void getTeamForUser(int userId) {
-        TeamApi teamApi = new TeamApiImpl();
-        teamApi.requestForTeams(new OnTeamsReceivedCallback() {
-            @Override
-            public void onReceived(List<Team> teams) {
-                Log.d(Config.getTag(TeamCacheService.this), "First team name: " + teams.get(0).getName());
-                Team team = teams.get(0);
-                Project[] projects = team.getProjects();
-                if (projects != null && projects.length > 0) {
-                    Project project = projects[0];
-                    Client client = project.getClient();
-                    DBManager.getInstance(context).persistClient(client);
-                }
+    public void getTeamForUser(long userId) {
+        List<Team> teams = DBManager.getInstance(context).getTeams();
+        if (teams != null && teams.size() > 0) {
+            ForeignCollection<Project> projectsForeignCollection = teams.get(0).getProjectsORMLite();
+//            Iterator<Project> iterator = projectsForeignCollection.iterator();
+            for (Project  project: projectsForeignCollection) {
+                Log.d(Config.getTag(this), "FromDB: Team: " + teams.get(0).getName() + ", project: " + project.getName());
             }
-        });
-
+        } else {
+            TeamApi teamApi = new TeamApiImpl();
+            teamApi.requestForTeams(new OnTeamsReceivedCallback() {
+                @Override
+                public void onReceived(List<Team> teams) {
+                    Log.d(Config.getTag(TeamCacheService.this), "First team name: " + teams.get(0).getName());
+                    Team team = teams.get(0);
+                    DBManager.getInstance(context).persistTeam(team);
+                    Project[] projects = team.getProjects();
+                    if (projects != null) {
+                        for (Project project : projects) {
+                            Client client = project.getClient();
+                            DBManager.getInstance(context).persistClient(client);
+                            project.setTeam(team);
+                            DBManager.getInstance(context).persistProject(project);
+                            // it's for gc, not to keep back reference anymore
+                            project.setTeam(null);
+                        }
+                    }
+                }
+            });
+        }
     }
 }

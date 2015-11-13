@@ -24,14 +24,14 @@ public class DBManager {
     private static DBManager instance = null;
     private static boolean isLoaded;
     private static UserRepository userRepository;
-    private DatabaseHelper dbHelper;
+    private static DatabaseHelper dbHelper;
 
     private DBManager() {}
 
     public static DBManager getInstance(Context context) {
         if (instance == null) {
             instance = new DBManager();
-            DatabaseHelper dbHelper = new DatabaseHelper(context);
+            dbHelper = new DatabaseHelper(context);
             userRepository = new UserRepository(dbHelper);
 
             //if isLoaded is false on app start - contacts are refreshed
@@ -86,13 +86,23 @@ public class DBManager {
         }
     }
 
-    public void persistTeam(Project project) {
+    public void persistTeam(Team team) {
         try {
-            Dao<Team, Long> projectDao = dbHelper.getTeamDao();
-            projectDao.createOrUpdate(projectDao);
+            Dao<Team, Long> teamDao = dbHelper.getTeamDao();
+            teamDao.createOrUpdate(team);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Team> getTeams() {
+        try {
+            Dao<Team, Long> teamDao = dbHelper.getTeamDao();
+            return teamDao.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     //todo: this is never used, remove?
