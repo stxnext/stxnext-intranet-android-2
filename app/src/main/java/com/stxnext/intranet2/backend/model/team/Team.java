@@ -27,7 +27,7 @@ public class Team {
     @ForeignCollectionField
     ForeignCollection<Project> projectsORMLite;
     // For Gson, filled only when json is parsed
-    private Project[] projectsGson;
+    private Project[] projects;
     @DatabaseField
     private String name;
 
@@ -64,11 +64,11 @@ public class Team {
     }
 
     public Project[] getProjects() {
-        return projectsGson;
+        return projects;
     }
 
     public void setProjects(Project[] projects) {
-        this.projectsGson = projects;
+        this.projects = projects;
     }
 
     public String getName() {
