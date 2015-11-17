@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.internal.view.ContextThemeWrapper;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -299,8 +302,21 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
                 layoutParams.gravity = Gravity.CENTER;
                 if (i > 0)
                     layoutParams.topMargin = getResources().getDimensionPixelSize(R.dimen.time_report_title_margin_top);
-                timeReports.addView(timeReportTitle, layoutParams);
-                timeReports.addView(containerElement.timeReportDayView);
+
+                CardView card = new CardView(new ContextThemeWrapper(TimeReportActivity.this, R.style.AppTheme_Light), null, 0);
+                card.setPadding(16, 16, 16, 16);
+                card.setCardElevation(25.0f);
+                card.setRadius(50.0f);
+                LinearLayout linearLayout = new LinearLayout(TimeReportActivity.this);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                linearLayout.addView(timeReportTitle, layoutParams);
+                linearLayout.addView(containerElement.timeReportDayView);
+                card.addView(linearLayout);
+
+                CardView.LayoutParams cvLP = new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                cvLP.setMargins(16,0,16,20);
+
+                timeReports.addView(card, cvLP);
             }
             progressView.setVisibility(View.GONE);
         }
