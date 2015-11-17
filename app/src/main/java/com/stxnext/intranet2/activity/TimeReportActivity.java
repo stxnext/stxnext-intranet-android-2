@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -78,7 +79,7 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
 
             int numberOfDays = timeReportDays.size();
             int dayOfFirstWeek = timeReportDays.get(0).getDayOfWeek();
-            createDaysNames(tableLayout);
+            createDayOfWeekHeaderRow(tableLayout);
             tableLayout.addView(tableRowDayNumbers);
             tableLayout.addView(tableRowDays);
             insertEmptyCells(tableRowDayNumbers, tableRowDays, dayOfFirstWeek);
@@ -117,7 +118,7 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
         actualMonth.set(Calendar.DAY_OF_MONTH, 1);
         int dayOfFirstWeek = actualMonth.get(Calendar.DAY_OF_WEEK);
         dayOfFirstWeek = recalculateDayOfFirstWeek(dayOfFirstWeek);
-        createDaysNames(tableLayout);
+        createDayOfWeekHeaderRow(tableLayout);
         tableLayout.addView(tableRowDayNumbers);
         tableLayout.addView(tableRowDays);
         insertEmptyCells(tableRowDayNumbers, tableRowDays, dayOfFirstWeek);
@@ -185,21 +186,22 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
         return dayNumber;
     }
 
-    private void createDaysNames(TableLayout tableLayout) {
+    private void createDayOfWeekHeaderRow(TableLayout tableLayout) {
         TableRow tableRowNames = new TableRow(getApplicationContext());
         for (int i = 0; i < 7; i++) {
             TextView dayName = new TextView(getApplicationContext());
             if (isWeekendDay(i)) {
-                dayName.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_light_little_darker));
+                dayName.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
             } else {
-                dayName.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_light_darker));
+                dayName.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
             }
             dayName.setGravity(Gravity.CENTER);
-            dayName.setTextColor(Color.BLACK);
+            dayName.setTextColor(ContextCompat.getColor(this, R.color.stxnext_green));
             dayName.setPadding(3, 3, 3, 3);
             dayName.setText(getString(DaysShorcuts.values()[i].getDayShortcut()));
             tableRowNames.addView(dayName, new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         }
+
         tableLayout.addView(tableRowNames);
     }
 
@@ -210,11 +212,11 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
     private void insertEmptyCells(TableRow tableRowDayNumbers, TableRow tableRowDays, int daysToFill) {
         for(int i = 0; i < daysToFill; i++) {
             TextView dayNumber = new TextView(getApplicationContext());
-            dayNumber.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_light));
+            dayNumber.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
             dayNumber.setPadding(3, 3, 3, 3);
             tableRowDayNumbers.addView(dayNumber);
             TextView hoursWorked = new TextView(getApplicationContext());
-            hoursWorked.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_light));
+            hoursWorked.setBackgroundColor(ContextCompat.getColor(this,  android.R.color.white));
             hoursWorked.setPadding(3, 3, 3, 3);
             tableRowDays.addView(hoursWorked);
         }
@@ -272,7 +274,7 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
                 TextView timeReportTitle = new TextView(this);
                 timeReportTitle.setGravity(Gravity.CENTER);
                 timeReportTitle.setText(getString(R.string.time_report_for) + " " + DateFormat.format("MM.yyyy", containerElement.month));
-                timeReportTitle.setTextColor(Color.BLACK);
+                timeReportTitle.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.stxnext_green));
                 timeReportTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
                 timeReportTitle.setTypeface(null, Typeface.BOLD);
                 timeReportTitle.setPadding(0, getResources().getDimensionPixelSize(R.dimen.time_report_title_padding_top), 0, 0);
