@@ -1,11 +1,12 @@
 package com.stxnext.intranet2.backend.model.team;
 
 import com.google.gson.annotations.SerializedName;
-import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import java.util.Collection;
 
 /**
  * Created by Lukasz Ciupa on 06.11.2015.
@@ -25,9 +26,9 @@ public class Team {
     // For Orm lite
 //    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     @ForeignCollectionField
-    ForeignCollection<Project> projectsORMLite;
+    Collection<Project> projects;
     // For Gson, filled only when json is parsed
-    private Project[] projects;
+//    private Project[] projects;
     @DatabaseField
     private String name;
 
@@ -63,11 +64,11 @@ public class Team {
         this.img = img;
     }
 
-    public Project[] getProjects() {
+    public Collection<Project> getProjects() {
         return projects;
     }
 
-    public void setProjects(Project[] projects) {
+    public void setProjects(Collection<Project> projects) {
         this.projects = projects;
     }
 
@@ -79,11 +80,11 @@ public class Team {
         this.name = name;
     }
 
-    public ForeignCollection<Project> getProjectsORMLite() {
-        return projectsORMLite;
-    }
-
-    public void setProjectsORMLite(ForeignCollection<Project> projectsORMLite) {
-        this.projectsORMLite = projectsORMLite;
-    }
+//    public ForeignCollection<Project> getProjectsORMLite() {
+//        return projectsORMLite;
+//    }
+//
+//    public void setProjectsORMLite(ForeignCollection<Project> projectsORMLite) {
+//        this.projectsORMLite = projectsORMLite;
+//    }
 }

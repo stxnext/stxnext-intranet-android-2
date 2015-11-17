@@ -22,8 +22,10 @@ import android.widget.Toast;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
+import com.stxnext.intranet2.backend.model.team.Team;
 import com.stxnext.intranet2.backend.model.workedHour.WorkedHours;
 import com.stxnext.intranet2.backend.retrofit.WorkedHoursService;
+import com.stxnext.intranet2.backend.service.TeamCacheService;
 import com.stxnext.intranet2.rest.IntranetRestAdapter;
 import com.stxnext.intranet2.utils.Session;
 
@@ -58,6 +60,8 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     private TextView quarterOverhoursTextView;
     private ImageView workedHoursRefreshHoursCardIv;
 
+    protected TextView teamsTextView;
+
     private Handler uiHandler = new Handler(Looper.getMainLooper());
     private RestAdapter restAdapter;
     private WorkedHoursService workedHoursService;
@@ -70,6 +74,16 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     }
 
     public abstract void initializeContentView();
+
+    protected void fillTeams(User user) {
+        TeamCacheService teamCacheService = new TeamCacheService(this);
+        teamCacheService.getTeamForUser(Long.parseLong(user.getId()), new TeamCacheService.OnTeamReceivedCallback() {
+            @Override
+            public void onReceived(Team team) {
+
+            }
+        });
+    }
 
     public void fillWorkedHours(final User user) {
         workedHoursCardViewContainer = (CardView) findViewById(R.id.worked_hours_container);

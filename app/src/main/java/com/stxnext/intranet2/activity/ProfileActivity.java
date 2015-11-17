@@ -43,6 +43,7 @@ public class ProfileActivity extends CommonProfileActivity implements UserApiCal
         firstNameTextView = (TextView) findViewById(R.id.first_name_text_view);
         roleTextView = (TextView) findViewById(R.id.role_text_view);
         officeTextView = (TextView) findViewById(R.id.office_text_view);
+        teamsTextView = (TextView) findViewById(R.id.teams_text_view);
         emailTextView = (TextView) findViewById(R.id.email_text_view);
         phoneTextView = (TextView) findViewById(R.id.phone_text_view);
         skypeTextView = (TextView) findViewById(R.id.skype_text_view);
@@ -119,6 +120,8 @@ public class ProfileActivity extends CommonProfileActivity implements UserApiCal
                         user.getEmail());
             }
         });
+
+        fillTeams(user);
     }
 
     private boolean isFemaleName(String firstName) {
