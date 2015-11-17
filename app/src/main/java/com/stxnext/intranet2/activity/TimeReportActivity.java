@@ -181,13 +181,14 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
         else
             dayNumber.setBackgroundColor(ContextCompat.getColor(this, R.color.stxnext_green_lighter));
         dayNumber.setText(String.valueOf(day));
-        dayNumber.setTextColor(Color.BLACK);
+        dayNumber.setTextColor(Color.WHITE);
         dayNumber.setPadding(3, 3, 3, 3);
         return dayNumber;
     }
 
     private void createDayOfWeekHeaderRow(TableLayout tableLayout) {
         TableRow tableRowNames = new TableRow(getApplicationContext());
+        tableRowNames.setOrientation(LinearLayout.HORIZONTAL);
         for (int i = 0; i < 7; i++) {
             TextView dayName = new TextView(getApplicationContext());
             if (isWeekendDay(i)) {
@@ -199,10 +200,26 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
             dayName.setTextColor(ContextCompat.getColor(this, R.color.stxnext_green));
             dayName.setPadding(3, 3, 3, 3);
             dayName.setText(getString(DaysShorcuts.values()[i].getDayShortcut()));
-            tableRowNames.addView(dayName, new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+            dayName.setTypeface(Typeface.DEFAULT_BOLD);
+            dayName.setWidth(0);
+            tableRowNames.addView(dayName, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f));
         }
 
-        tableLayout.addView(tableRowNames);
+        LinearLayout.LayoutParams innerLP = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        //innerLP.gravity = Gravity.CENTER;
+
+        LinearLayout outerLinearLayout = new LinearLayout(getBaseContext());
+        outerLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        outerLinearLayout.addView(tableRowNames, innerLP);
+
+        outerLinearLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.stxnext_green_dark));
+        outerLinearLayout.setPadding(0, 0, 0, 7);
+        LinearLayout.LayoutParams outerLP = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+
+        tableLayout.addView(outerLinearLayout, outerLP);
     }
 
     private boolean isWeekendDay(int day) {
