@@ -31,7 +31,7 @@ public class TeamApiImpl extends TeamApi {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e(Config.getTag(this), "Error getting teams json values");
+                Log.e(Config.getTag(this), "Error getting teams json values: " + error);
             }
         };
         teamsService.getTeams(restCallback);
