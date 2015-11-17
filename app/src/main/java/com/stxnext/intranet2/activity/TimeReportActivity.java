@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -300,23 +301,26 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
                 timeReportTitle.setPadding(0, getResources().getDimensionPixelSize(R.dimen.time_report_title_padding_top), 0, 0);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, getResources().getDimensionPixelSize(R.dimen.time_report_title_text_view_size));
                 layoutParams.gravity = Gravity.CENTER;
-                if (i > 0)
-                    layoutParams.topMargin = getResources().getDimensionPixelSize(R.dimen.time_report_title_margin_top);
 
-                CardView card = new CardView(new ContextThemeWrapper(TimeReportActivity.this, R.style.AppTheme_Light), null, 0);
-                card.setPadding(16, 16, 16, 16);
-                card.setCardElevation(25.0f);
-                card.setRadius(50.0f);
+                LinearLayout outCardLL = new LinearLayout(this);
+                CardView card = new CardView(this);
                 LinearLayout linearLayout = new LinearLayout(TimeReportActivity.this);
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 linearLayout.addView(timeReportTitle, layoutParams);
                 linearLayout.addView(containerElement.timeReportDayView);
                 card.addView(linearLayout);
 
-                CardView.LayoutParams cvLP = new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                cvLP.setMargins(16,0,16,20);
+                card.setContentPadding(30, 30, 30, 40);
+                card.setCardElevation(6.0f);
+                card.setRadius(20.0f);
 
-                timeReports.addView(card, cvLP);
+                LinearLayout.LayoutParams outLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                int bottomMarg = i == timeReportDayViews.size() - 1 ? 20 : 0;
+                outLP.setMargins(16, 20, 16, bottomMarg);
+                card.setLayoutParams(outLP);
+
+                outCardLL.addView(card);
+                timeReports.addView(outCardLL, outLP);
             }
             progressView.setVisibility(View.GONE);
         }
