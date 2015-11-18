@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Tomasz Konieczny on 2015-05-07.
  */
-public interface UserApiCallback {
+public interface UserApiCallback extends UserApiTimeReportCallback {
 
     void onUserReceived(User user);
 
@@ -19,8 +19,5 @@ public interface UserApiCallback {
 
     void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft);
 
-    void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month);
-
     void onRequestError();
-
 }
