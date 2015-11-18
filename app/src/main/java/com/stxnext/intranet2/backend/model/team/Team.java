@@ -6,6 +6,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -23,12 +24,12 @@ public class Team {
     private Boolean hasAvatar;
     @DatabaseField
     private String img;
-    // For Orm lite
-//    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    // For Orm lite only
     @ForeignCollectionField
-    Collection<Project> projects;
-    // For Gson, filled only when json is parsed
-//    private Project[] projects;
+    private Collection<TeamProject> teamToProjectLinks;
+    // Only for Gson, filled only when json is parsed
+    @SerializedName("projects")
+    private Collection<Project> projectsGson;
     @DatabaseField
     private String name;
 
@@ -64,12 +65,20 @@ public class Team {
         this.img = img;
     }
 
-    public Collection<Project> getProjects() {
-        return projects;
+    /**
+     * It's only used after parsing from json.
+     * @return
+     */
+    public Collection<Project> getProjectsGson() {
+        return projectsGson;
     }
 
-    public void setProjects(Collection<Project> projects) {
-        this.projects = projects;
+    /**
+     * Its only used after parsing from json.
+     * @param projectsGson
+     */
+    public void setProjectsGson(Collection<Project> projectsGson) {
+        this.projectsGson = projectsGson;
     }
 
     public String getName() {
@@ -80,11 +89,19 @@ public class Team {
         this.name = name;
     }
 
-//    public ForeignCollection<Project> getProjectsORMLite() {
-//        return projectsORMLite;
-//    }
-//
-//    public void setProjectsORMLite(ForeignCollection<Project> projectsORMLite) {
-//        this.projectsORMLite = projectsORMLite;
-//    }
+    public Collection<TeamProject> getTeamToProjectLinks() {
+        return teamToProjectLinks;
+    }
+
+    public void setTeamToProjectLinks(Collection<TeamProject> teamToProjectLinks) {
+        this.teamToProjectLinks = teamToProjectLinks;
+    }
+
+    public Collection<Project> getProjects() {
+        Collection<Project> projects = new ArrayList<Project>();
+        for (TeamProject teamProject : teamToProjectLinks) {
+            projects.add(teamProject.getProject());
+        }
+        return projects;
+    }
 }

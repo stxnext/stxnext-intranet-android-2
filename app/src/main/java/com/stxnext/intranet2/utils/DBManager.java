@@ -10,6 +10,7 @@ import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.team.Client;
 import com.stxnext.intranet2.backend.model.team.Project;
 import com.stxnext.intranet2.backend.model.team.Team;
+import com.stxnext.intranet2.backend.model.team.TeamProject;
 import com.stxnext.intranet2.database.DatabaseHelper;
 import com.stxnext.intranet2.database.repo.UserRepository;
 
@@ -103,6 +104,19 @@ public class DBManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void deleteTeams() {
+        dbHelper.clearTable(Team.class);
+    }
+
+    public void persistTeamProject(TeamProject teamProject) {
+        try {
+            Dao<TeamProject, Long> teamProjectDao = dbHelper.getTeamProject();
+            teamProjectDao.createOrUpdate(teamProject);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     //todo: this is never used, remove?

@@ -76,8 +76,8 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     public abstract void initializeContentView();
 
     protected void fillTeams(User user) {
-        TeamCacheService teamCacheService = new TeamCacheService(this);
-        teamCacheService.getTeamForUser(Long.parseLong(user.getId()), new TeamCacheService.OnTeamReceivedCallback() {
+        TeamCacheService teamCacheService = TeamCacheService.getInstance(this);
+        teamCacheService.getTeamsForUser(Long.parseLong(user.getId()), new TeamCacheService.OnTeamsReceivedCallback() {
             @Override
             public void onReceived(Team team) {
 
