@@ -185,7 +185,7 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
         else
             dayNumber.setBackgroundColor(ContextCompat.getColor(this, R.color.stxnext_green_lighter));
         dayNumber.setText(String.valueOf(day));
-        dayNumber.setTextColor(Color.WHITE);
+        dayNumber.setTextColor(ContextCompat.getColor(this, R.color.stxnext_cardview_white));
         dayNumber.setPadding(3, 3, 3, 3);
         return dayNumber;
     }
@@ -196,9 +196,9 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
         for (int i = 0; i < 7; i++) {
             TextView dayName = new TextView(getApplicationContext());
             if (isWeekendDay(i)) {
-                dayName.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
+                dayName.setBackgroundColor(ContextCompat.getColor(this,  R.color.stxnext_cardview_white));
             } else {
-                dayName.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
+                dayName.setBackgroundColor(ContextCompat.getColor(this,  R.color.stxnext_cardview_white));
             }
             dayName.setGravity(Gravity.CENTER);
             dayName.setTextColor(ContextCompat.getColor(this, R.color.stxnext_green));
@@ -233,11 +233,11 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
     private void insertEmptyCells(TableRow tableRowDayNumbers, TableRow tableRowDays, int daysToFill) {
         for(int i = 0; i < daysToFill; i++) {
             TextView dayNumber = new TextView(getApplicationContext());
-            dayNumber.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
+            dayNumber.setBackgroundColor(ContextCompat.getColor(this,  R.color.stxnext_cardview_white));
             dayNumber.setPadding(3, 3, 3, 3);
             tableRowDayNumbers.addView(dayNumber);
             TextView hoursWorked = new TextView(getApplicationContext());
-            hoursWorked.setBackgroundColor(ContextCompat.getColor(this,  android.R.color.white));
+            hoursWorked.setBackgroundColor(ContextCompat.getColor(this,   R.color.stxnext_cardview_white));
             hoursWorked.setPadding(3, 3, 3, 3);
             tableRowDays.addView(hoursWorked);
         }
