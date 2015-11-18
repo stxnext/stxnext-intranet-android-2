@@ -6,13 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.internal.view.ContextThemeWrapper;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -78,7 +83,7 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
 
             int numberOfDays = timeReportDays.size();
             int dayOfFirstWeek = timeReportDays.get(0).getDayOfWeek();
-            createDaysNames(tableLayout);
+            createDayOfWeekHeaderRow(tableLayout);
             tableLayout.addView(tableRowDayNumbers);
             tableLayout.addView(tableRowDays);
             insertEmptyCells(tableRowDayNumbers, tableRowDays, dayOfFirstWeek);
@@ -117,7 +122,7 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
         actualMonth.set(Calendar.DAY_OF_MONTH, 1);
         int dayOfFirstWeek = actualMonth.get(Calendar.DAY_OF_WEEK);
         dayOfFirstWeek = recalculateDayOfFirstWeek(dayOfFirstWeek);
-        createDaysNames(tableLayout);
+        createDayOfWeekHeaderRow(tableLayout);
         tableLayout.addView(tableRowDayNumbers);
         tableLayout.addView(tableRowDays);
         insertEmptyCells(tableRowDayNumbers, tableRowDays, dayOfFirstWeek);
@@ -180,27 +185,45 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
         else
             dayNumber.setBackgroundColor(ContextCompat.getColor(this, R.color.stxnext_green_lighter));
         dayNumber.setText(String.valueOf(day));
-        dayNumber.setTextColor(Color.BLACK);
+        dayNumber.setTextColor(ContextCompat.getColor(this, R.color.stxnext_cardview_white));
         dayNumber.setPadding(3, 3, 3, 3);
         return dayNumber;
     }
 
-    private void createDaysNames(TableLayout tableLayout) {
+    private void createDayOfWeekHeaderRow(TableLayout tableLayout) {
         TableRow tableRowNames = new TableRow(getApplicationContext());
+        tableRowNames.setOrientation(LinearLayout.HORIZONTAL);
         for (int i = 0; i < 7; i++) {
             TextView dayName = new TextView(getApplicationContext());
             if (isWeekendDay(i)) {
-                dayName.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_light_little_darker));
+                dayName.setBackgroundColor(ContextCompat.getColor(this,  R.color.stxnext_cardview_white));
             } else {
-                dayName.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_light_darker));
+                dayName.setBackgroundColor(ContextCompat.getColor(this,  R.color.stxnext_cardview_white));
             }
             dayName.setGravity(Gravity.CENTER);
-            dayName.setTextColor(Color.BLACK);
+            dayName.setTextColor(ContextCompat.getColor(this, R.color.stxnext_green));
             dayName.setPadding(3, 3, 3, 3);
             dayName.setText(getString(DaysShorcuts.values()[i].getDayShortcut()));
-            tableRowNames.addView(dayName, new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+            dayName.setTypeface(Typeface.DEFAULT_BOLD);
+            dayName.setWidth(0);
+            tableRowNames.addView(dayName, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f));
         }
-        tableLayout.addView(tableRowNames);
+
+        LinearLayout.LayoutParams innerLP = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        //innerLP.gravity = Gravity.CENTER;
+
+        LinearLayout outerLinearLayout = new LinearLayout(getBaseContext());
+        outerLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        outerLinearLayout.addView(tableRowNames, innerLP);
+
+        outerLinearLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.stxnext_green_dark));
+        outerLinearLayout.setPadding(0, 0, 0, 7);
+        LinearLayout.LayoutParams outerLP = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+
+        tableLayout.addView(outerLinearLayout, outerLP);
     }
 
     private boolean isWeekendDay(int day) {
@@ -210,11 +233,11 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
     private void insertEmptyCells(TableRow tableRowDayNumbers, TableRow tableRowDays, int daysToFill) {
         for(int i = 0; i < daysToFill; i++) {
             TextView dayNumber = new TextView(getApplicationContext());
-            dayNumber.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_light));
+            dayNumber.setBackgroundColor(ContextCompat.getColor(this,  R.color.stxnext_cardview_white));
             dayNumber.setPadding(3, 3, 3, 3);
             tableRowDayNumbers.addView(dayNumber);
             TextView hoursWorked = new TextView(getApplicationContext());
-            hoursWorked.setBackgroundColor(ContextCompat.getColor(this, R.color.gray_light));
+            hoursWorked.setBackgroundColor(ContextCompat.getColor(this,   R.color.stxnext_cardview_white));
             hoursWorked.setPadding(3, 3, 3, 3);
             tableRowDays.addView(hoursWorked);
         }
@@ -272,16 +295,32 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
                 TextView timeReportTitle = new TextView(this);
                 timeReportTitle.setGravity(Gravity.CENTER);
                 timeReportTitle.setText(getString(R.string.time_report_for) + " " + DateFormat.format("MM.yyyy", containerElement.month));
-                timeReportTitle.setTextColor(Color.BLACK);
+                timeReportTitle.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.stxnext_green));
                 timeReportTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
                 timeReportTitle.setTypeface(null, Typeface.BOLD);
                 timeReportTitle.setPadding(0, getResources().getDimensionPixelSize(R.dimen.time_report_title_padding_top), 0, 0);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, getResources().getDimensionPixelSize(R.dimen.time_report_title_text_view_size));
                 layoutParams.gravity = Gravity.CENTER;
-                if (i > 0)
-                    layoutParams.topMargin = getResources().getDimensionPixelSize(R.dimen.time_report_title_margin_top);
-                timeReports.addView(timeReportTitle, layoutParams);
-                timeReports.addView(containerElement.timeReportDayView);
+
+                LinearLayout outCardLL = new LinearLayout(this);
+                CardView card = new CardView(this);
+                LinearLayout linearLayout = new LinearLayout(TimeReportActivity.this);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                linearLayout.addView(timeReportTitle, layoutParams);
+                linearLayout.addView(containerElement.timeReportDayView);
+                card.addView(linearLayout);
+
+                card.setContentPadding(30, 30, 30, 40);
+                card.setCardElevation(6.0f);
+                card.setRadius(20.0f);
+
+                LinearLayout.LayoutParams outLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                int bottomMarg = i == timeReportDayViews.size() - 1 ? 20 : 0;
+                outLP.setMargins(16, 20, 16, bottomMarg);
+                card.setLayoutParams(outLP);
+
+                outCardLL.addView(card);
+                timeReports.addView(outCardLL, outLP);
             }
             progressView.setVisibility(View.GONE);
         }
