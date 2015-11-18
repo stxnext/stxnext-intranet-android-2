@@ -143,9 +143,9 @@ public class TimeReportActivity extends AppCompatActivity {
         hoursWorked.setTextColor(Color.BLACK);
         hoursWorked.setPadding(3, 3, 3, 3);
         if (isToday(month, timeReportDay.getDayNumber()))
-            hoursWorked.setBackgroundColor(Color.GREEN);
+            hoursWorked.setBackgroundColor(Color.parseColor("#6600FF00")); //Green
         if (timeReportDay.getLateEntry())
-            hoursWorked.setBackgroundColor(Color.RED);
+            hoursWorked.setBackgroundColor(Color.parseColor("#66FF0000")); //Red
         return hoursWorked;
     }
 
