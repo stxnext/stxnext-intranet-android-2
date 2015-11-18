@@ -26,6 +26,7 @@ import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.api.UserApi;
 import com.stxnext.intranet2.backend.api.UserApiImpl;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
+import com.stxnext.intranet2.backend.callback.UserApiTimeReportCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.timereport.TimeReportDay;
 import com.stxnext.intranet2.model.DaysShorcuts;
@@ -41,11 +42,10 @@ import java.util.List;
 /**
  * Created by Łukasz Ciupa on 2015-09-02.
  */
-public class TimeReportActivity extends AppCompatActivity implements UserApiCallback {
+public class TimeReportActivity extends AppCompatActivity {
 
     public static final String USER_ID_TAG = "userId";
     private String userId= null;
-    private LinearLayout timeReports;
     private Toolbar toolbar;
     private View progressView;
     private List<TimeReportDayContainer> timeReportDayViews = new ArrayList<TimeReportDayContainer>();
@@ -57,20 +57,27 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        timeReports = (LinearLayout) findViewById(R.id.time_reports);
+        final LinearLayout timeReportsLLayout = (LinearLayout) findViewById(R.id.time_reports);
         Calendar month = Calendar.getInstance();
         progressView = findViewById(R.id.progress_container);
         progressView.setVisibility(View.VISIBLE);
         if (getIntent() != null) {
             userId = getIntent().getStringExtra(USER_ID_TAG);
-            UserApi userApi = new UserApiImpl(this, this);
-            userApi.getTimeReport(userId, month);
+
+            UserApi userApi = new UserApiImpl(this, null);
+            UserApiTimeReportCallback userApiCallback = new UserApiTimeReportCallback() {
+                @Override public void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month) {
+                    TimeReportActivity.this.onTimeReportReceived(timeReportDays, month, timeReportsLLayout);
+                }
+            };
+
+            userApi.getTimeReport(userId, month, userApiCallback);
             month = Calendar.getInstance();
             month.add(Calendar.MONTH, -1);
-            userApi.getTimeReport(userId, month);
+            userApi.getTimeReport(userId, month, userApiCallback);
             month = Calendar.getInstance();
             month.add(Calendar.MONTH, -2);
-            userApi.getTimeReport(userId, month);
+            userApi.getTimeReport(userId, month, userApiCallback);
         }
     }
 
@@ -270,8 +277,7 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
         return false;
     }
 
-    @Override
-    public synchronized void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month) {
+    private synchronized void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month, LinearLayout timeReportsLLayout) {
         TableLayout tableLayout = createTimeTable(timeReportDays);
         TimeReportDayContainer timeReportDayContainer = new TimeReportDayContainer(month, tableLayout);
         timeReportDayViews.add(timeReportDayContainer);
@@ -320,35 +326,10 @@ public class TimeReportActivity extends AppCompatActivity implements UserApiCall
                 card.setLayoutParams(outLP);
 
                 outCardLL.addView(card);
-                timeReports.addView(outCardLL, outLP);
+                timeReportsLLayout.addView(outCardLL, outLP);
             }
             progressView.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void onUserReceived(User user) {
-
-    }
-
-    @Override
-    public void onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request) {
-
-    }
-
-    @Override
-    public void onOutOfOfficeResponse(boolean entry) {
-
-    }
-
-    @Override
-    public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
-
-    }
-
-    @Override
-    public void onRequestError() {
-
     }
 
     private class TimeReportDayContainer {
