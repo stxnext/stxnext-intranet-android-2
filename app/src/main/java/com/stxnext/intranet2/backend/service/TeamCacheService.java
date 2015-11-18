@@ -5,14 +5,16 @@ import android.util.Log;
 
 import com.stxnext.intranet2.backend.api.TeamApi;
 import com.stxnext.intranet2.backend.api.TeamApiImpl;
-import com.stxnext.intranet2.backend.callback.team.OnTeamsReceivedCallback;
 import com.stxnext.intranet2.backend.model.team.Client;
 import com.stxnext.intranet2.backend.model.team.Project;
 import com.stxnext.intranet2.backend.model.team.Team;
+import com.stxnext.intranet2.backend.model.team.TeamProject;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,60 +26,114 @@ import java.util.Map;
  */
 public class TeamCacheService {
 
+    private static TeamCacheService instance = null;
+
     Context context;
 
     /**
      * This is used to cache user to teams data as to not get this every time
      * from db.
      */
-    private static Map<Integer, List<String>> userToTeamsMap;
+    private Map<Long, List<Team>> userToTeamsMap = new HashMap<>();
 
-    public TeamCacheService(Context context) {
+    public static TeamCacheService getInstance(Context context) {
+        if (instance == null) {
+            instance = new TeamCacheService(context);
+        }
+        return instance;
+    }
+
+    private TeamCacheService(Context context) {
         this.context = context;
     }
 
-    public void getTeamForUser(long userId, OnTeamReceivedCallback callback) {
-        List<Team> teams = DBManager.getInstance(context).getTeams();
-        if (teams != null && teams.size() > 0) {
-            for (Team team : teams) {
-                Collection<Project> projects = team.getProjects();
-    //            Iterator<Project> iterator = projectsForeignCollection.iterator();
-                for (Project project: projects) {
-                    Log.d(Config.getTag(this), "FromDB: Team: " + team.getName() + ", project: " + project.getName());
-                }
-            }
+    public synchronized void getTeamsForUser(final long userId, final OnTeamsReceivedCallback callback) {
+        if (userToTeamsMap.size() > 0) {
+            List<Team> teamsForUser = userToTeamsMap.get(userId);
+            if (teamsForUser == null)
+                teamsForUser = new ArrayList<>();
+            callback.onReceived(teamsForUser);
+            return;
         } else {
             TeamApi teamApi = new TeamApiImpl();
-            teamApi.requestForTeams(new OnTeamsReceivedCallback() {
+            teamApi.requestForTeams(new com.stxnext.intranet2.backend.callback.team.OnTeamsReceivedCallback() {
                 @Override
                 public void onReceived(List<Team> teams) {
+                    clearTeamsInDB();
                     persistTeamsInDB(teams);
+                    createUserToTeamsMap(teams);
+                    List<Team> teamsForUser = userToTeamsMap.get(userId);
+                    if (teamsForUser == null)
+                        teamsForUser = new ArrayList<>();
+                    callback.onReceived(teamsForUser);
                 }
             });
         }
+    }
+
+    private void createUserToTeamsMap(List<Team> teams) {
+        for (Team team : teams) {
+            long[] userIds = team.getUsers();
+            for (long userId : userIds) {
+                List<Team> teamsForUser = userToTeamsMap.get(userId);
+                if (teamsForUser != null) {
+                    teamsForUser.add(team);
+                }  else {
+                    teamsForUser = new ArrayList<>();
+                    teamsForUser.add(team);
+                    userToTeamsMap.put(userId, teamsForUser);
+                }
+            }
+        }
+    }
+
+    /**
+     * Finds in teams list Teams to which given user (userId) belongs.
+     * @param userId user for whom there is a search performed
+     * @param teams teams in which there is the search performed.
+     * @return List of teams to which given user belongs.
+     *
+     */
+    private List<Team> findTeamsForUser(long userId, List<Team> teams) {
+        List<Team> teamsForUser = new ArrayList<>();
+        for (Team team : teams) {
+            long[] ids = team.getUsers();
+            if (ids != null) {
+                for (long id : ids) {
+                    if (id == userId) {
+                        teamsForUser.add(team);
+                        break;
+                    }
+                }
+            }
+        };
+        return teamsForUser;
     }
 
     private void persistTeamsInDB(List<Team> teams) {
         for (Team team : teams) {
             Log.d(Config.getTag(TeamCacheService.this), "Team name: " + team.getName());
             DBManager.getInstance(context).persistTeam(team);
-            Collection<Project> projects = team.getProjects();
+            Collection<Project> projects = team.getProjectsGson();
             if (projects != null) {
                 for (Project project : projects) {
                     Client client = project.getClient();
                     DBManager.getInstance(context).persistClient(client);
-                    project.setTeam(team);
                     DBManager.getInstance(context).persistProject(project);
-                    // it's for gc, not to keep back reference anymore
-                    project.setTeam(null);
+                    TeamProject teamProject = new TeamProject(team, project);
+                    DBManager.getInstance(context).persistTeamProject(teamProject);
                 }
             }
         }
     }
 
-    public interface OnTeamReceivedCallback {
+    private void clearTeamsInDB() {
+        DBManager.getInstance(context).deleteTeams();
+    }
 
-        void onReceived(Team team);
+    public interface OnTeamsReceivedCallback {
+
+        void onReceived(List<Team> teams);
 
     }
 }

@@ -2,7 +2,10 @@ package com.stxnext.intranet2.backend.model.team;
 
 import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import java.util.Collection;
 
 /**
  * Created by Lukasz on 06.11.2015.
@@ -12,8 +15,6 @@ public class Project {
 
     @DatabaseField(id = true)
     private long id;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private Team team;
     @DatabaseField
     @SerializedName("this_month_worked_hours")
     private Double thisMonthWorkedHours;
@@ -24,6 +25,8 @@ public class Project {
     @DatabaseField
     @SerializedName("last_month_worked_hours")
     private Double lastMonthWorkedHours;
+    @ForeignCollectionField
+    private Collection<TeamProject> projectToTeamLinks;
 
     public Project() {}
 
@@ -67,11 +70,11 @@ public class Project {
         this.lastMonthWorkedHours = lastMonthWorkedHours;
     }
 
-    public Team getTeam() {
-        return team;
+    public Collection<TeamProject> getProjectToTeamLinks() {
+        return projectToTeamLinks;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setProjectToTeamLinks(Collection<TeamProject> projectToTeamLinks) {
+        this.projectToTeamLinks = projectToTeamLinks;
     }
 }

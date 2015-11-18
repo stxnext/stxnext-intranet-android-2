@@ -12,6 +12,7 @@ import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.team.Client;
 import com.stxnext.intranet2.backend.model.team.Project;
 import com.stxnext.intranet2.backend.model.team.Team;
+import com.stxnext.intranet2.backend.model.team.TeamProject;
 
 import java.sql.SQLException;
 
@@ -30,6 +31,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Client, Long> clientDao = null;
     private Dao<Project, Long> projectDao = null;
     private Dao<Team, Long> teamDao = null;
+    private Dao<TeamProject, Long> teamProjectDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -47,6 +49,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Client.class);
             TableUtils.createTable(connectionSource, Project.class);
             TableUtils.createTable(connectionSource, Team.class);
+            TableUtils.createTable(connectionSource, TeamProject.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
             throw new RuntimeException(e);
@@ -68,6 +71,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 TableUtils.dropTable(connectionSource, Client.class, true);
                 TableUtils.dropTable(connectionSource, Project.class, true);
                 TableUtils.dropTable(connectionSource, Team.class, true);
+                TableUtils.dropTable(connectionSource, TeamProject.class, true);
                 onCreate(db, connectionSource);
             } catch (SQLException exc) {
                 Log.e(TAG, "Exception on database upgrade: " + exc.toString());
@@ -101,6 +105,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         if (teamDao == null)
             teamDao = getDao(Team.class);
         return teamDao;
+    }
+
+    public Dao<TeamProject, Long> getTeamProject() throws SQLException {
+        if (teamProjectDao == null)
+            teamProjectDao = getDao(TeamProject.class);
+        return teamProjectDao;
+    }
+
+    public void clearTable(Class tableClass) {
+        try {
+            TableUtils.clearTable(getConnectionSource(), tableClass);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
