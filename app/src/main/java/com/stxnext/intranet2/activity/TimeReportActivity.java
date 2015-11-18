@@ -1,5 +1,6 @@
 package com.stxnext.intranet2.activity;
 
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -321,8 +322,12 @@ public class TimeReportActivity extends AppCompatActivity {
                 card.setRadius(20.0f);
 
                 LinearLayout.LayoutParams outLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
                 int bottomMarg = i == timeReportDayViews.size() - 1 ? 20 : 0;
-                outLP.setMargins(16, 20, 16, bottomMarg);
+                int sideMarg = ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE)
+                    ? 16 : 3;
+
+                outLP.setMargins(sideMarg, 20, sideMarg, bottomMarg);
                 card.setLayoutParams(outLP);
 
                 outCardLL.addView(card);
