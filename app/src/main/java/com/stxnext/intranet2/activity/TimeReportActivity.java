@@ -11,6 +11,7 @@ import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -31,6 +32,8 @@ import com.stxnext.intranet2.backend.callback.UserApiTimeReportCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.timereport.TimeReportDay;
 import com.stxnext.intranet2.model.DaysShorcuts;
+
+import org.joda.time.DateTime;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -82,7 +85,7 @@ public class TimeReportActivity extends AppCompatActivity {
         }
     }
 
-    private TableLayout createTimeTable(List<TimeReportDay> timeReportDays) {
+    private TableLayout createTimeTable(Calendar month, List<TimeReportDay> timeReportDays) {
         TableLayout tableLayout = new TableLayout(getApplicationContext());
         tableLayout.setStretchAllColumns(true);
         if (timeReportDays.size() > 0) {
@@ -108,7 +111,7 @@ public class TimeReportActivity extends AppCompatActivity {
                 TimeReportDay timeReportDay = timeReportDays.get(day - 1);
                 TextView dayNumber = createDayNumberCell(day, timeReportDay.getIsWorkingDay());
                 tableRowDayNumbers.addView(dayNumber);
-                TextView hoursWorkedCell = createHoursWorkedCell(timeReportDay);
+                TextView hoursWorkedCell = createHoursWorkedCell(month, timeReportDay);
                 tableRowDays.addView(hoursWorkedCell);
                 currentColumnPosition++;
             }
@@ -117,52 +120,12 @@ public class TimeReportActivity extends AppCompatActivity {
         return tableLayout;
     }
 
-    @Deprecated
-    @NonNull
-    private TableLayout createTimeTableDefault(List<TimeReportDay> timeReportDays) {
-        TableLayout tableLayout = new TableLayout(getApplicationContext());
-        tableLayout.setStretchAllColumns(true);
-        TableRow tableRowDayNumbers = new TableRow(getApplicationContext());
-        TableRow tableRowDays = new TableRow(getApplicationContext());
-
-        Calendar actualMonth = Calendar.getInstance();
-        int numberOfDays = actualMonth.getActualMaximum(Calendar.DAY_OF_MONTH);
-        actualMonth.set(Calendar.DAY_OF_MONTH, 1);
-        int dayOfFirstWeek = actualMonth.get(Calendar.DAY_OF_WEEK);
-        dayOfFirstWeek = recalculateDayOfFirstWeek(dayOfFirstWeek);
-        createDayOfWeekHeaderRow(tableLayout);
-        tableLayout.addView(tableRowDayNumbers);
-        tableLayout.addView(tableRowDays);
-        insertEmptyCells(tableRowDayNumbers, tableRowDays, dayOfFirstWeek);
-        int currentColumnPosition = 0;
-        for (int day = 1; day <= numberOfDays; day++) {
-            // If this is new week create new row
-            if (isBeginningOfWeek(day, dayOfFirstWeek)) {
-                currentColumnPosition = 0;
-                tableRowDayNumbers = new TableRow(getApplicationContext());
-                tableLayout.addView(tableRowDayNumbers);
-                tableRowDays = new TableRow(getApplicationContext());
-                tableLayout.addView(tableRowDays);
-            }
-            TimeReportDay timeReportDay = timeReportDays.get(day - 1);
-            TextView dayNumber = createDayNumberCell(day, timeReportDay.getIsWorkingDay());
-            tableRowDayNumbers.addView(dayNumber, new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-            DecimalFormatSymbols otherSymbols = DecimalFormatSymbols.getInstance();
-            otherSymbols.setDecimalSeparator('.');
-            TextView hoursWorkedCell = createHoursWorkedCell(timeReportDay);
-            tableRowDays.addView(hoursWorkedCell, new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-            currentColumnPosition++;
-        }
-        insertEmptyCells(tableRowDayNumbers, tableRowDays, getEmptyColumnsLeft(currentColumnPosition));
-        return tableLayout;
-    }
-
     private int getEmptyColumnsLeft(int currentColumnPosition) {
         return 7 - currentColumnPosition;
     }
 
     @NonNull
-    private TextView createHoursWorkedCell(TimeReportDay timeReportDay) {
+    private TextView createHoursWorkedCell(Calendar month, TimeReportDay timeReportDay) {
         String hoursWorkedValue = ".";
         if (timeReportDay.getTime() != null && timeReportDay.getTime() > 0) {
             DecimalFormatSymbols formattingSymbols = DecimalFormatSymbols.getInstance();
@@ -179,10 +142,19 @@ public class TimeReportActivity extends AppCompatActivity {
         hoursWorked.setText(hoursWorkedValue);
         hoursWorked.setTextColor(Color.BLACK);
         hoursWorked.setPadding(3, 3, 3, 3);
-        if (timeReportDay.getLateEntry()) {
+        if (isToday(month, timeReportDay.getDayNumber()))
+            hoursWorked.setBackgroundColor(Color.GREEN);
+        if (timeReportDay.getLateEntry())
             hoursWorked.setBackgroundColor(Color.RED);
-        }
         return hoursWorked;
+    }
+
+    private boolean isToday(Calendar month, int dayOfMonth) {
+        int monthNumber = new DateTime(month.getTime()).getMonthOfYear();
+        int currentMonth = DateTime.now().getMonthOfYear();
+        int currentDay = DateTime.now().dayOfMonth().get();
+        return dayOfMonth == currentDay
+                && monthNumber == currentMonth;
     }
 
     private TextView createDayNumberCell(int day, boolean isWorkingDay) {
@@ -279,7 +251,7 @@ public class TimeReportActivity extends AppCompatActivity {
     }
 
     private synchronized void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month, LinearLayout timeReportsLLayout) {
-        TableLayout tableLayout = createTimeTable(timeReportDays);
+        TableLayout tableLayout = createTimeTable(month, timeReportDays);
         TimeReportDayContainer timeReportDayContainer = new TimeReportDayContainer(month, tableLayout);
         timeReportDayViews.add(timeReportDayContainer);
         if (timeReportDayViews.size() > 2) {
