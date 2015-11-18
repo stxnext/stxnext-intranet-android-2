@@ -16,6 +16,7 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import com.stxnext.intranet2.backend.api.json.AbsenceDaysLeft;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
+import com.stxnext.intranet2.backend.callback.UserApiTimeReportCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.timereport.TimeReportDay;
 import com.stxnext.intranet2.backend.retrofit.WorkedHoursService;
@@ -228,7 +229,7 @@ public class UserApiImpl extends UserApi {
      * @param month Calendar instance with properly month and year set.
      */
     @Override
-    public void getTimeReport(String userId, final Calendar month) {
+    public void getTimeReport(String userId, final Calendar month, final UserApiTimeReportCallback userApiCallback) {
         String monthYearString = DateFormat.format("MM.yyyy", month).toString();
         RestAdapter restAdapter = IntranetRestAdapter.build();
         WorkedHoursService workedHoursService = restAdapter.create(WorkedHoursService.class);
@@ -237,7 +238,7 @@ public class UserApiImpl extends UserApi {
             @Override
             public void success(List<TimeReportDay> timeReportDays, retrofit.client.Response response) {
                 Log.d(Config.getTag(UserApiImpl.this), "time report json: " + timeReportDays.get(0).toString());
-                UserApiImpl.this.apiCallback.onTimeReportReceived(timeReportDays, month);
+                userApiCallback.onTimeReportReceived(timeReportDays, month);
             }
 
             @Override
