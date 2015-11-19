@@ -112,6 +112,7 @@
                     card_view:cardCornerRadius="4dp">
 
                         <LinearLayout
+                            android:id="@+id/worked_hours_container_inner_ll"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
@@ -127,6 +128,8 @@
                             android:textStyle="bold"/>
 
                             <LinearLayout
+                                android:id="@+id/worked_hours_today_from_inner_ll"
+                                android:visibility="gone"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="35dp" >
