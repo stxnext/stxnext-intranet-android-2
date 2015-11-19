@@ -29,6 +29,7 @@ public class TeamCacheService {
     private static TeamCacheService instance = null;
 
     Context context;
+    TeamApi teamApi;
 
     /**
      * This is used to cache user to teams data as to not get this every time
@@ -45,6 +46,33 @@ public class TeamCacheService {
 
     private TeamCacheService(Context context) {
         this.context = context;
+        teamApi = new TeamApiImpl();
+    }
+
+    public void getUserToTeamsMap(final OnUserToTeamsMapReceivedCallback callback) {
+        if (userToTeamsMap.size() > 0) {
+            callback.onReceived(userToTeamsMap);
+        } else {
+            teamApi.requestForTeams(new com.stxnext.intranet2.backend.callback.team.OnTeamsReceivedCallback() {
+                @Override
+                public void onReceived(List<Team> teams) {
+                    synchronized (TeamCacheService.this) {
+                        reloadTeamsData(teams);
+                        callback.onReceived(userToTeamsMap);
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * Resets teams in DB and creates
+     * @param teams
+     */
+    private void reloadTeamsData(List<Team> teams) {
+        clearTeamsInDB();
+        persistTeamsInDB(teams);
+        createUserToTeamsMap(teams);
     }
 
     public void getTeamsForUser(final long userId, final OnTeamsReceivedCallback callback) {
@@ -53,16 +81,12 @@ public class TeamCacheService {
             if (teamsForUser == null)
                 teamsForUser = new ArrayList<>();
             callback.onReceived(teamsForUser);
-            return;
         } else {
-            TeamApi teamApi = new TeamApiImpl();
             teamApi.requestForTeams(new com.stxnext.intranet2.backend.callback.team.OnTeamsReceivedCallback() {
                 @Override
                 public void onReceived(List<Team> teams) {
                     synchronized (TeamCacheService.this) {
-                        clearTeamsInDB();
-                        persistTeamsInDB(teams);
-                        createUserToTeamsMap(teams);
+                        reloadTeamsData(teams);
                         List<Team> teamsForUser = userToTeamsMap.get(userId);
                         if (teamsForUser == null)
                             teamsForUser = new ArrayList<>();
@@ -74,6 +98,7 @@ public class TeamCacheService {
     }
 
     private void createUserToTeamsMap(List<Team> teams) {
+        userToTeamsMap.clear();
         for (Team team : teams) {
             long[] userIds = team.getUsers();
             for (long userId : userIds) {
@@ -137,5 +162,10 @@ public class TeamCacheService {
 
         void onReceived(List<Team> teams);
 
+    }
+
+    public interface OnUserToTeamsMapReceivedCallback {
+
+        void onReceived(Map<Long, List<Team>> userToTeamsMap);
     }
 }
