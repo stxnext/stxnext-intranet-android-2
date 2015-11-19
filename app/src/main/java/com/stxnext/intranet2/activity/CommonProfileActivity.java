@@ -32,6 +32,8 @@ import com.stxnext.intranet2.utils.Session;
 import org.androidannotations.api.BackgroundExecutor;
 
 import java.text.DecimalFormat;
+import java.util.Iterator;
+import java.util.List;
 
 import retrofit.RestAdapter;
 
@@ -79,10 +81,25 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
         TeamCacheService teamCacheService = TeamCacheService.getInstance(this);
         teamCacheService.getTeamsForUser(Long.parseLong(user.getId()), new TeamCacheService.OnTeamsReceivedCallback() {
             @Override
-            public void onReceived(Team team) {
-
+            public void onReceived(List<Team> teams) {
+                if (teams != null && teams.size() > 0) {
+                    String teamsString = buildTeamsString(teams);
+                    teamsTextView.setText(teamsString);
+                }
             }
         });
+    }
+
+    private String buildTeamsString(List<Team> teams) {
+        StringBuilder teamsStringBuilder = new StringBuilder();
+        Iterator<Team> teamsIterator = teams.iterator();
+        while (teamsIterator.hasNext()) {
+            Team team = teamsIterator.next();
+            teamsStringBuilder.append(team.getName());
+            if (teamsIterator.hasNext())
+                teamsStringBuilder.append(", ");
+        }
+        return teamsStringBuilder.toString();
     }
 
     public void fillWorkedHours(final User user) {

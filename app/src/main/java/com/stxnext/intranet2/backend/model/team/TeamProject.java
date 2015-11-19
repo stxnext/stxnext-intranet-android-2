@@ -9,6 +9,9 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "teamproject")
 public class TeamProject {
 
+    public static final String TEAM_ID_FIELD_NAME = "team_id";
+    public static final String PROJECT_ID_FIELD_NAME = "project_id";
+
     @DatabaseField(generatedId = true)
     private long id;
     @DatabaseField(uniqueCombo = true, foreign = true, foreignAutoRefresh = true)

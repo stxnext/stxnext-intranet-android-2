@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.common.base.Optional;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.stxnext.intranet2.backend.api.EmployeesCommonApi;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
@@ -113,10 +114,18 @@ public class DBManager {
     public void persistTeamProject(TeamProject teamProject) {
         try {
             Dao<TeamProject, Long> teamProjectDao = dbHelper.getTeamProject();
-            teamProjectDao.createOrUpdate(teamProject);
+            QueryBuilder<TeamProject, Long> queryBuilder = teamProjectDao.queryBuilder();
+            queryBuilder.where().eq(TeamProject.TEAM_ID_FIELD_NAME, teamProject.getTeam().getId()).and().eq(TeamProject.PROJECT_ID_FIELD_NAME, teamProject.getProject().getId());
+            List<TeamProject> teamProjects = teamProjectDao.query(queryBuilder.prepare());
+            if (!isTeamProjectInDB(teamProjects))
+                teamProjectDao.createOrUpdate(teamProject);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean isTeamProjectInDB(List<TeamProject> teamProjects) {
+        return teamProjects != null && teamProjects.size() > 0;
     }
 
     //todo: this is never used, remove?
