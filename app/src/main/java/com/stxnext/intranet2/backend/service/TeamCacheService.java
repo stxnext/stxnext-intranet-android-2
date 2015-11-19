@@ -47,7 +47,7 @@ public class TeamCacheService {
         this.context = context;
     }
 
-    public synchronized void getTeamsForUser(final long userId, final OnTeamsReceivedCallback callback) {
+    public void getTeamsForUser(final long userId, final OnTeamsReceivedCallback callback) {
         if (userToTeamsMap.size() > 0) {
             List<Team> teamsForUser = userToTeamsMap.get(userId);
             if (teamsForUser == null)
@@ -59,13 +59,15 @@ public class TeamCacheService {
             teamApi.requestForTeams(new com.stxnext.intranet2.backend.callback.team.OnTeamsReceivedCallback() {
                 @Override
                 public void onReceived(List<Team> teams) {
-                    clearTeamsInDB();
-                    persistTeamsInDB(teams);
-                    createUserToTeamsMap(teams);
-                    List<Team> teamsForUser = userToTeamsMap.get(userId);
-                    if (teamsForUser == null)
-                        teamsForUser = new ArrayList<>();
-                    callback.onReceived(teamsForUser);
+                    synchronized (TeamCacheService.this) {
+                        clearTeamsInDB();
+                        persistTeamsInDB(teams);
+                        createUserToTeamsMap(teams);
+                        List<Team> teamsForUser = userToTeamsMap.get(userId);
+                        if (teamsForUser == null)
+                            teamsForUser = new ArrayList<>();
+                        callback.onReceived(teamsForUser);
+                    }
                 }
             });
         }
