@@ -11,7 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.animation.OvershootInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -54,6 +56,7 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     private TextView todayOverhoursTextView;
     private TextView monthOverhoursTextView;
     private TextView quarterOverhoursTextView;
+    private ImageView workedHoursRefreshHoursCardIv;
 
     private Handler uiHandler = new Handler(Looper.getMainLooper());
     private RestAdapter restAdapter;
@@ -71,6 +74,7 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     public void fillWorkedHours(final User user) {
         workedHoursCardViewContainer = (CardView) findViewById(R.id.worked_hours_container);
         workedHoursTodayFromInnerContainer = (LinearLayout) findViewById(R.id.worked_hours_today_from_inner_ll);
+        workedHoursRefreshHoursCardIv =  (ImageView) findViewById(R.id.worked_hours_refresh_hours_card_iv);
 
         todayFromTextView = (TextView) findViewById(R.id.worked_hours_today_from);
         timeToAddTextView = (TextView) findViewById(R.id.worked_hours_time_to_add);
@@ -89,16 +93,34 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
 
         restAdapter = IntranetRestAdapter.build();
         workedHoursService = restAdapter.create(WorkedHoursService.class);
+        downloadTodayHoursBckg(user);
+
+        workedHoursRefreshHoursCardIv.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) { downloadTodayHoursBckg(user); rotateRefreshImageView(); }
+        });
+    }
+
+    private void rotateRefreshImageView() {
+        RotateAnimation rotate = new RotateAnimation(0, 180,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+                0.5f);
+
+        rotate.setDuration(600);
+        //rotate.setRepeatCount(Animation.INFINITE);
+        workedHoursRefreshHoursCardIv.startAnimation(rotate);
+    }
+
+    private void downloadTodayHoursBckg(final User user) {
         BackgroundExecutor.execute(new BackgroundExecutor.Task("", 0, "") {
                @Override
                public void execute() {
                    try {
-                       downloadTodayHours(user);
+                       if (user != null)
+                            downloadTodayHours(user);
                    } catch (Throwable e) {
                        Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
                    }
                }
-
            }
         );
     }
