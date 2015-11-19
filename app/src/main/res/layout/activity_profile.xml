@@ -120,22 +120,42 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="12dp"
-                            android:gravity="center"
-                            android:text="@string/worked_hours_heading"
-                            android:textColor="@color/stxnext_green"
-                            android:textSize="16sp"
-                            android:textStyle="bold"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                    <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginLeft="30dp"
+                                    android:gravity="left"
+                                    android:width="0dp"
+                                    android:layout_weight="1"
+                                    android:text="@string/worked_hours_heading"
+                                    android:textColor="@color/stxnext_green"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"/>
+
+                                    <ImageView
+                                        android:id="@+id/worked_hours_refresh_hours_card_iv"
+                                        android:layout_width="32dp"
+                                        android:layout_height="32dp"
+                                        android:clickable="true"
+                                        android:layout_marginTop="13dp"
+                                        android:layout_marginRight="13dp"
+                                        android:src="@drawable/ic_cached_64dp"
+                                        />
+
+                            </LinearLayout>
 
                             <LinearLayout
                                 android:id="@+id/worked_hours_today_from_inner_ll"
                                 android:visibility="gone"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="35dp" >
+                                android:layout_marginLeft="30dp" >
 
                                 <TextView
                                     android:layout_width="wrap_content"
