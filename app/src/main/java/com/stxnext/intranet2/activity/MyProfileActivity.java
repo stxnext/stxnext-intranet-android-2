@@ -349,7 +349,7 @@ public class MyProfileActivity extends CommonProfileActivity
                             .scaleX(1)
                             .scaleY(1)
                             .alpha(1)
-                            .setDuration(300)
+                            .setDuration(600)
                             .setStartDelay(80)
                             .setInterpolator(new OvershootInterpolator());
 

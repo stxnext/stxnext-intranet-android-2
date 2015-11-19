@@ -8,9 +8,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +42,8 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     protected boolean superHeroModeEnabled;
     private User currentUser;
 
+    private CardView workedHoursCardViewContainer;
+    private LinearLayout workedHoursTodayFromInnerContainer;
     private TextView todayFromTextView;
     protected TextView timeToAddTextView;
 
@@ -64,6 +69,9 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     public abstract void initializeContentView();
 
     public void fillWorkedHours(final User user) {
+        workedHoursCardViewContainer = (CardView) findViewById(R.id.worked_hours_container);
+        workedHoursTodayFromInnerContainer = (LinearLayout) findViewById(R.id.worked_hours_today_from_inner_ll);
+
         todayFromTextView = (TextView) findViewById(R.id.worked_hours_today_from);
         timeToAddTextView = (TextView) findViewById(R.id.worked_hours_time_to_add);
 
@@ -74,6 +82,10 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
         todayOverhoursTextView = (TextView) findViewById(R.id.today_overhours);
         monthOverhoursTextView = (TextView) findViewById(R.id.month_overhours);
         quarterOverhoursTextView = (TextView) findViewById(R.id.quarter_overhours);
+
+        workedHoursTodayFromInnerContainer.setAlpha(0.0f);
+        workedHoursTodayFromInnerContainer.setScaleX(0.6f);
+        workedHoursTodayFromInnerContainer.setScaleY(0.6f);
 
         restAdapter = IntranetRestAdapter.build();
         workedHoursService = restAdapter.create(WorkedHoursService.class);
@@ -111,7 +123,19 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     private void setTodayHoursValues(WorkedHours workedHours) {
         DecimalFormat df = new DecimalFormat("0.00");
 
-        todayFromTextView.setText(workedHours.getToday().getArrival());
+        String arrivalString = workedHours.getToday().getArrival();
+        if (arrivalString != null && !arrivalString.equals("00:00")) {
+            workedHoursTodayFromInnerContainer.setVisibility(View.VISIBLE);
+            workedHoursTodayFromInnerContainer.animate()
+                    .scaleX(1)
+                    .scaleY(1)
+                    .alpha(1)
+                    .setDuration(600)
+                    .setStartDelay(80)
+                    .setInterpolator(new OvershootInterpolator());
+        }
+
+        todayFromTextView.setText(arrivalString);
         timeToAddTextView.setText(df.format(workedHours.getToday().getRemaining()) + "h");
 
         todayNumberTextView.setText(df.format(workedHours.getToday().getSum()));
