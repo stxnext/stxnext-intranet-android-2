@@ -63,6 +63,7 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     private ImageView workedHoursRefreshHoursCardIv;
 
     protected TextView teamsTextView;
+    protected TextView teamLabel;
 
     private Handler uiHandler = new Handler(Looper.getMainLooper());
     private RestAdapter restAdapter;
@@ -85,6 +86,8 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
                 if (teams != null && teams.size() > 0) {
                     String teamsString = buildTeamsString(teams);
                     teamsTextView.setText(teamsString);
+                    if (teams.size() > 1)
+                        teamLabel.setText(getString(R.string.teams));
                 }
             }
         });
