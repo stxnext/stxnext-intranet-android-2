@@ -86,5 +86,7 @@
     <string name="add_hours_connection_error">Could not download data</string>
     <string name="add_hours_connection_error_close">Close</string>
     <string name="add_hours_no_previous_description">No previous descriptions</string>
-
+    <string name="add_hours_validation_error_time_value">Invalid time value! format: 0.00</string>
+    <string name="add_hours_validation_error_ticket_id">Invalid ticket id!</string>
+    <string name="add_hours_validation_error_description">Invalid description!</string>
 </resources>

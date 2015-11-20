@@ -86,4 +86,7 @@
     <string name="add_hours_connection_error">Błąd połączenia</string>
     <string name="add_hours_connection_error_close">Zamknij</string>
     <string name="add_hours_no_previous_description">Brak wcześniejszych opisów</string>
+    <string name="add_hours_validation_error_time_value">Błędna wartość! format: 0.00</string>
+    <string name="add_hours_validation_error_ticket_id">Błędny ticket id!</string>
+    <string name="add_hours_validation_error_description">Błędny opis!</string>
 </resources>
