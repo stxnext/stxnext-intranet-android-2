@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.stxnext.intranet2.backend.api.TeamApi;
 import com.stxnext.intranet2.backend.api.TeamApiImpl;
-import com.stxnext.intranet2.backend.model.team.Client;
 import com.stxnext.intranet2.backend.model.team.Project;
 import com.stxnext.intranet2.backend.model.team.Team;
 import com.stxnext.intranet2.backend.model.team.TeamProject;
@@ -140,17 +139,16 @@ public class TeamCacheService {
     private void persistTeamsInDB(List<Team> teams) {
         for (Team team : teams) {
             Log.d(Config.getTag(TeamCacheService.this), "Team name: " + team.getName());
-            DBManager.getInstance(context).persistTeam(team);
             Collection<Project> projects = team.getProjectsGson();
             if (projects != null) {
+                Collection<TeamProject> teamProjects = new ArrayList<>();
                 for (Project project : projects) {
-                    Client client = project.getClient();
-                    DBManager.getInstance(context).persistClient(client);
-                    DBManager.getInstance(context).persistProject(project);
                     TeamProject teamProject = new TeamProject(team, project);
-                    DBManager.getInstance(context).persistTeamProject(teamProject);
+                    teamProjects.add(teamProject);
                 }
+                team.setTeamToProjectLinks(teamProjects);
             }
+            DBManager.getInstance(context).getTeamRepository().saveOrUpdateComplex(team);
         }
     }
 

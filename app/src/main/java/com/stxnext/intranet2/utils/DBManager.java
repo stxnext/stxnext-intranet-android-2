@@ -13,6 +13,8 @@ import com.stxnext.intranet2.backend.model.team.Project;
 import com.stxnext.intranet2.backend.model.team.Team;
 import com.stxnext.intranet2.backend.model.team.TeamProject;
 import com.stxnext.intranet2.database.DatabaseHelper;
+import com.stxnext.intranet2.database.repo.ClientRepository;
+import com.stxnext.intranet2.database.repo.TeamRepository;
 import com.stxnext.intranet2.database.repo.UserRepository;
 
 import java.sql.SQLException;
@@ -27,6 +29,8 @@ public class DBManager {
     private static boolean isLoaded;
     private static UserRepository userRepository;
     private static DatabaseHelper dbHelper;
+    private static ClientRepository clientRepository;
+    private static TeamRepository teamRepository;
 
     private DBManager() {}
 
@@ -35,6 +39,8 @@ public class DBManager {
             instance = new DBManager();
             dbHelper = new DatabaseHelper(context);
             userRepository = new UserRepository(dbHelper);
+            clientRepository = new ClientRepository(dbHelper);
+            teamRepository = new TeamRepository(dbHelper);
 
             //if isLoaded is false on app start - contacts are refreshed
             if (!isLoaded)
@@ -60,14 +66,12 @@ public class DBManager {
         return userRepository.getUser(Integer.parseInt(userId));
     }
 
-    public Client getClient(long clientId) {
-        try {
-            Dao<Client, Long> clientDao = dbHelper.getClientDao();
-            return clientDao.queryForId(clientId);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public ClientRepository getClientRepository() {
+        return clientRepository;
+    }
+
+    public TeamRepository getTeamRepository() {
+        return teamRepository;
     }
 
     public void persistClient(Client client) {
