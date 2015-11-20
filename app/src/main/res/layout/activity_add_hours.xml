@@ -103,11 +103,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+                    <ImageView
+                        android:id="@+id/activity_add_hours_load_previous_description"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:src="@drawable/ic_file_upload_black_48dp"
+                        />
+
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        >
+                        android:layout_marginRight="35dp">
                         <android.support.v7.widget.AppCompatEditText
                             android:id="@+id/activity_add_hours_description"
                             android:layout_width="fill_parent"
@@ -124,14 +132,6 @@
                             android:textSize="25sp"
                             android:textColor="@android:color/black" />
                     </android.support.design.widget.TextInputLayout>
-
-                    <ImageView
-                        android:id="@+id/activity_add_hours_load_previous_description"
-                        android:layout_width="33dp"
-                        android:layout_height="33dp"
-                        android:layout_gravity="center_vertical|right"
-                        android:src="@drawable/ic_file_upload_black_48dp"
-                        />
 
                 </LinearLayout>
 
@@ -204,8 +204,8 @@
         app:backgroundTint="@color/stxnext_green_alpha"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="25dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="10dp"
         />
 
         <android.support.design.widget.CoordinatorLayout
