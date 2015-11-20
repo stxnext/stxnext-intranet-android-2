@@ -30,6 +30,7 @@ import com.stxnext.intranet2.backend.retrofit.TimeEntriesService;
 import com.stxnext.intranet2.rest.IntranetRestAdapter;
 import com.stxnext.intranet2.sort.ProjectOrdering;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import butterknife.Bind;
@@ -124,15 +125,21 @@ public class AddHoursActivity extends AppCompatActivity {
                 mTimeEntriesService.postUserTime(tep)
                         .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
                         new Observer<TimeEntryResponse>() {
-                            @Override public void onCompleted() {
+                            @Override
+                            public void onCompleted() {
                                 Log.d(TAG, "Retrofit post time entry call completed");
                                 createSnackbar("Wysyłanie powiodło się");
                             }
-                            @Override public void onError(Throwable e) {
+
+                            @Override
+                            public void onError(Throwable e) {
                                 Log.e(TAG, e.toString());
                                 createSnackbar("Błąd wysyłania godzin");
                             }
-                            @Override public void onNext(TimeEntryResponse timeEntryResponse) {}
+
+                            @Override
+                            public void onNext(TimeEntryResponse timeEntryResponse) {
+                            }
                         }
                 )
         );
@@ -259,16 +266,17 @@ public class AddHoursActivity extends AppCompatActivity {
                         boolean ticketIdValid = isEmpty(ticketIdCharSeq)
                                 || (!isEmpty(ticketIdCharSeq) && validateInt(ticketIdCharSeq.toString(), 1, 99999) );
                         if (!ticketIdValid)
-                            mTicketIdET.setError("Invalid ticket id!");
+                            mTicketIdET.setError(getString(R.string.add_hours_validation_error_ticket_id));
 
-                        boolean timeValueValid = !isEmpty(timeValueCharSeq) && timeValueCharSeq.length() >= 4 && timeValueCharSeq.length() <= 5
-                                                    && validateFloat(timeValueCharSeq.toString(), 0.01f, 24.0f);
+                        boolean timeValueValid = !isEmpty(timeValueCharSeq) && timeValueCharSeq.toString().length() >= 3
+                                                    && validateFloat(timeValueCharSeq.toString(), 0.01f, 24.0f)
+                                                    && is2DigitsPrecisionFloat(timeValueCharSeq.toString());
                         if (!timeValueValid)
-                            mTimeValueET.setError("Invalid time value!");
+                            mTimeValueET.setError(getString(R.string.add_hours_validation_error_time_value));
 
                         boolean descriptionValid = !isEmpty(descriptionCharSeq) && descriptionCharSeq.length() > 6;
                         if (!descriptionValid)
-                            mDescriptionET.setError("Invalid description!");
+                            mDescriptionET.setError(getString(R.string.add_hours_validation_error_description));
                         else
                             mDescriptionET.setError(null);
 
@@ -288,6 +296,12 @@ public class AddHoursActivity extends AppCompatActivity {
                 });
     }
 
+    private boolean is2DigitsPrecisionFloat(String s) {
+        double res; try { res = Double.parseDouble(s); } catch (Exception exc) { return false; }
+        double roundRes = round(res, 2);
+        return res == roundRes;
+    }
+
     private boolean validateFloat(String s, float rangeBeg, float rangeEnd) {
         double res; try { res = Double.parseDouble(s); } catch (Exception exc) { return false; }
         return res >= rangeBeg && res <= rangeEnd;
@@ -296,5 +310,11 @@ public class AddHoursActivity extends AppCompatActivity {
     private boolean validateInt(String s, int rangeBeg, int rangeEnd) {
         long res; try { res = Integer.parseInt(s); } catch (Exception exc) { return false; }
         return res >= rangeBeg && res <= rangeEnd;
+    }
+
+    public static double round(double d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Double.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_DOWN);
+        return bd.doubleValue();
     }
 }
