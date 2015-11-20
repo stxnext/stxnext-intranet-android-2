@@ -41,8 +41,10 @@
             android:visibility="gone">
 
             <ProgressBar
+                android:id="@+id/activity_time_report_progress_report"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:elevation="3dp"
                 android:layout_gravity="center"/>
 
         </FrameLayout>
