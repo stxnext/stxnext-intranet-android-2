@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -83,6 +84,9 @@ public class TimeReportActivity extends AppCompatActivity {
             month.add(Calendar.MONTH, -2);
             userApi.getTimeReport(userId, month, userApiCallback);
         }
+
+        ProgressBar pb = (ProgressBar) findViewById(R.id.activity_time_report_progress_report);
+        pb.getIndeterminateDrawable().setColorFilter(0xFF184640,android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     private TableLayout createTimeTable(Calendar month, List<TimeReportDay> timeReportDays) {
