@@ -3,21 +3,15 @@ package com.stxnext.intranet2.utils;
 import android.content.Context;
 
 import com.google.common.base.Optional;
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.stxnext.intranet2.backend.api.EmployeesCommonApi;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
-import com.stxnext.intranet2.backend.model.team.Client;
-import com.stxnext.intranet2.backend.model.team.Project;
-import com.stxnext.intranet2.backend.model.team.Team;
-import com.stxnext.intranet2.backend.model.team.TeamProject;
 import com.stxnext.intranet2.database.DatabaseHelper;
 import com.stxnext.intranet2.database.repo.ClientRepository;
+import com.stxnext.intranet2.database.repo.TeamProjectRepository;
 import com.stxnext.intranet2.database.repo.TeamRepository;
 import com.stxnext.intranet2.database.repo.UserRepository;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -31,6 +25,7 @@ public class DBManager {
     private static DatabaseHelper dbHelper;
     private static ClientRepository clientRepository;
     private static TeamRepository teamRepository;
+    private static TeamProjectRepository teamProjectRepository;
 
     private DBManager() {}
 
@@ -74,62 +69,8 @@ public class DBManager {
         return teamRepository;
     }
 
-    public void persistClient(Client client) {
-        try {
-            Dao<Client, Long> clientDao = dbHelper.getClientDao();
-            clientDao.createOrUpdate(client);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void persistProject(Project project) {
-        try {
-            Dao<Project, Long> projectDao = dbHelper.getProjectDao();
-            projectDao.createOrUpdate(project);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void persistTeam(Team team) {
-        try {
-            Dao<Team, Long> teamDao = dbHelper.getTeamDao();
-            teamDao.createOrUpdate(team);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public List<Team> getTeams() {
-        try {
-            Dao<Team, Long> teamDao = dbHelper.getTeamDao();
-            return teamDao.queryForAll();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public void deleteTeams() {
-        dbHelper.clearTable(Team.class);
-    }
-
-    public void persistTeamProject(TeamProject teamProject) {
-        try {
-            Dao<TeamProject, Long> teamProjectDao = dbHelper.getTeamProject();
-            QueryBuilder<TeamProject, Long> queryBuilder = teamProjectDao.queryBuilder();
-            queryBuilder.where().eq(TeamProject.TEAM_ID_FIELD_NAME, teamProject.getTeam().getId()).and().eq(TeamProject.PROJECT_ID_FIELD_NAME, teamProject.getProject().getId());
-            List<TeamProject> teamProjects = teamProjectDao.query(queryBuilder.prepare());
-            if (!isTeamProjectInDB(teamProjects))
-                teamProjectDao.createOrUpdate(teamProject);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean isTeamProjectInDB(List<TeamProject> teamProjects) {
-        return teamProjects != null && teamProjects.size() > 0;
+    public TeamProjectRepository getTeamProjectRepository() {
+        return teamProjectRepository;
     }
 
     //todo: this is never used, remove?

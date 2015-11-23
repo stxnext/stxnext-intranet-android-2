@@ -153,7 +153,7 @@ public class TeamCacheService {
     }
 
     private void clearTeamsInDB() {
-        DBManager.getInstance(context).deleteTeams();
+        DBManager.getInstance(context).getTeamRepository().deleteAllTeams();
     }
 
     public interface OnTeamsReceivedCallback {
