@@ -112,6 +112,8 @@ public class MyProfileActivity extends CommonProfileActivity
         firstNameTextView = (TextView) findViewById(R.id.first_name_text_view);
         roleTextView = (TextView) findViewById(R.id.role_text_view);
         officeTextView = (TextView) findViewById(R.id.office_text_view);
+        teamsTextView = (TextView) findViewById(R.id.teams_text_view);
+        teamLabel = (TextView) findViewById(R.id.team_label);
         emailTextView = (TextView) findViewById(R.id.email_text_view);
         phoneTextView = (TextView) findViewById(R.id.phone_text_view);
         skypeTextView = (TextView) findViewById(R.id.skype_text_view);
@@ -363,6 +365,7 @@ public class MyProfileActivity extends CommonProfileActivity
                         }
                     });
                     fillWorkedHours(user);
+                    fillTeams(user);
                     NotificationUtils.setTimeReportAlarmManagerIfNeeded(MyProfileActivity.this);
                 } else {
                     Session.getInstance(MyProfileActivity.this).logout();

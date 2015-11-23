@@ -22,14 +22,18 @@ import android.widget.Toast;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
+import com.stxnext.intranet2.backend.model.team.Team;
 import com.stxnext.intranet2.backend.model.workedHour.WorkedHours;
 import com.stxnext.intranet2.backend.retrofit.WorkedHoursService;
+import com.stxnext.intranet2.backend.service.TeamCacheService;
 import com.stxnext.intranet2.rest.IntranetRestAdapter;
 import com.stxnext.intranet2.utils.Session;
 
 import org.androidannotations.api.BackgroundExecutor;
 
 import java.text.DecimalFormat;
+import java.util.Iterator;
+import java.util.List;
 
 import retrofit.RestAdapter;
 
@@ -58,6 +62,9 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     private TextView quarterOverhoursTextView;
     private ImageView workedHoursRefreshHoursCardIv;
 
+    protected TextView teamsTextView;
+    protected TextView teamLabel;
+
     private Handler uiHandler = new Handler(Looper.getMainLooper());
     private RestAdapter restAdapter;
     private WorkedHoursService workedHoursService;
@@ -70,6 +77,33 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     }
 
     public abstract void initializeContentView();
+
+    protected void fillTeams(User user) {
+        TeamCacheService teamCacheService = TeamCacheService.getInstance(this);
+        teamCacheService.getTeamsForUser(Long.parseLong(user.getId()), new TeamCacheService.OnTeamsReceivedCallback() {
+            @Override
+            public void onReceived(List<Team> teams) {
+                if (teams != null && teams.size() > 0) {
+                    String teamsString = buildTeamsString(teams);
+                    teamsTextView.setText(teamsString);
+                    if (teams.size() > 1)
+                        teamLabel.setText(getString(R.string.teams));
+                }
+            }
+        });
+    }
+
+    private String buildTeamsString(List<Team> teams) {
+        StringBuilder teamsStringBuilder = new StringBuilder();
+        Iterator<Team> teamsIterator = teams.iterator();
+        while (teamsIterator.hasNext()) {
+            Team team = teamsIterator.next();
+            teamsStringBuilder.append(team.getName());
+            if (teamsIterator.hasNext())
+                teamsStringBuilder.append(", ");
+        }
+        return teamsStringBuilder.toString();
+    }
 
     public void fillWorkedHours(final User user) {
         workedHoursCardViewContainer = (CardView) findViewById(R.id.worked_hours_container);

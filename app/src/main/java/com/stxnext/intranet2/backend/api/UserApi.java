@@ -12,28 +12,20 @@ import java.util.Date;
 /**
  * Created by Tomasz Konieczny on 2015-05-07.
  */
-public abstract class UserApi extends EmployeesCommonApi {
+public interface UserApi extends EmployeesCommonApi {
 
-    protected final UserApiCallback apiCallback;
-    protected Context context;
+    void requestForUser(String userId);
 
-    public UserApi(Context context, UserApiCallback callback) {
-        this.apiCallback = callback;
-        this.context = context;
-    }
+    void submitOutOfOfficeAbsence(Date submissionDate, Date startHour, Date endHour, String explanation);
 
-    public abstract void requestForUser(String userId);
+    void submitWorkFromHomeAbsence(Date submissionDate, Date startHour, Date endHour, String explanation);
 
-    public abstract void submitOutOfOfficeAbsence(Date submissionDate, Date startHour, Date endHour, String explanation);
+    void submitOutOfOffice(boolean workFromHome, Date submissionDate, Date startHour, Date endHour, String explanation);
 
-    public abstract void submitWorkFromHomeAbsence(Date submissionDate, Date startHour, Date endHour, String explanation);
+    void submitHolidayAbsence(HolidayTypes absenceType, Date endDate, Date startDate, String remarks);
 
-    public abstract void submitOutOfOffice(boolean workFromHome, Date submissionDate, Date startHour, Date endHour, String explanation);
+    void getAbsenceDaysLeft();
 
-    public abstract void submitHolidayAbsence(HolidayTypes absenceType, Date endDate, Date startDate, String remarks);
-
-    public abstract void getAbsenceDaysLeft();
-
-    public abstract void getTimeReport(String userId, Calendar month, UserApiTimeReportCallback callback);
+    void getTimeReport(String userId, Calendar month, UserApiTimeReportCallback callback);
 
 }

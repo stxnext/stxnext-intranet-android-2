@@ -54,6 +54,8 @@
     <string name="validation_no_explanation">Uzupełnij wyjaśnienie</string>
     <string name="reqest_error">Błąd serwera/połączenia internetowego. Spróbuj ponownie.</string>
     <string name="office">Biuro:</string>
+    <string name="team">Zespół:</string>
+    <string name="teams">Zespoły:</string>
     <string name="date">Data:</string>
     <string name="call">Zadzwoń</string>
     <string name="send_sms">Wyślij SMS</string>

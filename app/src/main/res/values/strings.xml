@@ -54,11 +54,13 @@
     <string name="validation_no_explanation">Please add an explanation</string>
     <string name="reqest_error">Internet connection error. Try again!</string>
     <string name="office">Office:</string>
+    <string name="team">Team:</string>
+    <string name="teams">Teams:</string>
     <string name="date">Date:</string>
     <string name="call">Call</string>
     <string name="send_email">Send e-mail</string>
     <string name="contact_with">Contact with:</string>
-    <string name="search">Search by name, e-mail or phone.…</string>
+    <string name="search">Search…</string>
     <string name="send_sms">Send SMS</string>
     <string name="tomorrow">tomorrow</string>
     <string name="about">Offices</string>

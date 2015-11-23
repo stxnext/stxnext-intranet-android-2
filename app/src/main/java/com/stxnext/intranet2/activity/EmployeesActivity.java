@@ -23,9 +23,12 @@ import com.stxnext.intranet2.backend.api.EmployeesApiImpl;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.model.Absence;
 import com.stxnext.intranet2.backend.model.impl.User;
+import com.stxnext.intranet2.backend.model.team.Team;
+import com.stxnext.intranet2.backend.service.TeamCacheService;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeesActivity extends AppCompatActivity implements EmployeesApiCallback, EmployeesListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
@@ -118,12 +121,20 @@ public class EmployeesActivity extends AppCompatActivity implements EmployeesApi
             @Override
             public void run() {
                 if (adapter == null) {
-                    adapter = new EmployeesListAdapter(EmployeesActivity.this, employees, EmployeesActivity.this);
-                    recycleView.setAdapter(adapter);
+                    TeamCacheService teamCacheService = TeamCacheService.getInstance(EmployeesActivity.this);
+                    teamCacheService.getUserToTeamsMap(new TeamCacheService.OnUserToTeamsMapReceivedCallback() {
+                        @Override
+                        public void onReceived(Map<Long, List<Team>> userToTeamsMap) {
+                            adapter = new EmployeesListAdapter(EmployeesActivity.this, employees, userToTeamsMap, EmployeesActivity.this);
+                            recycleView.setAdapter(adapter);
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    });
+
                 } else {
                     adapter.restore();
+                    swipeRefreshLayout.setRefreshing(false);
                 }
-                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
