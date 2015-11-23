@@ -16,7 +16,7 @@ import retrofit.client.Response;
 /**
  * Created by Łukasz Ciupa on 09.11.2015.
  */
-public class TeamApiImpl extends TeamApi {
+public class TeamApiImpl implements TeamApi {
 
     @Override
     public void requestForTeams(final OnTeamsReceivedCallback callback) {
