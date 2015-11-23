@@ -49,7 +49,7 @@ public class Team {
         this.users = users;
     }
 
-    public Boolean getHasAvatar() {
+    public Boolean hasAvatar() {
         return hasAvatar;
     }
 

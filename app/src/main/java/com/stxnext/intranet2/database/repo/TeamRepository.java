@@ -10,12 +10,14 @@ import com.stxnext.intranet2.database.DatabaseHelper;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Łukasz Ciupa on 20.11.2015.
  */
 public class TeamRepository {
 
+    private DatabaseHelper dbHelper;
     private Dao<Team, Long> teamDao;
     private Dao<TeamProject, Long> teamProjectDao;
     private Dao<Client, Long> clientDao;
@@ -23,8 +25,11 @@ public class TeamRepository {
 
     public TeamRepository(DatabaseHelper databaseHelper) {
         try {
+            dbHelper = databaseHelper;
             teamDao = databaseHelper.getTeamDao();
-
+            teamProjectDao = databaseHelper.getTeamProjectDao();
+            projectDao = databaseHelper.getProjectDao();
+            clientDao = databaseHelper.getClientDao();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -63,6 +68,20 @@ public class TeamRepository {
             e.printStackTrace();
         }
 
+    }
+
+    public List<Team> getTeams() {
+        try {
+            return teamDao.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void deleteAllTeams() {
+        dbHelper.clearTable(TeamProject.class);
+        dbHelper.clearTable(Team.class);
     }
 }
 

@@ -107,7 +107,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return teamDao;
     }
 
-    public Dao<TeamProject, Long> getTeamProject() throws SQLException {
+    public Dao<TeamProject, Long> getTeamProjectDao() throws SQLException {
         if (teamProjectDao == null)
             teamProjectDao = getDao(TeamProject.class);
         return teamProjectDao;
