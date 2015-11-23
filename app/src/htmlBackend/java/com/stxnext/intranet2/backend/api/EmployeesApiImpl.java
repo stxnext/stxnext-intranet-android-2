@@ -39,7 +39,7 @@ import java.util.Locale;
 /**
  * Created by Lukasz Ciupa on 2015-05-22.
  */
-public class EmployeesApiImpl extends EmployeesApi {
+public class EmployeesApiImpl extends EmployeesCommonApiImpl implements EmployeesApi {
 
     private Context context;
 
