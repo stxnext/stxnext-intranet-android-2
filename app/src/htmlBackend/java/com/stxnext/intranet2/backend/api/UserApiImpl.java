@@ -40,13 +40,17 @@ import retrofit.RetrofitError;
 /**
  * Created by Tomasz Konieczny on 2015-05-07.
  */
-public class UserApiImpl extends UserApi {
+public class UserApiImpl extends EmployeesCommonApiImpl implements UserApi {
 
     private static final String API_URL = "https://intranet.stxnext.pl/";
 
+    protected final UserApiCallback apiCallback;
+    protected Context context;
+
     public UserApiImpl(Context context, UserApiCallback callback) {
-        super(context, callback);
+        super(context, null);
         this.context = context;
+        this.apiCallback = callback;
     }
 
     @Override

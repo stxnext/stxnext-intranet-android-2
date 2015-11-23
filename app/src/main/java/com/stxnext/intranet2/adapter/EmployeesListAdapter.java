@@ -13,9 +13,12 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.model.impl.User;
+import com.stxnext.intranet2.backend.model.team.Team;
+import com.stxnext.intranet2.backend.service.TeamCacheService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by OGIT on 2015-05-13.
@@ -27,12 +30,14 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
     private OnItemClickListener listener;
     private Context context;
     private Filter filter;
+    private Map<Long, List<Team>> userToTeamsMap;
 
-    public EmployeesListAdapter(Context context, List<User> users, OnItemClickListener listener) {
+    public EmployeesListAdapter(Context context, List<User> users, Map<Long, List<Team>> userToTeamsMap, OnItemClickListener listener) {
         this.context = context;
         this.users = users;
         this.filteredUsers = users;
         this.listener = listener;
+        this.userToTeamsMap = userToTeamsMap;
         this.filter = prepareFilter();
     }
 
@@ -46,10 +51,20 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
                     String firstName = user.getFirstName() != null && !user.getFirstName().isEmpty() ? user.getFirstName().toLowerCase().trim() : "";
                     String lastName = user.getLastName() != null && !user.getLastName().isEmpty() ? user.getLastName().toLowerCase().trim()  : "";
                     String phoneNumber = user.getPhoneNumber() != null && !user.getPhoneNumber().isEmpty() ? user.getPhoneNumber().replaceAll(" ", "").replace("-", "")  : "";
+                    List<Team> userTeams = userToTeamsMap.get(Long.parseLong(user.getId()));
                     if (firstName.contains(filterText)
                             || lastName.contains(filterText)
-                            || phoneNumber.contains(filterText.replaceAll(" ", ""))) {
+                            || phoneNumber.contains(filterText.replaceAll(" ", ""))
+                            || isTeamInSearch(userTeams, filterText)) {
                         filteredUsers.add(user);
+                    } else {
+                        // try also with teams
+                        TeamCacheService.getInstance(context).getTeamsForUser(Long.parseLong(user.getId()), new TeamCacheService.OnTeamsReceivedCallback() {
+                            @Override
+                            public void onReceived(List<Team> teams) {
+
+                            }
+                        });
                     }
                 }
 
@@ -66,6 +81,16 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
                 notifyDataSetChanged();
             }
         };
+    }
+
+    private boolean isTeamInSearch(List<Team> userTeams, String filterText) {
+        if (userTeams != null) {
+            for (Team team : userTeams) {
+                if (team.getName() != null && team.getName().toLowerCase().trim().contains(filterText))
+                    return true;
+            }
+        }
+        return false;
     }
 
     @Override
