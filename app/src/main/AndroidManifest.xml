@@ -123,6 +123,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
 
+        <activity android:name=".activity.TeamsActivity"
+                  android:label="@string/teams_list"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme" />
+
         <receiver android:name=".broadcast.IncomingCallBroadcastReceiver"
                     android:exported="true">
             <intent-filter>

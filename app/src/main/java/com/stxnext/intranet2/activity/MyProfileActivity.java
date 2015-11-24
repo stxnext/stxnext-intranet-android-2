@@ -144,6 +144,9 @@ public class MyProfileActivity extends CommonProfileActivity
                     case EMPLOYEES:
                         startActivity(new Intent(MyProfileActivity.this, EmployeesActivity.class));
                         break;
+                    case TEAMS:
+                        startActivity(new Intent(MyProfileActivity.this, TeamsActivity.class));
+                        break;
                     case SETTINGS:
                         startActivityForResult(new Intent(MyProfileActivity.this, SettingsActivity.class), SETTINGS_REQUEST);
                         break;

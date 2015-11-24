@@ -9,6 +9,7 @@ public enum DrawerMenuItems {
 
     ABSENCES(R.string.absences),
     EMPLOYEES(R.string.employees_list),
+    TEAMS(R.string.teams_list),
     SETTINGS(R.string.settings),
     ABOUT(R.string.about);
 
