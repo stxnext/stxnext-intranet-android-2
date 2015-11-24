@@ -68,7 +68,7 @@ public class TeamCacheService {
      * Resets teams in DB and creates
      * @param teams
      */
-    private void reloadTeamsData(List<Team> teams) {
+    private synchronized void reloadTeamsData(List<Team> teams) {
         clearTeamsInDB();
         persistTeamsInDB(teams);
         createUserToTeamsMap(teams);
@@ -84,13 +84,11 @@ public class TeamCacheService {
             teamApi.requestForTeams(new com.stxnext.intranet2.backend.callback.team.OnTeamsReceivedCallback() {
                 @Override
                 public void onReceived(List<Team> teams) {
-                    synchronized (TeamCacheService.this) {
-                        reloadTeamsData(teams);
-                        List<Team> teamsForUser = userToTeamsMap.get(userId);
-                        if (teamsForUser == null)
-                            teamsForUser = new ArrayList<>();
-                        callback.onReceived(teamsForUser);
-                    }
+                    reloadTeamsData(teams);
+                    List<Team> teamsForUser = userToTeamsMap.get(userId);
+                    if (teamsForUser == null)
+                        teamsForUser = new ArrayList<>();
+                    callback.onReceived(teamsForUser);
                 }
             });
         }
@@ -150,6 +148,16 @@ public class TeamCacheService {
             }
             DBManager.getInstance(context).getTeamRepository().saveOrUpdateComplex(team);
         }
+    }
+
+    public void getTeams(final OnTeamsReceivedCallback callback) {
+        teamApi.requestForTeams(new com.stxnext.intranet2.backend.callback.team.OnTeamsReceivedCallback() {
+            @Override
+            public void onReceived(List<Team> teams) {
+                reloadTeamsData(teams);
+                callback.onReceived(teams);
+            }
+        });
     }
 
     private void clearTeamsInDB() {
