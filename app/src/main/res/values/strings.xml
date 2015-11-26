@@ -13,6 +13,7 @@
     <string name="absence">Absence</string>
     <string name="absences">Absences</string>
     <string name="teams_list">Teams</string>
+    <string name="team_list">Team</string>
     <string name="settings">Settings</string>
     <string name="user">User</string>
     <string name="password">Password</string>

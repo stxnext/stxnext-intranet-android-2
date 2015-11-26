@@ -86,6 +86,15 @@ public class TeamRepository {
         return null;
     }
 
+    public Team getTeam(long teamId) {
+        try {
+            return teamDao.queryForId(teamId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void deleteAllTeams() {
         try {
             TransactionManager.callInTransaction(dbHelper.getConnectionSource(), new Callable<Object>() {
