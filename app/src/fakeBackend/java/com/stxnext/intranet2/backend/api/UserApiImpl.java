@@ -26,7 +26,7 @@ public class UserApiImpl implements UserApi {
 
     @Override
     public void requestForUser(String userId) {
-        User user = new User("1", "John", "Smith", "john.smith", "+48 921 231 212",
+        User user = new User("0", "John", "Smith", "john.smith", "+48 921 231 212",
                 "Poznań", Lists.newArrayList("Programmer"), "john.smith@stxnext.pl", "johny", "Mobile Team", null);
         apiCallback.onUserReceived(user);
     }

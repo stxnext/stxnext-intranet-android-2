@@ -1,32 +1,22 @@
 package com.stxnext.intranet2.backend.api;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import com.stxnext.intranet2.backend.callback.EmployeesApiCallback;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
-import com.stxnext.intranet2.backend.model.Absence;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.impl.UserRestWrapper;
-import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -63,6 +53,8 @@ public class EmployeesCommonApiImpl implements EmployeesCommonApi {
 
 
         List<User> list = new ArrayList<>();
+        list.add(new User("0", "John", "Smith", "john.smith", "+48 921 231 212",
+                "Poznań", Lists.newArrayList("Programmer"), "john.smith@stxnext.pl", "johny", "Mobile Team", null));
         list.add(new User("1", "Lucas", "Vega", "", "", "", Lists.newArrayList("Android Developer"), "", "", "", ""));
         list.add(new User("2", "Tommy", "Necessary", "", "", "", Lists.newArrayList("Team Leader"), "", "", "", ""));
         list.add(new User("3", "Mario", "Step", "", "", "", Lists.newArrayList("Chemist"), "", "", "", ""));
