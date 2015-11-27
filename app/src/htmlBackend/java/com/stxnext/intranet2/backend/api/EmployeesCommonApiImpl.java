@@ -34,7 +34,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Created by bkosarzycki on 23.11.15.
  */
-public class EmployeesCommonApiImpl {
+public class EmployeesCommonApiImpl implements EmployeesCommonApi {
 
     protected final EmployeesApiCallback apiCallback;
     protected Context context;
