@@ -18,7 +18,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final int LOGIN_FAILED = 2;
     public static final int LOGIN_CANCELED = 3;
 
-    private static final int RC_WEB_SIGN_IN = 0;
+    public static final int RC_WEB_SIGN_IN = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Button signInButton = (Button) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(
-                LoginActivityLoginClick.createLoginClick(this, RC_WEB_SIGN_IN)
+                LoginActivityLoginClick.createLoginClick(this)
         );
     }
 
