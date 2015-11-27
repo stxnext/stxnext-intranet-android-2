@@ -64,7 +64,8 @@ public class TeamRepository {
                         for (TeamProject teamProject : teamProjects) {
                             Project project = teamProject.getProject();
                             Client client = project.getClient();
-                            clientDao.createOrUpdate(client);
+                            if (client != null)
+                                clientDao.createOrUpdate(client);
                             projectDao.createOrUpdate(project);
                             teamProjectDao.createOrUpdate(teamProject);
                         }
