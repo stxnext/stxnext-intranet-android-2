@@ -81,8 +81,11 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     /**
-     * Gets users and loads recycler view.
-     * @param userIds
+     * Gets users and loads recycler view. Goes through users one by one
+     * and takes them in sequence. It modifies userIds list taking away ids
+     * which where found already. At the end this list will be
+     * empty.
+     * @param userIds this list is modified by method.
      */
     private void getUsers(final List<Long> userIds) {
         if (userIds != null && userIds.size() > 0) {
