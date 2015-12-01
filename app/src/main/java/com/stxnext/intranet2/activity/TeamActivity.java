@@ -1,5 +1,6 @@
 package com.stxnext.intranet2.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -72,7 +73,7 @@ public class TeamActivity extends AppCompatActivity {
                 @Override
                 public void onReceived(Team team) {
                     long[] userIdsLong = team.getUsers();
-                    userIds = Longs.asList(userIdsLong);
+                    userIds = new ArrayList<Long>(Longs.asList(userIdsLong));
                     getUsers(userIds);
                 }
             });
@@ -89,12 +90,14 @@ public class TeamActivity extends AppCompatActivity {
      */
     private void getUsers(final List<Long> userIds) {
         if (userIds != null && userIds.size() > 0) {
-            Long userId = userIds.get(0);
+            final Long userId = userIds.get(0);
             userApi = new UserApiImpl(this, new UserApiCallback() {
                 @Override
                 public void onUserReceived(User user) {
-                    users.add(user);
-                    userIds.remove(Long.parseLong(user.getId()));
+                    if (user != null) {
+                        users.add(user);
+                    }
+                    userIds.remove(new Long(userId));
                     if (userIds.size() > 0) {
                         getUsers(userIds);
                     } else {
@@ -148,11 +151,16 @@ public class TeamActivity extends AppCompatActivity {
                         adapter = new EmployeesListAdapter(TeamActivity.this, users, userToTeamsMap, new EmployeesListAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(String userId) {
-
+                                startActivity(new Intent(TeamActivity.this, ProfileActivity.class).putExtra(ProfileActivity.USER_ID_TAG, userId));
                             }
                         });
                         recyclerView.setAdapter(adapter);
-                        swipeRefreshLayout.setRefreshing(false);
+                        swipeRefreshLayout.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
                     }
                 });
             }

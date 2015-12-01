@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.TeamsListAdapter;
@@ -40,7 +41,7 @@ public class TeamsActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -63,13 +64,23 @@ public class TeamsActivity extends AppCompatActivity {
                 adapter = new TeamsListAdapter(TeamsActivity.this, teams, new TeamsListAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(Long teamId) {
-                        startActivity(new Intent(TeamsActivity.this, TeamActivity.class));
+                        Intent intent = new Intent(TeamsActivity.this, TeamActivity.class);
+                        intent.putExtra(TeamActivity.TEAM_ID_TAG, teamId);
+                        startActivity(intent);
                     }
                 });
                 recyclerView.setAdapter(adapter);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return false;
     }
 }
