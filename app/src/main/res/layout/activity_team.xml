@@ -7,10 +7,33 @@
               android:background="@color/background"
               tools:context="com.stxnext.intranet2.activity.TeamActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"/>
+    <FrameLayout
+        android:id="@+id/team"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/team_image_height"
+        android:background="@color/header_gray">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/team_image_height"
+            android:scaleType="fitEnd"
+            android:src="@drawable/stx_logo_green_blur"/>
+
+        <ImageView
+            android:id="@+id/team_image"
+            android:layout_width="@dimen/team_photo_size"
+            android:layout_height="@dimen/team_photo_size"
+            android:layout_gravity="center"
+            android:transitionName="teamImageView"
+            android:layout_marginTop="?attr/actionBarSize"/>
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"/>
+
+    </FrameLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
