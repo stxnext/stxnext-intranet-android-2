@@ -1,5 +1,6 @@
 package com.stxnext.intranet2.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -9,9 +10,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.TeamsListAdapter;
-import com.stxnext.intranet2.backend.api.TeamApiImpl;
-import com.stxnext.intranet2.backend.callback.team.OnTeamsReceivedCallback;
 import com.stxnext.intranet2.backend.model.team.Team;
+import com.stxnext.intranet2.backend.service.TeamCacheService;
 
 import java.util.List;
 
@@ -24,7 +24,6 @@ public class TeamsActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TeamsListAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private TeamApiImpl teamApi;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,17 +56,18 @@ public class TeamsActivity extends AppCompatActivity {
                 }
             }
         });
-        teamApi = new TeamApiImpl();
-        teamApi.requestForTeams(new OnTeamsReceivedCallback() {
+        TeamCacheService teamCacheService = TeamCacheService.getInstance(this);
+        teamCacheService.getTeams(new TeamCacheService.OnTeamsReceivedCallback() {
             @Override
             public void onReceived(List<Team> teams) {
                 adapter = new TeamsListAdapter(TeamsActivity.this, teams, new TeamsListAdapter.OnItemClickListener() {
-
                     @Override
                     public void onItemClick(Long teamId) {
-
+                        startActivity(new Intent(TeamsActivity.this, TeamActivity.class));
                     }
                 });
+                recyclerView.setAdapter(adapter);
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
