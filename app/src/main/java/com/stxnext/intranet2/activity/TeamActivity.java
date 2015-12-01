@@ -8,8 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.google.common.primitives.Longs;
+import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.adapter.EmployeesListAdapter;
 import com.stxnext.intranet2.backend.api.UserApi;
@@ -41,6 +43,7 @@ public class TeamActivity extends AppCompatActivity {
     private List<Long> userIds;
     private List<User> users = new ArrayList<>();
     private UserApi userApi;
+    private ImageView teamImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +67,24 @@ public class TeamActivity extends AppCompatActivity {
                     swipeRefreshLayout.setRefreshing(true);
                 }
             });
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
             recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
             recyclerView.setHasFixedSize(true);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
+            teamImageView = (ImageView) findViewById(R.id.team_image);
             teamCacheService = TeamCacheService.getInstance(this);
             teamCacheService.getTeam(teamId, new TeamCacheService.OnTeamReceivedCallback() {
                 @Override
                 public void onReceived(Team team) {
                     getSupportActionBar().setTitle(team.getName());
+                    String imageAddress = "https://intranet.stxnext.pl" + team.getImg();
+                    Picasso.with(TeamActivity.this).load(imageAddress).into(teamImageView);
                     long[] userIdsLong = team.getUsers();
                     userIds = new ArrayList<Long>(Longs.asList(userIdsLong));
                     getUsers(userIds);
