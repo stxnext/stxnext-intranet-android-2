@@ -8,9 +8,12 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.StxActionBarDrawerToggle;
+import android.support.v7.internal.view.menu.MenuItemImpl;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +59,7 @@ public class MyProfileActivity extends CommonProfileActivity
 
     private static String FLOATING_MENU_TAG = "floating_menu";
 
-    private ActionBarDrawerToggle drawerToggle;
+    private StxActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private ViewGroup floatingButton;
@@ -156,7 +159,7 @@ public class MyProfileActivity extends CommonProfileActivity
             }
         });
 
-        drawerToggle = new ActionBarDrawerToggle(this,
+        drawerToggle = new StxActionBarDrawerToggle(this,
                 drawerLayout,
                 toolbar,
                 R.string.drawer_open,
@@ -243,6 +246,15 @@ public class MyProfileActivity extends CommonProfileActivity
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            drawerToggle.toggle();
+            return true;
+        } else
+            return super.onKeyDown(keyCode, event);
     }
 
     @Override
