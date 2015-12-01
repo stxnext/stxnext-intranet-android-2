@@ -72,6 +72,7 @@ public class TeamActivity extends AppCompatActivity {
             teamCacheService.getTeam(teamId, new TeamCacheService.OnTeamReceivedCallback() {
                 @Override
                 public void onReceived(Team team) {
+                    getSupportActionBar().setTitle(team.getName());
                     long[] userIdsLong = team.getUsers();
                     userIds = new ArrayList<Long>(Longs.asList(userIdsLong));
                     getUsers(userIds);
