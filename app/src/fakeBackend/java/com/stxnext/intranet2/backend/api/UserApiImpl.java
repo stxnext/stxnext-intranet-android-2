@@ -43,7 +43,7 @@ public class UserApiImpl implements UserApi {
 
     @Override
     public void submitOutOfOffice(boolean workFromHome, Date submissionDate, Date startHour, Date endHour, String explanation) {
-
+        apiCallback.onOutOfOfficeResponse(true);
     }
 
     @Override
