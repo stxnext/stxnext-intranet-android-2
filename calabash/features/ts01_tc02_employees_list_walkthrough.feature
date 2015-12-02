@@ -1,4 +1,4 @@
-Feature: Login feature
+Feature: Employees list feature
 
   Scenario: I can see employees and absences list
     When I press "Log in"
