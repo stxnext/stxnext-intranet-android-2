@@ -27,10 +27,11 @@ Feature: Employees list feature
     When I see "John Smith"
     Then I wait for 2 seconds
     * I go back
-
+    * I wait for 2 seconds
     * I go back
     Then I wait for 2 seconds
     Then I press the menu key
+    Then I wait for 1 seconds
     When I see "Absences"
     Then I press "Absences"
 
@@ -79,7 +80,7 @@ Feature: Employees list feature
     When I see "John Smith"
     Then I wait for 1 seconds
     * I go back
-
+    * I wait for 2 seconds
     * I go back
     When I see "John Smith"
     Then I press the menu key
