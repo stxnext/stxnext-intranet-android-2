@@ -81,4 +81,10 @@
         <item name="android:colorForeground">@color/stxnext_green</item>
     </style>
 
+    <style name="Toolbar">
+    </style>
+
+    <style name="Header">
+    </style>
+
 </resources>

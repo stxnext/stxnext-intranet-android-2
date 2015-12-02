@@ -7,10 +7,12 @@
               tools:context="com.stxnext.intranet2.activity.TeamActivity">
 
     <FrameLayout
+        android:theme=""
         android:id="@+id/team"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/team_image_height"
-        android:background="@color/header_gray">
+        android:background="@color/header_gray"
+        android:elevation="2dp">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -48,6 +50,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/transparent"/>
+        android:background="@android:color/transparent"
+        android:elevation="3dp"/>
 
 </FrameLayout>
