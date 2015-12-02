@@ -48,12 +48,12 @@ public class UserApiImpl implements UserApi {
 
     @Override
     public void submitHolidayAbsence(HolidayTypes absenceType, Date endDate, Date startDate, String remarks) {
-
+        apiCallback.onAbsenceResponse(true, true, true);
     }
 
     @Override
     public void getAbsenceDaysLeft() {
-
+        apiCallback.onAbsenceDaysLeftReceived(14, 0, 5);
     }
 
     @Override

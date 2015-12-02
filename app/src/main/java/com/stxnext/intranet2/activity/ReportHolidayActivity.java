@@ -70,8 +70,8 @@ public class ReportHolidayActivity extends AppCompatActivity
         Integer absenceDaysLeft = Session.getInstance(this).getAbsenceDaysLeft();
         Integer daysMandated = Session.getInstance(this).getDaysMandated();
         if (absenceDaysLeft == null) {
-            userApi.getAbsenceDaysLeft();
             progressView.setVisibility(View.VISIBLE);
+            userApi.getAbsenceDaysLeft();
         } else {
             remainingDays = absenceDaysLeft;
             allDays = daysMandated;
