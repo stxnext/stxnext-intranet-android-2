@@ -58,6 +58,27 @@ Feature: Home screen smoke test feature
     * I wait for the view with id "activity_add_hours_send_fab" to appear
     * I wait for 2 seconds
     * I go back
+    * I go back
+
+    # REPORT OUT OF OFFICE
+    When I see "Worked hours"
+    Then I press view with id "floating_button"
+    * I wait for 2 seconds
+    When I see "Report out of office"
+    Then I press "Report out of office"
+
+    * I wait for 2 seconds
+    When I see "Work From Home"
+    Then I press view with id "work_from_home_switch"
+
+    * I enter text "Sorry guys - got to work from home today!" into field with id "explanation_edit_text"
+    * I wait for 3 seconds
+    * I press view with id "submit_button"
+
+    * I wait for 2 seconds
+    * I go back
+
+
 
 
 
