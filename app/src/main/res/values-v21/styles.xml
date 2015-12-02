@@ -27,12 +27,4 @@
         <item name="android:background">@drawable/selector_default_button</item>
     </style>
 
-    <style name="Toolbar">
-        <item name="android:elevation">3dp</item>
-    </style>
-
-    <style name="Header">
-        <item name="android:elevation">2dp</item>
-    </style>
-
 </resources>
