@@ -58,6 +58,7 @@ Feature: Home screen smoke test feature
     * I wait for the view with id "activity_add_hours_send_fab" to appear
     * I wait for 2 seconds
     * I go back
+    * I wait for 2 seconds
     * I go back
 
     # REPORT OUT OF OFFICE
