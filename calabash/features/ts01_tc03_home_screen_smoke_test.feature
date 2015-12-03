@@ -8,7 +8,7 @@ Feature: Home screen smoke test feature
     Then I press view with id "scroll_view_profile_image_view_mapper"
 
     * I wait for 2 seconds
-    * I press "John Smith"
+    * I press view with id "profile_image_view"
     * I wait for 2 seconds
 
     When I see "Worked hours"
