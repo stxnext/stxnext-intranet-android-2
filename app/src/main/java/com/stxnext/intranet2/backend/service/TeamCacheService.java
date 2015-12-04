@@ -29,6 +29,7 @@ public class TeamCacheService {
 
     Context context;
     TeamApi teamApi;
+    boolean dataReloaded = false;
 
     /**
      * This is used to cache user to teams data as to not get this every time
@@ -72,6 +73,7 @@ public class TeamCacheService {
         clearTeamsInDB();
         persistTeamsInDB(teams);
         createUserToTeamsMap(teams);
+        dataReloaded = true;
     }
 
     public void getTeamsForUser(final long userId, final OnTeamsReceivedCallback callback) {
@@ -151,13 +153,38 @@ public class TeamCacheService {
     }
 
     public void getTeams(final OnTeamsReceivedCallback callback) {
-        teamApi.requestForTeams(new com.stxnext.intranet2.backend.callback.team.OnTeamsReceivedCallback() {
-            @Override
-            public void onReceived(List<Team> teams) {
-                reloadTeamsData(teams);
-                callback.onReceived(teams);
-            }
-        });
+        if (isTeamCacheFirstRun()) {
+            teamApi.requestForTeams(new com.stxnext.intranet2.backend.callback.team.OnTeamsReceivedCallback() {
+                @Override
+                public void onReceived(List<Team> teams) {
+                    reloadTeamsData(teams);
+                    callback.onReceived(teams);
+                }
+            });
+        } else {
+            List<Team> teams = DBManager.getInstance(context).getTeamRepository().getTeams();
+            callback.onReceived(teams);
+        }
+    }
+
+    public void getTeam(final long teamId, final OnTeamReceivedCallback callback) {
+        if (isTeamCacheFirstRun()) {
+            teamApi.requestForTeams(new com.stxnext.intranet2.backend.callback.team.OnTeamsReceivedCallback() {
+                @Override
+                public void onReceived(List<Team> teams) {
+                    reloadTeamsData(teams);
+                    Team team = DBManager.getInstance(context).getTeamRepository().getTeam(teamId);
+                    callback.onReceived(team);
+                }
+            });
+        } else {
+            Team team = DBManager.getInstance(context).getTeamRepository().getTeam(teamId);
+            callback.onReceived(team);
+        }
+    }
+
+    private boolean isTeamCacheFirstRun() {
+        return !dataReloaded;
     }
 
     private void clearTeamsInDB() {
@@ -167,6 +194,12 @@ public class TeamCacheService {
     public interface OnTeamsReceivedCallback {
 
         void onReceived(List<Team> teams);
+
+    }
+
+    public interface OnTeamReceivedCallback {
+
+        void onReceived(Team team);
 
     }
 
