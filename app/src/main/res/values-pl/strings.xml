@@ -7,6 +7,8 @@
     <string name="drawer_close">Zamknij menu</string>
     <string name="action_search">Szukaj</string>
     <string name="employees_list">Pracownicy</string>
+    <string name="teams_list">Zespoły</string>
+    <string name="team_list">Zespół</string>
     <string name="holiday">Urlopy</string>
     <string name="work_from_home">Praca zdalna</string>
     <string name="out_of_office">Poza biurem</string>

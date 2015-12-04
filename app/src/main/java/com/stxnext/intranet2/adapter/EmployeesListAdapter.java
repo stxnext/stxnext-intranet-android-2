@@ -14,7 +14,6 @@ import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.team.Team;
-import com.stxnext.intranet2.backend.service.TeamCacheService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,14 +56,6 @@ public class EmployeesListAdapter extends RecyclerView.Adapter<EmployeesListAdap
                             || phoneNumber.contains(filterText.replaceAll(" ", ""))
                             || isTeamInSearch(userTeams, filterText)) {
                         filteredUsers.add(user);
-                    } else {
-                        // try also with teams
-                        TeamCacheService.getInstance(context).getTeamsForUser(Long.parseLong(user.getId()), new TeamCacheService.OnTeamsReceivedCallback() {
-                            @Override
-                            public void onReceived(List<Team> teams) {
-
-                            }
-                        });
                     }
                 }
 

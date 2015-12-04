@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/background"
+              tools:context="com.stxnext.intranet2.activity.TeamActivity">
+
+    <FrameLayout
+        android:id="@+id/team"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/team_image_height"
+        android:background="@color/header_gray"
+        android:elevation="2dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/team_image_height"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitEnd"
+            android:src="@drawable/stx_logo_green_blur"/>
+
+        <ImageView
+            android:id="@+id/team_image"
+            android:layout_width="@dimen/team_photo_size"
+            android:layout_height="@dimen/team_photo_size"
+            android:layout_gravity="center"
+            android:transitionName="teamImageView"
+            android:src="@drawable/avatar_placeholder"
+            android:layout_marginTop="16dp" />
+
+    </FrameLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/team_image_height">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        android:elevation="3dp"/>
+
+</FrameLayout>
