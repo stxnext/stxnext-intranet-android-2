@@ -335,22 +335,24 @@ public class MyProfileActivity extends CommonProfileActivity
                     }
 
                     String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
-                    Picasso.with(MyProfileActivity.this)
-                            .load(imageAddress)
-                            .placeholder(R.drawable.avatar_placeholder)
-                            .resizeDimen(R.dimen.profile_image_height, R.dimen.profile_image_height)
-                            .centerCrop()
-                            .into(profileImageView, new Callback() {
-                                @Override
-                                public void onSuccess() {
-                                    profileImageView.animate().alpha(1).setDuration(500);
-                                }
+                    try {
+                        Picasso.with(MyProfileActivity.this)
+                                .load(imageAddress)
+                                .placeholder(R.drawable.avatar_placeholder)
+                                .resizeDimen(R.dimen.profile_image_height, R.dimen.profile_image_height)
+                                .centerCrop()
+                                .into(profileImageView, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        profileImageView.animate().alpha(1).setDuration(500);
+                                    }
 
-                                @Override
-                                public void onError() {
-                                    profileImageView.animate().alpha(1).setDuration(500);
-                                }
-                            });
+                                    @Override
+                                    public void onError() {
+                                        profileImageView.animate().alpha(1).setDuration(500);
+                                    }
+                                });
+                    } catch (OutOfMemoryError err) { Log.w("MEM", err.toString()); }
 
                     if (!"null".equals(user.getPhoneNumber())) {
                         phoneTextView.setText(user.getPhoneNumber());
