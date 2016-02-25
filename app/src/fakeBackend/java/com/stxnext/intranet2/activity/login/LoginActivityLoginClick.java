@@ -11,7 +11,7 @@ import com.stxnext.intranet2.utils.Session;
 
 public class LoginActivityLoginClick {
 
-    public static View.OnClickListener createLoginClick(final Activity context) {
+    public static View.OnClickListener createLoginClick(final Activity context, final int RC_WEB_SIGN_IN_ID) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {

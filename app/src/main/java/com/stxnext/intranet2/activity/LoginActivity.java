@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Button signInButton = (Button) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(
-                LoginActivityLoginClick.createLoginClick(this)
+                LoginActivityLoginClick.createLoginClick(this, RC_WEB_SIGN_IN)
         );
     }
 
