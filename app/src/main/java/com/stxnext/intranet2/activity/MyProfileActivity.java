@@ -334,7 +334,7 @@ public class MyProfileActivity extends CommonProfileActivity
                         superheroImageView.setImageResource(R.drawable.mrs_superhero_profile);
                     }
 
-                    String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
+                    String imageAddress = "https://intranet-staging.stxnext.pl" + user.getPhoto();
                     try {
                         Picasso.with(MyProfileActivity.this)
                                 .load(imageAddress)

@@ -9,7 +9,7 @@ public class IntranetRestAdapter {
 
     public static RestAdapter build() {
         return new RestAdapter.Builder()
-                .setEndpoint("https://intranet.stxnext.pl")
+                .setEndpoint("https://intranet-staging.stxnext.pl")
                 .build();
     }
 }

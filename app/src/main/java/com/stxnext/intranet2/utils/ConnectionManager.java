@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 public class ConnectionManager {
 
-    private static final String LOGIN_URL = "https://accounts.google.com/o/oauth2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly&redirect_uri=https%3A%2F%2Fintranet.stxnext.pl%2Fauth%2Fcallback&response_type=code&client_id=83120712902.apps.googleusercontent.com&access_type=offline";
+    private static final String LOGIN_URL = "https://accounts.google.com/o/oauth2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly&redirect_uri=https%3A%2F%2Fintranet-staging.stxnext.pl%2Fauth%2Fcallback&response_type=code&client_id=83120712902.apps.googleusercontent.com&access_type=offline";
 
     private Context context;
     private ConnectionCallback callback;
@@ -83,7 +83,7 @@ public class ConnectionManager {
         };
 
         Request request = new Request.Builder()
-                .url("https://intranet.stxnext.pl/auth/callback?code=" + Session.getInstance(context).getAuthorizationCode())
+                .url("https://intranet-staging.stxnext.pl/auth/callback?code=" + Session.getInstance(context).getAuthorizationCode())
                 .build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(okHttpCallback);
@@ -116,7 +116,7 @@ public class ConnectionManager {
         };
 
         Request request = new Request.Builder()
-                .url("https://intranet.stxnext.pl/user/edit")
+                .url("https://intranet-staging.stxnext.pl/user/edit")
                 .build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(okHttpCallback);

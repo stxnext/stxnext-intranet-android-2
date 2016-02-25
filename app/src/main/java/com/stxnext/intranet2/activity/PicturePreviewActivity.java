@@ -65,7 +65,7 @@ public class PicturePreviewActivity extends AppCompatActivity {
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_picture_preview);
         //todo: THIS SHOULD BE HIGH RESOLUTION PHOTO - IS it available from the backend?
-        pictureUrl = "https://intranet.stxnext.pl" + getIntent().getExtras().getString("pictureUrl");
+        pictureUrl = "https://intranet-staging.stxnext.pl" + getIntent().getExtras().getString("pictureUrl");
         //Picasso.with(this).invalidate(pictureUrl);
         loadViews();
     }

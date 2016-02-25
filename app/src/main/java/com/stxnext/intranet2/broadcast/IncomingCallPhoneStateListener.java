@@ -179,7 +179,7 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
 
         ImageView imageView = (ImageView)ll.findViewById(R.id.notification_caller_layout_profile_iv);
         Picasso.with(context)
-                .load("https://intranet.stxnext.pl" + foundEmployee.getPhoto())
+                .load("https://intranet-staging.stxnext.pl" + foundEmployee.getPhoto())
                 .placeholder(R.drawable.avatar_placeholder)
                 .resizeDimen(R.dimen.notif_caller_profile_pict_size, R.dimen.notif_caller_profile_pict_size)
                 .centerCrop()

@@ -42,7 +42,7 @@ import retrofit.RetrofitError;
  */
 public class UserApiImpl extends EmployeesCommonApiImpl implements UserApi {
 
-    private static final String API_URL = "https://intranet.stxnext.pl/";
+    private static final String API_URL = "https://intranet-staging.stxnext.pl/";
 
     protected final UserApiCallback apiCallback;
     protected Context context;
@@ -130,7 +130,7 @@ public class UserApiImpl extends EmployeesCommonApiImpl implements UserApi {
             OkHttpClient okHttpClient = new OkHttpClient();
             RequestBody body = RequestBody.create(jsonMediaType, jsonString);
             Request request = new Request.Builder()
-                    .url("https://intranet.stxnext.pl/api/lateness")
+                    .url("https://intranet-staging.stxnext.pl/api/lateness")
                     .post(body)
                     .build();
             Call call = okHttpClient.newCall(request);
@@ -185,7 +185,7 @@ public class UserApiImpl extends EmployeesCommonApiImpl implements UserApi {
             OkHttpClient okHttpClient = new OkHttpClient();
             RequestBody body = RequestBody.create(jsonMediaType, jsonString);
             Request request = new Request.Builder()
-                    .url("https://intranet.stxnext.pl/api/absence")
+                    .url("https://intranet-staging.stxnext.pl/api/absence")
                     .post(body)
                     .build();
             Call call = okHttpClient.newCall(request);

@@ -95,7 +95,7 @@ public class ProfileActivity extends CommonProfileActivity implements UserApiCal
             superheroImageView.setImageResource(R.drawable.mrs_superhero_profile);
         }
 
-        String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
+        String imageAddress = "https://intranet-staging.stxnext.pl" + user.getPhoto();
         Picasso.with(this).load(imageAddress).placeholder(R.drawable.avatar_placeholder)
                 .resizeDimen(R.dimen.profile_photo_size, R.dimen.profile_photo_size)
                 .centerCrop()

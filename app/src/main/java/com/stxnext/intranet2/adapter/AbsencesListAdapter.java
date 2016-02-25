@@ -104,7 +104,7 @@ public class AbsencesListAdapter extends RecyclerView.Adapter<AbsencesListAdapte
         holder.fromLabel.setText(dateFromValue);
         holder.toLabel.setText(dateToValue);
 
-        String imageAddress = "https://intranet.stxnext.pl" + user.getPhoto();
+        String imageAddress = "https://intranet-staging.stxnext.pl" + user.getPhoto();
         Picasso.with(context).load(imageAddress).placeholder(R.drawable.avatar_placeholder).fit().into(holder.avatarImageView);
     }
 

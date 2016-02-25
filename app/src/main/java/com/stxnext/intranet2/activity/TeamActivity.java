@@ -83,7 +83,7 @@ public class TeamActivity extends AppCompatActivity {
                 @Override
                 public void onReceived(Team team) {
                     getSupportActionBar().setTitle(team.getName());
-                    String imageAddress = "https://intranet.stxnext.pl" + team.getImg();
+                    String imageAddress = "https://intranet-staging.stxnext.pl" + team.getImg();
                     Picasso.with(TeamActivity.this).load(imageAddress).into(teamImageView);
                     long[] userIdsLong = team.getUsers();
                     userIds = new ArrayList<Long>(Longs.asList(userIdsLong));

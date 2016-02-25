@@ -92,7 +92,7 @@ public class EmployeesCommonApiImpl implements EmployeesCommonApi {
 
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://intranet.stxnext.pl/api/users?full=1&inactive=0")
+                .url("https://intranet-staging.stxnext.pl/api/users?full=1&inactive=0")
                 .build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(okHttpCallback);

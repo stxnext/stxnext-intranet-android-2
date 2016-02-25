@@ -45,7 +45,7 @@ public class TeamsListAdapter extends RecyclerView.Adapter<TeamsListAdapter.View
             }
         });
         holder.nameTextView.setText(team.getName());
-        String imageAddress = "https://intranet.stxnext.pl" + team.getImg();
+        String imageAddress = "https://intranet-staging.stxnext.pl" + team.getImg();
         Picasso.with(context).load(imageAddress).into(holder.teamImageView);
     }
 

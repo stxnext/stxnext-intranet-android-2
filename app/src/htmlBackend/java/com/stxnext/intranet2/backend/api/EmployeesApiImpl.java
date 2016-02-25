@@ -81,7 +81,7 @@ public class EmployeesApiImpl extends EmployeesCommonApiImpl implements Employee
 
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://intranet.stxnext.pl/api/presence")
+                .url("https://intranet-staging.stxnext.pl/api/presence")
                 .build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(okHttpCallback);
@@ -252,7 +252,7 @@ public class EmployeesApiImpl extends EmployeesCommonApiImpl implements Employee
 
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://intranet.stxnext.pl/api/presence")
+                .url("https://intranet-staging.stxnext.pl/api/presence")
                 .build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(okHttpCallback);
@@ -314,7 +314,7 @@ public class EmployeesApiImpl extends EmployeesCommonApiImpl implements Employee
 
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://intranet.stxnext.pl/api/presence")
+                .url("https://intranet-staging.stxnext.pl/api/presence")
                 .build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(okHttpCallback);
