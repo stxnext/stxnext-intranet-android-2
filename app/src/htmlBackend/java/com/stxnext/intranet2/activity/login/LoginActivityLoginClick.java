@@ -23,13 +23,13 @@ import java.util.List;
 
 public class LoginActivityLoginClick {
 
-    public static View.OnClickListener createLoginClick(final Activity context, final int RC_WEB_SIGN_IN_ID) {
+    public static View.OnClickListener createLoginClick(final Activity context) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 context.findViewById(R.id.login_failed_label).setVisibility(View.INVISIBLE);
                 Intent webLoginIntent = new Intent(context, LoginWebActivity.class);
-                context.startActivityForResult(webLoginIntent, RC_WEB_SIGN_IN_ID);
+                context.startActivityForResult(webLoginIntent, LoginActivity.RC_WEB_SIGN_IN);
             }
         };
     }
