@@ -31,11 +31,24 @@ android {
             keyAlias "androiddebugkey"
             keyPassword "android"
         }
+        //define gradle StxNextKeys.repo variable in your home directory ~/.gradle/gradle.properties
         release {
-            storeFile ***REMOVED***
-            storePassword ***REMOVED***
-            keyAlias ***REMOVED***
-            keyPassword ***REMOVED***
+            if (project.hasProperty("StxNextKeys.repo")) {
+                def projectPropsFile = file(project.property("StxNextKeys.repo") + "/Intranet2Android.properties")
+                if (projectPropsFile.exists()) {
+                    Properties props = new Properties()
+                    props.load(new FileInputStream(projectPropsFile))
+
+                    storeFile file(file(project.property("StxNextKeys.repo") + props['RELEASE_STORE_FILE']))
+                    storePassword props['RELEASE_STORE_PASS']
+                    keyAlias props['RELEASE_ALIAS']
+                    keyPassword props['RELEASE_KEY_PASS']
+                }
+            } else {
+                println "======================================================="
+                println "[ERROR] - Please configure release-compilation environment - e.g. in ~/.signing  directory"
+                println "======================================================="
+            }
         }
     }
 
