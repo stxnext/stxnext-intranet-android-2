@@ -7,9 +7,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.StxActionBarDrawerToggle;
-import android.support.v7.internal.view.menu.MenuItemImpl;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -282,7 +280,7 @@ public class MyProfileActivity extends CommonProfileActivity
                     case FloatingMenuFragment.ADD_HOURS:
                         intent = new Intent(MyProfileActivity.this, AddHoursActivity.class);
                         if (timeToAddTextView != null && timeToAddTextView.getText().toString() != null && !timeToAddTextView.getText().toString().isEmpty())
-                        intent.putExtra("timeToAdd", timeToAddTextView.getText().toString());
+                            intent.putExtra("timeToAdd", timeToAddTextView.getText().toString());
                         break;
                 }
 
@@ -352,7 +350,9 @@ public class MyProfileActivity extends CommonProfileActivity
                                         profileImageView.animate().alpha(1).setDuration(500);
                                     }
                                 });
-                    } catch (OutOfMemoryError err) { Log.w("MEM", err.toString()); }
+                    } catch (OutOfMemoryError err) {
+                        Log.w("MEM", err.toString());
+                    }
 
                     if (!"null".equals(user.getPhoneNumber())) {
                         phoneTextView.setText(user.getPhoneNumber());
