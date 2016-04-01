@@ -112,7 +112,8 @@
                     android:layout_marginLeft="18dp"
                     android:layout_marginRight="18dp"
                     android:layout_marginTop="18dp"
-                    card_view:cardCornerRadius="4dp">
+                    card_view:cardCornerRadius="4dp"
+                    style="@style/CardView.Light" >
 
                         <LinearLayout
                             android:id="@+id/worked_hours_container_inner_ll"
@@ -336,7 +337,8 @@
                     android:layout_gravity="center"
                     android:layout_margin="18dp"
                     android:background="@drawable/card_selector"
-                    card_view:cardCornerRadius="4dp">
+                    card_view:cardCornerRadius="4dp"
+                    style="@style/CardView.Light">
 
                     <LinearLayout
                         android:layout_width="match_parent"

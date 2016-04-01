@@ -291,6 +291,7 @@ public class TimeReportActivity extends AppCompatActivity {
                 card.setContentPadding(30, 30, 30, 40);
                 card.setCardElevation(6.0f);
                 card.setRadius(20.0f);
+                card.setCardBackgroundColor(Color.WHITE);
 
                 LinearLayout.LayoutParams outLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
