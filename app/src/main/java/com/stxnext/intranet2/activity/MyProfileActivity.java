@@ -5,11 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.StxActionBarDrawerToggle;
-import android.support.v7.internal.view.menu.MenuItemImpl;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -186,7 +185,7 @@ public class MyProfileActivity extends CommonProfileActivity
     }
 
     private void toggleFloatingMenu() {
-        FloatingMenuFragment fragment = (FloatingMenuFragment) getFragmentManager().findFragmentByTag(FLOATING_MENU_TAG);
+        FloatingMenuFragment fragment = (FloatingMenuFragment) getSupportFragmentManager().findFragmentByTag(FLOATING_MENU_TAG);
         if (fragment == null || !fragment.isAdded()) {
             plusView.animate()
                     .rotationBy(225)
@@ -196,7 +195,7 @@ public class MyProfileActivity extends CommonProfileActivity
             int[] floatingButtonPosition = new int[2];
             floatingButton.getLocationInWindow(floatingButtonPosition);
             int floatingButtonTransition = floatingButtonPosition[1] + floatingButton.getHeight();
-            getFragmentManager()
+            getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.floating_menu_container, FloatingMenuFragment.newInstance(floatingButtonTransition), FLOATING_MENU_TAG)
                     .addToBackStack(null)
@@ -253,11 +252,11 @@ public class MyProfileActivity extends CommonProfileActivity
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU) {
+        if (keyCode == KeyEvent.KEYCODE_MENU || drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerToggle.toggle();
             return true;
         } else
-            return super.onKeyDown(keyCode, event);
+            return super.onKeyUp(keyCode, event);
     }
 
     @Override
@@ -282,7 +281,7 @@ public class MyProfileActivity extends CommonProfileActivity
                     case FloatingMenuFragment.ADD_HOURS:
                         intent = new Intent(MyProfileActivity.this, AddHoursActivity.class);
                         if (timeToAddTextView != null && timeToAddTextView.getText().toString() != null && !timeToAddTextView.getText().toString().isEmpty())
-                        intent.putExtra("timeToAdd", timeToAddTextView.getText().toString());
+                            intent.putExtra("timeToAdd", timeToAddTextView.getText().toString());
                         break;
                 }
 
@@ -303,10 +302,11 @@ public class MyProfileActivity extends CommonProfileActivity
 
     @Override
     public void onBackPressed() {
-        FloatingMenuFragment fragment = (FloatingMenuFragment) getFragmentManager().findFragmentByTag(FLOATING_MENU_TAG);
-        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+        FloatingMenuFragment fragment = (FloatingMenuFragment) getSupportFragmentManager().findFragmentByTag(FLOATING_MENU_TAG);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawers();
-        } else if (fragment != null && fragment.isAdded()) {
+        }
+        if (fragment != null && fragment.isAdded()) {
             fragment.close();
         } else {
             super.onBackPressed();
@@ -352,7 +352,9 @@ public class MyProfileActivity extends CommonProfileActivity
                                         profileImageView.animate().alpha(1).setDuration(500);
                                     }
                                 });
-                    } catch (OutOfMemoryError err) { Log.w("MEM", err.toString()); }
+                    } catch (OutOfMemoryError err) {
+                        Log.w("MEM", err.toString());
+                    }
 
                     if (!"null".equals(user.getPhoneNumber())) {
                         phoneTextView.setText(user.getPhoneNumber());
