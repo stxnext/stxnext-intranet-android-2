@@ -106,8 +106,8 @@ public class AddHoursActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.activity_add_hours_send_fab)
-    protected void sendFABClick() {
-        mSendFab.setVisibility(View.GONE);
+    protected void sendFABClick(View view) {
+        view.setVisibility(View.GONE);
         String projDescr =  mDescriptionET.getText().toString().trim();
         String ticketIdString = mTicketIdET.getText().toString();
         int spinnerSelPos = mProjectsSpinner.getSelectedItemPosition();

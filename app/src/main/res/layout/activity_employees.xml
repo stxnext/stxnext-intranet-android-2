@@ -25,7 +25,8 @@
             android:layout_marginRight="6dp"
             android:layout_marginTop="6dp"
             card_view:cardCornerRadius="0dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            style="@style/CardView.Light">
 
             <EditText
                 android:id="@+id/search_edit_text"

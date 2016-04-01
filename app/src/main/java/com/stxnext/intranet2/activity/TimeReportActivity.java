@@ -7,20 +7,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
-import android.text.format.DateUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -28,9 +23,7 @@ import android.widget.TextView;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.api.UserApi;
 import com.stxnext.intranet2.backend.api.UserApiImpl;
-import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.callback.UserApiTimeReportCallback;
-import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.backend.model.timereport.TimeReportDay;
 import com.stxnext.intranet2.model.DaysShorcuts;
 
@@ -50,7 +43,7 @@ import java.util.List;
 public class TimeReportActivity extends AppCompatActivity {
 
     public static final String USER_ID_TAG = "userId";
-    private String userId= null;
+    private String userId = null;
     private Toolbar toolbar;
     private View progressView;
     private List<TimeReportDayContainer> timeReportDayViews = new ArrayList<TimeReportDayContainer>();
@@ -71,7 +64,8 @@ public class TimeReportActivity extends AppCompatActivity {
 
             UserApi userApi = new UserApiImpl(this, null);
             UserApiTimeReportCallback userApiCallback = new UserApiTimeReportCallback() {
-                @Override public void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month) {
+                @Override
+                public void onTimeReportReceived(List<TimeReportDay> timeReportDays, Calendar month) {
                     TimeReportActivity.this.onTimeReportReceived(timeReportDays, month, timeReportsLLayout);
                 }
             };
@@ -86,7 +80,7 @@ public class TimeReportActivity extends AppCompatActivity {
         }
 
         ProgressBar pb = (ProgressBar) findViewById(R.id.activity_time_report_progress_report);
-        pb.getIndeterminateDrawable().setColorFilter(0xFF184640,android.graphics.PorterDuff.Mode.MULTIPLY);
+        pb.getIndeterminateDrawable().setColorFilter(0xFF184640, android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     private TableLayout createTimeTable(Calendar month, List<TimeReportDay> timeReportDays) {
@@ -180,9 +174,9 @@ public class TimeReportActivity extends AppCompatActivity {
         for (int i = 0; i < 7; i++) {
             TextView dayName = new TextView(getApplicationContext());
             if (isWeekendDay(i)) {
-                dayName.setBackgroundColor(ContextCompat.getColor(this,  R.color.stxnext_cardview_white));
+                dayName.setBackgroundColor(ContextCompat.getColor(this, R.color.stxnext_cardview_white));
             } else {
-                dayName.setBackgroundColor(ContextCompat.getColor(this,  R.color.stxnext_cardview_white));
+                dayName.setBackgroundColor(ContextCompat.getColor(this, R.color.stxnext_cardview_white));
             }
             dayName.setGravity(Gravity.CENTER);
             dayName.setTextColor(ContextCompat.getColor(this, R.color.stxnext_green));
@@ -215,13 +209,13 @@ public class TimeReportActivity extends AppCompatActivity {
     }
 
     private void insertEmptyCells(TableRow tableRowDayNumbers, TableRow tableRowDays, int daysToFill) {
-        for(int i = 0; i < daysToFill; i++) {
+        for (int i = 0; i < daysToFill; i++) {
             TextView dayNumber = new TextView(getApplicationContext());
-            dayNumber.setBackgroundColor(ContextCompat.getColor(this,  R.color.stxnext_cardview_white));
+            dayNumber.setBackgroundColor(ContextCompat.getColor(this, R.color.stxnext_cardview_white));
             dayNumber.setPadding(3, 3, 3, 3);
             tableRowDayNumbers.addView(dayNumber);
             TextView hoursWorked = new TextView(getApplicationContext());
-            hoursWorked.setBackgroundColor(ContextCompat.getColor(this,   R.color.stxnext_cardview_white));
+            hoursWorked.setBackgroundColor(ContextCompat.getColor(this, R.color.stxnext_cardview_white));
             hoursWorked.setPadding(3, 3, 3, 3);
             tableRowDays.addView(hoursWorked);
         }
@@ -229,11 +223,12 @@ public class TimeReportActivity extends AppCompatActivity {
 
     /**
      * Recalculates day of first week as to monday is 0, sunday is 6.
+     *
      * @param dayOfFirstWeek
      * @return
      */
     private int recalculateDayOfFirstWeek(int dayOfFirstWeek) {
-        dayOfFirstWeek -=2;
+        dayOfFirstWeek -= 2;
         if (dayOfFirstWeek == -1) {
             dayOfFirstWeek = 6;
         }
@@ -296,12 +291,13 @@ public class TimeReportActivity extends AppCompatActivity {
                 card.setContentPadding(30, 30, 30, 40);
                 card.setCardElevation(6.0f);
                 card.setRadius(20.0f);
+                card.setCardBackgroundColor(Color.WHITE);
 
                 LinearLayout.LayoutParams outLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
                 int bottomMarg = i == timeReportDayViews.size() - 1 ? 20 : 0;
                 int sideMarg = ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE)
-                    ? 16 : 3;
+                        ? 16 : 3;
 
                 outLP.setMargins(sideMarg, 20, sideMarg, bottomMarg);
                 card.setLayoutParams(outLP);

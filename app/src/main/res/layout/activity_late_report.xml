@@ -72,7 +72,8 @@
                         android:layout_marginBottom="3dp"
                         android:visibility="invisible"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp">
+                        android:layout_marginRight="10dp"
+                        style="@style/CardView.Light">
 
                         <!-- Empty layout to prevent autofocus -->
                         <LinearLayout

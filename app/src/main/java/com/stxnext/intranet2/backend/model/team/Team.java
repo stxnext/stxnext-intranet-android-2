@@ -1,10 +1,12 @@
 package com.stxnext.intranet2.backend.model.team;
 
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.stxnext.intranet2.adapter.json.TeamAdapter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,6 +20,7 @@ public class Team {
     @DatabaseField(id = true)
     private long id;
     @DatabaseField(dataType = DataType.SERIALIZABLE)
+    @JsonAdapter(TeamAdapter.class)
     private long[] users;
     @DatabaseField
     @SerializedName("has_avatar")
