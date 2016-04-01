@@ -43,7 +43,8 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        card_view:cardCornerRadius="4dp">
+                        card_view:cardCornerRadius="4dp"
+                        style="@style/CardView.Light">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -223,7 +224,8 @@
                             android:layout_marginRight="22dp"
                             android:layout_marginTop="18dp"
                             android:layout_weight="1"
-                            card_view:cardCornerRadius="4dp">
+                            card_view:cardCornerRadius="4dp"
+                            style="@style/CardView.Light">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -270,7 +272,8 @@
                         android:layout_marginBottom="6dp"
                         android:layout_marginLeft="22dp"
                         android:layout_marginRight="22dp"
-                        card_view:cardCornerRadius="4dp">
+                        card_view:cardCornerRadius="4dp"
+                        style="@style/CardView.Light">
 
                         <LinearLayout
                             android:id="@+id/work_from_home_container"
@@ -312,7 +315,8 @@
                         android:layout_marginRight="22dp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        card_view:cardCornerRadius="4dp">
+                        card_view:cardCornerRadius="4dp"
+                        style="@style/CardView.Light">
 
                         <EditText
                             android:id="@+id/explanation_edit_text"

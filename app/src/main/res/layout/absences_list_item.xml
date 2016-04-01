@@ -11,7 +11,8 @@
     android:layout_marginTop="6dp"
     android:layout_marginBottom="6dp"
     card_view:cardElevation="4dp"
-    card_view:cardCornerRadius="4dp">
+    card_view:cardCornerRadius="4dp"
+    style="@style/CardView.Light">
 
     <LinearLayout
         android:id="@+id/item_container"

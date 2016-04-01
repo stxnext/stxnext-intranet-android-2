@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,7 +25,6 @@ import com.stxnext.intranet2.model.AbsencesTypes;
 
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 public class AbsencesListFragment extends Fragment implements EmployeesApiCallback, AbsencesListAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
