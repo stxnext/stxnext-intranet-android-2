@@ -11,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.StxActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -88,6 +87,8 @@ public class MyProfileActivity extends CommonProfileActivity
 
         configureDrawer();
         prepareFloatingButton();
+
+        onProfilePictureClick();
 
         if (isLogged()) {
             loadProfile();

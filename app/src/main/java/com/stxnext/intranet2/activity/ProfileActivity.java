@@ -62,6 +62,9 @@ public class ProfileActivity extends CommonProfileActivity implements UserApiCal
             UserApi userApi = new UserApiImpl(this, this);
             userApi.requestForUser(userId);
         }
+
+        onProfilePictureClick();
+
     }
 
     @Override
