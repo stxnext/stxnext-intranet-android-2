@@ -1,11 +1,14 @@
 package com.stxnext.intranet2.activity;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -19,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jakewharton.rxbinding.view.RxView;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.callback.UserApiCallback;
 import com.stxnext.intranet2.backend.model.impl.User;
@@ -34,8 +38,11 @@ import org.androidannotations.api.BackgroundExecutor;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import retrofit.RestAdapter;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 
 /**
@@ -108,7 +115,7 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     public void fillWorkedHours(final User user) {
         workedHoursCardViewContainer = (CardView) findViewById(R.id.worked_hours_container);
         workedHoursTodayFromInnerContainer = (LinearLayout) findViewById(R.id.worked_hours_today_from_inner_ll);
-        workedHoursRefreshHoursCardIv =  (ImageView) findViewById(R.id.worked_hours_refresh_hours_card_iv);
+        workedHoursRefreshHoursCardIv = (ImageView) findViewById(R.id.worked_hours_refresh_hours_card_iv);
 
         todayFromTextView = (TextView) findViewById(R.id.worked_hours_today_from);
         timeToAddTextView = (TextView) findViewById(R.id.worked_hours_time_to_add);
@@ -130,7 +137,11 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
         downloadTodayHoursBckg(user);
 
         workedHoursRefreshHoursCardIv.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) { downloadTodayHoursBckg(user); rotateRefreshImageView(); }
+            @Override
+            public void onClick(View v) {
+                downloadTodayHoursBckg(user);
+                rotateRefreshImageView();
+            }
         });
     }
 
@@ -146,16 +157,16 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
 
     private void downloadTodayHoursBckg(final User user) {
         BackgroundExecutor.execute(new BackgroundExecutor.Task("", 0, "") {
-               @Override
-               public void execute() {
-                   try {
-                       if (user != null)
-                            downloadTodayHours(user);
-                   } catch (Throwable e) {
-                       Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
-                   }
-               }
-           }
+                                       @Override
+                                       public void execute() {
+                                           try {
+                                               if (user != null)
+                                                   downloadTodayHours(user);
+                                           } catch (Throwable e) {
+                                               Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
+                                           }
+                                       }
+                                   }
         );
     }
 
@@ -200,7 +211,7 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
 
         todayOverhoursTextView.setText(df.format(workedHours.getToday().getDiff()));
         if (workedHours.getToday().getDiff() < 0) {
-            todayOverhoursTextView.setTextColor(ContextCompat.getColor(getApplicationContext() ,android.R.color.holo_red_light));
+            todayOverhoursTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_red_light));
         }
         monthOverhoursTextView.setText(df.format(workedHours.getMonth().getDiff()));
         if (workedHours.getMonth().getDiff() < 0) {
@@ -222,22 +233,31 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
         }
     }
 
-    public void onProfilePictureClick(View v) {
 
-        if (currentUser != null) {
-            Intent intent = new Intent(this, PicturePreviewActivity.class);
-            intent.putExtra("pictureUrl", currentUser.getPhoto());
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                startActivity(intent,
-                        ActivityOptions.makeSceneTransitionAnimation(this, profileImageView, "profileImageView").toBundle());
+    public void onProfilePictureClick() {
+        final View image = findViewById(R.id.scroll_view_profile_image_view_mapper);
+        RxView.clicks(image).throttleFirst(2, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        if (currentUser != null) {
+                            Intent intent = new Intent(CommonProfileActivity.this, PicturePreviewActivity.class);
+                            intent.putExtra("pictureUrl", currentUser.getPhoto());
+                            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                ActivityCompat.startActivity(CommonProfileActivity.this, intent,
+                                        ActivityOptionsCompat.makeSceneTransitionAnimation(CommonProfileActivity.this, profileImageView, "profileImageView").toBundle());
 
-            } else {
-                profileImageView.setVisibility(View.INVISIBLE);
-                startActivity(intent);
-            }
+                            } else {
+                                profileImageView.setVisibility(View.INVISIBLE);
+                                startActivity(intent);
+                            }
 
-        } else
-            Toast.makeText(CommonProfileActivity.this, "User not loaded", Toast.LENGTH_SHORT).show();
+                        } else
+                            Toast.makeText(CommonProfileActivity.this, "User not loaded", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 
     @Override
@@ -248,12 +268,24 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
             profileImageView.setVisibility(View.VISIBLE);
     }
 
-    @Override public void onUserReceived(User user) {
+    @Override
+    public void onUserReceived(User user) {
         this.currentUser = user;
     }
 
-    @Override public void onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request) {}
-    @Override public void onOutOfOfficeResponse(boolean entry) {}
-    @Override public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {}
-    @Override public void onRequestError() {}
+    @Override
+    public void onAbsenceResponse(boolean hours, boolean calendarEntry, boolean request) {
+    }
+
+    @Override
+    public void onOutOfOfficeResponse(boolean entry) {
+    }
+
+    @Override
+    public void onAbsenceDaysLeftReceived(int mandated, int days, int absenceDaysLeft) {
+    }
+
+    @Override
+    public void onRequestError() {
+    }
 }
