@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="profile_image_height">220dp</dimen>
-    <dimen name="team_image_height">140dp</dimen>
+    <dimen name="team_image_height">190dp</dimen>
     <dimen name="notif_caller_profile_pict_size">50dp</dimen>
     <dimen name="profile_photo_size">114dp</dimen>
     <dimen name="team_photo_size">80dp</dimen>
