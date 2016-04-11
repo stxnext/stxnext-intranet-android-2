@@ -41,7 +41,10 @@ import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
 
+import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 /**
@@ -56,7 +59,6 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     protected boolean superHeroModeEnabled;
     private User currentUser;
 
-    private CardView workedHoursCardViewContainer;
     private LinearLayout workedHoursTodayFromInnerContainer;
     private TextView todayFromTextView;
     protected TextView timeToAddTextView;
@@ -72,10 +74,6 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
 
     protected TextView teamsTextView;
     protected TextView teamLabel;
-
-    private Handler uiHandler = new Handler(Looper.getMainLooper());
-    private RestAdapter restAdapter;
-    private WorkedHoursService workedHoursService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +112,6 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     }
 
     public void fillWorkedHours(final User user) {
-        workedHoursCardViewContainer = (CardView) findViewById(R.id.worked_hours_container);
         workedHoursTodayFromInnerContainer = (LinearLayout) findViewById(R.id.worked_hours_today_from_inner_ll);
         workedHoursRefreshHoursCardIv =  (ImageView) findViewById(R.id.worked_hours_refresh_hours_card_iv);
 
@@ -133,8 +130,6 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
         workedHoursTodayFromInnerContainer.setScaleX(0.6f);
         workedHoursTodayFromInnerContainer.setScaleY(0.6f);
 
-        restAdapter = IntranetRestAdapter.build();
-        workedHoursService = restAdapter.create(WorkedHoursService.class);
         downloadTodayHoursBckg(user);
 
         workedHoursRefreshHoursCardIv.setOnClickListener(new View.OnClickListener() {
@@ -153,35 +148,19 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     }
 
     private void downloadTodayHoursBckg(final User user) {
-        BackgroundExecutor.execute(new BackgroundExecutor.Task("", 0, "") {
-               @Override
-               public void execute() {
-                   try {
-                       if (user != null)
-                            downloadTodayHours(user);
-                   } catch (Throwable e) {
-                       Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
-                   }
-               }
-           }
-        );
-    }
+        final WorkedHoursService workedHoursService = IntranetRestAdapter.build()
+                .create(WorkedHoursService.class);
+        workedHoursService.getUserWorkedHours(Integer.parseInt(user.getId()), new Callback<WorkedHours>() {
+            @Override
+            public void success(WorkedHours workedHours, Response response) {
+                setTodayHoursValues(workedHours);
+            }
 
-    private void downloadTodayHours(User user) {
-        if (user != null && user.getId() != null) {
-            try {
-                final WorkedHours workedHours = workedHoursService.getUserWorkedHours(Integer.parseInt(user.getId()));
-                uiHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        setTodayHoursValues(workedHours);
-                    }
-                });
-            } catch (Exception exc) {
-                //There is no session with the server
+            @Override
+            public void failure(RetrofitError error) {
                 Log.w(CommonProfileActivity.class.getName(), "Tried to download data - NO SESSION (cookies)");
             }
-        }
+        });
     }
 
     private void checkPermisiion() {
