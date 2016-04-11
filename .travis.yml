@@ -38,6 +38,9 @@ script:
   #- echo "y" | android update sdk --no-ui --all --filter "build-tools-23.0.3"
   - ./gradlew assembleHtmlBackendReleasePubKey
 
+notifications:
+  email: false
+
 # Emulator Management: Create, Start and Wait
 #before_script:
 #  - android list targets
