@@ -8,6 +8,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -119,6 +120,9 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
 
     /*This will handle the entire animation*/
     public void fadeInHandler(final WindowManager.LayoutParams params, final long startTime){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(context)) {
+            return;
+        }
         int animationDurationMillis = 750;
         long timeNow = System.currentTimeMillis();
         float alpha = (timeNow - startTime)*1.0f/animationDurationMillis;

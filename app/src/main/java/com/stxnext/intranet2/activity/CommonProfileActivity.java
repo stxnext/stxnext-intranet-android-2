@@ -1,11 +1,17 @@
 package com.stxnext.intranet2.activity;
 
+import android.Manifest;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -43,6 +49,8 @@ import retrofit.RestAdapter;
  */
 
 public abstract class CommonProfileActivity extends AppCompatActivity implements UserApiCallback {
+
+    private static final int PHONE_STATE_REQUEST_KEY = 3;
 
     protected ImageView profileImageView;
     protected boolean superHeroModeEnabled;
@@ -176,6 +184,32 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
         }
     }
 
+    private void checkPermisiion() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, PHONE_STATE_REQUEST_KEY);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PHONE_STATE_REQUEST_KEY: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (Settings.canDrawOverlays(this)) {
+                            Toast.makeText(CommonProfileActivity.this, "Wszystko OK", Toast.LENGTH_SHORT).show();
+                        } else {
+                            startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private void setTodayHoursValues(WorkedHours workedHours) {
         DecimalFormat df = new DecimalFormat("0.00");
 
@@ -243,6 +277,7 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        checkPermisiion();
 
         if (profileImageView != null && profileImageView.getVisibility() == View.INVISIBLE)
             profileImageView.setVisibility(View.VISIBLE);
