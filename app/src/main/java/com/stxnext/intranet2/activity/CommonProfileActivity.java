@@ -169,7 +169,7 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, PHONE_STATE_REQUEST_KEY);
             }
-        } else if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE) && !canDrawOverlays(this)) {
+        } else if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE) && !canDrawOverlays(this) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             showDrawOverlaysInfo();
         } else {
             drawOverlaysInfo();
