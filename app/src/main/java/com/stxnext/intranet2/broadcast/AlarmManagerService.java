@@ -12,7 +12,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.stxnext.intranet2.IntranetApp;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.activity.MyProfileActivity;
 import com.stxnext.intranet2.backend.model.workedHour.WorkedHours;
@@ -23,7 +22,6 @@ import com.stxnext.intranet2.utils.Session;
 import java.util.Calendar;
 
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
