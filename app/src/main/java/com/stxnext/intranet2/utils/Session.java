@@ -30,6 +30,7 @@ public class Session {
     private static final String SUPERHERO_MODE_PREFERENCE = "com.stxnext.intranet2";
     private static final String TIME_REPORT_NOTIFICATION_PREFERENCE = "time_report_notification";
     private static final String TIME_REPORT_NOTIFICATION_HOUR_PREFERENCE = "time_report_notification_hour";
+    private static final String CAN_DRAWS_OVERLAYERS_SHOWED = "draws_over_showed";
     private static final String CODE_PREFERENCE = "code";
     private static final String USER_ID_PREFERENCE = "user_id";
 
@@ -126,6 +127,14 @@ public class Session {
 
     public boolean isSuperHeroModeEnabled() {
         return preferences.getBoolean(SUPERHERO_MODE_PREFERENCE, false);
+    }
+
+    public void setOverlayersShowed(boolean showed){
+        preferences.edit().putBoolean(CAN_DRAWS_OVERLAYERS_SHOWED, showed).apply();
+    }
+
+    public boolean isOverlayersShowed(){
+        return preferences.getBoolean(CAN_DRAWS_OVERLAYERS_SHOWED, false);
     }
 
     public void setTimeReportNotification(boolean enabled) {

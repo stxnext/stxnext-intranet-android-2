@@ -2,6 +2,7 @@
 <com.stxnext.intranet2.view.ProfileView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:round="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
@@ -111,8 +112,9 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="18dp"
                     android:layout_marginRight="18dp"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="22dp"
                     card_view:cardCornerRadius="4dp"
+                    tools:visibility="visible"
                     style="@style/CardView.Light" >
 
                         <LinearLayout
@@ -546,7 +548,9 @@
     <FrameLayout
         android:id="@+id/floating_menu_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:visibility="gone"
+        />
 
     <FrameLayout
         android:id="@+id/floating_button"
