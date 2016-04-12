@@ -412,7 +412,9 @@ public class MyProfileActivity extends CommonProfileActivity
     @Override
     protected void onResume() {
         super.onResume();
-        checkPermisiion();
+        if(Session.getInstance(this).isLogged()) {
+            checkPermisiion();
+        }
     }
 
     private void checkPermisiion() {
