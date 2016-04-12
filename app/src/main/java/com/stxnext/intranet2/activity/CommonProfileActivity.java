@@ -1,28 +1,18 @@
 package com.stxnext.intranet2.activity;
 
-import android.Manifest;
 import android.app.ActivityOptions;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +41,6 @@ import retrofit.client.Response;
 
 public abstract class CommonProfileActivity extends AppCompatActivity implements UserApiCallback {
 
-    private static final int PHONE_STATE_REQUEST_KEY = 3;
 
     protected ImageView profileImageView;
     protected boolean superHeroModeEnabled;
@@ -69,7 +58,6 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     private TextView monthOverhoursTextView;
     private TextView quarterOverhoursTextView;
     private ImageView workedHoursRefreshHoursCardIv;
-    private ScrollView scrollView;
 
     protected TextView teamsTextView;
     protected TextView teamLabel;
@@ -162,96 +150,6 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
         });
     }
 
-    private void checkPermisiion() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE)) {
-                showInformationAboutPerminsion();
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, PHONE_STATE_REQUEST_KEY);
-            }
-        } else if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE) && !canDrawOverlays(this) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            showDrawOverlaysInfo();
-        } else {
-            drawOverlaysInfo();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case PHONE_STATE_REQUEST_KEY: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    showDrawOverlaysInfo();
-                }
-            }
-        }
-    }
-
-    private void showDrawOverlaysInfo() {
-        if (scrollView != null && !canDrawOverlays(this)) {
-            final Snackbar snackbar = Snackbar.make(scrollView, "Skonfiguruj wyświetlanie okna aby zobaczyć powiadomienia o dzwoniącym", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Pokaż", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getApplicationContext().getPackageName())));
-                        }
-                    });
-            snackbar.show();
-            scrollView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    Session.getInstance(CommonProfileActivity.this).setOverlayersShowed(false);
-                    snackbar.dismiss();
-                    return false;
-                }
-            });
-        }
-    }
-
-    private void showInformationAboutPerminsion() {
-        if (scrollView != null) {
-            final Snackbar snackbar = Snackbar.make(scrollView, "Upawnienie jest wymagane aby wyświetlać powiadomienia", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Pokaż", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ActivityCompat.requestPermissions(CommonProfileActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, PHONE_STATE_REQUEST_KEY);
-                        }
-                    });
-            snackbar.show();
-            scrollView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    Session.getInstance(CommonProfileActivity.this).setOverlayersShowed(false);
-                    snackbar.dismiss();
-                    return false;
-                }
-            });
-        }
-    }
-
-    private boolean canDrawOverlays(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (Settings.canDrawOverlays(context)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void drawOverlaysInfo() {
-        if (scrollView != null && !Session.getInstance(this).isOverlayersShowed()) {
-            final Snackbar snackbar = Snackbar.make(scrollView, "Teraz będziesz wyświetlać powadomienia jak ktoś zadzwoni", Snackbar.LENGTH_INDEFINITE);
-            snackbar.show();
-            scrollView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    Session.getInstance(CommonProfileActivity.this).setOverlayersShowed(true);
-                    snackbar.dismiss();
-                    return false;
-                }
-            });
-        }
-    }
 
     private void setTodayHoursValues(WorkedHours workedHours) {
         DecimalFormat df = new DecimalFormat("0.00");
@@ -290,7 +188,6 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     }
 
     protected void initializeProfileImageView() {
-        scrollView = (ScrollView) findViewById(R.id.scroll_view);
         superHeroModeEnabled = Session.getInstance(this).isSuperHeroModeEnabled();
         if (superHeroModeEnabled) {
             findViewById(R.id.standard_profile_header_container).setVisibility(View.GONE);
@@ -321,7 +218,6 @@ public abstract class CommonProfileActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        checkPermisiion();
 
         if (profileImageView != null && profileImageView.getVisibility() == View.INVISIBLE)
             profileImageView.setVisibility(View.VISIBLE);
