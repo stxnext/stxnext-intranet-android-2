@@ -454,7 +454,7 @@ public class MyProfileActivity extends CommonProfileActivity
             scrollView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    Session.getInstance(MyProfileActivity.this).setOverlayersShowed(false);
+                    Session.getInstance(MyProfileActivity.this).setOverlaysInfoShowed(false);
                     snackbar.dismiss();
                     return false;
                 }
@@ -475,7 +475,7 @@ public class MyProfileActivity extends CommonProfileActivity
             scrollView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    Session.getInstance(MyProfileActivity.this).setOverlayersShowed(false);
+                    Session.getInstance(MyProfileActivity.this).setOverlaysInfoShowed(false);
                     snackbar.dismiss();
                     return false;
                 }
@@ -493,7 +493,7 @@ public class MyProfileActivity extends CommonProfileActivity
     }
 
     private void drawOverlaysCheckInfo() {
-        if (scrollView != null && !Session.getInstance(this).isOverlayersShowed()) {
+        if (scrollView != null && !Session.getInstance(this).isOverlaysInfoShowed()) {
             final Snackbar snackbar = Snackbar.make(scrollView, R.string.draw_over_check_info, Snackbar.LENGTH_INDEFINITE);
             snackbar.setAction(R.string.close, new View.OnClickListener() {
                 @Override
@@ -504,7 +504,7 @@ public class MyProfileActivity extends CommonProfileActivity
             scrollView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    Session.getInstance(MyProfileActivity.this).setOverlayersShowed(true);
+                    Session.getInstance(MyProfileActivity.this).setOverlaysInfoShowed(true);
                     snackbar.dismiss();
                     return false;
                 }
