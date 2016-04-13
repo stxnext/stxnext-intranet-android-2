@@ -52,4 +52,3 @@ public class IntranetApp extends Application {
         return mContext;
     }
 }
-;

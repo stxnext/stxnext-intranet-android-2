@@ -20,7 +20,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.StxActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -427,7 +426,7 @@ public class MyProfileActivity extends CommonProfileActivity
         } else if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE) && !canDrawOverlays(this) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             showDrawOverlaysInfo();
         } else {
-            drawOverlaysInfo();
+            drawOverlaysCheckInfo();
         }
     }
 
@@ -442,13 +441,13 @@ public class MyProfileActivity extends CommonProfileActivity
         }
     }
 
-    private void showDrawOverlaysInfo() {
-        if (scrollView != null && !canDrawOverlays(this)) {
-            final Snackbar snackbar = Snackbar.make(scrollView, "Skonfiguruj wyświetlanie okna aby zobaczyć powiadomienia o dzwoniącym", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Pokaż", new View.OnClickListener() {
+    private void showInformationAboutPerminsion() {
+        if (scrollView != null) {
+            final Snackbar snackbar = Snackbar.make(scrollView, R.string.prermission_info, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.show, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getApplicationContext().getPackageName())));
+                            ActivityCompat.requestPermissions(MyProfileActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, PHONE_STATE_REQUEST_KEY);
                         }
                     });
             snackbar.show();
@@ -463,13 +462,13 @@ public class MyProfileActivity extends CommonProfileActivity
         }
     }
 
-    private void showInformationAboutPerminsion() {
-        if (scrollView != null) {
-            final Snackbar snackbar = Snackbar.make(scrollView, "Upawnienie jest wymagane aby wyświetlać powiadomienia", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Pokaż", new View.OnClickListener() {
+    private void showDrawOverlaysInfo() {
+        if (scrollView != null && !canDrawOverlays(this)) {
+            final Snackbar snackbar = Snackbar.make(scrollView, R.string.draw_over_info, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.show, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ActivityCompat.requestPermissions(MyProfileActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, PHONE_STATE_REQUEST_KEY);
+                            startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getApplicationContext().getPackageName())));
                         }
                     });
             snackbar.show();
@@ -493,9 +492,9 @@ public class MyProfileActivity extends CommonProfileActivity
         return false;
     }
 
-    private void drawOverlaysInfo() {
+    private void drawOverlaysCheckInfo() {
         if (scrollView != null && !Session.getInstance(this).isOverlayersShowed()) {
-            final Snackbar snackbar = Snackbar.make(scrollView, "Teraz będziesz wyświetlać powadomienia jak ktoś zadzwoni", Snackbar.LENGTH_INDEFINITE);
+            final Snackbar snackbar = Snackbar.make(scrollView, R.string.draw_over_check_info, Snackbar.LENGTH_INDEFINITE);
             snackbar.show();
             scrollView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
