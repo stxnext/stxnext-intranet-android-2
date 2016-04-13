@@ -31,6 +31,7 @@ public class Session {
     private static final String TIME_REPORT_NOTIFICATION_PREFERENCE = "time_report_notification";
     private static final String TIME_REPORT_NOTIFICATION_HOUR_PREFERENCE = "time_report_notification_hour";
     private static final String CAN_DRAWS_OVERLAYERS_SHOWED = "draws_over_showed";
+    private static final String CALL_NOTIFCATION_PREFERENCE = "call_notification";
     private static final String CODE_PREFERENCE = "code";
     private static final String USER_ID_PREFERENCE = "user_id";
 
@@ -135,6 +136,14 @@ public class Session {
 
     public boolean isOverlayersShowed(){
         return preferences.getBoolean(CAN_DRAWS_OVERLAYERS_SHOWED, false);
+    }
+
+    public boolean isCallNotificationActive(){
+        return preferences.getBoolean(CALL_NOTIFCATION_PREFERENCE, true);
+    }
+
+    public void setCallNotificationActive(boolean active){
+        preferences.edit().putBoolean(CALL_NOTIFCATION_PREFERENCE, active).apply();
     }
 
     public void setTimeReportNotification(boolean enabled) {

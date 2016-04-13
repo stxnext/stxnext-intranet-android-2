@@ -31,6 +31,8 @@ import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.utils.DBManager;
+import com.stxnext.intranet2.utils.Session;
+
 import java.util.List;
 
 /**
@@ -50,7 +52,9 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
 
     @Override
     public void onCallStateChanged(int state, String incomingNumber) {
-
+        if (!Session.getInstance(context).isCallNotificationActive()){
+            return;
+        }
         switch(state){
             case TelephonyManager.CALL_STATE_RINGING:
 
