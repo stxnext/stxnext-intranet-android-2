@@ -3,7 +3,6 @@ package com.stxnext.intranet2;
 import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.pm.ApplicationInfo;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -27,11 +26,8 @@ public class IntranetApp extends Application {
                 .setPrefsName(getPackageName())
                 .setUseDefaultSharedPreference(true)
                 .build();
+        STXStetho.init(this);
 
-        boolean isDebuggable =  ( 0 != ( getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
-        if (BuildConfig.DEBUG && isDebuggable) {
-            STXStetho.init(this);
-        }
     }
 
     public static Context getContext() {
