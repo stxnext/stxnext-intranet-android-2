@@ -495,7 +495,12 @@ public class MyProfileActivity extends CommonProfileActivity
     private void drawOverlaysCheckInfo() {
         if (scrollView != null && !Session.getInstance(this).isOverlayersShowed()) {
             final Snackbar snackbar = Snackbar.make(scrollView, R.string.draw_over_check_info, Snackbar.LENGTH_INDEFINITE);
-            snackbar.show();
+            snackbar.setAction(R.string.close, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    snackbar.dismiss();
+                }
+            }).show();
             scrollView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {

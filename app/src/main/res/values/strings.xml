@@ -98,4 +98,5 @@
     <string name="draw_over_info">Add additional permission to show information about the caller</string>
     <string name="draw_over_check_info">You will now see notifications when someone calls</string>
     <string name="call_notifications_preference">Call notifications</string>
+    <string name="close">Close</string>
 </resources>
