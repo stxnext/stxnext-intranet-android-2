@@ -103,6 +103,16 @@ public class SettingsActivity extends AppCompatActivity implements TimePickerDia
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+
+        SwitchCompat callNotificationOption = (SwitchCompat) findViewById(R.id.call_notification_switch);
+        callNotificationOption.setChecked(session.isCallNotificationActive());
+        callNotificationOption.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                session.setCallNotificationActive(isChecked);
+                setResult(RESULT_OK);
+            }
+        });
     }
 
     private void setTimeReportNotificationHour() {

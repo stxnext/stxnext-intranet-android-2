@@ -97,4 +97,5 @@
     <string name="prermission_info">Uprawnienie jest wymagane aby wyświetlać powiadomienia</string>
     <string name="draw_over_info">Skonfiguruj dodatkowe uprawnienia aby wyświetlać powiadomienia o dzwoniącym</string>
     <string name="draw_over_check_info">Teraz będą wyświetlane powiadomienia gdy ktoś zadzwoni</string>
+    <string name="call_notifications_preference">Powiadomienia o dzwoniącym</string>
 </resources>
