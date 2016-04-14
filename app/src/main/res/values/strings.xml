@@ -93,4 +93,10 @@
     <string name="add_hours_validation_error_time_value">Invalid time value! format: 0.00</string>
     <string name="add_hours_validation_error_ticket_id">Invalid ticket id!</string>
     <string name="add_hours_validation_error_description">Invalid description!</string>
+    <string name="show">Show</string>
+    <string name="prermission_info">This permission is required to show notifications</string>
+    <string name="draw_over_info">Add additional permission to show information about the caller</string>
+    <string name="draw_over_check_info">You will now see notifications when someone calls</string>
+    <string name="call_notifications_preference">Call notifications</string>
+    <string name="close">Close</string>
 </resources>
