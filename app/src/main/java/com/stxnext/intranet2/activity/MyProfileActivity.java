@@ -101,6 +101,8 @@ public class MyProfileActivity extends CommonProfileActivity
         configureDrawer();
         prepareFloatingButton();
 
+        onProfilePictureClick();
+
         if (isLogged()) {
             loadProfile();
         } else {
