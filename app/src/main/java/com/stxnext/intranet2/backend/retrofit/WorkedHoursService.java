@@ -15,7 +15,7 @@ import retrofit.http.Query;
 public interface WorkedHoursService {
 
     @GET("/api/worked_hours")
-    WorkedHours getUserWorkedHours(@Query("user_id") int user);
+    void getUserWorkedHours(@Query("user_id") int user, Callback<WorkedHours> callback);
 
     @GET("/api/monthly_worked_hours")
     void getTimeReport(@Query("user_id") int userId, @Query("month") String month, Callback<List<TimeReportDay>> callback);
