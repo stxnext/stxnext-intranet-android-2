@@ -8,6 +8,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -30,6 +31,8 @@ import com.squareup.picasso.Picasso;
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.backend.model.impl.User;
 import com.stxnext.intranet2.utils.DBManager;
+import com.stxnext.intranet2.utils.Session;
+
 import java.util.List;
 
 /**
@@ -49,7 +52,9 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
 
     @Override
     public void onCallStateChanged(int state, String incomingNumber) {
-
+        if (!Session.getInstance(context).isCallNotificationActive()){
+            return;
+        }
         switch(state){
             case TelephonyManager.CALL_STATE_RINGING:
 
@@ -119,6 +124,9 @@ public class IncomingCallPhoneStateListener extends PhoneStateListener {
 
     /*This will handle the entire animation*/
     public void fadeInHandler(final WindowManager.LayoutParams params, final long startTime){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(context)) {
+            return;
+        }
         int animationDurationMillis = 750;
         long timeNow = System.currentTimeMillis();
         float alpha = (timeNow - startTime)*1.0f/animationDurationMillis;
