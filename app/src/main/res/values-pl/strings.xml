@@ -93,4 +93,10 @@
     <string name="add_hours_validation_error_time_value">Błędna wartość! format: 0.00</string>
     <string name="add_hours_validation_error_ticket_id">Błędny ticket id!</string>
     <string name="add_hours_validation_error_description">Błędny opis!</string>
+    <string name="show">Pokaż</string>
+    <string name="prermission_info">Uprawnienie jest wymagane aby wyświetlać powiadomienia</string>
+    <string name="draw_over_info">Skonfiguruj dodatkowe uprawnienia aby wyświetlać powiadomienia o dzwoniącym</string>
+    <string name="draw_over_check_info">Teraz będą wyświetlane powiadomienia gdy ktoś zadzwoni</string>
+    <string name="call_notifications_preference">Powiadomienia o dzwoniącym</string>
+    <string name="close">Zamknij</string>
 </resources>
