@@ -2,19 +2,20 @@
 <com.stxnext.intranet2.view.ProfileView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:round="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
     <FrameLayout
         android:id="@+id/superhero_profile_header_container"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/profile_image_height"
         android:background="@color/header_gray">
 
         <ImageView
             android:id="@+id/superhero_image_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/profile_image_height"
             android:paddingTop="90dp"
             android:scaleType="centerCrop"
@@ -42,12 +43,12 @@
 
     <FrameLayout
         android:id="@+id/standard_profile_header_container"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/profile_image_height"
         android:background="@color/header_gray">
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/profile_image_height"
             android:scaleType="fitEnd"
             android:src="@drawable/stx_logo_green_blur"/>
@@ -87,7 +88,6 @@
                     android:layout_width="@dimen/profile_photo_size"
                     android:layout_height="@dimen/profile_photo_size"
                     android:layout_gravity="center"
-                    android:onClick="onProfilePictureClick"
                     android:transitionName="profileImageView"
                     android:layout_marginTop="8dp"
                     android:background="@android:color/transparent"/>
@@ -111,8 +111,9 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="18dp"
                     android:layout_marginRight="18dp"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="22dp"
                     card_view:cardCornerRadius="4dp"
+                    tools:visibility="visible"
                     style="@style/CardView.Light" >
 
                         <LinearLayout
@@ -546,7 +547,9 @@
     <FrameLayout
         android:id="@+id/floating_menu_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:visibility="gone"
+        />
 
     <FrameLayout
         android:id="@+id/floating_button"
