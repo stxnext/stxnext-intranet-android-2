@@ -500,6 +500,7 @@ public class MyProfileActivity extends CommonProfileActivity
             snackbar.setAction(R.string.close, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Session.getInstance(MyProfileActivity.this).setOverlaysInfoShowed(true);
                     snackbar.dismiss();
                 }
             }).show();
