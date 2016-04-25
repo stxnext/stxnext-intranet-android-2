@@ -31,7 +31,7 @@ public class Team {
     @ForeignCollectionField
     private Collection<TeamProject> teamToProjectLinks;
     // Only for Gson, filled only when json is parsed
-    @SerializedName("projects")
+    @SerializedName("projects_details")
     private Collection<Project> projectsGson;
     @DatabaseField
     private String name;
@@ -101,7 +101,7 @@ public class Team {
     }
 
     public Collection<Project> getProjects() {
-        Collection<Project> projects = new ArrayList<Project>();
+        Collection<Project> projects = new ArrayList<>();
         for (TeamProject teamProject : teamToProjectLinks) {
             projects.add(teamProject.getProject());
         }
