@@ -7,7 +7,8 @@ public enum Office {
 
     POZNAN("ul. Morawskiego 12/5", "60-239", "Poznań", "+48 61 610 01 92", "+48 61 610 03 18", 52.3946831, 16.8940677),
     WROCLAW("ul. Aleksandra Hercena 3-5", "50-453", "Wrocław", "+48 71 707 11 13", "", 51.102992, 17.041462),
-    PILA("al. Piastów 3", "64-920", "Piła", "+48 67 342 32 16", "", 53.148584, 16.738079);
+    PILA("al. Piastów 3", "64-920", "Piła", "+48 67 342 32 16", "", 53.148584, 16.738079),
+    LODZ("ul. Targowa 35", "90-043", "Łódź", "+48 42 203 10 16", "", 51.7615984, 19.4724402);
 
     private final String street;
     private final String postcode;
