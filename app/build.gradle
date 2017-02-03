@@ -14,8 +14,8 @@ android {
         applicationId "com.stxnext.intranet2"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 26
-        versionName "2.4.5"
+        versionCode 27
+        versionName "2.4.6"
     }
 
     packagingOptions {
