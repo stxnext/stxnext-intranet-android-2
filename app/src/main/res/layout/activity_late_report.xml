@@ -94,7 +94,7 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:maxLines="5"
-                                android:text="@string/i_will_be_late"
+                                android:text="@string/i_will_be_later"
                                 android:textColorHint="@color/stxnext_green"
                                 android:hint="@string/lateness_reason"
                                 android:textStyle="bold"
