@@ -1,5 +1,7 @@
 package com.stxnext.intranet2.adapter.json;
 
+import android.util.Log;
+
 import com.google.common.primitives.Longs;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -14,6 +16,8 @@ import java.util.List;
  */
 public class TeamAdapter extends TypeAdapter<long[]> {
 
+    private static final String TAG = TeamAdapter.class.getName();
+
     @Override
     public void write(JsonWriter out, long[] value) throws IOException {
 
@@ -26,8 +30,13 @@ public class TeamAdapter extends TypeAdapter<long[]> {
         while (in.hasNext()) {
             in.beginObject();
             while (in.hasNext()) {
-                if ("id".equals(in.nextName())) {
-                    longs.add(in.nextLong());
+                if ("user_id".equals(in.nextName())) {
+                    try {
+                        longs.add(in.nextLong());
+                    } catch (IllegalStateException | NumberFormatException e) {
+                        Log.w(TAG, "user_id field received from json is NULL");
+                        in.skipValue();
+                    }
                 } else {
                     in.skipValue();
                 }

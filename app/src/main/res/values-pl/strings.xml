@@ -49,7 +49,7 @@
     <string name="validation_day_difference_warning">Nie możesz zgłosić nieobecności dla daty z przeszłości</string>
     <string name="validation_to_many_days">Nie masz tylu dostępnych dni urlopu!</string>
     <string name="validation_zero_days">Moment, najpierw wybierz poprawny zakres dat!</string>
-    <string name="i_will_be_late">Spóźnienie</string>
+    <string name="i_will_be_later">Będę później</string>
     <string name="give_lateness_reason">Podaj powód spóźnienia</string>
     <string name="lateness_reason">Powód spóźnienia: </string>
     <string name="saved">Zgłoszenie zostało wysłane</string>
