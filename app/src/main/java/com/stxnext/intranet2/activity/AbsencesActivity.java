@@ -83,22 +83,27 @@ public class AbsencesActivity extends AppCompatActivity implements
 
     @Override
     public void onPageSelected(int position) {
-        if (!pendingAnimation) {
-            AnimatorListenerAdapter animationListener = new AnimatorListenerAdapter() {
+        final int count = fragmentAdapter.getEmployeesCount(position);
+        if (pendingAnimation) {
+            countTextView.animate().cancel();
+            countTextView.setRotation(0);
+            pendingAnimation = false;
+        }
+        AnimatorListenerAdapter animationListener = new AnimatorListenerAdapter() {
 
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    pendingAnimation = true;
-                }
+            @Override
+            public void onAnimationStart(Animator animation) {
+                pendingAnimation = true;
+            }
 
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    pendingAnimation = false;
-                }
-            };
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                pendingAnimation = false;
+            }
+        };
 
-            final int count = fragmentAdapter.getEmployeesCount(position);
-            if (countTextView.getAlpha() == 0) {
+        if (count > 0) {
+            if (countTextView.getAlpha() < 1) {
                 countTextView.setScaleX(0.5f);
                 countTextView.setScaleY(0.5f);
                 countTextView.animate()
@@ -108,13 +113,6 @@ public class AbsencesActivity extends AppCompatActivity implements
                         .setDuration(250)
                         .setListener(animationListener)
                         .setInterpolator(new AccelerateDecelerateInterpolator());
-            } else if (count == 0) {
-                countTextView.animate()
-                        .alpha(0)
-                        .scaleX(0.5f)
-                        .scaleY(0.5f)
-                        .setDuration(250)
-                        .setInterpolator(new LinearOutSlowInInterpolator());
             } else {
                 countTextView.animate()
                         .rotationBy(720)
@@ -122,14 +120,21 @@ public class AbsencesActivity extends AppCompatActivity implements
                         .setInterpolator(new LinearOutSlowInInterpolator())
                         .setListener(animationListener);
             }
-
-            countTextView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    countTextView.setText(String.valueOf(count));
-                }
-            }, 150);
+        } else if (countTextView.getAlpha() != 0) {
+            countTextView.animate()
+                    .alpha(0)
+                    .scaleX(0.5f)
+                    .scaleY(0.5f)
+                    .setDuration(250)
+                    .setInterpolator(new LinearOutSlowInInterpolator());
         }
+
+        countTextView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                countTextView.setText(String.valueOf(count));
+            }
+        }, 150);
 
     }
 
