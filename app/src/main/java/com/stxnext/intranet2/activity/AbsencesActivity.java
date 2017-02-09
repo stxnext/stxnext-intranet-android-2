@@ -28,7 +28,7 @@ public class AbsencesActivity extends AppCompatActivity implements
     private AbsencesFragmentPagerAdapter fragmentAdapter;
     private TextView countTextView;
     private boolean pendingAnimation = false;
-
+    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,26 @@ public class AbsencesActivity extends AppCompatActivity implements
 
     @Override
     public void onPageSelected(int position) {
-        final int count = fragmentAdapter.getEmployeesCount(position);
+        count = fragmentAdapter.getEmployeesCount(position);
+        refreshCountView(count);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    @Override
+    public void onAbsencesDownloaded() {
+        final int position = viewPager.getCurrentItem();
+        final int newCount = fragmentAdapter.getEmployeesCount(position);
+        if (count == 0 || count != newCount) {
+            count = newCount;
+            refreshCountView(count);
+        }
+    }
+
+    private void refreshCountView(final int count) {
         if (pendingAnimation) {
             countTextView.animate().cancel();
             countTextView.setRotation(0);
@@ -135,17 +154,5 @@ public class AbsencesActivity extends AppCompatActivity implements
                 countTextView.setText(String.valueOf(count));
             }
         }, 150);
-
     }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
-
-    @Override
-    public void onAbsencesDownloaded() {
-        onPageSelected(viewPager.getCurrentItem());
-    }
-
 }
