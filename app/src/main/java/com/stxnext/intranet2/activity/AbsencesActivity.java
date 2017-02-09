@@ -28,7 +28,7 @@ public class AbsencesActivity extends AppCompatActivity implements
     private AbsencesFragmentPagerAdapter fragmentAdapter;
     private TextView countTextView;
     private boolean pendingAnimation = false;
-
+    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,54 +83,8 @@ public class AbsencesActivity extends AppCompatActivity implements
 
     @Override
     public void onPageSelected(int position) {
-        if (!pendingAnimation) {
-            AnimatorListenerAdapter animationListener = new AnimatorListenerAdapter() {
-
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    pendingAnimation = true;
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    pendingAnimation = false;
-                }
-            };
-
-            final int count = fragmentAdapter.getEmployeesCount(position);
-            if (countTextView.getAlpha() == 0) {
-                countTextView.setScaleX(0.5f);
-                countTextView.setScaleY(0.5f);
-                countTextView.animate()
-                        .scaleX(1f)
-                        .scaleY(1f)
-                        .alpha(1)
-                        .setDuration(250)
-                        .setListener(animationListener)
-                        .setInterpolator(new AccelerateDecelerateInterpolator());
-            } else if (count == 0) {
-                countTextView.animate()
-                        .alpha(0)
-                        .scaleX(0.5f)
-                        .scaleY(0.5f)
-                        .setDuration(250)
-                        .setInterpolator(new LinearOutSlowInInterpolator());
-            } else {
-                countTextView.animate()
-                        .rotationBy(720)
-                        .setDuration(400)
-                        .setInterpolator(new LinearOutSlowInInterpolator())
-                        .setListener(animationListener);
-            }
-
-            countTextView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    countTextView.setText(String.valueOf(count));
-                }
-            }, 150);
-        }
-
+        count = fragmentAdapter.getEmployeesCount(position);
+        refreshCountView(count);
     }
 
     @Override
@@ -140,7 +94,65 @@ public class AbsencesActivity extends AppCompatActivity implements
 
     @Override
     public void onAbsencesDownloaded() {
-        onPageSelected(viewPager.getCurrentItem());
+        final int position = viewPager.getCurrentItem();
+        final int newCount = fragmentAdapter.getEmployeesCount(position);
+        if (count == 0 || count != newCount) {
+            count = newCount;
+            refreshCountView(count);
+        }
     }
 
+    private void refreshCountView(final int count) {
+        if (pendingAnimation) {
+            countTextView.animate().cancel();
+            countTextView.setRotation(0);
+            pendingAnimation = false;
+        }
+        AnimatorListenerAdapter animationListener = new AnimatorListenerAdapter() {
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                pendingAnimation = true;
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                pendingAnimation = false;
+            }
+        };
+
+        if (count > 0) {
+            if (countTextView.getAlpha() < 1) {
+                countTextView.setScaleX(0.5f);
+                countTextView.setScaleY(0.5f);
+                countTextView.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .alpha(1)
+                        .setDuration(250)
+                        .setListener(animationListener)
+                        .setInterpolator(new AccelerateDecelerateInterpolator());
+            } else {
+                countTextView.animate()
+                        .rotationBy(720)
+                        .setDuration(400)
+                        .setInterpolator(new LinearOutSlowInInterpolator())
+                        .setListener(animationListener);
+            }
+        } else if (countTextView.getAlpha() != 0) {
+            countTextView.animate()
+                    .alpha(0)
+                    .scaleX(0.5f)
+                    .scaleY(0.5f)
+                    .setDuration(250)
+                    .setInterpolator(new LinearOutSlowInInterpolator());
+        }
+
+        countTextView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                countTextView.setText(String.valueOf(count));
+            }
+        }, 150);
+    }
 }

@@ -13,6 +13,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.stxnext.intranet2.R;
+import com.stxnext.intranet2.activity.MyProfileActivity;
 
 public class FloatingMenuFragment extends Fragment {
 
@@ -25,6 +26,8 @@ public class FloatingMenuFragment extends Fragment {
 
     private int contentTransition;
     private OnFloatingMenuItemClickListener mListener;
+    private boolean isOnSaveInstanceState = false;
+    private boolean fragmentPoppedBack = false;
 
     public static FloatingMenuFragment newInstance(int floatingButtonTransition) {
         FloatingMenuFragment fragment = new FloatingMenuFragment();
@@ -54,6 +57,12 @@ public class FloatingMenuFragment extends Fragment {
         if (getArguments() != null) {
             contentTransition = getArguments().getInt(VIEW_TRANSITION_ARG);
         }
+    }
+
+    @Override
+    public void onResume() {
+        isOnSaveInstanceState = false;
+        super.onResume();
     }
 
     @Override
@@ -140,12 +149,34 @@ public class FloatingMenuFragment extends Fragment {
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            if (getFragmentManager() != null) {
-                                getFragmentManager().popBackStackImmediate();
-                            }
+                            closeFloatingMenuFragment();
                         }
                     });
         }
+    }
+
+    public synchronized void closeFloatingMenuFragment() {
+        if (!fragmentPoppedBack && !isOnSaveInstanceState && isFloatingMenuPresent()) {
+            fragmentPoppedBack = true;
+            getFragmentManager().popBackStackImmediate();
+        }
+    }
+
+    private boolean isFloatingMenuPresent() {
+        return getFragmentManager() != null &&
+                getFragmentManager().findFragmentByTag(MyProfileActivity.FLOATING_MENU_TAG) != null;
+    }
+
+    @Override
+    public void onPause() {
+        closeFloatingMenuFragment();
+        super.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        isOnSaveInstanceState = true;
+        super.onSaveInstanceState(outState);
     }
 
     public interface OnFloatingMenuItemClickListener {

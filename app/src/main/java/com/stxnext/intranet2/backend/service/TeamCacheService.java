@@ -11,10 +11,14 @@ import com.stxnext.intranet2.backend.model.team.TeamProject;
 import com.stxnext.intranet2.utils.Config;
 import com.stxnext.intranet2.utils.DBManager;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -158,13 +162,27 @@ public class TeamCacheService {
                 @Override
                 public void onReceived(List<Team> teams) {
                     reloadTeamsData(teams);
+                    sortTeams(teams);
                     callback.onReceived(teams);
                 }
             });
         } else {
             List<Team> teams = DBManager.getInstance(context).getTeamRepository().getTeams();
+            sortTeams(teams);
             callback.onReceived(teams);
         }
+    }
+
+    private void sortTeams(List<Team> teams) {
+        Locale polishLocale = new Locale("pl_PL");
+        final Collator polishCollator = Collator.getInstance(polishLocale);
+        Comparator<Team> comparator = new Comparator<Team>() {
+            @Override
+            public int compare(Team team1, Team team2) {
+                return polishCollator.compare(team1.getName(), team2.getName());
+            }
+        };
+        Collections.sort(teams, comparator);
     }
 
     public void getTeam(final long teamId, final OnTeamReceivedCallback callback) {

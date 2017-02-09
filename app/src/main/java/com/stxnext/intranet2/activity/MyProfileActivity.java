@@ -62,12 +62,12 @@ import io.fabric.sdk.android.Fabric;
 public class MyProfileActivity extends CommonProfileActivity
         implements UserApiCallback, FloatingMenuFragment.OnFloatingMenuItemClickListener {
 
+    public static String FLOATING_MENU_TAG = "floating_menu";
+
     private static final int LOGIN_REQUEST = 1;
-
     private static final int SETTINGS_REQUEST = 1232;
-    private static final int PHONE_STATE_REQUEST_KEY = 3;
 
-    private static String FLOATING_MENU_TAG = "floating_menu";
+    private static final int PHONE_STATE_REQUEST_KEY = 3;
 
     private StxActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
