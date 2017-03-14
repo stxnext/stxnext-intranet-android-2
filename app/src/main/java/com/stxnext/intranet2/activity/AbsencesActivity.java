@@ -93,13 +93,18 @@ public class AbsencesActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onAbsencesDownloaded() {
+    public void onAbsencesDownloaded(AbsencesTypes type) {
         final int position = viewPager.getCurrentItem();
+        if (!isCurrentType(type, position)) return;
         final int newCount = fragmentAdapter.getEmployeesCount(position);
         if (count == 0 || count != newCount) {
             count = newCount;
             refreshCountView(count);
         }
+    }
+
+    private boolean isCurrentType(AbsencesTypes type, int position) {
+        return fragmentAdapter.getItemType(position) == type;
     }
 
     private void refreshCountView(final int count) {
