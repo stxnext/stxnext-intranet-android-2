@@ -59,6 +59,13 @@ public class NavigationTest {
     }
 
     @Test
+    public void clickOnAbsencesNavigationItem_ShowsAbsencesScreen() {
+        openDrawer();
+        onView(withText(R.string.absences)).perform(click());
+        onView(withId(R.id.toolbar)).check(matches(withChild(withText(R.string.absences))));
+    }
+
+    @Test
     public void clickOnEmployeesNavigationItem_ShowsEmployeesScreen() {
         openDrawer();
         onView(withText(R.string.employees_list)).perform(click());
