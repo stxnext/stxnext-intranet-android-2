@@ -22,6 +22,7 @@ import static android.support.test.espresso.contrib.DrawerActions.open;
 import static android.support.test.espresso.contrib.DrawerMatchers.isClosed;
 import static android.support.test.espresso.contrib.DrawerMatchers.isOpen;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -91,6 +92,56 @@ public class NavigationTest {
         openDrawer();
         onView(withText(R.string.about)).perform(click());
         onView(withId(R.id.toolbar)).check(matches(withChild(withText(R.string.about))));
+    }
+
+    @Test
+    public void clickOnFloatingButton_ShowsFloatingMenuFragment() {
+        onView(withId(R.id.floating_button)).perform(click());
+        onView(withId(R.id.floating_view_container)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void clickOnFloatingButtonThenLateOption_ShowsReportLateActivity() throws InterruptedException {
+        onView(withId(R.id.floating_button)).perform(click());
+        Thread.sleep(500); // It's not necessary if animations are set off in device's settings
+        onView(withId(R.id.floating_view_container)).check(matches(isDisplayed()));
+        onView(withId(R.id.floating_late_option)).perform(click());
+        // It's necessary even if animations are turned off in device's settings because
+        // there is a Handler().postDelayed() in MyPorofileActivity.onFloatingMenuItemClick
+        // which causes that espresso runs tests anyway. So IdlingResource should be needed for
+        // animations which is not a good idea for code's cleanliness
+        Thread.sleep(500);
+        onView(withId(R.id.toolbar)).check(matches(withChild(withText(R.string.late))));
+    }
+
+    @Test
+    public void clickOnFloatingButtonThenAddHoursOption_ShowsAddHoursActivity() throws InterruptedException {
+        onView(withId(R.id.floating_button)).perform(click());
+        Thread.sleep(500);
+        onView(withId(R.id.floating_view_container)).check(matches(isDisplayed()));
+        onView(withId(R.id.floating_add_hours)).perform(click());
+        Thread.sleep(500);
+        onView(withId(R.id.toolbar)).check(matches(withChild(withText(R.string.add_hours))));
+    }
+
+    @Test
+    public void clickOnFloatingButtonOutOfOfficeOption_ShowsOutOfOfficeActivity() throws InterruptedException {
+        onView(withId(R.id.floating_button)).perform(click());
+        Thread.sleep(500);
+        onView(withId(R.id.floating_view_container)).check(matches(isDisplayed()));
+        onView(withId(R.id.floating_out_of_office_option)).perform(click());
+        Thread.sleep(500);
+        onView(withId(R.id.toolbar)).check(matches(withChild(withText(R.string.report_out_office))));
+    }
+
+    @Test
+    public void clickOnFloatingAbsenceOption_ShowsAbsenceActivity() throws InterruptedException {
+        onView(withId(R.id.floating_button)).perform(click());
+        Thread.sleep(500);
+        onView(withId(R.id.floating_view_container)).check(matches(isDisplayed()));
+        onView(withId(R.id.floating_absence_option)).perform(click());
+        Thread.sleep(500);
+        onView(withId(R.id.toolbar)).check(matches(withChild(withText(R.string.submit_absence))));
     }
 
 }
