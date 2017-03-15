@@ -59,7 +59,7 @@ public class ProfileDisplayedTest {
     }
 
     @Test
-    public void applicationLoads_checkProfileLoaded() {
+    public void applicationLoads_checkProfileLoaded() throws InterruptedException {
         onView(withId(R.id.worked_hours_container)).check(matches(isDisplayed()));
         boolean isSuperHeroMode = Session.getInstance(mActivityRule.getActivity()).isSuperHeroModeEnabled();
         if (isSuperHeroMode) {
@@ -67,8 +67,9 @@ public class ProfileDisplayedTest {
         } else {
             onView(withId(R.id.profile_image_view_standard)).check(matches(allOf(isEnabled(), isDisplayed(), hasDrawable())));
         }
+        // scrollTo() requires animations to be turned off, sleep for situations with animations turned on
+        Thread.sleep(500);
         onView(withId(R.id.user_info_container)).perform(scrollTo()).check(matches(isDisplayed()));
-        onView(withId(R.id.first_name_text_view)).check(matches(isDisplayed()));
         onView(withId(R.id.first_name_text_view)).check(matches(withText(USER_NAME)));
         assertThat(mActivityRule.getActivity().getSupportActionBar().getTitle().toString(), is(USER_NAME));
     }
