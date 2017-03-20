@@ -119,6 +119,4 @@ public class AboutScreenIntentsTest {
                         + office.getLat() + ", " + office.getLon()))
         ));
     }
-
-
 }
