@@ -1,6 +1,7 @@
 package com.stxnext.intranet2.activity;
 
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
@@ -24,6 +25,7 @@ public class AboutActivity extends AppCompatActivity {
 
     private OfficeInfoPagerAdapter fragmentAdapter;
     private GoogleMap map;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class AboutActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         fragmentAdapter = new OfficeInfoPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(fragmentAdapter);
 
@@ -100,6 +102,16 @@ public class AboutActivity extends AppCompatActivity {
             LatLng cameraPosition = new LatLng(office.getLat() + 0.02, office.getLon());
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(cameraPosition, 12), 2000, null);
         }
+    }
+
+    @VisibleForTesting
+    public String getPageTitle() {
+        return fragmentAdapter.getPageTitle(viewPager.getCurrentItem()).toString();
+    }
+
+    @VisibleForTesting
+    public Office getOffice() {
+        return fragmentAdapter.getOffice(viewPager.getCurrentItem());
     }
 
 }

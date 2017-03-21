@@ -7,15 +7,16 @@ repositories {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion '25.0.0'
     useLibrary 'org.apache.http.legacy' //only for facebook-stetho 
 
     defaultConfig {
         applicationId "com.stxnext.intranet2"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 29
-        versionName "2.4.8"
+        versionCode 30
+        versionName "2.4.9"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     packagingOptions {
@@ -124,5 +125,23 @@ dependencies {
 
     compile('com.crashlytics.sdk.android:crashlytics:2.3.2@aar') {
         transitive = true;
+    }
+    compile 'com.android.support:support-annotations:24.2.0'
+    androidTestCompile 'com.android.support:support-annotations:24.2.0'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
+        exclude group: 'com.google.code.findbugs'
+    }
+    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+        exclude module: 'support-annotations'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'design'
+        exclude group: 'com.google.code.findbugs'
+    }
+    androidTestCompile ('com.android.support.test.espresso:espresso-intents:2.2.2') {
+        exclude group: 'com.google.code.findbugs'
     }
 }

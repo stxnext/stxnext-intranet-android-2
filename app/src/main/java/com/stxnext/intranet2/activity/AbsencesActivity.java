@@ -3,6 +3,7 @@ package com.stxnext.intranet2.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
@@ -54,6 +55,7 @@ public class AbsencesActivity extends AppCompatActivity implements
         viewPager.setAdapter(fragmentAdapter);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -92,14 +94,32 @@ public class AbsencesActivity extends AppCompatActivity implements
 
     }
 
-    @Override
-    public void onAbsencesDownloaded() {
+    @VisibleForTesting
+    public String getCurrentPageTitle() {
         final int position = viewPager.getCurrentItem();
+        return fragmentAdapter.getPageTitle(position).toString();
+    }
+
+    @VisibleForTesting
+    public int getCurrentElementsCount() {
+        final int position = viewPager.getCurrentItem();
+        return fragmentAdapter.getEmployeesCount(position);
+    }
+
+
+    @Override
+    public void onAbsencesDownloaded(AbsencesTypes type) {
+        final int position = viewPager.getCurrentItem();
+        if (!isCurrentType(type, position)) return;
         final int newCount = fragmentAdapter.getEmployeesCount(position);
         if (count == 0 || count != newCount) {
             count = newCount;
             refreshCountView(count);
         }
+    }
+
+    private boolean isCurrentType(AbsencesTypes type, int position) {
+        return fragmentAdapter.getItemType(position) == type;
     }
 
     private void refreshCountView(final int count) {

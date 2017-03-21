@@ -109,7 +109,7 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
                 public void run() {
                     AbsencesListAdapter absencesListAdapter = new AbsencesListAdapter(context, absenceEmployees, type, AbsencesListFragment.this);
                     recycleView.setAdapter(absencesListAdapter);
-                    callback.onAbsencesDownloaded();
+                    callback.onAbsencesDownloaded(type);
                     if (swipeRefreshView.isRefreshing()) {
                         swipeRefreshView.setRefreshing(false);
                     }
@@ -149,10 +149,14 @@ public class AbsencesListFragment extends Fragment implements EmployeesApiCallba
         }
     }
 
+    public AbsencesTypes getType() {
+        return type;
+    }
+
 
     public interface OnAbsencesListDownloadedCallback {
 
-        void onAbsencesDownloaded();
+        void onAbsencesDownloaded(AbsencesTypes type);
 
     }
 

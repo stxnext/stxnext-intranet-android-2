@@ -389,7 +389,7 @@ public class MyProfileActivity extends CommonProfileActivity
                             .setStartDelay(80)
                             .setInterpolator(new OvershootInterpolator());
 
-                    findViewById(R.id.worked_hours_container).setOnClickListener(new View.OnClickListener() {
+                    workedHoursContainer.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Log.d(Config.getTag(this), "Time report click");
