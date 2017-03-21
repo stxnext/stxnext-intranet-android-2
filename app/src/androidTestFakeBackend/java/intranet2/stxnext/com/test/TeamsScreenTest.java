@@ -1,16 +1,21 @@
 package intranet2.stxnext.com.test;
 
+import android.os.Build;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.stxnext.intranet2.R;
 import com.stxnext.intranet2.activity.TeamsActivity;
+import com.stxnext.intranet2.utils.Session;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -32,6 +37,19 @@ public class TeamsScreenTest {
 
     @Rule
     public ActivityTestRule<TeamsActivity> activityTestRule = new ActivityTestRule<TeamsActivity>(TeamsActivity.class);
+
+    @Before
+    public void logAndSetPermissions() {
+        Session session = Session.getInstance(activityTestRule.getActivity());
+        if (!session.isLogged()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                getInstrumentation().getUiAutomation().executeShellCommand(
+                        "pm grant " + getTargetContext().getPackageName()
+                                + " android.permission.READ_PHONE_STATE");
+            }
+            session.setUserId("100");
+        }
+    }
 
     @Test
     public void screenLoads_checkTeamsScreenLoaded() {
