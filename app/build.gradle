@@ -14,8 +14,8 @@ android {
         applicationId "com.stxnext.intranet2"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 29
-        versionName "2.4.8"
+        versionCode 30
+        versionName "2.4.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
